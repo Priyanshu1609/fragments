@@ -4,7 +4,16 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      sora: ["'Sora'"],
+    },
+    extend: {
+      screens: {
+        xs: { max: '425px' },
+        sm: { max: '768px' },
+        'max-lg': { max: '1024px' },
+      },
+    },
   },
   plugins: [],
 }
