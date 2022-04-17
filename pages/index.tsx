@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if(connectData.connected) {
-      router.push('/create-dao')
+      router.push('/dashboard')
     }
   }, [connectData.connected])
 
