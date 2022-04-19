@@ -18,6 +18,11 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
 
     const onFileUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {e.preventDefault(); selectFile({multiple: false, accept: '*'}, console.log)}
 
+    const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        onSubmit([]);
+    }
+
     return (
         <div>
             <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
@@ -30,7 +35,7 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                 </div>
             </div>
             <div className='mt-10'>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onFormSubmit}>
                     <label className='flex items-center cursor-pointer'>
                         <button className='text-white bg-[#0F0F13] p-4 mb-6' onClick={onFileUpload}>
                             <PlusIcon className='w-12' />

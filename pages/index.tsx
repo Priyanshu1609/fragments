@@ -16,6 +16,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if(connectData.connected) {
+      console.log('called')
       router.push('/dashboard')
     }
   }, [connectData.connected])

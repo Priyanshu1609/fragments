@@ -17,7 +17,7 @@ const CreateDao: React.FC = () => {
 
     return (
         <div className='text-white max-w-4xl mx-auto font-sora'>
-            <CreateDAOForm onSubmit={() => router.push('/dashboard')} />
+            <CreateDAOForm onSubmit={() => router.push('/daos/random')} />
         </div>
     );
 }

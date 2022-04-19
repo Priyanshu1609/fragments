@@ -8,6 +8,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { ConnectModalProvider } from '../contexts/connectwallet'
 import ConnectModal from '../components/ConnectModal'
 import Account from '../components/Account'
+import CreateDAOButton from '../components/CreateDAOButton'
 const chains = defaultChains
 
 export type ConnectorsType = Connector<any, any>[] | ((config: {
@@ -61,6 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </div>
                 <div className="flex space-x-6 items-center">
                   {/* <Chains /> */}
+                  <CreateDAOButton />
                   <Account />
                 </div>
               </div>
