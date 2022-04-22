@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 import MyInvestment from '../components/MyInvestments';
-import Blockies from 'react-blockies';
-import { getEllipsisTxt } from '../utils';
+import Orders from '../components/Orders';
+import Proposals from '../components/Proposals';
+import NFTList from '../components/NFTList';
 
 export enum TabNames {
     MyInvestments = 'MY_INVESTMENTS',
@@ -131,42 +132,13 @@ const Dashboard: React.FC = () => {
                             Content to be added
                         </Tab.Panel>
                         <Tab.Panel>
-                            Content to be added
+                            <NFTList />
                         </Tab.Panel>
                         <Tab.Panel>
-                            <div className='py-4'>
-                                <div className='flex justify-between mb-4'>
-                                    <p className='font-semibold text-lg'>Orders</p>
-                                    <div className='flex space-x-2'>
-                                        <div className='text-sm px-4 py-2 bg-[#0F0F13] rounded-full'>Active</div>
-                                        <div className='text-sm px-4 py-2 bg-[#0F0F13] rounded-full'>Closed</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className='py-4 flex justify-between border-y-2 border-[#1E1E24]'>
-                                        <div className='flex'>
-                                            <Blockies 
-                                                seed='need to be changed'
-                                                size={8}
-                                                scale={5}
-                                                className='rounded-full mr-3'
-                                            />
-                                            <div>
-                                                <p className='font-semibold text-base'>
-                                                    makerdockDAO started a sale order of <span className='text-[#F5E58F]'>5000 BORE</span>  on <span className='text-[#06D7F6]'>{`RTFKT <> BAYC Gullak`}</span>
-                                                </p>
-                                                <p className='text-[#70707C] text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
-                                            </div>
-                                        </div>
-                                        <button className='px-4 text-xs py-2 bg-white text-gray-900 rounded-full'>
-                                            Buy Token
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <Orders />
                         </Tab.Panel>
                         <Tab.Panel>
-                            Content to be added
+                            <Proposals />
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
