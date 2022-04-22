@@ -11,6 +11,12 @@ interface CreateVaultFormProps {
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     onSubmit
 }) => {
+
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        onSubmit({});
+    }
+    
     return (
         <div>
             <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
@@ -23,7 +29,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                 </div>
             </div>
             <div className='mt-10'>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onSubmitHandler}>
                     <label>
                         <p className='text-sm'>Vault Name{requiredTag}</p>
                         <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' />

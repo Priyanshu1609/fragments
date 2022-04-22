@@ -29,19 +29,18 @@ const NFTList: React.FC = () => {
                 serverUrl: SERVER_URL,
             })
             const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: accountData.address });
-            const nftsMetadataPromise = nfts.result?.map(nft => fixTokenURI(nft.token_uri ?? '')).filter(Boolean).map(nft => fetch(nft).then(res => res.json())) ?? []
+            const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
             
             const nftsMetadata = await Promise.all(nftsMetadataPromise)
-            console.log(nftsMetadata)
 
             const nftsMetadataFixedWithImages = nftsMetadata.map(
-                nft => ({
+                (nft, i) => ({
+                    ...(nfts?.result?.[i] ?? {}),
                     ...nft,
                     image: fixTokenURI(nft.image ?? nft.image_url),
                 })
             )
-            console.log(nftsMetadataFixedWithImages)
-            setNftList(!nfts.result?.length ? [] : nfts.result);
+            setNftList(!nftsMetadataFixedWithImages?.length ? [] : nftsMetadataFixedWithImages);
         } catch (error) {
             console.error(error)
         } finally {
@@ -57,7 +56,7 @@ const NFTList: React.FC = () => {
         <div className='flex flex-1 flex-row flex-wrap justify-center py-8 gap-8'>
             {
                 nftList.map(nft => (
-                    <NFTCard nft={nft} />
+                    <NFTCard nft={nft} key={nft.token_uri} />
                 ))
             }
         </div>

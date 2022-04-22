@@ -1,50 +1,48 @@
 import React, { useEffect } from 'react';
-import { MoralisNFT } from '../contracts/nft';
-import { fixTokenURI } from '../utils';
 import opensealogo from '../assets/opensealogo.svg';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/solid';
 
 export interface NFTCardProps {
-    nft: MoralisNFT;
+    nft: any;
 }
 
 const NFTCard: React.FC<NFTCardProps> = ({
     nft,
 }) => {
 
-    const [nftMetadata, setNftMetadata] = React.useState<any>();
+    // const [nftMetadata, setNftMetadata] = React.useState<any>();
 
-    const fetchNFTMetadata = async () => {
-        if(!nft.token_uri) return
-        try {
-            const fixedTokenURI = fixTokenURI(nft.token_uri)
+    // const fetchNFTMetadata = async () => {
+    //     if(!nft.token_uri) return
+    //     try {
+    //         const fixedTokenURI = fixTokenURI(nft.token_uri)
 
-            const res = await fetch(fixedTokenURI)
-            const nftMetadata = await res.json()
+    //         const res = await fetch(fixedTokenURI)
+    //         const nftMetadata = await res.json()
 
-            setNftMetadata({
-                ...nftMetadata,
-                image: fixTokenURI(nftMetadata.image ?? nftMetadata.image_url),
-            })
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    //         setNftMetadata({
+    //             ...nftMetadata,
+    //             image: fixTokenURI(nftMetadata.image ?? nftMetadata.image_url),
+    //         })
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchNFTMetadata()
-    }, [nft])
+    // useEffect(() => {
+    //     fetchNFTMetadata()
+    // }, [nft])
 
-    return nftMetadata ? (
+    return nft ? (
         <div className='rounded-lg bg-[#0F0F13]'>
             <div className='flex rounded-t-lg justify-between items-center h-[250px]'>
-                {nftMetadata?.image?.length && <img src={nftMetadata.image} className='w-[250px] rounded-t-lg' rounded-t-lg/>}
+                {nft?.image?.length && <img src={nft.image} className='w-[250px] rounded-t-lg'/>}
             </div>
             <div className='px-4 py-3'>
                 <div>
                     <div className='flex text-lg'>
-                        <p>{nftMetadata.name}</p>
+                        <p>{nft.name}</p>
                     </div>
                 </div>
             </div>

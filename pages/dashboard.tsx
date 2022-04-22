@@ -9,6 +9,7 @@ import MyInvestment from '../components/MyInvestments';
 import Orders from '../components/Orders';
 import Proposals from '../components/Proposals';
 import NFTList from '../components/NFTList';
+import MyGullaks from '../components/MyGullaks';
 
 export enum TabNames {
     MyInvestments = 'MY_INVESTMENTS',
@@ -129,7 +130,7 @@ const Dashboard: React.FC = () => {
                             <MyInvestment />
                         </Tab.Panel>
                         <Tab.Panel>
-                            Content to be added
+                            <MyGullaks />
                         </Tab.Panel>
                         <Tab.Panel>
                             <NFTList />
