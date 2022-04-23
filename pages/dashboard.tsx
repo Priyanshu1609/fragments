@@ -26,7 +26,7 @@ export function classNames(...classes: string[]) {
 export interface TabProps {
     tabs: {
         name: string;
-        value: TabNames;
+        value: string;
     }[]
 }
 
