@@ -1,5 +1,6 @@
+import axios from 'axios';
 import Moralis from 'moralis';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi';
 import { MoralisNFT } from '../../contracts/nft';
 import { fixTokenURI } from '../../utils';
@@ -7,15 +8,19 @@ import NFTCard from '../NFTCard';
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
+const NFTBANK_API_KEY = process.env.NEXT_PUBLIC_NFT_BANK_API_KEY;
+const API_URL = "https://api.nftbank.ai/estimates-v2/floor_price/:token_address/:token_id?chain_id=ETHEREUM"
 
 const NFTList: React.FC = () => {
 
     const [isLoading, setIsLoading] = React.useState(false);
     const [nftList, setNftList] = React.useState<MoralisNFT[]>([]);
+    const [nftFloorPriceMapping, setNFTFloorPriceMapping] = useState<any>({});
 
     const [{ data: accountData }] = useAccount({
         fetchEns: true,
     })
+    console.log(accountData)
 
     const getNFTs = async () => {
         setIsLoading(true)
@@ -30,12 +35,29 @@ const NFTList: React.FC = () => {
             })
             const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: accountData.address });
             const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
+
+            let NFTFloorPriceMapping: any = {}
+
+            const nftsFloorPricesPromises = nfts.result?.map(nft => axios.get(API_URL.replace(':token_address', nft.token_address).replace(':token_id', nft.token_id), {
+                headers: {
+                    'x-api-key': NFTBANK_API_KEY ?? '',
+                }
+            })
+            .then(res => {
+                NFTFloorPriceMapping[`${nft.token_address}_${nft.token_id}`] = res.data?.data[0]?.traits?.[0]?.floor_price_eth
+                return res.data
+            })
+            .catch(_err => null)) ?? []
             
             const nftsMetadata = await Promise.all(nftsMetadataPromise)
+            const nftsFloorPrices = await Promise.all(nftsFloorPricesPromises)
+            setNFTFloorPriceMapping(NFTFloorPriceMapping)
+            console.log(nftsMetadata)
+            console.log(nfts.result?.filter(nft => nft.symbol !== 'ENS'))
 
             const nftsMetadataFixedWithImages = nftsMetadata.map(
                 (nft, i) => ({
-                    ...(nfts?.result?.[i] ?? {}),
+                    ...(nfts?.result?.filter(nft => nft.symbol !== 'ENS')?.[i] ?? {}),
                     ...nft,
                     image: fixTokenURI(nft.image ?? nft.image_url),
                 })
@@ -50,13 +72,14 @@ const NFTList: React.FC = () => {
 
     useEffect(() => {
         getNFTs()
+        console.log('called')
     }, [accountData?.address])
 
     return (
         <div className='flex flex-1 flex-row flex-wrap justify-center py-8 gap-8'>
             {
                 nftList.map(nft => (
-                    <NFTCard nft={nft} key={nft.token_uri} />
+                    <NFTCard nft={nft} floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]} key={nft.token_uri} />
                 ))
             }
         </div>

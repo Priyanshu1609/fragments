@@ -5,11 +5,14 @@ import { ArrowRightIcon } from '@heroicons/react/solid';
 
 export interface NFTCardProps {
     nft: any;
+    floor_price?: number;
 }
 
 const NFTCard: React.FC<NFTCardProps> = ({
     nft,
+    floor_price
 }) => {
+    console.log(floor_price)
 
     // const [nftMetadata, setNftMetadata] = React.useState<any>();
 
@@ -45,6 +48,16 @@ const NFTCard: React.FC<NFTCardProps> = ({
                         <p>{nft.name}</p>
                     </div>
                 </div>
+            </div>
+            <div className='px-4'>
+                {
+                    !!floor_price && (
+                        <div>
+                            <p className='text-xs text-white opacity-70'>Floor Price</p>
+                            <h2 className='text-base font-semibold'>{floor_price}</h2>
+                        </div>
+                    )
+                }
             </div>
             <div className='p-4'>
                 <div className='flex justify-between'>

@@ -5,16 +5,40 @@ import { requiredTag } from '../CreateDAOForm';
 import { ArrowRightIcon } from '@heroicons/react/solid';
 
 interface CreateVaultFormProps {
-    onSubmit: (values: any) => void;
+    onSubmit: (values: CreateVaultFormValues) => void;
+}
+
+export interface CreateVaultFormValues {
+    name: string;
+    description: string;
+    token_name: string;
+    token_supply: number;
+    management_fee: number;
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     onSubmit
 }) => {
 
+    const [name, setName] = React.useState('')
+    const [description, setDescription] = React.useState('')
+    const [tokenName, setTokenName] = React.useState('')
+    const [tokenSupply, setTokenSupply] = React.useState(0)
+    const [managementFee, setManagementFee] = React.useState(0)
+
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        onSubmit({});
+        if(!name.length || !description.length || !tokenName.length || !tokenSupply || !managementFee) {
+            return;
+        }
+        const formValues: CreateVaultFormValues = {
+            name,
+            description,
+            token_name: tokenName,
+            token_supply: tokenSupply,
+            management_fee: managementFee
+        }
+        onSubmit(formValues);
     }
     
     return (
@@ -32,25 +56,25 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                 <form onSubmit={onSubmitHandler}>
                     <label>
                         <p className='text-sm'>Vault Name{requiredTag}</p>
-                        <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' />
+                        <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
                     </label>
                     <label>
                         <p className='text-sm'>Description{requiredTag}</p>
-                        <textarea rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add Description about the vault' />
+                        <textarea rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={description} onChange={(e) => setDescription(e.target.value)} />
                     </label>
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
                             <p className='text-sm'>Token Name{requiredTag}</p>
-                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' />
+                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={tokenName} onChange={(e) => setTokenName(e.target.value)} />
                         </label>
                         <label>
                             <p className='text-sm'>No. of Tokens{requiredTag}</p>
-                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Number of tokens' />
+                            <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Number of tokens' value={tokenSupply} onChange={(e) => setTokenSupply(Number(e.target.value))} />
                         </label>
                     </div>
                     <label>
                         <p className='text-sm'>Management Fees{requiredTag}</p>
-                        <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' />
+                        <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={managementFee} onChange={(e) => setManagementFee(Number(e.target.value))} />
                     </label>
                     <button type='submit' className='w-full p-3 rounded-lg bg-[#F5E58F] text-black flex items-center justify-center space-x-4'>
                         <span>Make Vault</span>
