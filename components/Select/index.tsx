@@ -20,8 +20,10 @@ function classNames(...classes) {
 }
 
 interface IOptionProps {
-	readonly key: string;
-	readonly label: string | ReactNode;
+	readonly chainId: string;
+	readonly name: string | ReactNode;
+	readonly icon: string;
+	readonly address: string;
 }
 
 interface ISelectProps {
@@ -37,24 +39,25 @@ const Select: React.FC<ISelectProps> = ({
 	value,
 	placeholder,
 }) => {
-	const selectedValue = options.find((option) => option.key === value);
+	const selectedValue = options?.find((option) => option === value);
 
 	return (
 		<Listbox
 			value={selectedValue}
-			onChange={(option) => onChange(option.key)}
+			onChange={(option) => onChange(option)}
 		>
 			{({ open }) => (
 				<>
 					<div className="mt-1 relative">
 						<Listbox.Button className="bg-[#1E1E24] w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm">
-							<span className="block truncate">
-								{selectedValue?.label ?? (
+							<div className=" truncate flex">
+								{selectedValue?.icon && <img className={selectedValue?.icon && 'mr-3 ml-1'} height="28px" width='28px' src={selectedValue?.icon} />}
+								{selectedValue?.name ?? (
 									<span>
 										{placeholder ?? "Select an option"}
 									</span>
 								)}
-							</span>
+							</div>
 							<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 								<SelectorIcon
 									className="h-5 w-5 text-gray-400"
@@ -71,9 +74,9 @@ const Select: React.FC<ISelectProps> = ({
 							leaveTo="opacity-0"
 						>
 							<Listbox.Options className="w-48 absolute z-10 mt-1 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-								{options.map((option) => (
+								{options?.map((option) => (
 									<Listbox.Option
-										key={option.key}
+										key={option}
 										className={({ active }) =>
 											classNames(
 												active
@@ -86,17 +89,19 @@ const Select: React.FC<ISelectProps> = ({
 									>
 										{({ selected, active }) => (
 											<>
-												<span
-													className={classNames(
-														selected
-															? "font-semibold"
-															: "font-normal",
-														"block truncate"
-													)}
-												>
-													{option.label}
-												</span>
-
+												<div className="inline-flex space-x-3">
+													<img className="h-7 w-7" src={option.icon} />
+													<span
+														className={classNames(
+															selected
+																? "font-semibold"
+																: "font-normal",
+															"block truncate"
+														)}
+													>
+														{option.name}
+													</span>
+												</div>
 												{selected ? (
 													<span
 														className={classNames(

@@ -14,6 +14,7 @@ export interface CreateVaultFormValues {
     token_name: string;
     token_supply: number;
     management_fee: number;
+    type: string;
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
@@ -23,12 +24,14 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     const [name, setName] = React.useState('')
     const [description, setDescription] = React.useState('')
     const [tokenName, setTokenName] = React.useState('')
-    const [tokenSupply, setTokenSupply] = React.useState(0)
+    const [tokenSupply, setTokenSupply] = React.useState(1000000)
     const [managementFee, setManagementFee] = React.useState(0)
+    const [type, setType] = React.useState('Public')
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        if(!name.length || !description.length || !tokenName.length || !tokenSupply || !managementFee) {
+        if(!name.length || !description.length  || !tokenSupply || managementFee >=100 || managementFee <0 ||tokenName.length !== 4) {
+            console.log('Error in values, Please input again')
             return;
         }
         const formValues: CreateVaultFormValues = {
@@ -36,8 +39,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             description,
             token_name: tokenName,
             token_supply: tokenSupply,
-            management_fee: managementFee
+            management_fee: managementFee,
+            type: type,
         }
+        console.log(formValues)
         onSubmit(formValues);
     }
     
@@ -54,26 +59,40 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             </div>
             <div className='mt-10'>
                 <form onSubmit={onSubmitHandler}>
-                    <label>
-                        <p className='text-sm'>Vault Name{requiredTag}</p>
-                        <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
-                    </label>
+                    <div className='flex justify-between'>
+                        <label>
+                            <p className='text-sm'>Vault Name{requiredTag}</p>
+                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
+                        </label>
+                        <label>
+                            <p className='text-sm'>Type of Vault{requiredTag}</p>
+                             <div className="bg-[#0F0F13] rounded-2xl m-2 mr-3">
+                                <div className={`inline-flex rounded-lg ${type==='Public' && `bg-green-500`}`} onClick={e => setType('Public')}>
+                                    <p  className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Public</p>
+                                </div>
+                                <div className={`inline-flex rounded-lg ${type==='Private' && `bg-green-500`}`} onClick={e => setType('Private')}>
+                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Private</p>
+                                </div>
+                            </div>
+                         
+                        </label>
+                    </div>
                     <label>
                         <p className='text-sm'>Description{requiredTag}</p>
                         <textarea rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={description} onChange={(e) => setDescription(e.target.value)} />
                     </label>
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
-                            <p className='text-sm'>Token Name{requiredTag}</p>
+                            <p className='text-sm'>Token Name <span className='text-xs'> ( 4 letters )</span>{requiredTag}</p>
                             <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={tokenName} onChange={(e) => setTokenName(e.target.value)} />
                         </label>
                         <label>
                             <p className='text-sm'>No. of Tokens{requiredTag}</p>
-                            <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Number of tokens' value={tokenSupply} onChange={(e) => setTokenSupply(Number(e.target.value))} />
+                            <p className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2'>{tokenSupply}</p>
                         </label>
                     </div>
                     <label>
-                        <p className='text-sm'>Management Fees{requiredTag}</p>
+                        <p className='text-sm'>Management Fees <span className='text-xs'> ( Upto 99% )</span>{requiredTag}</p>
                         <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={managementFee} onChange={(e) => setManagementFee(Number(e.target.value))} />
                     </label>
                     <button type='submit' className='w-full p-3 rounded-lg bg-[#F5E58F] text-black flex items-center justify-center space-x-4'>

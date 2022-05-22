@@ -6,13 +6,15 @@ import Link from 'next/link'
 import Logo from '../components/logo'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { ConnectModalProvider } from '../contexts/connectwallet'
+import { SocketProvider } from '../contexts/socketContext'
+import { OpenseaContextProvider } from '../contexts/opensesContext'
 import ConnectModal from '../components/ConnectModal'
 import Account from '../components/Account'
 import CreateDAOButton from '../components/CreateDAOButton'
 const chains = defaultChains
 
 export type ConnectorsType = Connector<any, any>[] | ((config: {
-    chainId?: number | undefined;
+  chainId?: number | undefined;
 }) => Connector<any, any>[])
 
 const connectors: ConnectorsType = () => {
@@ -35,42 +37,46 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider connectors={connectors} autoConnect>
       <ConnectModalProvider>
-        <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossOrigin="anonymous"
-          />
-          <link 
-            href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" 
-            rel="stylesheet" 
-          />
-        </Head>
-        <div className='min-h-screen bg-black'>
-          <header className="bg-black">
-            <div className="max-w-7xl mx-auto lg:px-8">
-              <div className="flex items-center w-full justify-between py-5 px-4">
-                <div className="flex px-2 lg:px-0">
-                  <div className="flex-shrink-0 flex items-center cursor-pointer">
-                    <Link href="/">
-                      <div className="inline-flex items-center">
-                        <Logo />
+        <OpenseaContextProvider>
+          <SocketProvider>
+            <Head>
+              <link rel="preconnect" href="https://fonts.googleapis.com" />
+              <link
+                rel="preconnect"
+                href="https://fonts.gstatic.com"
+                crossOrigin="anonymous"
+              />
+              <link
+                href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap"
+                rel="stylesheet"
+              />
+            </Head>
+            <div className='min-h-screen bg-black'>
+              <header className="bg-black">
+                <div className="max-w-7xl mx-auto lg:px-8">
+                  <div className="flex items-center w-full justify-between py-5 px-4">
+                    <div className="flex px-2 lg:px-0">
+                      <div className="flex-shrink-0 flex items-center cursor-pointer">
+                        <Link href="/">
+                          <div className="inline-flex items-center">
+                            <Logo />
+                          </div>
+                        </Link>
                       </div>
-                    </Link>
+                    </div>
+                    <div className="flex space-x-6 items-center">
+                      {/* <Chains /> */}
+                      <CreateDAOButton />
+                      <Account />
+                    </div>
                   </div>
                 </div>
-                <div className="flex space-x-6 items-center">
-                  {/* <Chains /> */}
-                  <CreateDAOButton />
-                  <Account />
-                </div>
-              </div>
+              </header>
+              <Component {...pageProps} />
+              <ConnectModal />
             </div>
-          </header>
-          <Component {...pageProps} />
-          <ConnectModal />
-        </div>
+          </SocketProvider>
+        </OpenseaContextProvider>
       </ConnectModalProvider>
     </Provider>
   )
