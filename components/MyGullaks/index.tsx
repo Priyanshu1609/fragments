@@ -14,7 +14,7 @@ const MyInvestment: React.FC = () => {
                 valuations={'600 ETH'}
                 uniqueOwners={4726}
             />
-            <div onClick={() => router.push('/create-vault')} className='rounded-lg cursor-pointer bg-[#0F0F13] w-[250px]'>
+            <div onClick={() => router.push('/create-gullak')} className='rounded-lg cursor-pointer bg-[#0F0F13] w-[250px]'>
                 <div className='flex items-center justify-center h-[250px]'>
                     <PlusIcon className='w-[100px] text-white opacity-70' />
                 </div>

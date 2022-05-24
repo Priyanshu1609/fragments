@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext } from 'react';
-import { useAccount, useConnect } from 'wagmi';
+// 
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
-import { ArrowRightIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 
 
@@ -12,8 +12,11 @@ import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
 import { getEllipsisTxt } from '../../utils';
 import { OrdersState } from '../../components/Orders';
-// import coins from '../../coins.json';
+import networks from '../../networks';
 import { SocketContext } from '../../contexts/socketContext';
+import { TransactionContext } from '../../contexts/transactionContext';
+import { NftContext } from '../../contexts/NftContext';
+import { OpenseaContext } from '../../contexts/opensesContext';
 
 
 export enum VaultDashboardTabs {
@@ -85,23 +88,43 @@ const chains = [
     }
 ]
 
+const bnToString = (bn) => {
+    return bn ? ethers.utils.formatEther(bn.toString(10)).toString() : "";
+}
+
+const dtToString = (unixTime: any) => {
+    const date = new Date(unixTime * 1000);
+    return (date.toLocaleDateString("en-US") + " at " + date.toLocaleTimeString("en-US"));
+}
+
+const ipfsParse = (ipfsHash: string) => {
+    return ipfsHash?.replace("ipfs://", "https://ipfs.io/ipfs/");
+}
+
+
+
 const VaultDetail: React.FC = () => {
     const router = useRouter();
 
-    const [{ data: connectData }] = useConnect()
-    const [{ data: accountData }] = useAccount({
-        fetchEns: true,
-    })
+    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { fetchFromTokens, transaction, getQuote } = useContext(SocketContext);
+    const { getTokens } = useContext(NftContext);
+    const { } = useContext(OpenseaContext);
+
+    // const [{ data: connectData }] = useConnect()
+    // const [{ data: accountData }] = useAccount({
+    //     fetchEns: true,
+    // })
     const [selectedToken, setSelectedToken] = useState<string>("matic")
     const [selectedChain, setSelectedChain] = useState<string>("137")
+    const [coins, setCoins] = useState([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
     const [currentOrderView, setCurrentOrderView] = useState<OrdersState>(OrdersState.ACTIVE);
     const [isFunded, setIsFunded] = useState(false);
-    const [coins, setCoins] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [nfts, setNfts] = useState([]);
 
-    const { fetchFromTokens, transaction, getQuote } = useContext(SocketContext);
 
     // console.log('Coins', coins)
     console.log({ selectedToken, selectedChain });
@@ -122,28 +145,106 @@ const VaultDetail: React.FC = () => {
         const fromChainId = `${selectedToken.chainId}`
         const fromToken = `${selectedToken.address}`
         const amount = `${tokenAmount}`
-        const userAddress = `${accountData.address}`
+        const userAddress = `${currentAccount}`
 
         const txHash = await transaction(fromChainId, fromToken, amount, userAddress);
 
         console.log('Destination Socket Tx', txHash)
     }
 
+    // const handleNetworkSwitch = async (chainId) => {
+    //     const chains = networks.networks
+    //     try {
+
+    //         if (!window.ethereum) throw new Error("No crypto wallet found");
+    //         await window.ethereum.request({
+    //             method: "wallet_addEthereumChain",
+    //             params: [
+    //                 {
+    //                     ...chains[chainId]
+    //                 }
+    //             ]
+    //         });
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+    const handleNetworkSwitch = async (chainId) => {
+        const chains = networks.networks
+        try {
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [
+                    {
+                        ...chains[chainId]
+                    }
+                ]
+            });
+        } catch (err) {
+            // This error code indicates that the chain has not been added to MetaMask
+            if (err.code === 4902) {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            ...chains[chainId]
+                        }
+                    ]
+                });
+            }
+        }
+    };
+    const getNFTs = async () => {
+
+        try {
+
+            const data = await getTokens(currentAccount);
+            console.log(data);
+
+            data.forEach(e => {
+                let metadata = JSON.parse(e.metadata)
+                setNfts([...nfts, metadata]);
+            });
+
+            console.log('Data', data);
+            console.log('NFTs:', nfts);
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            // setLoading(false);
+        }
+    }
+
+
     useEffect(() => {
         fetchTokens(selectedChain.chainId);
+        handleNetworkSwitch(selectedChain.chainId);
     }, [selectedChain])
 
-
-
     // useEffect(() => {
-    //     if(!connectData.connected) {
+    //     if (!currentAccount) {
     //         router.push('/')
     //     }
-    // }, [connectData.connected])
+    // }, [currentAccount])
+
+    useEffect(() => {
+        getNFTs();
+    }, [])
+
+
 
     return (
-        <div className='text-white max-w-7xl mx-auto font-sora grid grid-cols-2 gap-4'>
-            <div className='bg-[#0F0F13] p-6'>
+        <div className='text-white max-w-7xl mx-auto font-sora md:flex md:flex-row-reverse'>
+            {true && <div className='flex flex-[0.5] mx-4 items-center justify-center mt-16'>
+                <div className='cursor-pointer  bg-gray-500 rounded-full p-2'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+                <div className='flex-[0.8] mx-auto p-4'>
+                    <img src={ipfsParse(nfts[0]?.image)} className='w-full rounded-lg' />
+                    <p className='!bg-[#1E1E24] p-3 w-36 rounded-2xl mx-auto z-50'>{nfts[0]?.name}</p>
+                </div>
+                <div className='cursor-pointer  bg-gray-500 rounded-full p-2'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+            </div>}
+            <div className='bg-[#0F0F13] p-6 flex-[0.5] '>
                 <div className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max'>
                     <Blockies
                         seed='need to be changed'
@@ -187,10 +288,6 @@ const VaultDetail: React.FC = () => {
                         <div>
                             <p className='text-xs text-[#70707C]'>Select Chain</p>
                             <Select
-                                // options={[{
-                                //     key: 'eth',
-                                //     name: 'Ethereum'
-                                // }]}
                                 options={chains}
                                 value={selectedChain}
                                 onChange={(value) => setSelectedChain(value)}
@@ -334,8 +431,6 @@ const VaultDetail: React.FC = () => {
                     </Tab.Group>
                 </div>
             </div>
-            <div>
-            </div>
 
             <Modal
                 open={visible}
@@ -359,19 +454,43 @@ const VaultDetail: React.FC = () => {
                             </div>
                             <input type='date' placeholder='Enter Duration of Fundraise' className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
-                        <p className='text-green-500 text-sm font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
+                        <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
+                        <div className='grid grid-cols-2 gap-4 mt-4'>
+                            <div>
+                                <p className='text-xs text-[#70707C]'>Select Token</p>
+                                <Select
+                                    options={coins}
+                                    value={selectedToken}
+                                    onChange={(value) => setSelectedToken(value)}
+                                />
+                            </div>
+                            <div>
+                                <p className='text-xs text-[#70707C]'>Select Chain</p>
+                                <Select
+                                    options={chains}
+                                    value={selectedChain}
+                                    onChange={(value) => setSelectedChain(value)}
+                                />
+                            </div>
+                        </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-[#70707C] mb-2'>
-                                <p>Your Contribution</p>
+                                <p>Enter amount</p>
                                 <p>Min Investment: 5 ETH</p>
                             </div>
-                            <input type='number' placeholder='Enter your target Funraise Amount' className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
-                        <div className='mt-4 mb-6' onClick={e => { setIsFunded(true); setVisible(false); }}>
-                            <div className='mb-5 bg-[#E4D95A] rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
-                                <p className='text-black'>Set Funding Cycle</p>
-                            </div>
-                        </div>
+                        {
+                            isPurchaseButtonVisible && (
+                                <div className='text-center' >
+                                    <button onClick={e => { setIsFunded(true); setVisible(false); }} className='bg-[#FFE55B] flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                                        <p>Purchase {tokenAmount} {selectedToken.symbol}</p>
+                                        <ArrowRightIcon className='w-4 h-4' />
+                                    </button>
+                                    {/* <p className='text-[#70707C] text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </Modal>

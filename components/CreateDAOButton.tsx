@@ -1,13 +1,17 @@
 import { useRouter } from 'next/router';
-import React from 'react';
-import { useConnect } from 'wagmi';
+import React, { useContext } from 'react';
+// import { useConnect } from 'wagmi';
+import { TransactionContext } from '../contexts/transactionContext';
 
 const CreateDAOButton: React.FC = () => {
 
-    const [{ data: connectData }] = useConnect()
+    // const [{ data: connectData }] = useConnect()
+
+    const { connectallet, currentAccount } = useContext(TransactionContext);
+
     const router = useRouter()
 
-    return connectData.connected ? (
+    return currentAccount ? (
         <button
             className='text-black bg-white px-3 py-2 rounded-lg font-sora'
             onClick={(e) => {

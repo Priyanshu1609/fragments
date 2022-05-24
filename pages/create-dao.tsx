@@ -1,28 +1,30 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useAccount, useConnect } from 'wagmi';
+import React, { useEffect, useContext } from 'react';
+// 
 import CreateDAOForm, { CreateDAOFormValues } from '../components/CreateDAOForm';
 import sanityClient from '../utils/sanitySetup'
+import { TransactionContext } from '../contexts/transactionContext';
 
 const CreateDao: React.FC = () => {
+    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
 
-    const [{ data: connectData }] = useConnect()
-    const [{data: accountData}] = useAccount()
+    // const [{ data: connectData }] = useConnect()
+    // const [{ data: accountData }] = useAccount()
 
     const router = useRouter()
 
     useEffect(() => {
-        if(!connectData.connected) {
+        if (!currentAccount) {
             router.push('/')
         }
-    }, [connectData.connected])
+    }, [currentAccount])
 
     const onCreateDAO = async (values: CreateDAOFormValues) => {
         // sanityClient.create()
         try {
             const request = {
                 ...values,
-                created_by: accountData?.address,
+                created_by: currentAccount,
                 _type: 'dao'
             }
             const result = await sanityClient.create(request)

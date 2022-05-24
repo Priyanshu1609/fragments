@@ -11,7 +11,12 @@ const Network = opensea.Network;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const HOT_WALLET_ADDRESS = '0xd232979ed3fc90a331956C4e541815b478116a7D';
 
-export const OpnenseaContext = createContext();
+//bignumber to number string
+const bnToString = (bn) => {
+    return ethers.utils.formatEther(bn.toString(10)).toString();
+}
+
+export const OpenseaContext = createContext();
 
 export const OpenseaContextProvider = ({ children }) => {
 
@@ -101,6 +106,7 @@ export const OpenseaContextProvider = ({ children }) => {
 
 
     const getSellOrder = async (tokenId, tokenAddress) => {
+        console.log('order startre')
         try {
             const { orders, count } = await seaport.api.getOrders({
                 asset_contract_address: tokenAddress,
@@ -108,8 +114,8 @@ export const OpenseaContextProvider = ({ children }) => {
                 side: OrderSide.Sell
             })
             orders.sort((a, b) => a.currentPrice - b.currentPrice);
-            console.log('Sell Orders', count, orders)
-            console.log(bnToString(orders[0]?.currentPrice))
+            console.log('Sell Orders', count, orders, orders[0].currentPrice)
+            console.log('Price: ', bnToString(orders[0]?.currentPrice))
 
             return orders[0];
 
@@ -128,7 +134,7 @@ export const OpenseaContextProvider = ({ children }) => {
 
             console.log('Buy Orders', count, orders)
 
-            return (bnToString(orders[0]?.currentPrice));
+            return (bnToString(orders[0]));
         } catch (error) {
             console.error(error);
         }
@@ -161,7 +167,7 @@ export const OpenseaContextProvider = ({ children }) => {
     }
 
     return (
-        <OpnenseaContext.Provider value={{
+        <OpenseaContext.Provider value={{
             values,
             setValues,
             createBuyOrder,
@@ -172,6 +178,6 @@ export const OpenseaContextProvider = ({ children }) => {
             fulfillBuyOrder,
         }}>
             {children}
-        </OpnenseaContext.Provider>
+        </OpenseaContext.Provider>
     )
 }

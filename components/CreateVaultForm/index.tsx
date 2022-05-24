@@ -6,6 +6,7 @@ import { ArrowRightIcon } from '@heroicons/react/solid';
 
 interface CreateVaultFormProps {
     onSubmit: (values: CreateVaultFormValues) => void;
+    flow: string
 }
 
 export interface CreateVaultFormValues {
@@ -18,7 +19,8 @@ export interface CreateVaultFormValues {
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
-    onSubmit
+    onSubmit,
+    flow
 }) => {
 
     const [name, setName] = React.useState('')
@@ -30,7 +32,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        if(!name.length || !description.length  || !tokenSupply || managementFee >=100 || managementFee <0 ||tokenName.length !== 4) {
+        if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
             console.log('Error in values, Please input again')
             return;
         }
@@ -44,8 +46,9 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         }
         console.log(formValues)
         onSubmit(formValues);
+        
     }
-    
+
     return (
         <div>
             <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
@@ -60,22 +63,22 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             <div className='mt-10'>
                 <form onSubmit={onSubmitHandler}>
                     <div className='flex justify-between'>
-                        <label>
+                        <label className='flex-grow mr-4'>
                             <p className='text-sm'>Vault Name{requiredTag}</p>
-                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
+                            <input type='text' className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
                         </label>
-                        <label>
+                        {flow !== 'private' && <label>
                             <p className='text-sm'>Type of Vault{requiredTag}</p>
-                             <div className="bg-[#0F0F13] rounded-2xl m-2 mr-3">
-                                <div className={`inline-flex rounded-lg ${type==='Public' && `bg-green-500`}`} onClick={e => setType('Public')}>
-                                    <p  className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Public</p>
+                            <div className="bg-[#0F0F13] rounded-2xl m-2 mr-3">
+                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-green-500`}`} onClick={e => setType('Public')}>
+                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Governed</p>
                                 </div>
-                                <div className={`inline-flex rounded-lg ${type==='Private' && `bg-green-500`}`} onClick={e => setType('Private')}>
-                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Private</p>
+                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-green-500`}`} onClick={e => setType('Private')}>
+                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">With Frens</p>
                                 </div>
                             </div>
-                         
-                        </label>
+
+                        </label>}
                     </div>
                     <label>
                         <p className='text-sm'>Description{requiredTag}</p>

@@ -1,24 +1,23 @@
 import axios from 'axios'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 // import { useAccount, useConnect } from 'wagmi'
-import CreateVaultForm, { CreateVaultFormValues } from '../components/CreateVaultForm'
-import CreateGovernedForm from '../components/CreateGovernedForm'
-import ImportNFTSelect from '../components/ImportNFTSelect'
-import { gullakFactoryContract } from '../utils/crypto'
-import sanityClient from '../utils/sanitySetup'
-import { TransactionContext } from '../contexts/transactionContext';
+import CreateVaultForm, { CreateVaultFormValues } from '../../components/CreateVaultForm'
+import CreateGovernedForm from '../../components/CreateGovernedForm'
+import ImportNFTSelect from '../../components/ImportNFTSelect'
+import { gullakFactoryContract } from '../../utils/crypto'
+import sanityClient from '../../utils/sanitySetup'
+import { TransactionContext } from '../../contexts/transactionContext';
 
 export enum CreateVaultStep {
     InputFieldsForm = 'input-fields-form',
     GovernedStep = 'governed-form',
-    ImportNFTForm = 'import-nft-form',
 }
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
-    
+
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
@@ -26,7 +25,7 @@ const CreateVault: React.FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if(!currentAccount) {
+        if (!currentAccount) {
             router.push('/')
         }
     }, [currentAccount])
@@ -74,7 +73,7 @@ const CreateVault: React.FC = () => {
             // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
             // console.log(tx)
 
-            values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportNFTForm)
+            values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : router.push('/purchase/purchase-nft')
         } catch (error) {
             console.error(error)
         }
@@ -91,12 +90,7 @@ const CreateVault: React.FC = () => {
             }
             {
                 currentStep === CreateVaultStep.GovernedStep && (
-                    <CreateGovernedForm  onSubmit={handleCreateVault}/>
-                )
-            }
-            {
-                currentStep === CreateVaultStep.ImportNFTForm && (
-                    <ImportNFTSelect onSubmit={() => router.push('/vaults/random')} />
+                    <CreateGovernedForm onSubmit={handleCreateVault} />
                 )
             }
             {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}

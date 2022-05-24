@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useConnect } from 'wagmi';
+import React, { useEffect, useContext } from 'react';
+// import { useConnect } from 'wagmi';
 import cerateDaoPeopleImage from '../assets/create-dao-people.png';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/solid';
@@ -10,6 +10,7 @@ import Orders from '../components/Orders';
 import Proposals from '../components/Proposals';
 import NFTList from '../components/NFTList';
 import MyGullaks from '../components/MyGullaks';
+import { TransactionContext } from '../contexts/transactionContext';
 
 export enum TabNames {
     MyInvestments = 'MY_INVESTMENTS',
@@ -20,7 +21,7 @@ export enum TabNames {
 }
 
 export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ')
 }
 
 export interface TabProps {
@@ -56,6 +57,8 @@ const tabs = [
 export const RenderTab: React.FC<TabProps> = ({
     tabs
 }) => {
+
+
     return (
         <>
             {
@@ -82,15 +85,17 @@ export const RenderTab: React.FC<TabProps> = ({
 
 const Dashboard: React.FC = () => {
 
-    const [{ data: connectData }] = useConnect()
+    // const [{ data: connectData }] = useConnect()
+
+    const { connectallet, currentAccount } = useContext(TransactionContext);
 
     const router = useRouter();
 
     useEffect(() => {
-        if(!connectData.connected) {
+        if (!currentAccount) {
             router.push('/')
         }
-    }, [connectData.connected])
+    }, [currentAccount])
 
     return (
         <div className='text-white font-sora max-w-7xl mx-auto'>
@@ -143,7 +148,7 @@ const Dashboard: React.FC = () => {
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
-                </div>
+            </div>
         </div>
     )
 }

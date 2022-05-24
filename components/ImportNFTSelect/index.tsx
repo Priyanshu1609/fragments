@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image'
 import Moralis from 'moralis';
-import { useAccount } from 'wagmi';
+// import { useAccount } from 'wagmi';
 import { ArrowRightIcon, CheckIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
 
 import NFTillustration from '../../assets/nftillustration.png'
 import { fixTokenURI } from '../../utils';
 import { MoralisNFT } from '../../contracts/nft';
+import { TransactionContext } from '../../contexts/transactionContext';
 
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
@@ -28,11 +29,12 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
     const [selected, setSelected] = useState(-1);
     const [transferred, setTransferred] = useState([]);
 
+    const { connectallet, currentAccount } = useContext(TransactionContext);
 
 
-    const [{ data: accountData }] = useAccount({
-        fetchEns: true,
-    })
+    // const [{ data: accountData }] = useAccount({
+    //     fetchEns: true,
+    // })
 
 
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -44,7 +46,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
     // const getNFTs = async () => {
     //     setIsLoading(true)
     //     try {
-    //         if(!accountData?.address.length) return
+    //         if(!currentAccount.length) return
     //         if(!APP_ID?.length || !SERVER_URL?.length) {
     //             throw new Error("can't fetch NFTs")
     //         };
@@ -52,7 +54,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
     //             appId: APP_ID,
     //             serverUrl: SERVER_URL,
     //         })
-    //         const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: accountData.address });
+    //         const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: currentAccount });
     //         const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
 
     //         const nftsMetadata = await Promise.all(nftsMetadataPromise)
@@ -89,12 +91,12 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
     const getNFTs = async () => {
         setIsLoading(true)
-        console.log(accountData?.address)
+        console.log(currentAccount)
         try {
 
             const options = { method: 'GET', headers: { Accept: 'application/json', 'X-API-KEY': '  ' } };
 
-            fetch(`https://testnets-api.opensea.io/api/v1/assets?owner=${accountData.address}&order_direction=desc&limit=20&include_orders=false`, options)
+            fetch(`https://testnets-api.opensea.io/api/v1/assets?owner=${currentAccount}&order_direction=desc&limit=20&include_orders=false`, options)
                 .then(response => response.json())
                 .then(response => { console.log(response); setNftList(response.assets); })
                 .catch(err => console.error(err));
@@ -111,8 +113,8 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
-            const to_address = '0xd232979ed3fc90a331956C4e541815b478116a7D'
-            const fromAddress = accountData.address;
+            const to_address = '0x67407721B109232BfF825F186c8066045cFefe7F'
+            const fromAddress = currentAccount;
 
             const abi = await getContract(tokenAddress);
             let contract = new ethers.Contract(
@@ -157,11 +159,11 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
     useEffect(() => {
         getNFTs();
-    }, [accountData?.address, selected === -1])
+    }, [currentAccount, selected === -1])
 
     const Loader = () => (
 
-        <button className="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white w-full justify-center" disabled>
+        <button className="flex items-center rounded-lg  px-4 py-2 text-white w-full justify-center" disabled>
             <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -198,7 +200,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
                                 <div className={`text-center p-2 text-sm ${i == 1 ? 'bg-[#0F0F13]' : ''}`}>
                                     {
                                         !transferred.includes(nft.id) && selected !== i && (
-                                            <button className="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white w-full justify-center" disabled>
+                                            <button className="flex items-center rounded-lg  px-4 py-2 text-white w-full justify-center" disabled>
                                                 <span className="font-medium"> {i}.  Select NFT</span>
                                             </button>
                                         )
@@ -210,7 +212,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
                                     }
                                     {
                                         transferred.includes(nft.id) && (
-                                            <button className="flex items-center rounded-lg bg-green-700 px-4 py-2 text-white w-full justify-center" disabled>
+                                            <button className="flex items-center rounded-lg  px-4 py-2 text-white w-full justify-center" disabled>
                                                 <span className="font-medium"> Transferred</span>
                                             </button>
                                         )
@@ -222,7 +224,8 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
                 </div>
             </div>
             <button onClick={onSubmitHandler} className='w-full flex rounded-lg items-center text-gray-900 justify-center py-3 bg-[#FFE55B]'>
-                <p>Import {nftList.length} NFTs</p>
+                {/* <p>Import {nftList.length} NFTs</p> */}
+                <p className='mr-3'> Next </p>
                 <ArrowRightIcon className='w-4' />
             </button>
         </div>

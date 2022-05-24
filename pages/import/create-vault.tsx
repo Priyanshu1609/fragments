@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState,useContext } from 'react'
-// import { useAccount, useConnect } from 'wagmi'
-import CreateVaultForm, { CreateVaultFormValues } from '../components/CreateVaultForm'
-import CreateGovernedForm from '../components/CreateGovernedForm'
-import ImportNFTSelect from '../components/ImportNFTSelect'
-import { gullakFactoryContract } from '../utils/crypto'
-import sanityClient from '../utils/sanitySetup'
-import { TransactionContext } from '../contexts/transactionContext';
+import React, { useEffect, useState, useContext } from 'react'
+import { useAccount, useConnect } from 'wagmi'
+import CreateVaultForm, { CreateVaultFormValues } from '../../components/CreateVaultForm'
+import CreateGovernedForm from '../../components/CreateGovernedForm'
+import ImportNFTSelect from '../../components/ImportNFTSelect'
+import { gullakFactoryContract } from '../../utils/crypto'
+import sanityClient from '../../utils/sanitySetup'
+import { TransactionContext } from '../../contexts/transactionContext';
 
 export enum CreateVaultStep {
     InputFieldsForm = 'input-fields-form',
@@ -18,7 +18,7 @@ export enum CreateVaultStep {
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
-    
+
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
@@ -26,10 +26,10 @@ const CreateVault: React.FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if(!currentAccount) {
+        if (!currentAccount) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [])
 
     const sendTx = async (
         receiver: string,
@@ -91,7 +91,7 @@ const CreateVault: React.FC = () => {
             }
             {
                 currentStep === CreateVaultStep.GovernedStep && (
-                    <CreateGovernedForm  onSubmit={handleCreateVault}/>
+                    <CreateGovernedForm onSubmit={handleCreateVault} />
                 )
             }
             {

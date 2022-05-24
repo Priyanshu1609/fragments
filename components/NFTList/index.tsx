@@ -1,10 +1,11 @@
 import axios from 'axios';
 import Moralis from 'moralis';
-import React, { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi';
+import React, { useEffect, useState , useContext} from 'react'
+// import { useAccount } from 'wagmi';
 import { MoralisNFT } from '../../contracts/nft';
 import { fixTokenURI } from '../../utils';
 import NFTCard from '../NFTCard';
+import { TransactionContext } from '../../contexts/transactionContext';
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
@@ -17,15 +18,16 @@ const NFTList: React.FC = () => {
     const [nftList, setNftList] = React.useState<MoralisNFT[]>([]);
     const [nftFloorPriceMapping, setNFTFloorPriceMapping] = useState<any>({});
 
-    const [{ data: accountData }] = useAccount({
-        fetchEns: true,
-    })
-    console.log(accountData)
+    // const [{ data: accountData }] = useAccount({
+    //     fetchEns: true,
+    // })
+    // console.log(accountData)
+    const { currentAccount } = useContext(TransactionContext);
 
     const getNFTs = async () => {
         setIsLoading(true)
         try {
-            if(!accountData?.address.length) return
+            if(!currentAccount.length) return
             if(!APP_ID?.length || !SERVER_URL?.length) {
                 throw new Error("can't fetch NFTs")
             };
@@ -33,7 +35,7 @@ const NFTList: React.FC = () => {
                 appId: APP_ID,
                 serverUrl: SERVER_URL,
             })
-            const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: accountData.address });
+            const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: currentAccount });
             const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
 
             let NFTFloorPriceMapping: any = {}
@@ -73,7 +75,7 @@ const NFTList: React.FC = () => {
     useEffect(() => {
         getNFTs()
         console.log('called')
-    }, [accountData?.address])
+    }, [currentAccount])
 
     return (
         <div className='flex flex-1 flex-row flex-wrap justify-center py-8 gap-8'>

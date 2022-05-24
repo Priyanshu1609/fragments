@@ -1,7 +1,8 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import { ethers } from 'ethers'
 const ERC20_ABI = require('../ERC_20.json')
-import { useAccount, useConnect } from 'wagmi';
+
+import { TransactionContext } from './transactionContext';
 
 export const SocketContext = createContext();
 
@@ -13,13 +14,13 @@ export const SocketProvider = ({ children }) => {
     // const [userAddress, setuserAddress] = useState('')
     const [bestRoute, setBestRoute] = useState({})
 
-    const [{ data: connectData }] = useConnect()
+    // const [{ data: connectData }] = useConnect()
 
-    const [{ data: accountData }, disconnect] = useAccount({
-        fetchEns: true,
-    })
+    // const [{ data: accountData }, disconnect] = useAccount({
+    //     fetchEns: true,
+    // })
 
-
+    const { currentAccount } = useContext(TransactionContext);
 
     const fetchFromTokens = async (fromChainId) => {
 

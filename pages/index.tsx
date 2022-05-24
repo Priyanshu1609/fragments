@@ -1,25 +1,27 @@
+import React, { useContext, useEffect } from 'react'
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import { useConnect } from 'wagmi'
-import connectwallet from '../assets/connectwallet.png'
-import React, { useContext, useEffect } from 'react'
-import ConnectModalContext from '../contexts/connectwallet'
 import { useRouter } from 'next/router'
+
+// import { useConnect } from 'wagmi'
+import connectwallet from '../assets/connectwallet.png'
+import ConnectModalContext from '../contexts/connectwallet'
+import { TransactionContext } from '../contexts/transactionContext'
 
 const Home: NextPage = () => {
 
   const { setVisible } = useContext(ConnectModalContext)
+  const { connectallet, currentAccount } = useContext(TransactionContext)
 
-  const [{ data: connectData }] = useConnect()
+  // const [{ data: connectData }] = useConnect()
 
   const router = useRouter();
 
   useEffect(() => {
-    if(connectData.connected) {
-      console.log('called')
+    if (currentAccount) {
       router.push('/dashboard')
     }
-  }, [connectData.connected])
+  }, [currentAccount])
 
   return (
     <div className="flex min-h-screen bg-black flex-col items-center justify-center py-2">
