@@ -3,7 +3,7 @@ import React, { useEffect, useContext } from 'react';
 // import { useConnect } from 'wagmi';
 import cerateDaoPeopleImage from '../assets/create-dao-people.png';
 import Image from 'next/image';
-import { ArrowRightIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 import MyInvestment from '../components/MyInvestments';
 import Orders from '../components/Orders';
@@ -11,6 +11,9 @@ import Proposals from '../components/Proposals';
 import NFTList from '../components/NFTList';
 import MyGullaks from '../components/MyGullaks';
 import { TransactionContext } from '../contexts/transactionContext';
+import { ethers } from 'ethers';
+
+declare var window: any;
 
 export enum TabNames {
     MyInvestments = 'MY_INVESTMENTS',
@@ -88,18 +91,26 @@ const Dashboard: React.FC = () => {
     // const [{ data: connectData }] = useConnect()
 
     const { connectallet, currentAccount } = useContext(TransactionContext);
+    const [name, setName] = React.useState('');
 
     const router = useRouter();
+
+    const fetchEns = async () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        var name = await provider?.lookupAddress(currentAccount);
+        setName(name);
+    }
 
     useEffect(() => {
         if (!currentAccount) {
             router.push('/')
         }
+        // fetchEns()
     }, [currentAccount])
 
     return (
         <div className='text-white font-sora max-w-7xl mx-auto'>
-            <div className='flex px-2 items-center justify-between bg-[#F5E58F] rounded-lg text-black cursor-pointer' onClick={() => router.push('/create-dao')}>
+            <div className='flex px-2 items-center justify-between bg-yellow-300 rounded-lg text-black cursor-pointer' onClick={() => router.push('/create-dao')}>
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
                     <div>
@@ -109,18 +120,24 @@ const Dashboard: React.FC = () => {
                 </div>
                 <ArrowRightIcon className='w-6 h-6' />
             </div>
-            <div className='bg-[#0F0F13] flex items-center justify-around rounded-lg px-4 py-10 mt-4'>
-                <div className='flex space-x-2'>
-                    <p className='opacity-70'>Total flips: </p><span className='font-bold opacity-100'>200</span>
+            <div className='bg-[#0F0F13] flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
+                <div className=''>
+                    <div className='text-white font-sora flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
+                        {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
+                        <div className=''>
+                            {currentAccount}
+                        </div>
+                    </div>
                 </div>
-                <div className='flex space-x-2'>
-                    <p className='opacity-70'>Hit rate: </p><span className='font-bold opacity-100'>80%</span>
-                </div>
-                <div className='flex space-x-2'>
-                    <p className='opacity-70'>Curent Value: </p><span className='font-bold opacity-100'>600 ETH</span>
-                </div>
-                <div className='flex space-x-2'>
-                    <p className='opacity-70'>Active Gullaks: </p><span className='font-bold opacity-100'>50</span>
+                <div className='flex space-x-5'>
+                    <div className='flex  space-x-2 items-center'>
+                        <p className='opacity-70'>Curent Value: </p>
+                        <span className='font-bold text-xl opacity-100'>600 ETH </span>
+                        <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span>
+                    </div>
+                    <div className='flex space-x-2'>
+                        <p className='opacity-70'>Active Gullaks: </p><span className='font-bold opacity-100'>50</span>
+                    </div>
                 </div>
             </div>
             <div className="w-full px-2 py-16 sm:px-0">

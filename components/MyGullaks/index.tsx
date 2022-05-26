@@ -9,11 +9,6 @@ const MyInvestment: React.FC = () => {
 
     return (
         <div className='py-4 w-max flex gap-6'>
-            <VaultCard 
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
             <div onClick={() => router.push('/create-gullak')} className='rounded-lg cursor-pointer bg-[#0F0F13] w-[250px]'>
                 <div className='flex items-center justify-center h-[250px]'>
                     <PlusIcon className='w-[100px] text-white opacity-70' />
@@ -23,6 +18,11 @@ const MyInvestment: React.FC = () => {
                     <p className='text-[#70707C] text-base font-normal'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. At tristique gravida.</p>
                 </div>
             </div>
+            <VaultCard
+                name='Bored Ape <> RTFKT'
+                valuations={'600 ETH'}
+                uniqueOwners={4726}
+            />
         </div>
     )
 }

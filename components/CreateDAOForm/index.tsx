@@ -27,11 +27,11 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
     const [discordLink, setDiscordLink] = React.useState('')
     const [websiteLink, setWebsiteLink] = React.useState('')
 
-    const onFileUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {e.preventDefault(); selectFile({multiple: false, accept: '*'}, console.log)}
+    const onFileUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => { e.preventDefault(); selectFile({ multiple: false, accept: '*' }, console.log) }
 
     const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        if(!name.length || !description.length) {
+        if (!name.length || !description.length) {
             return;
         }
         const formValues: CreateDAOFormValues = {
@@ -64,12 +64,12 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                     </label>
                     <label>
                         <p className='text-sm'>What should we call you?{requiredTag}</p>
-                        <input 
-                            value={name} 
-                            type='text' 
-                            className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' 
+                        <input
+                            value={name}
+                            type='text'
+                            className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2'
                             onChange={(e) => setName(e.target.value)}
-                            placeholder='Enter Name of DAO' 
+                            placeholder='Enter Name of DAO'
                         />
                     </label>
                     <label>
@@ -86,7 +86,7 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                             <input value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
                         </label>
                     </div>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-[#F5E58F] text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
                         <span>Create DAO</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

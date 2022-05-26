@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext } from 'react'
 import { ethers } from 'ethers'
 const ERC20_ABI = require('../ERC_20.json')
+import networks from '../networks';
 
 import { TransactionContext } from './transactionContext';
 
@@ -8,19 +9,103 @@ export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
 
-    const [values, setValues] = useState({ fromChainId: "137", toChainId: "1", fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', toToken: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount: '100' });
+    const chains = [
+        // {
+        //     "chainId": 1,
+        //     "name": "Ethereum",
+        //     "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Ether.svg",
+        // },
+        {
+            "chainId": 10,
+            "name": "Optimism",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Optimism.svg",
+        },
+        {
+            "chainId": 56,
+            "name": "BSC",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/BSC.svg",
+        },
+        {
+            "chainId": 100,
+            "name": "Gnosis",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/gnosis.svg",
+        },
+        {
+            "chainId": 137,
+            "name": "Polygon",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Matic.svg",
+        },
+        {
+            "chainId": 250,
+            "name": "Fantom",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Fantom.svg",
+        },
+        {
+            "chainId": 42161,
+            "name": "Arbitrum",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Arbitrum.svg",
+        },
+        {
+            "chainId": 43114,
+            "name": "Avalanche",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Avalanche.svg",
+        },
+        {
+            "chainId": 1313161554,
+            "name": "Aurora",
+            "icon": "https://movricons.s3.ap-south-1.amazonaws.com/aurora.svg",
+        }
+    ]
     const API_KEY = 'f09a7c60-cc6f-4656-ad1b-ac8879df3424';
-    // const userAddress = '0xd232979ed3fc90a331956C4e541815b478116a7D';
-    // const [userAddress, setuserAddress] = useState('')
-    const [bestRoute, setBestRoute] = useState({})
-
-    // const [{ data: connectData }] = useConnect()
-
-    // const [{ data: accountData }, disconnect] = useAccount({
-    //     fetchEns: true,
-    // })
-
     const { currentAccount } = useContext(TransactionContext);
+
+    const [values, setValues] = useState({ fromChainId: "137", toChainId: "1", fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', toToken: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount: '100' });
+
+    const [selectedChain, setSelectedChain] = useState("137")
+
+    const handleNetworkSwitch = async (chainId) => {
+        const chains = networks.networks
+        try {
+
+            if (!window.ethereum) throw new Error("No crypto wallet found");
+            await window.ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                    {
+                        ...chains[chainId]
+                    }
+                ]
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    // const handleNetworkSwitch = async (chainId) => {
+    //     const chains = networks.networks
+    //     try {
+    //         await window.ethereum.request({
+    //             method: 'wallet_switchEthereumChain',
+    //             params: [
+    //                 {
+    //                     ...chains[chainId]
+    //                 }
+    //             ]
+    //         });
+    //     } catch (err) {
+    //         // This error code indicates that the chain has not been added to MetaMask
+    //         if (err.code === 4902) {
+    //             await window.ethereum.request({
+    //                 method: 'wallet_addEthereumChain',
+    //                 params: [
+    //                     {
+    //                         ...chains[chainId]
+    //                     }
+    //                 ]
+    //             });
+    //         }
+    //     }
+    // };
 
     const fetchFromTokens = async (fromChainId) => {
 
@@ -30,7 +115,6 @@ export const SocketProvider = ({ children }) => {
 
             const res = await fetch(`https://backend.movr.network/v2/token-lists/from-token-list?fromChainId=${fromChainId}&toChainId=1&isShortList=true`, options)
             const data = await res.json();
-
             return data.result;
 
         } catch (error) {
@@ -268,6 +352,7 @@ export const SocketProvider = ({ children }) => {
         // Once the bridging process is complete, if it returns 'completed', the setInterval exits
         // If another swap transaction is involved post bridging, the returned response result is 'ready'
         // In which case the above process is repeated on destination chain
+        let retry = 0;
         const status = setInterval(async () => {
             // Gets status of route journey 
             const status = await prepareNextTx(activeRouteId, userTxIndex, txHash);
@@ -276,6 +361,7 @@ export const SocketProvider = ({ children }) => {
             // Exits setInterval if route is 'completed'
             if (status.result == 'completed') {
                 console.log('Bridging transaction is complete');
+                retry = 0;
                 clearInterval(status);
             }
 
@@ -338,6 +424,12 @@ export const SocketProvider = ({ children }) => {
 
                 }
             }
+            if (retry > 10) {
+                console.log('Bridging transaction failed');
+                clearInterval(status);
+            }
+            retry++;
+
         }, 5000)
 
     }
@@ -350,6 +442,10 @@ export const SocketProvider = ({ children }) => {
             values,
             setValues,
             getQuote,
+            chains,
+            handleNetworkSwitch,
+            selectedChain,
+            setSelectedChain,
         }}>
             {children}
         </SocketContext.Provider>

@@ -48,10 +48,10 @@ const Select: React.FC<ISelectProps> = ({
 		>
 			{({ open }) => (
 				<>
-					<div className="mt-1 relative">
+					<div className="mt-1 relative text-white">
 						<Listbox.Button className="bg-[#1E1E24] w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm">
-							<div className=" truncate flex">
-								{selectedValue?.icon && <img className={selectedValue?.icon && 'mr-3 ml-1'} height="28px" width='28px' src={selectedValue?.icon} />}
+							<div className=" truncate flex p-1">
+								{selectedValue?.icon && <img className={selectedValue?.icon && 'mr-3 ml-1'} height="24px" width='24px' src={selectedValue?.icon} />}
 								{selectedValue?.name ?? (
 									<span>
 										{placeholder ?? "Select an option"}
@@ -73,15 +73,15 @@ const Select: React.FC<ISelectProps> = ({
 							leaveFrom="opacity-100"
 							leaveTo="opacity-0"
 						>
-							<Listbox.Options className="w-48 absolute z-10 mt-1 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+							<Listbox.Options className="w-56 absolute z-10 mt-1 bg-[#1E1E24] text-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
 								{options?.map((option) => (
 									<Listbox.Option
-										key={option}
+										key={option.address ?? option.chainId}
 										className={({ active }) =>
 											classNames(
 												active
 													? "text-white bg-indigo-600"
-													: "text-gray-900",
+													: "text-white",
 												"cursor-default select-none relative py-2 pl-3 pr-9"
 											)
 										}
@@ -89,8 +89,8 @@ const Select: React.FC<ISelectProps> = ({
 									>
 										{({ selected, active }) => (
 											<>
-												<div className="inline-flex space-x-3">
-													<img className="h-7 w-7" src={option.icon} />
+												<div className="flex items-center justify-start space-x-5">
+													<img className="h-6 w-6" src={option.icon} />
 													<span
 														className={classNames(
 															selected

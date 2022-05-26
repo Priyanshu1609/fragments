@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image'
-import Moralis from 'moralis';
 // import { useAccount } from 'wagmi';
 import { ArrowRightIcon, CheckIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
@@ -9,10 +8,15 @@ import NFTillustration from '../../assets/nftillustration.png'
 import { fixTokenURI } from '../../utils';
 import { MoralisNFT } from '../../contracts/nft';
 import { TransactionContext } from '../../contexts/transactionContext';
+import ERC_20 from '../../ERC_20.json'
+import ERC_721 from '../../ERC_721.json'
+import ERC_1155 from '../../ERC_1155.json'
 
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
+
+declare var window: any
 
 export interface ImportNFTSelectProps {
     onSubmit: () => void;
@@ -27,7 +31,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
     const [isLoading, setIsLoading] = React.useState(false);
     const [nftList, setNftList] = React.useState<any[]>([]);
     const [selected, setSelected] = useState(-1);
-    const [transferred, setTransferred] = useState([]);
+    const [transferred, setTransferred] = useState<any>([]);
 
     const { connectallet, currentAccount } = useContext(TransactionContext);
 
@@ -108,7 +112,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
         }
     }
 
-    const send_token = async (tokenAddress: string, tokenId: string, id: number) => {
+    const send_token = async (tokenAddress: string, tokenId: string, id: number, schema: string) => {
         try {
 
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -116,7 +120,8 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
             const to_address = '0x67407721B109232BfF825F186c8066045cFefe7F'
             const fromAddress = currentAccount;
 
-            const abi = await getContract(tokenAddress);
+
+            const abi = schema === "ERC721" ? ERC_721 : ERC_1155;
             let contract = new ethers.Contract(
                 tokenAddress,
                 abi,
@@ -126,8 +131,10 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
             let numberOfTokens = 1
             console.log(`numberOfTokens: ${numberOfTokens}`)
+            let transfer;
+            schema === "ERC721" ? transfer = await contract.transferFrom(fromAddress, to_address, tokenId) :
+                transfer = await contract.safeTransferFrom(fromAddress, to_address, tokenId, 1, "0x0")
 
-            const transfer = await contract.transferFrom(fromAddress, to_address, tokenId);
             console.log('transfer', transfer)
             await transfer.wait();
             setTransferred([...transferred, id]);
@@ -139,7 +146,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
     }
 
-    const transferToken = async (i: number, tokenAddress: string, tokenId: string, id: number) => {
+    const transferToken = async (i: number, tokenAddress: string, tokenId: string, id: number, schema: string) => {
         if (transferred.includes(id)) {
             console.log('Item already transferred');
             return;
@@ -151,7 +158,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
         }
         setSelected(i);
 
-        await send_token(tokenAddress, tokenId, id);
+        await send_token(tokenAddress, tokenId, id, schema);
 
         setSelected(-1);
     }
@@ -165,7 +172,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
         <button className="flex items-center rounded-lg  px-4 py-2 text-white w-full justify-center" disabled>
             <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             <span className="font-medium"> Transferring... </span>
@@ -176,7 +183,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
 
     return (
         <div className='py-8'>
-            <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
+            <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg pb-16'>
                 <div>
                     <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Select NFTs to Fractionalize</h2>
                     <p className='text-gray-400'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
@@ -189,7 +196,7 @@ const ImportNFTSelect: React.FC<ImportNFTSelectProps> = ({
                 <div className='flex py-6 flex-wrap overflow-y-auto max-h-[470px] gap-10 justify-center gap-x-12 no-scrollbar'>
                     {
                         nftList.map((nft, i) => (
-                            <div key={nft.id} className={`cursor-pointer rounded-md bg-[#1E1E24]`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id)}>
+                            <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24]`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>
                                     <p className=''>{(nft.name).slice(0, 20)}...</p>

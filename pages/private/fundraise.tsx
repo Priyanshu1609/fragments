@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
@@ -10,55 +10,8 @@ import Modal from '../../components/Modal';
 import Select from '../../components/Select';
 import { NftContext } from '../../contexts/NftContext';
 import { OpenseaContext } from '../../contexts/opensesContext';
-
-
-const chains = [
-    {
-        "chainId": 1,
-        "name": "Ethereum",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Ether.svg",
-    },
-    {
-        "chainId": 10,
-        "name": "Optimism",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Optimism.svg",
-    },
-    {
-        "chainId": 56,
-        "name": "BSC",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/BSC.svg",
-    },
-    {
-        "chainId": 100,
-        "name": "Gnosis",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/gnosis.svg",
-    },
-    {
-        "chainId": 137,
-        "name": "Polygon",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Matic.svg",
-    },
-    {
-        "chainId": 250,
-        "name": "Fantom",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Fantom.svg",
-    },
-    {
-        "chainId": 42161,
-        "name": "Arbitrum",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Arbitrum.svg",
-    },
-    {
-        "chainId": 43114,
-        "name": "Avalanche",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/Avalanche.svg",
-    },
-    {
-        "chainId": 1313161554,
-        "name": "Aurora",
-        "icon": "https://movricons.s3.ap-south-1.amazonaws.com/aurora.svg",
-    }
-]
+import { SocketContext } from '../../contexts/socketContext';
+import SelectChain from '../../components/SelectChain';
 
 interface CreateVaultFormProps {
     onSubmit: (values: CreateVaultFormValues) => void;
@@ -76,8 +29,8 @@ const Fundraise: React.FC<CreateVaultFormProps> = ({
 }) => {
     const router = useRouter();
 
-    const [selectedToken, setSelectedToken] = useState<string>("matic")
-    const [selectedChain, setSelectedChain] = useState<string>("137")
+    const [selectedToken, setSelectedToken] = useState<object>()
+    const [selectedChain, setSelectedChain] = useState<object>()
     const [coins, setCoins] = useState([]);
     const [target, setTarget] = useState();
     const [duration, setDuration] = useState();
@@ -87,6 +40,10 @@ const Fundraise: React.FC<CreateVaultFormProps> = ({
 
     const { getTokenIdMetadata } = useContext(NftContext)
     const { getSellOrder } = useContext(OpenseaContext);
+    const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
+
+    console.log({ selectedToken, selectedChain });
+
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -107,8 +64,9 @@ const Fundraise: React.FC<CreateVaultFormProps> = ({
     }
 
 
+
     return (
-        <div className='text-white max-w-4xl mx-auto font-sora sm:px-4'>
+        <div className='text-white max-w-4xl mx-auto font-sora sm:px-4 pb-24'>
             <div className='flex items-center justify-between p-6 bg-[#1E1E24] rounded-lg'>
                 <div>
                     <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
@@ -133,23 +91,8 @@ const Fundraise: React.FC<CreateVaultFormProps> = ({
                     <div className='p-2 bg-[#1E1E24]'>
                         <p className='text-sm text-center text-green-700'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
-                    <div className='grid grid-cols-2 gap-4 mt-4'>
-                        <div>
-                            <p className='text-xs text-[#70707C]'>Select Token</p>
-                            <Select
-                                options={coins}
-                                value={selectedToken}
-                                onChange={(value) => setSelectedToken(value)}
-                            />
-                        </div>
-                        <div>
-                            <p className='text-xs text-[#70707C]'>Select Chain</p>
-                            <Select
-                                options={chains}
-                                value={selectedChain}
-                                onChange={(value) => setSelectedChain(value)}
-                            />
-                        </div>
+                    <div>
+                        <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} />
                     </div>
                     <div className='mt-4'>
                         <div className='flex justify-between'>

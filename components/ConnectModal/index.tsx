@@ -30,9 +30,10 @@ const ConnectModal: React.FC = () => {
             onClose={() => setVisible(false)}
             showCTA={false}
         >
-            <div className='font-sora'>
+            <div className='font-sora p-10  '>
                 <Image src={walletmodal} />
-                <p className='text-2xl mt-4 mb-6 text-white'>Select Wallet</p>
+                <p className='text-2xl mt-4 mb-2 text-white'>Select Wallet</p>
+                <p className='mb-6 text-gray-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, iure?</p>
                 <div className='flex flex-col text-white space-y-4'>
                     {/* {data.connectors.map((connector) => (
                         <button
@@ -52,6 +53,13 @@ const ConnectModal: React.FC = () => {
                     >
                         <Image src={metamasklogo} />
                         <p>Connect to Metamask</p>
+                    </button>
+                    <button
+                        onClick={() => onConnect()}
+                        className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
+                    >
+                        <Image src={walletconnectlogo} />
+                        <p>Connect to WalletConnect</p>
                     </button>
                 </div>
             </div>

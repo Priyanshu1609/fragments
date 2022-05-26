@@ -46,7 +46,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         }
         console.log(formValues)
         onSubmit(formValues);
-        
+
     }
 
     return (
@@ -98,7 +98,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <p className='text-sm'>Management Fees <span className='text-xs'> ( Upto 99% )</span>{requiredTag}</p>
                         <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={managementFee} onChange={(e) => setManagementFee(Number(e.target.value))} />
                     </label>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-[#F5E58F] text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
                         <span>Make Vault</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

@@ -65,16 +65,16 @@ const Modal: React.FC<IModal> = ({
 						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 					>
 						<div
-							className={`inline-block align-bottom bg-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle ${"max-w-sm w-full"}`}
+							className={`inline-block align-bottom bg-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full`}
 						>
-							<div className='w-full bg-black p-3 border-b border-gray-400 border-solid justify-end'>
+							<div className='w-full p-2 bg-[#1E1E24] border-b border-gray-400 border-solid justify-end'>
 								<XIcon className='w-6 h-6 text-white ml-auto cursor-pointer' onClick={onClose} />
 							</div>
-							<div className="p-3">
+							<div className="">
 								<div className="mt-3 text-center sm:mt-5">
-									{title && <Dialog.Title
+									{<Dialog.Title
 										as="h3"
-										className="text-lg leading-6 font-medium text-gray-900"
+										className="text-2xl leading-6 font-medium font-sora"
 									>
 										{title}
 									</Dialog.Title>}

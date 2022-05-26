@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import ERC_20 from '../ERC_20.json'
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -54,12 +55,17 @@ export const TransactionProvider = ({ children }) => {
         }
     }
 
+    const getProvider = async () => {
+        const provider = new ethers.providers.Web3Provider(eth);
+        return provider;
+    }
+
 
     const connectWallet = async () => {
         try {
             if (!eth) return alert('Please install metamask ')
 
-            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+            const provider = new ethers.providers.Web3Provider(eth);
             // if (provider.network !== "matic") {
             //     await window.ethereum.request({
             //         method: "wallet_addEthereumChain",
@@ -95,7 +101,7 @@ export const TransactionProvider = ({ children }) => {
                     ]
                 });
             }
-            
+
 
             setCurrentAccount(accounts[0])
             setIsLoading(false)
@@ -104,6 +110,7 @@ export const TransactionProvider = ({ children }) => {
             throw new Error('No ethereum object.')
         }
     }
+
     const logoutWallet = async () => {
         try {
             if (!eth) return alert('Please install metamask ')
@@ -115,6 +122,25 @@ export const TransactionProvider = ({ children }) => {
             console.error(error)
         }
     }
+
+    const getBalanace = async () => {
+        const provider = new ethers.providers.Web3Provider(eth);
+        const balance = await provider.getBalance(address)
+        const balanceInEth = ethers.utils.formatEther(balance);
+
+        return balanceInEth;
+    }
+
+    const getTokenBalance = async (tokenContractAddress) => {
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const contract = new ethers.Contract(tokenContractAddress, ERC_20, provider);
+        const balance = (await contract.balanceOf(currentAccount)).toString();
+
+        return balance;
+
+    }
+
     useEffect(() => {
         async function listenMMAccount() {
             window.ethereum.on("accountsChanged", async function () {
@@ -139,6 +165,9 @@ export const TransactionProvider = ({ children }) => {
                 currentAccount,
                 isLoading,
                 logoutWallet,
+                getBalanace,
+                getTokenBalance,
+                getProvider,
             }}
         >
             {children}
