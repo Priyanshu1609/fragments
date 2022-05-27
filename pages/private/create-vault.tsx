@@ -2,19 +2,40 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState, useContext } from 'react'
-import CreateVaultForm, { CreateVaultFormValues } from '../../components/CreateVaultForm'
+import CreateVaultForm from '../../components/CreateVaultForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { gullakFactoryContract } from '../../utils/crypto'
 import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
-
+import { ArrowLeftIcon } from '@heroicons/react/solid'
+import PrivateFundraise from '../../components/PrivateFundraise'
+import { CreateVaultFormValues, CreateVaultStep } from '../import/create-vault'
 
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
 
-    // const [{ data: connectData }] = useConnect()
-    // const [{ data: accountData }] = useAccount()
+    const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
+
+    const [formData, setFormData] = useState<CreateVaultFormValues>({
+        flow: 'private',
+        vaultName: '',
+        type: '',
+        description: '',
+        tokenName: '',
+        numOfTokens: 0,
+        managementFees: 0,
+        votingPeriod: 0,
+        days: 0,
+        quorum: 0,
+        minFavor: 0,
+        nftsImported: [],
+        nftsPurchased: [],
+        target: 0,
+        fundraiseDuration: 0,
+        myContribution: 0,
+    })
+    console.log('FormData : ', formData);
 
     const router = useRouter()
 
@@ -67,18 +88,48 @@ const CreateVault: React.FC = () => {
             // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
             // console.log(tx)
 
-          
-            router.push('/private/fundraise')
+
+            router.push('/vaults/random')
         } catch (error) {
             console.error(error)
         }
     }
 
+    const handleBack = () => {
 
+        if (currentStep === CreateVaultStep.InputFieldsForm) {
+            router.push('/create-gullak')
+        }
+        else if (currentStep === CreateVaultStep.Fundraise) {
+            setCurrentStep(CreateVaultStep.InputFieldsForm)
+        }
+
+    }
 
     return (
         <div className='text-white max-w-4xl mx-auto font-sora sm:px-4'>
-            <CreateVaultForm flow='private' onSubmit={handleCreateVault} />
+            {
+                currentStep === CreateVaultStep.InputFieldsForm && (
+                    <div>
+                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                            <ArrowLeftIcon className='w-4' />
+                            <span>Back</span>
+                        </button>
+                        <CreateVaultForm flow='private' setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                    </div>
+                )
+            }
+            {
+                currentStep === CreateVaultStep.Fundraise && (
+                    <div>
+                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                            <ArrowLeftIcon className='w-4' />
+                            <span>Back</span>
+                        </button>
+                        <PrivateFundraise handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                    </div>
+                )
+            }
         </div>
     )
 }

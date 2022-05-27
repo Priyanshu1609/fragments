@@ -127,11 +127,11 @@ const VaultDetail: React.FC = () => {
     }, [selectedChain])
 
     const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
-    // useEffect(() => {
-    //     if (!currentAccount) {
-    //         router.push('/')
-    //     }
-    // }, [currentAccount])
+    useEffect(() => {
+        if (!currentAccount) {
+            router.push('/')
+        }
+    }, [currentAccount])
 
     useEffect(() => {
         getNFTs();
@@ -139,7 +139,7 @@ const VaultDetail: React.FC = () => {
     }, [])
 
     return (
-        <div className='text-white max-w-7xl mx-auto font-sora md:flex md:flex-row-reverse'>
+        <div className='text-white max-w-7xl mx-auto font-sora md:flex md:flex-row-reverse pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
             {true && <div className='flex flex-[0.6] mx-4 items-start justify-center mt-4'>
                 <div className='cursor-pointer  bg-gray-500 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <div className='flex-[0.8] mx-auto p-4'>
@@ -195,7 +195,7 @@ const VaultDetail: React.FC = () => {
                             <p>Enter amount</p>
                             {/* <p>Balance: 32 ETH</p> */}
                         </div>
-                        <input type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                        <input required type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                     </div>
 
                     <div className='text-center' >
@@ -341,13 +341,13 @@ const VaultDetail: React.FC = () => {
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input type='number' placeholder='Enter Target Fundraise Amount' min={0} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' placeholder='Enter Target Fundraise Amount' min={0} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-[#70707C] mb-2'>
                                 <p>Fundraise Duration</p>
                             </div>
-                            <input type='date' placeholder='Enter Duration of Fundraise' className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='date' placeholder='Enter Duration of Fundraise' className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
                         <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
                         <div>
@@ -362,7 +362,7 @@ const VaultDetail: React.FC = () => {
                                 <p>Enter amount</p>
                                 <p>Min Investment: 5 ETH</p>
                             </div>
-                            <input type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
 
                         <div className='text-center !pb-6' >

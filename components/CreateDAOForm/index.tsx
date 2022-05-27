@@ -64,7 +64,7 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                     </label>
                     <label>
                         <p className='text-sm'>What should we call you?{requiredTag}</p>
-                        <input
+                        <input required
                             value={name}
                             type='text'
                             className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2'
@@ -79,11 +79,11 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
                             <p className='text-sm'>Add Discord Invite Link (optional)</p>
-                            <input value={discordLink} onChange={(e) => setDiscordLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Discord Link' />
+                            <input required value={discordLink} onChange={(e) => setDiscordLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Discord Link' />
                         </label>
                         <label>
                             <p className='text-sm'>Website Link (optional)</p>
-                            <input value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
+                            <input required value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
                         </label>
                     </div>
                     <button type='submit' className='w-full p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>

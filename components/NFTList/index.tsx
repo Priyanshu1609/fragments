@@ -38,6 +38,7 @@ const NFTList: React.FC = () => {
             const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=eth&format=decimal`, options)
 
             let nfts = await res.json();
+           
             // const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: currentAccount });
             const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
 
@@ -81,7 +82,7 @@ const NFTList: React.FC = () => {
     }, [currentAccount])
 
     return (
-        <div className='flex flex-1 flex-row flex-wrap justify-center py-8 gap-8'>
+        <div className='flex flex-1 flex-row flex-wrap justify-start py-8 gap-8'>
             {
                 nftList.map(nft => (
                     <NFTCard nft={nft} floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]} key={nft.token_uri} />

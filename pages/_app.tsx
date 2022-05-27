@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   rel="stylesheet"
                 />
               </Head>
-              <div className='min-h-screen bg-black font-sora'>
+              <div className='min-h-screen bg-black font-sora '>
                 <header className="bg-black">
                   <div className="max-w-7xl mx-auto lg:px-8">
                     <div className="flex items-center w-full justify-between py-5 px-4">

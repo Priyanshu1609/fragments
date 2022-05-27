@@ -15,9 +15,9 @@ const ConnectModal: React.FC = () => {
 
     // const [{ data, error }, connect] = useConnect()
 
-    const onConnect = async () => {
+    const onConnect = async (type: string) => {
         try {
-            connectWallet();
+            connectWallet(type);
             setVisible(false)
         } catch (error) {
             console.error(error)
@@ -48,14 +48,14 @@ const ConnectModal: React.FC = () => {
                         </button>
                     ))} */}
                     <button
-                        onClick={e => onConnect()}
+                        onClick={e => onConnect('metamask')}
                         className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
                     >
                         <Image src={metamasklogo} />
                         <p>Connect to Metamask</p>
                     </button>
                     <button
-                        onClick={() => onConnect()}
+                        onClick={() => onConnect('wallectconnect')}
                         className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
                     >
                         <Image src={walletconnectlogo} />

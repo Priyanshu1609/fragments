@@ -13,6 +13,7 @@
     "@sanity/client": "^3.3.0",
     "@truffle/hdwallet-provider": "^2.0.8",
     "@uniswap/widgets": "^1.0.10",
+    "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.26.1",
     "cors": "^2.8.5",
     "ethers": "^5.6.2",
@@ -24,6 +25,7 @@
     "react-redux": "^8.0.2",
     "react-responsive-carousel": "^3.2.23",
     "swiper": "^8.1.6",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "use-file-upload": "^1.0.11",
     "vercel": "^24.2.4",
     "web3": "^1.7.3"

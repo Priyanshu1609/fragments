@@ -1,52 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import vault from '../../assets/vault.png';
 import Image from 'next/image';
 import { requiredTag } from '../CreateDAOForm';
 import { ArrowRightIcon } from '@heroicons/react/solid';
+import { CreateVaultFormValues, CreateVaultStep } from '../../pages/import/create-vault'
 
 interface CreateVaultFormProps {
-    onSubmit: (values: CreateVaultFormValues) => void;
+    setFormData: (values: CreateVaultFormValues) => void;
     flow: string
+    formData: CreateVaultFormValues
+    setCurrentStep: (values: CreateVaultStep) => void;
 }
 
-export interface CreateVaultFormValues {
-    name: string;
-    description: string;
-    token_name: string;
-    token_supply: number;
-    management_fee: number;
-    type: string;
-}
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
-    onSubmit,
-    flow
+    formData,
+    setFormData,
+    flow,
+    setCurrentStep,
 }) => {
 
-    const [name, setName] = React.useState('')
-    const [description, setDescription] = React.useState('')
-    const [tokenName, setTokenName] = React.useState('')
-    const [tokenSupply, setTokenSupply] = React.useState(1000000)
-    const [managementFee, setManagementFee] = React.useState(0)
-    const [type, setType] = React.useState('Public')
+    const [vaultName, setVaultName] = useState('')
+    const [description, setDescription] = useState('')
+    const [tokenName, setTokenName] = useState('')
+    const [tokenSupply, setTokenSupply] = useState(1000000)
+    const [managementFees, setManagementFees] = useState(0)
+    const [type, setType] = useState('Public')
+    const [numOfTokens, setNumOfTokens] = useState(1000000)
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
-            console.log('Error in values, Please input again')
-            return;
-        }
-        const formValues: CreateVaultFormValues = {
-            name,
+        // if (!vaultName.length || !description.length || !tokenSupply || managementFees >= 100 || managementFees < 0 || tokenName.length !== 4) {
+        //     console.log('Error in values, Please input again')
+        //     return;
+        // }
+        setFormData({
+            flow: formData.flow,
+            vaultName,
+            type,
             description,
-            token_name: tokenName,
-            token_supply: tokenSupply,
-            management_fee: managementFee,
-            type: type,
+            tokenName,
+            numOfTokens,
+            managementFees,
+            votingPeriod: 0,
+            days: 0,
+            quorum: 0,
+            minFavor: 0,
+            nftsImported: [],
+            nftsPurchased: [],
+            target: 0,
+            fundraiseDuration: 0,
+            myContribution: 0,
+        })
+        // setFormData(
+        //     (prev) => ({
+        //         ...prev,
+        //         vaultName,
+        //         type,
+        //         description,
+        //         tokenName,
+        //         numOfTokens,
+        //         managementFees,
+        //     })
+        // )
+        if (flow === 'import' || flow === 'purchase') {
+            (type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportOrPurchase))
         }
-        console.log(formValues)
-        onSubmit(formValues);
-
+        else {
+            setCurrentStep(CreateVaultStep.Fundraise)
+        }
     }
 
     return (
@@ -65,7 +87,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     <div className='flex justify-between'>
                         <label className='flex-grow mr-4'>
                             <p className='text-sm'>Vault Name{requiredTag}</p>
-                            <input type='text' className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={name} onChange={(e) => setName(e.target.value)} />
+                            <input required type='text' className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={vaultName} onChange={(e) => setVaultName(e.target.value)} />
                         </label>
                         {flow !== 'private' && <label>
                             <p className='text-sm'>Type of Vault{requiredTag}</p>
@@ -82,12 +104,12 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <label>
                         <p className='text-sm'>Description{requiredTag}</p>
-                        <textarea rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <textarea required rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={description} onChange={(e) => setDescription(e.target.value)} />
                     </label>
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
                             <p className='text-sm'>Token Name <span className='text-xs'> ( 4 letters )</span>{requiredTag}</p>
-                            <input type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={tokenName} onChange={(e) => setTokenName(e.target.value)} />
+                            <input required type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={tokenName} onChange={(e) => setTokenName(e.target.value)} />
                         </label>
                         <label>
                             <p className='text-sm'>No. of Tokens{requiredTag}</p>
@@ -96,10 +118,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <label>
                         <p className='text-sm'>Management Fees <span className='text-xs'> ( Upto 99% )</span>{requiredTag}</p>
-                        <input type='number' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={managementFee} onChange={(e) => setManagementFee(Number(e.target.value))} />
+                        <input required type='number' min={1} max={99} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={managementFees} onChange={(e) => setManagementFees(Number(e.target.value))} />
                     </label>
                     <button type='submit' className='w-full p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
-                        <span>Make Vault</span>
+                        <span>Next</span>
                         <ArrowRightIcon className='w-4' />
                     </button>
                 </form>

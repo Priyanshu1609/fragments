@@ -1,11 +1,20 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { TransactionContext } from '../contexts/transactionContext';
 
 import atomillustration from '../assets/atomillustration.png';
 
 
 const CreateGullak: React.FC = () => {
+
+    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+
+    useEffect(() => {
+        if (!currentAccount) {
+            router.push('/')
+        }
+    }, [currentAccount])
 
     const router = useRouter();
 

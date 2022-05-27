@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import opensealogo from '../assets/opensealogo.svg';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/solid';
+import { fixTokenURI, ipfsParse } from '../utils';
 
 export interface NFTCardProps {
     nft: any;
@@ -38,9 +39,9 @@ const NFTCard: React.FC<NFTCardProps> = ({
     // }, [nft])
 
     return nft ? (
-        <div className='rounded-lg bg-[#0F0F13]'>
+        <div className='rounded-lg bg-[#0F0F13] w-64'>
             <div className='flex rounded-t-lg justify-between items-center h-[250px]'>
-                {nft?.image?.length && <img src={nft.image} className='w-[250px] rounded-t-lg'/>}
+                {nft?.image?.length && <img src={fixTokenURI(nft.image)} className='w-[250px] rounded-t-lg' />}
             </div>
             <div className='px-4 py-3'>
                 <div>
@@ -69,7 +70,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
                         <p className='text-xs text-white text-opacity-70'>Unique owners</p>
                         <h2>{uniqueOwners}</h2>
                     </div> */}
-                    <a 
+                    <a
                         href={`https://opensea.io/assets/${nft.token_address}/${nft.token_id}`}
                         target='_blank'
                         rel='noopener noreferrer'
@@ -79,7 +80,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
                             <Image src={opensealogo} />
                             <p className='text-sm'>View on Opensea</p>
                         </div>
-                        <ArrowRightIcon className='w-4 -rotate-45'  />
+                        <ArrowRightIcon className='w-4 -rotate-45' />
                     </a>
                 </div>
             </div>

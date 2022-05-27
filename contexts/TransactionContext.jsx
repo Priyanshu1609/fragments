@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import ERC_20 from '../ERC_20.json'
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import { providers } from "ethers";
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -32,6 +34,21 @@ const networks = {
             "https://etherscan.io",
         ]
     },
+    rinkeby: {
+        chainId: `0x${Number(4).toString(16)}`,
+        chainName: "Rinkeby",
+        rpcUrls: [
+            'https://rinkeby.infura.io/v3/'
+        ],
+        nativeCurrency: {
+            name: "Ether",
+            symbol: "ETH",
+            decimals: 18
+        },
+        blockExplorerUrls: [
+            "https://rinkeby.etherscan.io",
+        ]
+    },
 };
 
 export const TransactionProvider = ({ children }) => {
@@ -39,6 +56,7 @@ export const TransactionProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [isReturningUser, setIsReturningUser] = useState(false);
     const router = useRouter();
+
 
 
     const checkIfWalletIsConnected = async () => {
@@ -61,45 +79,57 @@ export const TransactionProvider = ({ children }) => {
     }
 
 
-    const connectWallet = async () => {
+    const connectWallet = async (type) => {
         try {
             if (!eth) return alert('Please install metamask ')
+            let accounts;
 
-            const provider = new ethers.providers.Web3Provider(eth);
-            // if (provider.network !== "matic") {
+            // if (provider.network !== "rinkeby") {
             //     await window.ethereum.request({
             //         method: "wallet_addEthereumChain",
             //         params: [
             //             {
-            //                 ...networks["polygon"],
+            //                 ...networks["rinkeby"],
             //             },
             //         ],
             //     });
             // }
-            setIsLoading(true)
-            console.log('Is returning', isReturningUser)
-            // const accounts = await eth.request({ method: 'eth_requestAccounts' })
-            let accounts;
+            if (type === 'metamask') {
+                setIsLoading(true)
+                console.log('Is returning', isReturningUser)
+                accounts = await eth.request({ method: 'eth_requestAccounts' })
+            }
+            // // let accounts;
 
-            accounts = await window.ethereum.request({
-                method: "eth_requestAccounts",
-                params: [
-                    {
-                        eth_accounts: {}
-                    }
-                ]
-            });
-            if (isReturningUser) {
-                // Runs only they are brand new, or have hit the disconnect button
-                console.log('brand new ran')
-                await window.ethereum.request({
-                    method: "wallet_requestPermissions",
-                    params: [
-                        {
-                            eth_accounts: {}
-                        }
-                    ]
+            // accounts = await window.ethereum.request({
+            //     method: "eth_requestAccounts",
+            //     params: [
+            //         {
+            //             eth_accounts: {}
+            //         }
+            //     ]
+            // });
+            // if (isReturningUser) {
+            //     // Runs only they are brand new, or have hit the disconnect button
+            //     window.location.reload(true)
+            //     await window.ethereum.request({
+            //         method: "wallet_requestPermissions",
+            //         params: [
+            //             {
+            //                 eth_accounts: {}
+            //             }
+            //         ]
+            //     });
+            // }
+            else {
+                console.log('WalletConnect')
+                const provider = new WalletConnectProvider({
+                    infuraId: 'f82688ca72f84274a38556f3c643ea96'
                 });
+                accounts = await provider.enable();
+
+                const web3Provider = new providers.Web3Provider(provider);
+                console.log('Accounts:',accounts)
             }
 
 
@@ -107,7 +137,7 @@ export const TransactionProvider = ({ children }) => {
             setIsLoading(false)
         } catch (error) {
             console.error(error)
-            throw new Error('No ethereum object.')
+            // throw new Error('No ethereum object.')
         }
     }
 
@@ -117,6 +147,7 @@ export const TransactionProvider = ({ children }) => {
             setIsReturningUser(true);
 
             setCurrentAccount('');
+
 
         } catch (error) {
             console.error(error)
