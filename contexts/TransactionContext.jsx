@@ -55,9 +55,10 @@ export const TransactionProvider = ({ children }) => {
     const [currentAccount, setCurrentAccount] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [isReturningUser, setIsReturningUser] = useState(false);
+    const [clientId, setClientId] = useState('');
     const router = useRouter();
 
-
+    let walletConnectProvider;
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -77,6 +78,29 @@ export const TransactionProvider = ({ children }) => {
         const provider = new ethers.providers.Web3Provider(eth);
         return provider;
     }
+
+    const handleClientId = async (_address) => {
+        try {
+            const options = {
+                method: 'GET', headers: {
+                    'accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3001',
+                },
+                mode: 'cors',
+
+            };
+
+            const res = await fetch(`http://heimdall-env.eba-qak5rsqj.ap-south-1.elasticbeanstalk.com/api/v1/accounts/wallet/${currentAccount}`, options)
+
+            const data = await res.json();
+            setClientId(data.clientId)
+            console.log('clientId', data.clientId);
+
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
 
 
     const connectWallet = async (type) => {
@@ -123,15 +147,16 @@ export const TransactionProvider = ({ children }) => {
             // }
             else {
                 console.log('WalletConnect')
-                const provider = new WalletConnectProvider({
+                walletConnectProvider = new WalletConnectProvider({
                     infuraId: 'f82688ca72f84274a38556f3c643ea96'
                 });
-                accounts = await provider.enable();
+                accounts = await walletConnectProvider.enable();
 
                 const web3Provider = new providers.Web3Provider(provider);
-                console.log('Accounts:',accounts)
+                console.log('Accounts:', accounts)
             }
 
+            await handleClientId(accounts[0]);
 
             setCurrentAccount(accounts[0])
             setIsLoading(false)
@@ -156,8 +181,9 @@ export const TransactionProvider = ({ children }) => {
 
     const getBalanace = async () => {
         const provider = new ethers.providers.Web3Provider(eth);
-        const balance = await provider.getBalance(address)
-        const balanceInEth = ethers.utils.formatEther(balance);
+        const balance = await provider.getBalance(currentAccount)
+        let balanceInEth = ethers.utils.formatEther(balance);
+        balanceInEth = parseFloat(balanceInEth).toFixed(4);
 
         return balanceInEth;
     }
@@ -171,6 +197,7 @@ export const TransactionProvider = ({ children }) => {
         return balance;
 
     }
+
 
     useEffect(() => {
         async function listenMMAccount() {

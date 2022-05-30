@@ -15,7 +15,7 @@ const people = [
 	{ id: 10, name: "Emil Schaefer" },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: any) {
 	return classes.filter(Boolean).join(" ");
 }
 
@@ -28,7 +28,7 @@ interface IOptionProps {
 
 interface ISelectProps {
 	readonly options: IOptionProps[];
-	readonly onChange: (value: string) => void;
+	readonly onChange: (value: any) => void;
 	readonly value: string;
 	readonly placeholder?: string;
 }
@@ -39,7 +39,7 @@ const Select: React.FC<ISelectProps> = ({
 	value,
 	placeholder,
 }) => {
-	const selectedValue = options?.find((option) => option === value);
+	const selectedValue = options?.find((option: any) => option === value);
 
 	return (
 		<Listbox

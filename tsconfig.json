@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "contexts/socketContext.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "contexts/socketContext.jsx", "pages/_app.jsx", "contexts/dataContext.jsx"],
   "exclude": ["node_modules"]
 }

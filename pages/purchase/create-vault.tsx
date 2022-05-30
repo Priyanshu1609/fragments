@@ -11,36 +11,16 @@ import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
 import { ArrowLeftIcon } from '@heroicons/react/solid'
 import PurchaseNFT from '../../components/PurchaseNFT'
-import { CreateVaultFormValues, CreateVaultStep } from '../import/create-vault'
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { formData, setFormData } = useContext(DataContext);
 
-    // const [{ data: connectData }] = useConnect()
-    // const [{ data: accountData }] = useAccount()
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
     const router = useRouter()
-
-    const [formData, setFormData] = useState<CreateVaultFormValues>({
-        flow: 'purchase',
-        vaultName: '',
-        type: '',
-        description: '',
-        tokenName: '',
-        numOfTokens: 0,
-        managementFees: 0,
-        votingPeriod: 0,
-        days: 0,
-        quorum: 0,
-        minFavor: 0,
-        nftsImported: [],
-        nftsPurchased: [],
-        target: 0,
-        fundraiseDuration: 0,
-        myContribution: 0,
-    })
-    console.log('FormData : ', formData);
 
 
     useEffect(() => {
@@ -72,8 +52,8 @@ const CreateVault: React.FC = () => {
 
     const handleCreateVault = async (values: CreateVaultFormValues) => {
         try {
-            // const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
-            // console.log(vaultData.data)
+            const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
+            console.log(vaultData.data)
             // const request = {
             //     ...values,
             //     vault_address: "0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d",
@@ -92,7 +72,7 @@ const CreateVault: React.FC = () => {
             // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
             // console.log(tx)
 
-            values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.PurchaseNft)
+            values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportOrPurchase)
         } catch (error) {
             console.error(error)
         }
@@ -123,7 +103,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateVaultForm flow='import' setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <CreateVaultForm flow='purchase' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
@@ -134,7 +114,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateGovernedForm setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <CreateGovernedForm setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
@@ -145,7 +125,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <PurchaseNFT setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} handleCreateVault={handleCreateVault} />
+                        <PurchaseNFT setCurrentStep={setCurrentStep} handleCreateVault={handleCreateVault} />
                     </div>
                 )
             }

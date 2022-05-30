@@ -25,7 +25,7 @@ export const fixTokenURI = (uri: string) => {
 }
 
 export const bnToString = (bn: string) => {
-  return bn ? ethers.utils.formatEther(bn.toString(10)).toString() : "";
+  return bn ? parseInt(ethers.utils.formatEther(parseInt(bn, 10).toString(10))) : 0;
 }
 
 export const dtToString = (unixTime: any) => {

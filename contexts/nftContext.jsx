@@ -43,9 +43,27 @@ export const NftContextProvider = ({ children }) => {
 
     }
 
+    const getEstimatePrice = async (tokenId, tokenAddress) => {
+        try {
+            const options = { method: 'GET', headers: { 'x-api-key': API_KEY, 'Accept': 'application/json', 'Content-Type': 'application/json', } };
+            const res = await fetch(`https://api.nftbank.ai/estimates-v2/estimates/0xc2c747e0f7004f9e8817db2ca4997657a7746928/1022?chain_id=ETHEREUM`, options)
+
+            let data = await res.json();
+
+            return data.data.estimate;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
 
     return (
-        <NftContext.Provider value={{ getTokenIdMetadata, getTokens }}>
+        <NftContext.Provider value={{
+            getTokenIdMetadata,
+            getTokens,
+            getEstimatePrice,
+        }}>
             {children}
         </NftContext.Provider>
     )

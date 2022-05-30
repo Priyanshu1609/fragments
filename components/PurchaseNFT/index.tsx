@@ -1,29 +1,28 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, PlusIcon } from '@heroicons/react/solid';
-import { ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
+import { useRouter } from 'next/router';
 
 import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/vault.png';
 import Modal from '../Modal';
 import Select from '../Select';
+import SelectChain from '../SelectChain';
+import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
+import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
+
 import { NftContext } from '../../contexts/NftContext';
 import { OpenseaContext } from '../../contexts/opensesContext';
 import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
-import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
-import SelectChain from '../SelectChain';
-import { CreateVaultFormValues, CreateVaultStep } from '../../pages/import/create-vault';
-import { useRouter } from 'next/router';
-import { BigNumber } from 'ethers';
+import { DataContext } from '../../contexts/dataContext'
 
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
 interface CreateVaultFormProps {
-    setFormData: (values: CreateVaultFormValues) => void;
-    formData: CreateVaultFormValues
     setCurrentStep: (values: CreateVaultStep) => void;
     handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
@@ -41,24 +40,25 @@ interface selectedToken {
     currentPrice: BigNumber;
 }
 
+
+
 const PurchaseNft: React.FC<CreateVaultFormProps> = ({
-    setFormData,
-    formData,
     setCurrentStep,
     handleCreateVault
 }) => {
 
     const router = useRouter()
 
+    const { formData, setFormData, handleChange } = useContext(DataContext);
+
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
-    // const [link, setLink] = useState('');
     const [target, setTarget] = useState(0);
-    const [duration, setDuration] = useState<number>();
+    const [duration, setDuration] = useState<number | string>();
     const [amount, setAmount] = useState();
     const [visible, setVisible] = useState(false)
-    const [order, setOrder] = useState()
+    const [order, setOrder] = useState<any>()
     const [balance, setBalance] = useState('0');
     const [provider, setProvider] = useState();
     const [links, setLinks] = useState([
@@ -86,7 +86,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const fetchBalance = async () => {
 
         try {
-            const balance = await getTokenBalance(selectedToken.address);
+            const balance = await getBalanace();
             setBalance(balance);
             console.log('Balance:', balance);
 
@@ -97,28 +97,16 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
-        //     console.log('Error in values, Please input again')
-        //     return;
-        // }
-        setFormData({
-            flow: formData.flow,
-            vaultName: formData.vaultName,
-            type: formData.type,
-            description: formData.description,
-            tokenName: formData.tokenName,
-            numOfTokens: formData.numOfTokens,
-            managementFees: formData.managementFees,
-            votingPeriod: formData.votingPeriod,
-            days: formData.days,
-            quorum: formData.quorum,
-            minFavor: formData.minFavor,
-            nftsImported: [],
-            nftsPurchased: links,
-            target: target,
-            fundraiseDuration: duration ?? 0,
-            myContribution: amount ?? 0,
-        })
+
+        setFormData(
+            (prev: CreateVaultFormProps) => ({
+                ...prev,
+                nftsPurchased: links,
+                target: target,
+                fundraiseDuration: duration ?? 0,
+                myContribution: amount ?? 0,
+            })
+        )
 
         handleCreateVault(formData);
 
@@ -126,7 +114,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     }
 
-    const getNFTs = async (i) => {
+    const getNFTs = async (i: number) => {
         const link = links[i].value;
 
         if (!link) {
@@ -141,7 +129,8 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
             const _order = await getSellOrder(tokenId, tokenAddress);
             setOrder(_order);
-            setTarget(bnToString(_order?.currentPrice));
+            setTarget(target + bnToString(_order?.currentPrice));
+            setDuration((dtToString(order?.expirationTime)))
             setVisible(true);
 
         } catch (error) {
@@ -154,7 +143,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
 
     const addInput = () => {
-        setLinks(s => {
+        setLinks((s: any) => {
             return [
                 ...s,
                 {
@@ -165,7 +154,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         });
     };
 
-    const handleChange = (e) => {
+    const handleLinksChange = (e: any) => {
         e.preventDefault();
 
         const index = e.target.id;
@@ -179,8 +168,8 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
 
     useEffect(() => {
-        { selectedToken?.address && fetchBalance() };
-    }, [selectedToken])
+        fetchBalance()
+    }, [])
 
     useEffect(() => {
         { links[links.length - 1].value && getNFTs(links.length - 1) };
@@ -211,9 +200,9 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                                     <label className='flex-grow '>
                                         <p className='text-sm'>Opensea Link {requiredTag}</p>
                                         <input required
-                                            onChange={handleChange}
+                                            onChange={handleLinksChange}
                                             value={item.value}
-                                            id={i}
+                                            id={i.toString()}
                                             type={item.type}
                                             className='p-3 rounded-l-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Enter Opensea or Rarible NFT Link'
                                         />
@@ -238,7 +227,8 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise Duation {requiredTag}</p>
-                            <input required style={{ colorScheme: 'dark' }} type='date' className='p-3 mb-6 rounded-lg cursor-pointer bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days' value={duration === 0 ? formData.days : duration} onChange={(e) => setDuration((e.target.value))} />
+                            {/* <input required style={{ colorScheme: 'dark' }} type='date' className='p-3 mb-6 rounded-lg cursor-pointer bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days' value={duration === 0 ? formData.days : duration} onChange={(e) => setDuration((e.target.value))} /> */}
+                            <p className='p-3 mb-6 rounded-lg cursor-pointer bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days'>{duration}</p>
                         </label>
                     </div>
                     <div className='p-2 bg-[#1E1E24] rounded-lg mt-4'>
@@ -255,10 +245,10 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                     <div className='mt-4'>
                         <div className='flex justify-between'>
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
-                            <p className='text-sm'>Min. Contribution <span>50 {selectedToken?.symbol} ({target} ETH)</span></p>
+                            <p className='text-sm'>Min. Contribution <span>{target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={1} className='p-4   rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} {selectedToken?.symbol} </span></p>
+                        <input required type='number' min={target / 10} className='p-4   rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Your contribution' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
+                        <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} ETH </span></p>
                     </div>
                     <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
                         <span>Make Vault</span>

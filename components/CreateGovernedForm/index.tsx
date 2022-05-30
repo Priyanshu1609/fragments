@@ -1,27 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import vault from '../../assets/vault.png';
 import Image from 'next/image';
 import { requiredTag } from '../CreateDAOForm';
 import { ArrowRightIcon } from '@heroicons/react/solid';
-import { CreateVaultFormValues, CreateVaultStep } from '../../pages/import/create-vault'
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 
 interface CreateVaultFormProps {
-    setFormData: (values: CreateVaultFormValues) => void;
-    formData: CreateVaultFormValues
     setCurrentStep: (values: CreateVaultStep) => void;
 }
 
 
 const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
-    formData,
-    setFormData,
     setCurrentStep
 }) => {
 
-    const [voting_period, setVoting_period] = useState(0)
-    const [days, setDays] = useState(0);
-    const [quorum, setQuorum] = useState(0);
-    const [votes_in_favor, setVotes_in_favor] = useState(0);
+    const { formData, setFormData, handleChange } = useContext(DataContext);
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -29,24 +23,6 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
         //     console.log('Error in values, Please input again')
         //     return;
         // }
-        setFormData({
-            flow: formData.vaultName,
-            vaultName: formData.vaultName,
-            type: formData.type,
-            description: formData.description,
-            tokenName: formData.tokenName,
-            numOfTokens: formData.numOfTokens,
-            managementFees: formData.managementFees,
-            votingPeriod: voting_period,
-            days: days,
-            quorum: quorum,
-            minFavor: votes_in_favor,
-            nftsImported: [],
-            nftsPurchased: [],
-            target: 0,
-            fundraiseDuration: 0,
-            myContribution: 0,
-        })
 
         setCurrentStep(CreateVaultStep.ImportOrPurchase)
     }
@@ -65,22 +41,25 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
             <div className='mt-10'>
                 <form onSubmit={onSubmitHandler}>
                     <div className='flex'>
-                        <label className='flex-grow mr-4'>
+                        <label className='flex-[0.7] mr-4'>
                             <p className='text-sm'>Voting Period{requiredTag}</p>
-                            <input required type='number' min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Voting Period' value={voting_period} onChange={(e) => setVoting_period(parseInt(e.target.value))} />
+                            <p className='text-sm mt-2'>Hours</p>
+
+                            <input required type='number' step="0" min={1} max={24} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full ' placeholder='Enter Voting Period' value={formData.votingPeriod} onChange={(e) => handleChange(e, 'votingPeriod')} />
                         </label>
-                        <label className='mt-5'>
-                            <input required type='number' min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days' value={days} onChange={(e) => setDays(parseInt(e.target.value))} />
+                        <label className='mt-5 flex-[0.3]'>
+                            <p className='text-sm mt-2'>Days</p>
+                            <input required type='number' step="0" min={1} max={7} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full ' placeholder='Days' value={formData.days} onChange={(e) => handleChange(e, 'days')} />
                         </label>
                     </div>
                     <div className='flex'>
                         <label className='flex-[0.5] mr-4'>
                             <p className='text-sm'>Quorum{requiredTag}</p>
-                            <input required type='number' min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required' value={quorum} onChange={(e) => setQuorum(parseInt(e.target.value))} />
+                            <input required type='number' step="0" min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required' value={formData.quorum} onChange={(e) => handleChange(e, 'quorum')} />
                         </label>
                         <label className='flex-[0.5]'>
                             <p className='text-sm'>Min. Favourable Majority{requiredTag}</p>
-                            <input required type='number' min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={votes_in_favor} onChange={(e) => setVotes_in_favor(parseInt(e.target.value))} />
+                            <input required type='number' step="0" min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minFavor} onChange={(e) => handleChange(e, 'minFavor')} />
                         </label>
                     </div>
                     <button type='submit' className='w-full p-3 rounded-lg bg-[#EFDE5A] text-black flex items-center justify-center space-x-4'>

@@ -12,6 +12,7 @@ import NFTList from '../components/NFTList';
 import MyGullaks from '../components/MyGullaks';
 import { TransactionContext } from '../contexts/transactionContext';
 import { ethers } from 'ethers';
+import { getEllipsisTxt } from '../utils';
 
 declare var window: any;
 
@@ -98,14 +99,15 @@ const Dashboard: React.FC = () => {
     const fetchEns = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         var name = await provider?.lookupAddress(currentAccount);
-        setName(name);
+        setName(name ?? '');
+        console.log('ENS Name', name);
     }
 
     useEffect(() => {
         if (!currentAccount) {
             router.push('/')
         }
-        // fetchEns()
+        { currentAccount && fetchEns() }
     }, [currentAccount])
 
     return (
@@ -124,8 +126,8 @@ const Dashboard: React.FC = () => {
                 <div className=''>
                     <div className='text-white font-sora flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
-                        <div className=''>
-                            {currentAccount}
+                        <div className='text-white text-lg'>
+                            {name !== '' ? name : getEllipsisTxt(currentAccount)}
                         </div>
                     </div>
                 </div>

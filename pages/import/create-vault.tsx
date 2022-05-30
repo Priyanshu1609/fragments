@@ -9,61 +9,21 @@ import { gullakFactoryContract } from '../../utils/crypto'
 import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
 import { ArrowLeftIcon } from '@heroicons/react/solid'
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
-export enum CreateVaultStep {
-    InputFieldsForm = 'input-fields-form',
-    GovernedStep = 'governed-form',
-    ImportOrPurchase = 'import-or-purchase',
-    Fundraise = 'fundraise'
-}
-
-export interface CreateVaultFormValues {
-    flow: string,
-    vaultName: string,
-    type: string,
-    description: string,
-    tokenName: string,
-    numOfTokens: number,
-    managementFees: number,
-    votingPeriod: number,
-    days: number,
-    quorum: number,
-    minFavor: number,
-    nftsImported: object[],
-    nftsPurchased: object[],
-    target: number,
-    fundraiseDuration: number,
-    myContribution: number,
-}
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { formData } = useContext(DataContext);
 
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
-    const [formData, setFormData] = useState<CreateVaultFormValues>({
-        flow: 'import',
-        vaultName: '',
-        type: '',
-        description: '',
-        tokenName: '',
-        numOfTokens: 0,
-        managementFees: 0,
-        votingPeriod: 0,
-        days: 0,
-        quorum: 0,
-        minFavor: 0,
-        nftsImported: [],
-        nftsPurchased: [],
-        target: 0,
-        fundraiseDuration: 0,
-        myContribution: 0,
-    })
-    console.log('FormData : ', formData);
 
     const router = useRouter()
+
 
     useEffect(() => {
         if (!currentAccount) {
@@ -143,7 +103,8 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateVaultForm flow='import' setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <CreateVaultForm flow='import' setCurrentStep={setCurrentStep} />
+
                     </div>
                 )
             }
@@ -154,7 +115,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateGovernedForm setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <CreateGovernedForm setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
@@ -166,7 +127,7 @@ const CreateVault: React.FC = () => {
                             <span>Back</span>
                         </button>
 
-                        <ImportNFTSelect handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <ImportNFTSelect handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

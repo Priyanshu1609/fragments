@@ -21,13 +21,27 @@ import SelectChain from '../../components/SelectChain';
 
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
-import { ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
     Owners = 'OWNERS',
     Orders = 'ORDERS'
 }
+interface selectedChain {
+    chainId: number;
+    icon: string;
+    name: string;
+    asset: object;
+}
+
+interface selectedToken {
+    symbol: string;
+    address: string | undefined;
+    currentPrice: BigNumber;
+    chainId: number;
+}
+
 
 const tabs = [
     {
@@ -38,10 +52,10 @@ const tabs = [
         name: 'OWNERS',
         value: VaultDashboardTabs.Owners
     },
-    {
-        name: 'ORDERS',
-        value: VaultDashboardTabs.Orders
-    },
+    // {
+    //     name: 'ORDERS',
+    //     value: VaultDashboardTabs.Orders
+    // },
 ]
 
 const myDarkTheme: Theme = {
@@ -58,15 +72,15 @@ const VaultDetail: React.FC = () => {
     const { } = useContext(OpenseaContext);
 
 
-    const [selectedToken, setSelectedToken] = useState<string>("matic")
-    const [selectedChain, setSelectedChain] = useState<string>("137")
+    const [selectedToken, setSelectedToken] = useState<selectedToken>()
+    const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
     const [currentOrderView, setCurrentOrderView] = useState<OrdersState>(OrdersState.ACTIVE);
     const [isFunded, setIsFunded] = useState(false);
     const [visible, setVisible] = useState(false);
-    const [nfts, setNfts] = useState([]);
+    const [nfts, setNfts] = useState<any>([]);
     const [provider, setProvider] = useState();
     const [uniModal, setUniModal] = useState(false);
 
@@ -78,7 +92,7 @@ const VaultDetail: React.FC = () => {
     console.log('Coins', coins)
     console.log({ selectedToken, selectedChain });
 
-    const fetchTokens = async (chainId: string) => {
+    const fetchTokens = async (chainId: number | undefined) => {
 
         try {
             console.log('Fetching tokens')
@@ -92,8 +106,8 @@ const VaultDetail: React.FC = () => {
     }
 
     const bridge = async () => {
-        const fromChainId = selectedToken.chainId
-        const fromToken = selectedToken.address
+        const fromChainId = selectedToken?.chainId
+        const fromToken = selectedToken?.address
         const amount = tokenAmount
         const userAddress = currentAccount
 
@@ -122,8 +136,8 @@ const VaultDetail: React.FC = () => {
 
 
     useEffect(() => {
-        fetchTokens(selectedChain.chainId);
-        handleNetworkSwitch(selectedChain.chainId);
+        fetchTokens(selectedChain?.chainId);
+        handleNetworkSwitch(selectedChain?.chainId);
     }, [selectedChain])
 
     const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
@@ -195,12 +209,12 @@ const VaultDetail: React.FC = () => {
                             <p>Enter amount</p>
                             {/* <p>Balance: 32 ETH</p> */}
                         </div>
-                        <input required type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                     </div>
 
                     <div className='text-center' >
                         <button onClick={bridge} className='bg-[#FFE55B] flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                            <p>Purchase {tokenAmount} {selectedToken.symbol}</p>
+                            <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>
                         {/* <p className='text-[#70707C] text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
@@ -282,7 +296,7 @@ const VaultDetail: React.FC = () => {
                                     </div>
                                 </div>
                             </Tab.Panel>
-                            <Tab.Panel>
+                            {/* <Tab.Panel>
                                 <div className='py-4'>
                                     <div className='flex justify-between mb-4'>
                                         <p className='font-semibold text-lg'>Orders</p>
@@ -321,7 +335,7 @@ const VaultDetail: React.FC = () => {
                                         </button>
                                     </div>
                                 </div>
-                            </Tab.Panel>
+                            </Tab.Panel> */}
                         </Tab.Panels>
                     </Tab.Group>
                 </div>
@@ -341,7 +355,7 @@ const VaultDetail: React.FC = () => {
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input required type='number' placeholder='Enter Target Fundraise Amount' min={0} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-[#70707C] mb-2'>
@@ -362,12 +376,12 @@ const VaultDetail: React.FC = () => {
                                 <p>Enter amount</p>
                                 <p>Min Investment: 5 ETH</p>
                             </div>
-                            <input required type='number' placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
                         </div>
 
                         <div className='text-center !pb-6' >
                             <button onClick={e => { setIsFunded(true); setVisible(false); }} className='bg-[#FFE55B] flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                <p>Purchase {tokenAmount} {selectedToken.symbol}</p>
+                                <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
                             {/* <p className='text-[#70707C] text-xs mt-2'>15 MATIC = 5000 BORE</p> */}

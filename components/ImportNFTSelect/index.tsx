@@ -11,7 +11,8 @@ import { TransactionContext } from '../../contexts/transactionContext';
 import ERC_20 from '../../ERC_20.json'
 import ERC_721 from '../../ERC_721.json'
 import ERC_1155 from '../../ERC_1155.json'
-import { CreateVaultFormValues, CreateVaultStep } from '../../pages/import/create-vault';
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { useRouter } from 'next/router';
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
@@ -20,8 +21,6 @@ const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
 declare var window: any
 
 interface CreateVaultFormProps {
-    setFormData: (values: CreateVaultFormValues) => void;
-    formData: CreateVaultFormValues
     setCurrentStep: (values: CreateVaultStep) => void;
     handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
@@ -29,8 +28,6 @@ interface CreateVaultFormProps {
 
 
 const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
-    setFormData,
-    formData,
     setCurrentStep,
     handleCreateVault
 }) => {
@@ -43,7 +40,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const [nftsImported, setNftsImported] = useState<object[]>()
 
     const { connectallet, currentAccount } = useContext(TransactionContext);
-
+    const { formData, setFormData, handleChange } = useContext(DataContext);
 
     // const [{ data: accountData }] = useAccount({
     //     fetchEns: true,
@@ -52,24 +49,13 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
-        setFormData({
-            flow: formData.flow,
-            vaultName: formData.vaultName,
-            type: formData.type,
-            description: formData.description,
-            tokenName: formData.tokenName,
-            numOfTokens: formData.numOfTokens,
-            managementFees: formData.managementFees,
-            votingPeriod: formData.votingPeriod,
-            days: formData.days,
-            quorum: formData.quorum,
-            minFavor: formData.minFavor,
-            nftsImported: [],
-            nftsPurchased: [],
-            target: 0,
-            fundraiseDuration: 0,
-            myContribution: 0,
-        })
+
+        setFormData(
+            (prev: CreateVaultFormProps) => ({
+                ...prev,
+                nftsImported: nftsImported,
+            })
+        )
         handleCreateVault(formData);
         router.push('/vaults/random')
     }

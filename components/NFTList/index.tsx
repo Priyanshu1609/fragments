@@ -38,13 +38,13 @@ const NFTList: React.FC = () => {
             const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=eth&format=decimal`, options)
 
             let nfts = await res.json();
-           
+
             // const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: currentAccount });
-            const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
+            const nftsMetadataPromise = nfts.result?.filter((nft: any) => nft.symbol !== 'ENS')?.map((nft: any) => fixTokenURI(nft.token_uri ?? '')).map((nft: any) => fetch(nft).then(res => res.json())) ?? []
 
             let NFTFloorPriceMapping: any = {}
 
-            const nftsFloorPricesPromises = nfts.result?.map(nft => axios.get(API_URL.replace(':token_address', nft.token_address).replace(':token_id', nft.token_id), {
+            const nftsFloorPricesPromises = nfts.result?.map((nft: any) => axios.get(API_URL.replace(':token_address', nft.token_address).replace(':token_id', nft.token_id), {
                 headers: {
                     'x-api-key': NFTBANK_API_KEY ?? '',
                 }
@@ -59,11 +59,11 @@ const NFTList: React.FC = () => {
             const nftsFloorPrices = await Promise.all(nftsFloorPricesPromises)
             setNFTFloorPriceMapping(NFTFloorPriceMapping)
             console.log(nftsMetadata)
-            console.log(nfts.result?.filter(nft => nft.symbol !== 'ENS'))
+            console.log(nfts.result?.filter((nft: any) => nft.symbol !== 'ENS'))
 
             const nftsMetadataFixedWithImages = nftsMetadata.map(
                 (nft, i) => ({
-                    ...(nfts?.result?.filter(nft => nft.symbol !== 'ENS')?.[i] ?? {}),
+                    ...(nfts?.result?.filter((nft: any) => nft.symbol !== 'ENS')?.[i] ?? {}),
                     ...nft,
                     image: fixTokenURI(nft.image ?? nft.image_url),
                 })

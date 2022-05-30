@@ -15,20 +15,17 @@ import { OpenseaContext } from '../../contexts/opensesContext';
 import { SocketContext } from '../../contexts/socketContext';
 import SelectChain from '../SelectChain';
 import { TransactionContext } from '../../contexts/transactionContext';
-import { CreateVaultFormValues, CreateVaultStep } from '../../pages/import/create-vault';
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
 interface CreateVaultFormProps {
-    setFormData: (values: CreateVaultFormValues) => void;
-    formData: CreateVaultFormValues
     setCurrentStep: (values: CreateVaultStep) => void;
     handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
 
 const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
-    setFormData,
-    formData,
     setCurrentStep,
     handleCreateVault
 }) => {
@@ -37,18 +34,16 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     const [selectedToken, setSelectedToken] = useState()
     const [selectedChain, setSelectedChain] = useState()
     const [coins, setCoins] = useState([]);
-    const [target, setTarget] = useState();
-    const [duration, setDuration] = useState();
-    const [amount, setAmount] = useState();
-    const [visible, setVisible] = useState(false)
     const [uniModal, setUniModal] = useState(false);
     const [provider, setProvider] = useState();
+    const [balance, setBalance] = useState('0');
 
 
     const { getTokenIdMetadata } = useContext(NftContext)
     const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
-    const { connectallet, currentAccount, logout, getProvider } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, getBalanace } = useContext(TransactionContext);
+    const { formData, setFormData, handleChange } = useContext(DataContext);
 
     console.log({ selectedToken, selectedChain });
 
@@ -57,30 +52,25 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         setProvider(provider);
     }
 
+    const fetchBalance = async () => {
+
+        try {
+            const balance = await getBalanace();
+            setBalance(balance);
+            console.log('Balance:', balance);
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
         //     console.log('Error in values, Please input again')
         //     return;
         // }
-        setFormData({
-            flow: formData.flow,
-            vaultName: formData.vaultName,
-            type: formData.type,
-            description: formData.description,
-            tokenName: formData.tokenName,
-            numOfTokens: formData.numOfTokens,
-            managementFees: formData.managementFees,
-            votingPeriod: formData.votingPeriod,
-            days: formData.days,
-            quorum: formData.quorum,
-            minFavor: formData.minFavor,
-            nftsImported: [],
-            nftsPurchased: [],
-            target: target ?? 0,
-            fundraiseDuration: duration ?? 0,
-            myContribution: amount ?? 0,
-        })
+
 
         handleCreateVault(formData);
 
@@ -90,6 +80,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
     useEffect(() => {
         getProviderFrom();
+        fetchBalance();
     }, [])
 
 
@@ -110,11 +101,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
-                            <input required type='number' min={1} className='p-4 mb-6 rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={target} onChange={(e) => setTarget(e.target.value)} />
+                            <input required type='number' step="0" min={1} className='p-4 mb-6 rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise duration{requiredTag}</p>
-                            <input required type='date' style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-[#1E1E24]  focus:outline-none w-full mt-2' value={duration} onChange={(e) => setDuration(e.target.value)} />
+                            <input required type='date' style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-[#1E1E24]  focus:outline-none w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
                     <div className='p-2 bg-[#1E1E24]'>
@@ -131,10 +122,10 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className='mt-4'>
                         <div className='flex justify-between'>
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
-                            <p className='text-sm'>Min. Contribution <span>50 MATIC (0.02 ETH)</span></p>
+                            <p className='text-sm'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' className='p-4  rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        <p className='text-sm flex justify-end mt-1 '>Balance: <span>50 MATIC </span></p>
+                        <input required type='number' min={formData.target / 10} className='p-4  rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
+                        <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
                     <button onClick={e => router.push('/vaults/random')} type='submit' className='w-full mt-4 p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>

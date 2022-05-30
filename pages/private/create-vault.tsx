@@ -9,33 +9,14 @@ import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
 import { ArrowLeftIcon } from '@heroicons/react/solid'
 import PrivateFundraise from '../../components/PrivateFundraise'
-import { CreateVaultFormValues, CreateVaultStep } from '../import/create-vault'
-
+import { DataContext, } from '../../contexts/dataContext'
+import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { formData, setFormData, handleChange } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
-
-    const [formData, setFormData] = useState<CreateVaultFormValues>({
-        flow: 'private',
-        vaultName: '',
-        type: '',
-        description: '',
-        tokenName: '',
-        numOfTokens: 0,
-        managementFees: 0,
-        votingPeriod: 0,
-        days: 0,
-        quorum: 0,
-        minFavor: 0,
-        nftsImported: [],
-        nftsPurchased: [],
-        target: 0,
-        fundraiseDuration: 0,
-        myContribution: 0,
-    })
-    console.log('FormData : ', formData);
 
     const router = useRouter()
 
@@ -115,7 +96,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateVaultForm flow='private' setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <CreateVaultForm flow='private' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
@@ -126,7 +107,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <PrivateFundraise handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} formData={formData} setFormData={setFormData} />
+                        <PrivateFundraise handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
