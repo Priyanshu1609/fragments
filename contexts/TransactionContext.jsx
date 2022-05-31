@@ -82,10 +82,11 @@ export const TransactionProvider = ({ children }) => {
     const handleClientId = async (_address) => {
         try {
             const options = {
-                method: 'GET', headers: {
-                    'accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3001',
-                },
-                mode: 'cors',
+                method: 'GET',
+                //  headers: {
+                //     'accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3001',
+                // },
+                // mode: 'cors',
 
             };
 

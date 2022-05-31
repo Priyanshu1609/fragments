@@ -81,7 +81,10 @@ const CreateVault: React.FC = () => {
     const handleBack = () => {
 
         if (currentStep === CreateVaultStep.InputFieldsForm) {
-            router.push('/create-gullak')
+            router.push({
+                pathname: '/create-gullak',
+                query: { user: currentAccount },
+            })
         }
         else if (currentStep === CreateVaultStep.GovernedStep) {
             setCurrentStep(CreateVaultStep.InputFieldsForm)

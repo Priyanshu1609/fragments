@@ -7,6 +7,7 @@ import atomillustration from '../assets/atomillustration.png';
 
 
 const CreateGullak: React.FC = () => {
+    const router = useRouter();
 
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
 
@@ -16,7 +17,13 @@ const CreateGullak: React.FC = () => {
         }
     }, [currentAccount])
 
-    const router = useRouter();
+    useEffect(() => {
+        // Prefetch the dashboard page
+        router.prefetch('/import/create-vault')
+        router.prefetch('/purchase/create-vault')
+        router.prefetch('/private/create-vault')
+    }, [])
+
 
     return (
         <div className='min-h-screen flex flex-col items-center justify-center text-white font-sora'>
@@ -25,13 +32,23 @@ const CreateGullak: React.FC = () => {
                     <Image src={atomillustration} />
                     <h1 className='text-2xl font-semibold'>Import NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
-                    <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e => router.push('/import/create-vault')}>Make Vault</button >
+                    <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e =>
+                        router.push({
+                            pathname: '/import/create-vault',
+                            query: { user: currentAccount },
+                        })
+                    }>Make Vault</button >
                 </div>
                 <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
                     <Image src={atomillustration} />
                     <h1 className='text-2xl font-semibold'>Purchase NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
-                    <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e => router.push('/purchase/create-vault')}>Make Vault</button>
+                    <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e =>
+                        router.push({
+                            pathname: '/purchase/create-vault',
+                            query: { user: currentAccount },
+                        })
+                    }>Make Vault</button>
                 </div>
             </div>
 
@@ -41,11 +58,16 @@ const CreateGullak: React.FC = () => {
                     <p className='text-sm  text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
                 </div>
                 <div className='flex-[0.5] flex items-center justify-center'>
-                    <button className='bg-white text-black  py-3 rounded-md mt-4 w-1/2 ' onClick={e => router.push('/private/create-vault')}>Make Vault</button>
+                    <button className='bg-white text-black  py-3 rounded-md mt-4 w-1/2 ' onClick={e =>
+                        router.push({
+                            pathname: '/private/create-vault',
+                            query: { user: currentAccount },
+                        })
+                    }>Make Vault</button>
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 

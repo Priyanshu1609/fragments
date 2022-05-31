@@ -73,8 +73,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
 
         handleCreateVault(formData);
-
-        router.push('/vaults/random')
+        
+        router.push({
+            pathname: '/vaults/random',
+            query: { user: currentAccount },
+        })
 
     }
 

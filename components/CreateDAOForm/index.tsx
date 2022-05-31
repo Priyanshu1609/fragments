@@ -44,7 +44,7 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
     }
 
     return (
-        <div>
+        <div className='pb-16'>
             <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
                 <div>
                     <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Create DAO</h2>

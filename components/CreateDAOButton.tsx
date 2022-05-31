@@ -16,7 +16,10 @@ const CreateDAOButton: React.FC = () => {
             className='text-black bg-white px-3 py-2 rounded-lg font-sora'
             onClick={(e) => {
                 e.preventDefault()
-                router.push('/create-dao')
+                router.push({
+                    pathname: '/create-dao',
+                    query: { user: currentAccount },
+                })
             }}
         >
             Create your own DAO

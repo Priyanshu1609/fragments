@@ -73,7 +73,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const { getTokenIdMetadata } = useContext(NftContext)
     const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
-    const { getBalanace, getTokenBalance, getProvider } = useContext(TransactionContext);
+    const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
     const [uniModal, setUniModal] = useState(false)
 
     console.log({ selectedToken, selectedChain });
@@ -110,7 +110,11 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
         handleCreateVault(formData);
 
-        router.push('/vaults/random')
+
+        router.push({
+            pathname: '/vaults/random',
+            query: { user: currentAccount },
+        })
 
     }
 

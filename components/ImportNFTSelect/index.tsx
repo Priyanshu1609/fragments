@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image'
-// import { useAccount } from 'wagmi';
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import { ArrowRightIcon, CheckIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
 
@@ -29,7 +29,7 @@ interface CreateVaultFormProps {
 
 const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     setCurrentStep,
-    handleCreateVault
+    handleCreateVault,
 }) => {
     const router = useRouter();
 
@@ -42,10 +42,6 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const { connectallet, currentAccount } = useContext(TransactionContext);
     const { formData, setFormData, handleChange } = useContext(DataContext);
 
-    // const [{ data: accountData }] = useAccount({
-    //     fetchEns: true,
-    // })
-
 
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
@@ -57,7 +53,10 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
             })
         )
         handleCreateVault(formData);
-        router.push('/vaults/random')
+        router.push({
+            pathname: '/vaults/random',
+            query: { user: currentAccount },
+        })
     }
 
 
@@ -210,7 +209,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
             <div className='mt-10'>
                 <div className='flex py-6 flex-wrap overflow-y-auto max-h-[470px] gap-10 justify-center gap-x-12 no-scrollbar'>
                     {
-                        nftList.map((nft, i) => (
+                        nftList?.map((nft, i) => (
                             <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24]`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>

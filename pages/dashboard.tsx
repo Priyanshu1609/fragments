@@ -110,6 +110,11 @@ const Dashboard: React.FC = () => {
         { currentAccount && fetchEns() }
     }, [currentAccount])
 
+    useEffect(() => {
+        router.prefetch('/create-gullak')
+        router.prefetch('/create-dao')
+    })
+
     return (
         <div className='text-white font-sora max-w-7xl mx-auto'>
             <div className='flex px-2 items-center justify-between bg-yellow-300 rounded-lg text-black cursor-pointer' onClick={() => router.push('/create-dao')}>

@@ -19,7 +19,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (currentAccount) {
-      router.push('/dashboard')
+      router.push({
+        pathname: '/dashboard',
+        query: { user: currentAccount },
+      })
     }
   }, [currentAccount])
 

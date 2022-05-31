@@ -1,5 +1,6 @@
 {
   "private": true,
+  "proxy": "http://heimdall-env.eba-qak5rsqj.ap-south-1.elasticbeanstalk.com/api/v1",
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",

@@ -1,11 +1,10 @@
-import React, { createContext, useContext, useState, FC } from 'react'
-import { CreateVaultFormValues, CreateVaultStep } from '../components/CreateVaultForm'
+import React, { createContext, useState } from 'react'
 export const DataContext = createContext();
 
 
 export const DataContextProvider = ({ children }) => {
 
-    const [formData, setFormData] = useState  ({
+    const [formData, setFormData] = useState({
         flow: '',
         vaultName: '',
         type: '',
