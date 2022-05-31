@@ -23,7 +23,7 @@ interface IOptionProps {
 	readonly chainId: string;
 	readonly name: string | ReactNode;
 	readonly icon: string;
-	readonly address: string;
+	// readonly address: string;
 }
 
 interface ISelectProps {
@@ -76,7 +76,8 @@ const Select: React.FC<ISelectProps> = ({
 							<Listbox.Options className="w-56 absolute z-10 mt-1 bg-[#1E1E24] text-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
 								{options?.map((option) => (
 									<Listbox.Option
-										key={option.address ?? option.chainId}
+										// key={option.address ?? option.chainId}
+										key={option.chainId}
 										className={({ active }) =>
 											classNames(
 												active
@@ -90,7 +91,7 @@ const Select: React.FC<ISelectProps> = ({
 										{({ selected, active }) => (
 											<>
 												<div className="flex items-center justify-start space-x-5">
-													<img className="h-6 w-6" src={option.icon} />
+													{option.icon && <img className="h-6 w-6" src={option.icon} />}
 													<span
 														className={classNames(
 															selected

@@ -16,6 +16,7 @@ import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
 import { OpenseaContext } from '../../contexts/opensesContext';
+import { DataContext } from '../../contexts/dataContext';
 import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
 import SelectChain from '../../components/SelectChain';
 
@@ -69,7 +70,7 @@ const VaultDetail: React.FC = () => {
     const { connectallet, currentAccount, logout, getProvider } = useContext(TransactionContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens } = useContext(NftContext);
-    const { } = useContext(OpenseaContext);
+    const { formData, setFormData } = useContext(DataContext);
 
 
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
@@ -78,7 +79,7 @@ const VaultDetail: React.FC = () => {
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
     const [currentOrderView, setCurrentOrderView] = useState<OrdersState>(OrdersState.ACTIVE);
-    const [isFunded, setIsFunded] = useState(false);
+    const [isFunded, setIsFunded] = useState(true);
     const [visible, setVisible] = useState(false);
     const [nfts, setNfts] = useState<any>([]);
     const [provider, setProvider] = useState();
@@ -89,8 +90,8 @@ const VaultDetail: React.FC = () => {
         setProvider(provider);
     }
 
-    console.log('Coins', coins)
-    console.log({ selectedToken, selectedChain });
+   
+    // setIsFunded(true)
 
     const fetchTokens = async (chainId: number | undefined) => {
 

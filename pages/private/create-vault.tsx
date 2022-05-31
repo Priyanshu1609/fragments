@@ -14,7 +14,7 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout } = useContext(TransactionContext);
-    const { formData, setFormData, handleChange } = useContext(DataContext);
+    const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
@@ -69,7 +69,7 @@ const CreateVault: React.FC = () => {
             // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
             // console.log(tx)
 
-
+            setFormData(defaultFormData)
             router.push('/vaults/random')
         } catch (error) {
             console.error(error)

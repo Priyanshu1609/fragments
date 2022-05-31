@@ -48,10 +48,10 @@ const tabs = [
         name: 'NFTS',
         value: TabNames.NFTS
     },
-    {
-        name: 'ORDERS',
-        value: TabNames.Orders
-    },
+    // {
+    //     name: 'ORDERS',
+    //     value: TabNames.Orders
+    // },
     {
         name: 'PROPOSALS',
         value: TabNames.Proposals
@@ -147,10 +147,10 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full px-2 py-16 sm:px-0">
+            <div className="w-full px-2 py-16 sm:px-0 ">
                 <Tab.Group>
                     <Tab.List className="flex border-b-4 border-solid border-[#1B1B1B] p-1 !pb-0 w-full space-x-1">
-                        <div className='flex w-full max-w-4xl'>
+                        <div className='flex w-full  '>
                             <RenderTab tabs={tabs} />
                         </div>
                     </Tab.List>
@@ -164,9 +164,9 @@ const Dashboard: React.FC = () => {
                         <Tab.Panel>
                             <NFTList />
                         </Tab.Panel>
-                        <Tab.Panel>
+                        {/* <Tab.Panel>
                             <Orders />
-                        </Tab.Panel>
+                        </Tab.Panel> */}
                         <Tab.Panel>
                             <Proposals />
                         </Tab.Panel>

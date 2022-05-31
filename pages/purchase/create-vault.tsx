@@ -15,7 +15,7 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
 const CreateVault: React.FC = () => {
-    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, defaultFormData } = useContext(TransactionContext);
     const { formData, setFormData } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
@@ -71,8 +71,8 @@ const CreateVault: React.FC = () => {
             // console.log(tx)
             // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
             // console.log(tx)
-
             values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportOrPurchase)
+            setFormData(defaultFormData)
         } catch (error) {
             console.error(error)
         }
