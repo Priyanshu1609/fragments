@@ -37,7 +37,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                     <div className='min-h-screen bg-[url("/g10.png")] bg-cover bg-repeat-y font-montserrat' >
                                         <header className="">
                                             <div className=" mx-auto lg:px-8">
-                                                <div className="flex items-center w-full justify-between py-5 px-4">
+                                                <div className="flex items-center w-full justify-between pt-1 pb-5 px-4">
                                                     <div className="flex px-2 lg:px-0">
                                                         <div className="flex-shrink-0 flex items-center cursor-pointer">
                                                             <Link href="/">

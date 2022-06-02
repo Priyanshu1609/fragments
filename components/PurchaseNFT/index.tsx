@@ -19,6 +19,7 @@ import { OpenseaContext } from '../../contexts/opensesContext';
 import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext'
+import { id } from 'ethers/lib/utils';
 
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
@@ -144,32 +145,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         }
     }
 
-    const getNFTpreview = async (i: number) => {
-        const link = links[i].value;
-
-        if (!link) {
-            return;
-        }
-
-        const tokenId = link.split('/')[6]
-        const tokenAddress = link.split('/')[5]
-
-        console.log({ tokenId, tokenAddress })
-        try {
-
-            const _order = await getSellOrder(tokenId, tokenAddress);
-            setOrder(_order);
-            setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
-            setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
-            setVisible(true);
-
-        } catch (error) {
-            console.error(error)
-        } finally {
-            // setLoading(false);
-        }
-    }
-
 
 
     const addInput = () => {
@@ -178,7 +153,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                 ...s,
                 {
                     type: "text",
-                    value: ""
+                    value: "",
                 }
             ];
         });
@@ -196,14 +171,20 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         });
     };
 
+    const handleRemove = (i: any) => {
 
+
+        setLinks((products) => products.filter((_, index) => index !== i));
+    }
+
+    console.log('Links', links);
     useEffect(() => {
         fetchBalance()
     }, [])
 
-    useEffect(() => {
-        { links[links.length - 1].value && getNFTs(links.length - 1) };
-    }, [links])
+    // useEffect(() => {
+    //     { links[links.length - 1].value && getNFTs(links.length - 1) };
+    // }, [links])
 
     useEffect(() => {
         getProviderFrom();
@@ -240,7 +221,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                                     <button onClick={e => { getNFTs(i) }} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
                                         <ExternalLinkIcon className='h-6 w-6 mx-3' />
                                     </button>
-                                    <button className='w-10 mt-7 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input'>
+                                    <button onClick={e => handleRemove(i)} className='w-10 mt-7 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input'>
                                         <XIcon className='h-8 w-8 mx-3' />
                                     </button>
                                 </div>
