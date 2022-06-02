@@ -26,7 +26,7 @@ const CreateGullak: React.FC = () => {
 
 
     return (
-        <div className='min-h-screen flex flex-col items-center justify-center text-white font-sora'>
+        <div className='min-h-screen flex flex-col items-center justify-center text-white font-montserrat'>
             <div className='flex space-x-4 items-center justify-center '>
                 <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
                     <Image src={atomillustration} />

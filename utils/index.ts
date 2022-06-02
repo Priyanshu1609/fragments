@@ -29,8 +29,13 @@ export const bnToString = (bn: string) => {
 }
 
 export const dtToString = (unixTime: any) => {
-  const date = new Date(unixTime * 1000);
-  return (date.toLocaleDateString("en-US") + " at " + date.toLocaleTimeString("en-US"));
+  if (unixTime === Number.MAX_SAFE_INTEGER) {
+    return "Duration"
+  }
+  else {
+    const date = new Date(unixTime * 1000);
+    return (date.toLocaleDateString("en-US") + " at " + date.toLocaleTimeString("en-US"));
+  }
 }
 
 export const ipfsParse = (ipfsHash: string) => {

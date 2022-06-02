@@ -27,8 +27,8 @@ const Home: NextPage = () => {
   }, [currentAccount])
 
   return (
-    <div className="flex min-h-screen bg-black flex-col items-center justify-center py-2">
-      <div className='text-white border border-white border-solid border-opacity-10 rounded-lg text-center font-sora p-8 bg-[#0F0F10] w-[330px]'>
+    <div className="flex min-h-screen  flex-col items-center justify-center py-2">
+      <div className='text-white border border-white border-solid border-opacity-10 rounded-lg text-center font-montserrat p-8 bg-[#0F0F10] w-[330px]'>
         <Image src={connectwallet} />
         <h1 className='text-2xl mt-6 mb-2'>Wallet not connected</h1>
         <p className='text-sm text-white text-opacity-60'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>

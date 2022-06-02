@@ -45,19 +45,20 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
 
     return (
         <div className='pb-16'>
-            <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
-                <div>
-                    <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Create DAO</h2>
-                    <p className='text-gray-400'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+            <div className='flex items-center justify-between p-6  bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] rounded-lg'>
+                <div className='text-black'>
+                    <h2 className=' text-2xl font-semibold mb-2'>Create DAO</h2>
+                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
                     <Image src={createDaoPeople} />
                 </div>
             </div>
-            <div className='mt-10'>
+
+            <div className='mt-10 text-white'>
                 <form onSubmit={onFormSubmit}>
                     <label className='flex items-center cursor-pointer'>
-                        <button className='text-white bg-[#0F0F13] p-4 mb-6' onClick={onFileUpload}>
+                        <button className='text-white bg-input p-4 mb-6' onClick={onFileUpload}>
                             <PlusIcon className='w-12' />
                         </button>
                         <p className='mb-6 ml-8'>Add Image to your DAO{requiredTag}</p>
@@ -67,26 +68,26 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                         <input required
                             value={name}
                             type='text'
-                            className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2'
+                            className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2'
                             onChange={(e) => setName(e.target.value)}
                             placeholder='Enter Name of DAO'
                         />
                     </label>
                     <label>
                         <p className='text-sm'>Tell us about your DAO(optional)</p>
-                        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Add description of DAO' />
+                        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Add description of DAO' />
                     </label>
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
                             <p className='text-sm'>Add Discord Invite Link (optional)</p>
-                            <input required value={discordLink} onChange={(e) => setDiscordLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Discord Link' />
+                            <input value={discordLink} onChange={(e) => setDiscordLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Discord Link' />
                         </label>
                         <label>
                             <p className='text-sm'>Website Link (optional)</p>
-                            <input required value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
+                            <input value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
                         </label>
                     </div>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black flex items-center justify-center space-x-4'>
                         <span>Create DAO</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

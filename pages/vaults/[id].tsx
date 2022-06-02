@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -23,6 +23,15 @@ import SelectChain from '../../components/SelectChain';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
 import { BigNumber } from 'ethers';
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
@@ -90,16 +99,14 @@ const VaultDetail: React.FC = () => {
         setProvider(provider);
     }
 
-   
+
     // setIsFunded(true)
 
     const fetchTokens = async (chainId: number | undefined) => {
 
         try {
-            console.log('Fetching tokens')
             const res = await fetchFromTokens(chainId);
             setCoins(res);
-            console.log('Coins fetched', res)
 
         } catch (error) {
             console.error(error);
@@ -125,7 +132,8 @@ const VaultDetail: React.FC = () => {
 
             data.forEach((e: any) => {
                 let metadata = JSON.parse(e.metadata)
-                setNfts([...nfts, metadata]);
+                // setNfts([...nfts, metadata]);
+                setNfts((prev: any) => ([...prev, metadata]));
             });
 
         } catch (error) {
@@ -134,7 +142,7 @@ const VaultDetail: React.FC = () => {
             // setLoading(false);
         }
     }
-
+    console.log('NFTS:', nfts);
 
     useEffect(() => {
         fetchTokens(selectedChain?.chainId);
@@ -142,31 +150,66 @@ const VaultDetail: React.FC = () => {
     }, [selectedChain])
 
     const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
-    useEffect(() => {
-        if (!currentAccount) {
-            router.push('/')
-        }
-    }, [currentAccount])
+    // useEffect(() => {
+    //     if (!currentAccount) {
+    //         router.push('/')
+    //     }
+    // }, [currentAccount])
 
     useEffect(() => {
         getNFTs();
         getProviderFrom();
     }, [])
 
+    const sliderRef = useRef() as any;
+
+    const handlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
+
     return (
-        <div className='text-white max-w-7xl mx-auto font-sora md:flex md:flex-row-reverse pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
-            {true && <div className='flex flex-[0.6] mx-4 items-start justify-center mt-4'>
-                <div className='cursor-pointer  bg-gray-500 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-                <div className='flex-[0.8] mx-auto p-4'>
+        <div className='text-white max-w-7xl mx-auto font-montserrat md:flex md:flex-row-reverse pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
+            {true && <div className='flex flex-[0.6]  items-start justify-center mt-4'>
+                <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+                <div className='flex-[0.8]  p-4'>
                     <div>
-                        <img src={fixTokenURI(nfts[0]?.image)} className='w-full rounded-lg' />
-                        <p className='!bg-[#1E1E24] p-2 w-36 rounded-2xl text-center mt-2 mx-auto z-50'>{nfts[0]?.name}</p>
+                        {/* <img src={fixTokenURI(nfts[0]?.image)} className='w-full rounded-lg' />
+                        <p className='!bg-input p-2 w-36 rounded-2xl text-center mt-2 mx-auto z-50'>{nfts[0]?.name}</p> */}
+                        <Swiper
+                            ref={sliderRef}
+                            effect={"fade"}
+                            pagination={true}
+                            loop={true}
+                            autoplay={{
+                                delay: 10000,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[EffectFade, Navigation, Autoplay, Pagination]}
+                            className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !rounded-lg !rounded-b-lg"
+                        >
+                            {nfts?.map((nft: any) => (
+                                <div>
+                                    <SwiperSlide>
+                                        <img src={fixTokenURI(nft?.image)} />
+                                        <p className='!bg-input text-white p-2 w-36 mt-36 rounded-2xl text-center mx-auto z-50'>Name: {nft?.name}</p>
+                                    </SwiperSlide>
+
+                                </div>
+
+                            ))}
+                        </Swiper>
                     </div>
                 </div>
-                <div className='cursor-pointer  bg-gray-500 rounded-full p-2 mt-64'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+                <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
             </div>}
-            <div className='bg-[#0F0F13] p-6 flex-[0.4] '>
-                <div className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max'>
+            <div className='shadow-lg shadow-cyan-500/50 p-6 flex-[0.4] mx-1'>
+                <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
                     <Blockies
                         seed='need to be changed'
                         size={7}
@@ -176,55 +219,55 @@ const VaultDetail: React.FC = () => {
                     <p className='text-sm'>MakerdockDAO</p>
                 </div>
                 <div className='mt-5 mb-5'>
-                    <h2 className='text-2xl font-semibold text-[#FFE55B] mb-2'>{`Bored Ape <> RTFKT`}</h2>
+                    <h2 className='text-2xl font-semibold text-[#2bffb1]  mb-2'>{`Bored Ape <> RTFKT`}</h2>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pharetra eget sagittis, libero morbi consequat lacus tempor mattis nunc
                     </p>
                 </div >
                 {isFunded ? <div className='mt-4 mb-6'>
-                    <div className='mb-5 bg-[#1E1E24] rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
-                        <p className='text-sm text-[#70707C]'>You have deposited: </p>
-                        <p className='text-[#FFE55B] text-sm'>5000 ETH</p>
+                    <div className='mb-5 bg-input rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
+                        <p className='text-sm text-gray-300'>You have deposited: </p>
+                        <p className='text-[#2bffb1] text-sm'>5000 ETH</p>
                     </div >
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
-                                <p className='text-[#70707C] text-sm'>Fund raised: </p><span className='text-sm font-semibold'>1000 ETH</span>
+                                <p className='text-gray-300 text-sm'>Fund raised: </p><span className='text-sm font-semibold'>1000 ETH</span>
                             </div>
                             <div className='flex space-x-2'>
-                                <p className='text-[#70707C] text-sm'>Funding goal: </p><span className='text-sm font-semibold'>1300 ETH</span>
+                                <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>1300 ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={60} bgColor='#24CA49' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={60} bgColor='#2bffb1' baseBgColor='#2C2C35'  isLabelVisible={false} height={'12px'} />
                     </div>
                     <div>
                         {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                        <div className='bg-[#1E1E24] p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                        <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                             <p className='text-red-500'>We only accept funds in ETH</p>
                             <p className='text-green-500'>Have funds in different token ! Swap here !</p>
                         </div>
 
                     </div>
                     <div className='mt-3'>
-                        <div className='flex justify-between text-sm text-[#70707C] mb-2'>
+                        <div className='flex justify-between text-sm text-gray-300 mb-2'>
                             <p>Enter amount</p>
                             {/* <p>Balance: 32 ETH</p> */}
                         </div>
-                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                     </div>
 
                     <div className='text-center' >
-                        <button onClick={bridge} className='bg-[#FFE55B] flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                        <button onClick={bridge} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                             <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>
-                        {/* <p className='text-[#70707C] text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                        {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
                     </div>
 
 
                 </div > :
                     <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
-                        <div className='mb-5 bg-[#E4D95A] rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                        <div className='mb-5 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
                             <p className='text-black'>Set Funding Cycle</p>
                         </div>
                     </div>
@@ -282,7 +325,7 @@ const VaultDetail: React.FC = () => {
                                                         <p className='font-semibold text-base'>
                                                             rungta.eth
                                                         </p>
-                                                        <p className='text-[#70707C] text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
+                                                        <p className='text-gray-300 text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -328,7 +371,7 @@ const VaultDetail: React.FC = () => {
                                                 <p className='font-semibold text-base'>
                                                     rungta.eth is selling <span className='text-[#F5E58F]'>5000 BORE</span>
                                                 </p>
-                                                <p className='text-[#70707C] text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
+                                                <p className='text-gray-300 text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
                                             </div>
                                         </div>
                                         <button className='px-4 text-xs py-2 bg-white text-gray-900 rounded-full'>
@@ -347,45 +390,45 @@ const VaultDetail: React.FC = () => {
                 onClose={() => setVisible(false)}
                 showCTA={false}
             >
-                <div className='font-sora p-6'>
+                <div className='font-montserrat p-6'>
                     {/* <Image src={walletmodal} /> */}
                     <p className='text-2xl mt-4 mb-6 text-white'>Start Fundraising</p>
                     <div className='flex flex-col text-white space-y-4'>
                         <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-[#70707C] mb-2'>
+                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                         </div>
                         <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-[#70707C] mb-2'>
+                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Fundraise Duration</p>
                             </div>
-                            <input required type='date' placeholder='Enter Duration of Fundraise' className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='date' placeholder='Enter Duration of Fundraise' className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                         </div>
                         <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
                         <div>
                             {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                            <div className='bg-[#1E1E24] p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                            <div className='bg-input p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                                 <p className='text-red-500'>We only accept funds in ETH</p>
                                 <p className='text-green-500'>Have funds in different token ! Swap here !</p>
                             </div>
                         </div>
                         <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-[#70707C] mb-2'>
+                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Enter amount</p>
                                 <p>Min Investment: 5 ETH</p>
                             </div>
-                            <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-[#1E1E24] p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                         </div>
 
                         <div className='text-center !pb-6' >
-                            <button onClick={e => { setIsFunded(true); setVisible(false); }} className='bg-[#FFE55B] flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                            <button onClick={e => { setIsFunded(true); setVisible(false); }} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                                 <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
-                            {/* <p className='text-[#70707C] text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                            {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
                         </div>
 
 

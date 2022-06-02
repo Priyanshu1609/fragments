@@ -116,8 +116,8 @@ const Dashboard: React.FC = () => {
     })
 
     return (
-        <div className='text-white font-sora max-w-7xl mx-auto'>
-            <div className='flex px-2 items-center justify-between bg-yellow-300 rounded-lg text-black cursor-pointer' onClick={() => router.push('/create-dao')}>
+        <div className='text-black font-montserrat max-w-7xl lg:mx-auto mx-2 md:mx-4'>
+            <div className='flex px-2 items-center justify-between bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
                     <div>
@@ -125,29 +125,29 @@ const Dashboard: React.FC = () => {
                         <p className='text-base mt-2'>Make a DAO to start investing with your frens in Gullaks</p>
                     </div>
                 </div>
-                <ArrowRightIcon className='w-6 h-6' />
+                <ArrowRightIcon className='w-6 h-6 mr-6' />
             </div>
-            <div className='bg-[#0F0F13] flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
+            <div className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
                 <div className=''>
-                    <div className='text-white font-sora flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
+                    <div className='text-black font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
-                        <div className='text-white text-lg'>
+                        <div className='text-black text-lg'>
                             {name !== '' ? name : getEllipsisTxt(currentAccount)}
                         </div>
                     </div>
                 </div>
-                <div className='flex space-x-5'>
+                <div className='flex space-x-10 '>
                     <div className='flex  space-x-2 items-center'>
                         <p className='opacity-70'>Curent Value: </p>
-                        <span className='font-bold text-xl opacity-100'>600 ETH </span>
-                        <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span>
+                        <span className='font-bold text-xl opacity-100 -mt-1'>600 ETH </span>
+                        {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
                     <div className='flex space-x-2'>
                         <p className='opacity-70'>Active Gullaks: </p><span className='font-bold opacity-100'>50</span>
                     </div>
                 </div>
             </div>
-            <div className="w-full px-2 py-16 sm:px-0 ">
+            <div className="w-full px-2 py-16 sm:px-0 text-white">
                 <Tab.Group>
                     <Tab.List className="flex border-b-4 border-solid border-[#1B1B1B] p-1 !pb-0 w-full space-x-1">
                         <div className='flex w-full  '>

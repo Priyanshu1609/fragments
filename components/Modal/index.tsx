@@ -45,7 +45,7 @@ const Modal: React.FC<IModal> = ({
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0"
 					>
-						<Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+						<Dialog.Overlay className="fixed inset-0  bg-opacity-50 transition-opacity" />
 					</Transition.Child>
 
 					{/* This element is to trick the browser into centering the modal contents. */}
@@ -65,7 +65,7 @@ const Modal: React.FC<IModal> = ({
 						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 					>
 						<div
-							className={`inline-block align-bottom bg-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full`}
+							className={`inline-block align-bottom bg-black pb-4 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full`}
 						>
 							<div className='w-full p-2 bg-[#1E1E24] border-b border-gray-400 border-solid justify-end'>
 								<XIcon className='w-6 h-6 text-white ml-auto cursor-pointer' onClick={onClose} />
@@ -74,7 +74,7 @@ const Modal: React.FC<IModal> = ({
 								<div className="mt-3 text-center sm:mt-5">
 									{<Dialog.Title
 										as="h3"
-										className="text-2xl leading-6 font-medium font-sora"
+										className="text-2xl leading-6 font-medium font-montserrat"
 									>
 										{title}
 									</Dialog.Title>}

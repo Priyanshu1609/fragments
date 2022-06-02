@@ -98,41 +98,43 @@ const CreateVault: React.FC = () => {
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-sora sm:px-4 pb-16'>
-            {
-                currentStep === CreateVaultStep.InputFieldsForm && (
-                    <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button>
-                        <CreateVaultForm flow='purchase' setCurrentStep={setCurrentStep} />
-                    </div>
-                )
-            }
-            {
-                currentStep === CreateVaultStep.GovernedStep && (
-                    <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button>
-                        <CreateGovernedForm setCurrentStep={setCurrentStep} />
-                    </div>
-                )
-            }
-            {
-                currentStep === CreateVaultStep.ImportOrPurchase && (
-                    <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button>
-                        <PurchaseNFT setCurrentStep={setCurrentStep} handleCreateVault={handleCreateVault} />
-                    </div>
-                )
-            }
-            {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}
+        <div className='text-white max-w-4xl mx-auto  font-montserrat sm:px-4 pb-16'>
+            <div className=''>
+                {
+                    currentStep === CreateVaultStep.InputFieldsForm && (
+                        <div>
+                            <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] mb-2 text-black flex items-center justify-center space-x-4'>
+                                <ArrowLeftIcon className='w-4' />
+                                <span>Back</span>
+                            </button>
+                            <CreateVaultForm flow='purchase' setCurrentStep={setCurrentStep} />
+                        </div>
+                    )
+                }
+                {
+                    currentStep === CreateVaultStep.GovernedStep && (
+                        <div>
+                            <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  mb-2  text-black flex items-center justify-center space-x-4'>
+                                <ArrowLeftIcon className='w-4' />
+                                <span>Back</span>
+                            </button>
+                            <CreateGovernedForm setCurrentStep={setCurrentStep} />
+                        </div>
+                    )
+                }
+                {
+                    currentStep === CreateVaultStep.ImportOrPurchase && (
+                        <div>
+                            <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  mb-2 text-black flex items-center justify-center space-x-4'>
+                                <ArrowLeftIcon className='w-4' />
+                                <span>Back</span>
+                            </button>
+                            <PurchaseNFT setCurrentStep={setCurrentStep} handleCreateVault={handleCreateVault} />
+                        </div>
+                    )
+                }
+                {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}
+            </div>
         </div>
     )
 }

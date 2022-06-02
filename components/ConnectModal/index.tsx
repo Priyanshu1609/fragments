@@ -30,7 +30,7 @@ const ConnectModal: React.FC = () => {
             onClose={() => setVisible(false)}
             showCTA={false}
         >
-            <div className='font-sora p-10  '>
+            <div className='font-montserrat p-10  '>
                 <Image src={walletmodal} />
                 <p className='text-2xl mt-4 mb-2 text-white'>Select Wallet</p>
                 <p className='mb-6 text-gray-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, iure?</p>

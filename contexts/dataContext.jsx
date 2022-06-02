@@ -10,7 +10,6 @@ export const defaulFormData = {
     numOfTokens: 0,
     managementFees: 0,
     votingPeriod: 0,
-    days: 0,
     quorum: 0,
     minFavor: 0,
     nftsImported: [],

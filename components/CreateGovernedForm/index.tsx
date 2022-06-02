@@ -52,10 +52,10 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
 
     return (
         <div>
-            <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg'>
-                <div>
-                    <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Governance Parameters</h2>
-                    <p className='text-gray-400'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+            <div className='flex items-center justify-between p-6 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  rounded-lg'>
+                <div className='text-black'>
+                    <h2 className=' text-2xl font-semibold mb-2'>Governance Parameters</h2>
+                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
                     <Image src={vault} />
@@ -68,7 +68,7 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Voting Period{requiredTag}</p>
                             <p className='text-sm mt-2'>{inputType?.name}</p>
 
-                            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full ' placeholder='Enter Voting Period' value={formData.votingPeriod} onChange={(e) => handleChange(e, 'votingPeriod')} />
+                            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full ' placeholder='Enter Voting Period' value={formData.votingPeriod} onChange={(e) => handleChange(e, 'votingPeriod')} />
                         </label>
                         <label className='mt-5 flex-[0.3]'>
                             <p className='text-sm mt-1'>Days/Hours</p>
@@ -76,20 +76,21 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                                 options={option}
                                 value={inputType}
                                 onChange={(value) => setInputType(value)}
+
                             />
                         </label>
                     </div>
                     <div className='flex'>
                         <label className='flex-[0.5] mr-4'>
                             <p className='text-sm'>Quorum{requiredTag}</p>
-                            <input required type='number' step="0" min={1} max={99} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required' value={formData.quorum} onChange={(e) => handleChange(e, 'quorum')} />
+                            <input required type='number' step="0" min={1} max={99} className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required' value={formData.quorum} onChange={(e) => handleChange(e, 'quorum')} />
                         </label>
                         <label className='flex-[0.5]'>
                             <p className='text-sm'>Min. Favourable Majority{requiredTag}</p>
-                            <input required type='number' step="0" min={1} max={formData.quorum - 1} className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minFavor} onChange={(e) => handleChange(e, 'minFavor')} />
+                            <input required type='number' step="0" min={1} max={formData.quorum - 1} className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minFavor} onChange={(e) => handleChange(e, 'minFavor')} />
                         </label>
                     </div>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-[#EFDE5A] text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Make Vault</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

@@ -196,11 +196,11 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
 
     return (
-        <div className='py-8'>
-            <div className='flex items-center justify-between p-6 bg-[#0F0F13] rounded-lg pb-16'>
-                <div>
-                    <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Select NFTs to Fractionalize</h2>
-                    <p className='text-gray-400'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+        <div className='pb-8'>
+            <div className='flex items-center justify-between p-6 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  rounded-lg pb-16'>
+                <div className='text-black'>
+                    <h2 className=' text-2xl font-semibold mb-2'>Select NFTs to Fractionalize</h2>
+                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
                     <Image src={NFTillustration} />
@@ -218,7 +218,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                                 <div className='flex items-center w-[260px] h-[260px]'>
                                     <img src={nft.animation_url ? nft.animation_url : nft.image_url} />
                                 </div>
-                                <div className={`text-center p-2 text-sm ${i == 1 ? 'bg-[#0F0F13]' : ''}`}>
+                                <div className={`text-center p-2 text-sm ${i == 1 ? 'bg-input' : ''}`}>
                                     {
                                         !transferred.includes(nft.id) && selected !== i && (
                                             <button className="flex items-center rounded-lg  px-4 py-2 text-white w-full justify-center" disabled>
@@ -244,7 +244,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                     }
                 </div>
             </div>
-            <button onClick={onSubmitHandler} className='w-full flex rounded-lg items-center text-gray-900 justify-center py-3 bg-[#FFE55B]'>
+            <button onClick={onSubmitHandler} className='w-full flex rounded-lg items-center text-gray-900 justify-center py-3 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] '>
                 {/* <p>Import {nftList.length} NFTs</p> */}
                 <p className='mr-3'> Next </p>
                 <ArrowRightIcon className='w-4' />

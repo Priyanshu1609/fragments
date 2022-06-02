@@ -95,11 +95,11 @@ const CreateVault: React.FC = () => {
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-sora sm:px-4 pb-16'>
+        <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4 pb-16 '>
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-1/6 p-2 mb-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
@@ -111,7 +111,7 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.GovernedStep && (
                     <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg mb-2 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
@@ -122,7 +122,7 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.ImportOrPurchase && (
                     <div>
-                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>

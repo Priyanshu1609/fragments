@@ -198,6 +198,31 @@ export const TransactionProvider = ({ children }) => {
         return balance;
 
     }
+    // const status = setInterval(async () => {
+
+    //     const statusFetched = await getTransactionRecByHash();
+    //     console.log('statusFetched', statusFetched)
+
+    //     if (statusFetched === '0x1') {
+    //         clearInterval(status)
+    //     }
+
+    // }, 1000)
+
+    const getTransactionRecByHash = async () => {
+        try {
+            const options = { method: 'GET', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', } };
+
+            const res = await fetch(`https://api-rinkeby.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash=0xdbf2c8466580b1f3d139946c75927f5d037081c53cc199fe8a23d2d2969fb0f9&apikey=KQEKR3PW3DNCMGRRCZ5CKISB4EI9STJVVK`, options)
+
+            const data = await res.json()
+
+            return (data.result.status);
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 
     useEffect(() => {
@@ -215,6 +240,7 @@ export const TransactionProvider = ({ children }) => {
 
     useEffect(() => {
         checkIfWalletIsConnected()
+        // getTransactionRecByHash();
     }, [])
 
     return (

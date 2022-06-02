@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, PlusIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, PlusIcon, XIcon } from '@heroicons/react/solid';
 import { BigNumber } from 'ethers';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
@@ -55,7 +55,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
     const [target, setTarget] = useState(0);
-    const [duration, setDuration] = useState<number | string>();
+    const [duration, setDuration] = useState<number>(Number.MAX_SAFE_INTEGER);
     const [amount, setAmount] = useState();
     const [visible, setVisible] = useState(false)
     const [order, setOrder] = useState<any>()
@@ -133,8 +133,34 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
             const _order = await getSellOrder(tokenId, tokenAddress);
             setOrder(_order);
-            setTarget(target + bnToString(_order?.currentPrice));
-            setDuration((dtToString(order?.expirationTime)))
+            setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
+            setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
+            setVisible(true);
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            // setLoading(false);
+        }
+    }
+
+    const getNFTpreview = async (i: number) => {
+        const link = links[i].value;
+
+        if (!link) {
+            return;
+        }
+
+        const tokenId = link.split('/')[6]
+        const tokenAddress = link.split('/')[5]
+
+        console.log({ tokenId, tokenAddress })
+        try {
+
+            const _order = await getSellOrder(tokenId, tokenAddress);
+            setOrder(_order);
+            setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
+            setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
             setVisible(true);
 
         } catch (error) {
@@ -185,11 +211,11 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-sora sm:px-4  pb-16'>
-            <div className='flex items-center justify-between p-6 bg-[#1E1E24] rounded-lg pb-16'>
+        <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
+            <div className='flex items-center justify-between p-6 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] rounded-lg pb-8'>
                 <div>
-                    <h2 className='text-[#F5E58F] text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
-                    <p className='text-gray-400'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+                    <h2 className='text-black text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
+                    <p className='text-black'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
                     <Image src={vault} />
@@ -208,39 +234,42 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                                             value={item.value}
                                             id={i.toString()}
                                             type={item.type}
-                                            className='p-3 rounded-l-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Enter Opensea or Rarible NFT Link'
+                                            className='p-3 rounded-l-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Opensea or Rarible NFT Link'
                                         />
                                     </label>
-                                    <button onClick={e => { getNFTs(i) }} className='w-44 mt-7 underline text-sm rounded-r-lg text-green-500 flex justify-center items-center bg-[#1E1E24]'>Preview NFT
+                                    <button onClick={e => { getNFTs(i) }} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
                                         <ExternalLinkIcon className='h-6 w-6 mx-3' />
+                                    </button>
+                                    <button className='w-10 mt-7 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input'>
+                                        <XIcon className='h-8 w-8 mx-3' />
                                     </button>
                                 </div>
                             );
                         })}
                     </div>
-                    <div onClick={addInput} className='p-3 mb-6 rounded-l-lg bg-[#1E1E24] focus:outline-none w-full mt-2 cursor-pointer'>
+                    <div onClick={addInput} className='p-3 mb-6 rounded-l-lg bg-input focus:outline-none w-full mt-2 cursor-pointer'>
                         <p className='text-center flex items-center justify-center'>Add New Link <PlusIcon className='h-5 w-5 mx-3' /> </p>
                     </div>
 
                     <div className='grid grid-cols-2 gap-6'>
                         <label>
                             <p className='text-sm'>Target Fundraise </p>
-                            <p className='p-3 mb-6 rounded-lg bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Enter Voting Period'>
+                            <p className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Voting Period'>
                                 {target}
                             </p>
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise Duation {requiredTag}</p>
-                            {/* <input required style={{ colorScheme: 'dark' }} type='date' className='p-3 mb-6 rounded-lg cursor-pointer bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days' value={duration === 0 ? formData.days : duration} onChange={(e) => setDuration((e.target.value))} /> */}
-                            <p className='p-3 mb-6 rounded-lg cursor-pointer bg-[#0F0F13] focus:outline-none w-full mt-2' placeholder='Days'>{duration}</p>
+                            {/* <input required style={{ colorScheme: 'dark' }} type='date' className='p-3 mb-6 rounded-lg cursor-pointer bg-input focus:outline-none w-full mt-2' placeholder='Days' value={duration === 0 ? formData.days : duration} onChange={(e) => setDuration((e.target.value))} /> */}
+                            <p className='p-3 mb-6 rounded-lg cursor-pointer bg-input focus:outline-none w-full mt-2' placeholder='Days'>{dtToString(duration)}</p>
                         </label>
                     </div>
-                    <div className='p-2 bg-[#1E1E24] rounded-lg mt-4'>
-                        <p className='text-sm text-center  text-green-600'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
+                    <div className='p-2 bg-input rounded-lg mt-4'>
+                        <p className='text-base text-center  text-green-600'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
                     <div>
                         {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                        <div className='bg-[#1E1E24] p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                        <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                             <p className='text-red-500'>We only accept funds in ETH</p>
                             <p className='text-green-500'>Have funds in different token ! Swap here !</p>
                         </div>
@@ -251,10 +280,10 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
                             <p className='text-sm'>Min. Contribution <span>{target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={target / 10} className='p-4   rounded-lg bg-[#1E1E24] focus:outline-none w-full mt-2' placeholder='Your contribution' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
+                        <input required type='number' className='p-4 step="0.0000"  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Your contribution' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} ETH </span></p>
                     </div>
-                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-yellow-300 text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Make Vault</span>
                         <ArrowRightIcon className='w-4' />
                     </button>
@@ -265,7 +294,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                 onClose={() => setVisible(false)}
                 showCTA={false}
             >
-                <div className='mx-4 items-center justify-center text-white !font-sora'>
+                <div className='mx-4 items-center justify-center  text-white !font-montserrat'>
                     <div className='mx-auto '>
                         <img src={order?.asset?.imageUrl} className='w-full rounded-lg' />
                     </div>
@@ -276,7 +305,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                     <p className='mt-2 !text-left '>{order?.asset?.name}.</p>
                     <div className=' text-xs p-2 !text-left text-slate-300'>Listed Price : <span className='text-lg mx-3 text-white font-bold'>{bnToString(order?.currentPrice)} ETH</span></div>
                     <p className=' text-sm p-2 !text-left text-slate-300'>Sale ends on {dtToString(order?.expirationTime)}</p>
-                    <button onClick={() => setVisible(false)} type='submit' className='w-full p-3 rounded-lg bg-[#FDE35A] text-black flex items-center justify-center space-x-4'>
+                    <button onClick={() => setVisible(false)} type='submit' className='w-full p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Done </span>
                         <ArrowRightIcon className='w-4' />
                     </button>
@@ -289,7 +318,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                 showCTA={false}
                 title="Swap Tokens"
             >
-                <div className="Uniswap p-6 flex items-center justify-center">
+                <div className="Uniswap p-6 flex bg-black items-center justify-center">
                     <SwapWidget
                         provider={provider}
                         jsonRpcEndpoint={jsonRpcEndpoint}

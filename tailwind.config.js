@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sora: ["'Sora'"],
+      montserrat: ["'Montserrat'"],
     },
     extend: {
       screens: {
@@ -13,6 +14,11 @@ module.exports = {
         sm: { max: '768px' },
         'max-lg': { max: '1024px' },
       },
+      colors: {
+        input: {
+          DEFAULT: '#151515',
+        },
+      }
     },
   },
   plugins: [

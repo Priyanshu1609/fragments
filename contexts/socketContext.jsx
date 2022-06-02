@@ -355,18 +355,18 @@ export const SocketProvider = ({ children }) => {
         let retry = 0;
         const status = setInterval(async () => {
             // Gets status of route journey 
-            const status = await prepareNextTx(activeRouteId, userTxIndex, txHash);
-            console.log("Current status :", status.result);
+            const statusFetched = await prepareNextTx(activeRouteId, userTxIndex, txHash);
+            console.log("Current status :", statusFetched.result);
 
             // Exits setInterval if route is 'completed'
-            if (status.result == 'completed') {
+            if (statusFetched.result == 'completed') {
                 console.log('Bridging transaction is complete');
                 retry = 0;
                 clearInterval(status);
             }
 
             // Executes post bridging transactions on destination
-            else if (status.result == 'ready') {
+            else if (statusFetched.result == 'ready') {
                 if (!isInitiated) {
                     isInitiated = true;
                     console.log('Proceeding with post-bridging transaction');
