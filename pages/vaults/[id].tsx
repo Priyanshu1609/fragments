@@ -208,7 +208,7 @@ const VaultDetail: React.FC = () => {
                 </div>
                 <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
             </div>}
-            <div className='shadow-lg shadow-cyan-500/50 p-6 flex-[0.4] mx-1'>
+            <div className=' p-6 flex-[0.4] '>
                 <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
                     <Blockies
                         seed='need to be changed'

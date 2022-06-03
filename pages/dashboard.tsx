@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-black font-montserrat max-w-7xl lg:mx-auto mx-2 md:mx-4'>
-            <div className='flex px-2 items-center justify-between bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
+            <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
                     <div>
@@ -127,7 +127,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <ArrowRightIcon className='w-6 h-6 mr-6' />
             </div>
-            <div className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
+            <div className='bg-[url("/heading.png")] bg-cover flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
                 <div className=''>
                     <div className='text-black font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
