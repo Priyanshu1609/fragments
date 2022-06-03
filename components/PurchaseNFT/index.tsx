@@ -20,6 +20,7 @@ import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext'
 import { id } from 'ethers/lib/utils';
+import { link } from 'fs';
 
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
@@ -59,14 +60,17 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const [duration, setDuration] = useState<number>(Number.MAX_SAFE_INTEGER);
     const [amount, setAmount] = useState();
     const [visible, setVisible] = useState(false)
-    const [order, setOrder] = useState<any>()
+    const [order, setOrder] = useState<any>([])
+    const [orders, setOrders] = useState<any>([]);
     const [balance, setBalance] = useState('0');
     const [provider, setProvider] = useState();
+    const [uniModal, setUniModal] = useState(false)
     const [links, setLinks] = useState([
         {
             type: "text",
             id: 1,
-            value: ""
+            value: "",
+            vis: false,
         }
     ]);
     console.log(target);
@@ -75,9 +79,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
-    const [uniModal, setUniModal] = useState(false)
-
-    console.log({ selectedToken, selectedChain });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -120,6 +121,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     }
 
     const getNFTs = async (i: number) => {
+
         const link = links[i].value;
 
         if (!link) {
@@ -129,13 +131,24 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         const tokenId = link.split('/')[6]
         const tokenAddress = link.split('/')[5]
 
-        console.log({ tokenId, tokenAddress })
+        console.log({ orders })
         try {
 
-            const _order = await getSellOrder(tokenId, tokenAddress);
-            setOrder(_order);
-            setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
-            setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
+            if (!links[i].vis) {
+                console.log('Prev didnt fetched')
+                const _order = await getSellOrder(tokenId, tokenAddress);
+                setOrder(_order);
+                setOrders((prev: any) => [...prev, _order]);
+
+                setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
+                setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
+
+                links[i].vis = true;
+            }
+            else {
+                console.log('Prev fetched exist');
+                setOrder(orders[i]);
+            }
             setVisible(true);
 
         } catch (error) {
@@ -154,6 +167,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                 {
                     type: "text",
                     value: "",
+                    vis: false,
                 }
             ];
         });
@@ -172,8 +186,21 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     };
 
     const handleRemove = (i: any) => {
-
-
+        if (links.length === 1) {
+            return;
+        }
+        if (orders[i]) {
+            console.log('Deleting value');
+            setTarget(target - bnToString(orders[i]?.currentPrice));
+            if (duration === (orders[i].expirationTime - 30 * 60)) {
+                orders.splice(i, 1);
+                let a = Number.MAX_SAFE_INTEGER;
+                orders.forEach((element: any) => {
+                    a = (Math.min(a, element.expirationTime - 30 * 60))
+                });
+                setDuration(a);
+            }
+        }
         setLinks((products) => products.filter((_, index) => index !== i));
     }
 
@@ -182,9 +209,9 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         fetchBalance()
     }, [])
 
-    // useEffect(() => {
-    //     { links[links.length - 1].value && getNFTs(links.length - 1) };
-    // }, [links])
+    useEffect(() => {
+        { links[links.length - 1]?.value && getNFTs(links.length - 1) };
+    }, [links])
 
     useEffect(() => {
         getProviderFrom();
@@ -207,7 +234,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                     <div>
                         {links.map((item, i) => {
                             return (
-                                <div className='flex justify-between mb-4'>
+                                <div key={i} className='flex justify-between mb-4'>
                                     <label className='flex-grow '>
                                         <p className='text-sm'>Opensea Link {requiredTag}</p>
                                         <input required
@@ -218,7 +245,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                                             className='p-3 rounded-l-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Opensea or Rarible NFT Link'
                                         />
                                     </label>
-                                    <button onClick={e => { getNFTs(i) }} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
+                                    <button onClick={e => getNFTs(i)} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
                                         <ExternalLinkIcon className='h-6 w-6 mx-3' />
                                     </button>
                                     <button onClick={e => handleRemove(i)} className='w-10 mt-7 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input'>

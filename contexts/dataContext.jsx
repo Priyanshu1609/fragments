@@ -22,7 +22,7 @@ export const defaulFormData = {
 export const DataContextProvider = ({ children }) => {
 
     const [formData, setFormData] = useState(defaulFormData)
-    console.log('FormData : ', formData);
+    // console.log('FormData : ', formData);
 
     const handleChange = (e, name) => {
         setFormData(prevState => ({ ...prevState, [name]: e.target.value }))
