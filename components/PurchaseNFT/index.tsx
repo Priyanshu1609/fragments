@@ -11,7 +11,7 @@ import vault from '../../assets/vault.png';
 import Modal from '../Modal';
 import Select from '../Select';
 import SelectChain from '../SelectChain';
-import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
+import { bnToString, dtToString, ipfsParse, fixTokenURI, minDtTime, maxDtTime } from '../../utils';
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 
 import { NftContext } from '../../contexts/NftContext';
@@ -192,18 +192,18 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         if (orders[i]) {
             console.log('Deleting value');
             setTarget(target - bnToString(orders[i]?.currentPrice));
-            if (duration === (orders[i].expirationTime - 30 * 60)) {
+            if (duration === (orders[i].expirationTime)) {
                 orders.splice(i, 1);
                 let a = Number.MAX_SAFE_INTEGER;
                 orders.forEach((element: any) => {
-                    a = (Math.min(a, element.expirationTime - 30 * 60))
+                    a = (Math.min(a, element.expirationTime))
                 });
                 setDuration(a);
             }
         }
         setLinks((products) => products.filter((_, index) => index !== i));
     }
-
+    console.log('Formdata', formData.fundraiseDuration, (duration));
     console.log('Links', links);
     useEffect(() => {
         fetchBalance()
@@ -217,6 +217,8 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         getProviderFrom();
     }, [])
 
+    console.log(minDtTime());
+    console.log(maxDtTime(duration));
 
     return (
         <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
@@ -268,8 +270,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise Duation {requiredTag}</p>
-                            {/* <input required style={{ colorScheme: 'dark' }} type='date' className='p-3 mb-6 rounded-lg cursor-pointer bg-input focus:outline-none w-full mt-2' placeholder='Days' value={duration === 0 ? formData.days : duration} onChange={(e) => setDuration((e.target.value))} /> */}
-                            <p className='p-3 mb-6 rounded-lg cursor-pointer bg-input focus:outline-none w-full mt-2' placeholder='Days'>{dtToString(duration)}</p>
+                            <input required style={{ colorScheme: 'dark' }} type='datetime-local' min={minDtTime()} max={maxDtTime(duration)} className='p-3 mb-6 rounded-lg cursor-pointer bg-input focus:outline-none w-full mt-2' placeholder='Days' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
                     <div className='p-2 bg-input rounded-lg mt-4'>
@@ -288,7 +289,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
                             <p className='text-sm'>Min. Contribution <span>{target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' className='p-4 step="0.0000"  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Your contribution' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
+                        <input required type='number' step="any" min={target / 10} className='p-4 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Your contribution' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} ETH </span></p>
                     </div>
                     <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>

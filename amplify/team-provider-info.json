@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gullakfrontend-dev-122832-authRole",
+      "UnauthRoleArn": "arn:aws:iam::787527910101:role/amplify-gullakfrontend-dev-122832-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::787527910101:role/amplify-gullakfrontend-dev-122832-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-gullakfrontend-dev-122832-deployment",
+      "UnauthRoleName": "amplify-gullakfrontend-dev-122832-unauthRole",
+      "StackName": "amplify-gullakfrontend-dev-122832",
+      "StackId": "arn:aws:cloudformation:ap-south-1:787527910101:stack/amplify-gullakfrontend-dev-122832/eae7e5a0-e49c-11ec-a972-0a72a02a7130",
+      "AmplifyAppId": "d2am94dyajvolh"
+    },
+    "categories": {
+      "auth": {
+        "gullakfrontendbe27552a": {}
+      }
+    }
+  }
+}

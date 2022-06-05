@@ -23,7 +23,7 @@ const NFTList: React.FC = () => {
     // const [{ data: accountData }] = useAccount({
     //     fetchEns: true,
     // })
-    // console.log(accountData)
+// console.log(accountData)
     const { currentAccount } = useContext(TransactionContext);
 
     const getNFTs = async () => {
@@ -82,7 +82,7 @@ const NFTList: React.FC = () => {
     }, [currentAccount])
 
     return (
-        <div className='flex flex-1 flex-row flex-wrap justify-start py-8 gap-8'>
+        <div className='flex flex-1 flex-row flex-wrap justify-start py-8 gap-8 scrollbar-hide example'>
             {
                 nftList.map(nft => (
                     <NFTCard nft={nft} floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]} key={nft.token_uri} />

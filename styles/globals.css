@@ -2,16 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+*{
+    -ms-overflow-style: none;
 }
-
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-body {
-  /* overflow: hidden; */
+::-webkit-scrollbar {
+    display: none;
 }

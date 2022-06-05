@@ -108,7 +108,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise duration{requiredTag}</p>
-                            <input required type='date' style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-input  focus:outline-none w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
+                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-input  focus:outline-none w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
                     <div className='p-2 bg-input'>
@@ -127,7 +127,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
                             <p className='text-sm'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={formData.target / 10} className='p-4  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
+                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
                     <button onClick={e => router.push('/vaults/random')} type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>

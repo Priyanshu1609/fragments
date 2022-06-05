@@ -34,8 +34,8 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='min-h-screen bg-[url("/g10.png")] bg-cover bg-repeat-y font-montserrat' >
-                                        <header className="">
+                                    <div className='min-h-screen bg-[url("/g10.png")] overflow-y-scroll scrollbar-hide  bg-center bg-cover bg-repeat-y font-montserrat' >
+                                        <header className="overflow-y-scroll scrollbar-hide">
                                             <div className=" mx-auto lg:px-8">
                                                 <div className="flex items-center w-full justify-between pt-1 pb-5 px-4">
                                                     <div className="flex px-2 lg:px-0">

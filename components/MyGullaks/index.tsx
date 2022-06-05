@@ -9,7 +9,7 @@ const MyInvestment: React.FC = () => {
     const router = useRouter()
 
     return (
-        <div className='py-4 w-max flex gap-6'>
+        <div className='py-4 w-max flex gap-6 scrollbar-hide'>
             <div onClick={() =>
                 router.push({
                     pathname: '/create-gullak',

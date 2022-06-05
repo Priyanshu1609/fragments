@@ -207,7 +207,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                 </div>
             </div>
             <div className='mt-10'>
-                <div className='flex py-6 flex-wrap overflow-y-auto max-h-[470px] gap-10 justify-center gap-x-12 no-scrollbar'>
+                <div className='flex py-6 flex-wrap  max-h-[470px] gap-10 justify-center gap-x-12 no-scrollbar'>
                     {
                         nftList?.map((nft, i) => (
                             <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24]`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>

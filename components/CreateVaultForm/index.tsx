@@ -88,11 +88,11 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         </label>
                         {flow !== 'private' && <label>
                             <p className='text-sm'>Type of Vault{requiredTag}</p>
-                            <div className="bg-input rounded-2xl m-2 mr-3">
-                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] `}`} onClick={e => setType('Public')}>
+                            <div className="bg-input rounded-2xl m-2 mr-3 ">
+                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Public')}>
                                     <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Governed</p>
                                 </div>
-                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] `}`} onClick={e => setType('Private')}>
+                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Private')}>
                                     <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">With Frens</p>
                                 </div>
                             </div>

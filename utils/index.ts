@@ -37,6 +37,42 @@ export const dtToString = (unixTime: any) => {
     return (date.toLocaleDateString("en-US") + " at " + date.toLocaleTimeString("en-US"));
   }
 }
+const formateDigit = (myNumber: any) => {
+  let formattedNumber = myNumber.toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false
+  })
+
+  return formattedNumber;
+}
+export const minDtTime = () => {
+  const d = new Date();
+  const yr = d.getFullYear();
+  const mo = formateDigit(d.getMonth());
+  const dy = formateDigit(d.getDate());
+  const hr = formateDigit(d.getHours());
+  const min = formateDigit(d.getMinutes());
+  const sec = formateDigit(d.getSeconds());
+  return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
+
+}
+
+export const maxDtTime = (unixTime: any) => {
+  if (unixTime === Number.MAX_SAFE_INTEGER) {
+    return;
+  }
+
+  const d = new Date(unixTime * 1000);
+  d.setMinutes(d.getMinutes())
+  const yr = d.getFullYear();
+  const mo = formateDigit(d.getMonth());
+  const dy = formateDigit(d.getDate());
+  const hr = formateDigit(d.getHours());
+  const min = formateDigit(d.getMinutes());
+  const sec = formateDigit(d.getSeconds());
+  return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
+
+}
 
 export const ipfsParse = (ipfsHash: string) => {
   return ipfsHash?.replace("ipfs://", "https://ipfs.io/ipfs/");
