@@ -48,11 +48,12 @@ const formateDigit = (myNumber: any) => {
 export const minDtTime = () => {
   const d = new Date();
   const yr = d.getFullYear();
-  const mo = formateDigit(d.getMonth());
+  const mo = formateDigit(d.getMonth() + 1);
   const dy = formateDigit(d.getDate());
   const hr = formateDigit(d.getHours());
   const min = formateDigit(d.getMinutes());
   const sec = formateDigit(d.getSeconds());
+  const ms = formateDigit(d.getMilliseconds());
   return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
 
 }
@@ -65,11 +66,12 @@ export const maxDtTime = (unixTime: any) => {
   const d = new Date(unixTime * 1000);
   d.setMinutes(d.getMinutes())
   const yr = d.getFullYear();
-  const mo = formateDigit(d.getMonth());
+  const mo = formateDigit(d.getMonth() + 1);
   const dy = formateDigit(d.getDate());
   const hr = formateDigit(d.getHours());
   const min = formateDigit(d.getMinutes());
   const sec = formateDigit(d.getSeconds());
+  const ms = formateDigit(d.getMilliseconds());
   return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
 
 }

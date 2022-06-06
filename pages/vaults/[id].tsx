@@ -238,7 +238,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>1300 ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={60} bgColor='#2bffb1' baseBgColor='#2C2C35'  isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={60} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     <div>
                         {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
@@ -445,6 +445,8 @@ const VaultDetail: React.FC = () => {
                     <SwapWidget
                         provider={provider}
                         jsonRpcEndpoint={jsonRpcEndpoint}
+
+
                         defaultOutputTokenAddress='NATIVE'
                         theme={darkTheme}
                         width={512}

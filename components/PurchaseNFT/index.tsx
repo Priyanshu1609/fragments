@@ -19,9 +19,8 @@ import { OpenseaContext } from '../../contexts/opensesContext';
 import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext'
-import { id } from 'ethers/lib/utils';
-import { link } from 'fs';
 
+import UniswapTokens from '../../abis/UniswapTokens.json'
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
 interface CreateVaultFormProps {
@@ -53,9 +52,9 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     const { formData, setFormData, handleChange } = useContext(DataContext);
 
-    const [selectedToken, setSelectedToken] = useState<selectedToken>()
-    const [selectedChain, setSelectedChain] = useState<selectedChain>()
-    const [coins, setCoins] = useState([]);
+    // const [selectedToken, setSelectedToken] = useState<selectedToken>()
+    // const [selectedChain, setSelectedChain] = useState<selectedChain>()
+    // const [coins, setCoins] = useState([]);
     const [target, setTarget] = useState(0);
     const [duration, setDuration] = useState<number>(Number.MAX_SAFE_INTEGER);
     const [amount, setAmount] = useState();
@@ -217,9 +216,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         getProviderFrom();
     }, [])
 
-    console.log(minDtTime());
-    console.log(maxDtTime(duration));
-
     return (
         <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
             <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover rounded-lg pb-8'>
@@ -334,6 +330,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                         defaultOutputTokenAddress='NATIVE'
                         theme={darkTheme}
                         width={512}
+
                     />
                 </div>
             </Modal>

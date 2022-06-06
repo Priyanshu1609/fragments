@@ -239,6 +239,15 @@ export const TransactionProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        async function listenMMAccount() {
+            window.ethereum.on("chainChanged", async function () {
+                getProvider();
+            });
+        }
+        listenMMAccount();
+    }, []);
+
+    useEffect(() => {
         checkIfWalletIsConnected()
         // getTransactionRecByHash();
     }, [])

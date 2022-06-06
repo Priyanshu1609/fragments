@@ -17,6 +17,7 @@ import SelectChain from '../SelectChain';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
+import { minDtTime } from '../../utils';
 
 const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
 
@@ -146,6 +147,8 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <SwapWidget
                         provider={provider}
                         jsonRpcEndpoint={jsonRpcEndpoint}
+
+
                         defaultOutputTokenAddress='NATIVE'
                         theme={darkTheme}
                         width={512}

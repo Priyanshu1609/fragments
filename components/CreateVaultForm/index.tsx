@@ -66,7 +66,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             setCurrentStep(CreateVaultStep.Fundraise)
         }
     }
-    
+
 
     return (
         <div className=''>
