@@ -39,7 +39,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
     // }, [nft])
 
     return nft ? (
-        <div className='rounded-lg bg-[#0F0F13] w-64'>
+        <div className='rounded-lg bg-[#0F0F13]  max-w-[16rem] mx-auto'>
             <div className='flex rounded-t-lg justify-between items-center h-[250px]'>
                 {nft?.image?.length && <img src={fixTokenURI(nft.image)} className='w-[250px] rounded-t-lg' />}
             </div>

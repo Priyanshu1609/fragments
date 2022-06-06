@@ -207,10 +207,10 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                 </div>
             </div>
             <div className='mt-10'>
-                <div className='flex py-6 flex-wrap  max-h-[470px] gap-10 justify-center gap-x-12 no-scrollbar'>
+                <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-x-12 gap-y-4 no-scrollbar mx-auto'>
                     {
                         nftList?.map((nft, i) => (
-                            <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24]`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
+                            <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24] max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>
                                     <p className=''>{(nft.name).slice(0, 20)}...</p>
@@ -238,10 +238,12 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                                             </button>
                                         )
                                     }
+
                                 </div>
                             </div>
                         ))
                     }
+
                 </div>
             </div>
             <button onClick={onSubmitHandler} className='w-full flex rounded-lg items-center text-gray-900 justify-center py-3 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] '>

@@ -13,7 +13,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({
     uniqueOwners
 }) => {
     return (
-        <div className='rounded-lg bg-[#0F0F13]'>
+        <div className='rounded-lg bg-input max-w-[16rem] mx-auto'>
             <img src='https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260' className='w-[250px] h-[250px] rounded-t-lg' />
             <div className='px-4 py-3'>
                 <div>
@@ -45,8 +45,28 @@ export const VaultCard: React.FC<VaultCardProps> = ({
 
 const MyInvestment: React.FC = () => {
     return (
-        <div className='py-4 w-max'>
-            <VaultCard 
+        <div className='py-4 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-x-12 no-scrollbar '>
+            <VaultCard
+                name='Bored Ape <> RTFKT'
+                valuations={'600 ETH'}
+                uniqueOwners={4726}
+            />
+            <VaultCard
+                name='Bored Ape <> RTFKT'
+                valuations={'600 ETH'}
+                uniqueOwners={4726}
+            />
+            <VaultCard
+                name='Bored Ape <> RTFKT'
+                valuations={'600 ETH'}
+                uniqueOwners={4726}
+            />
+            <VaultCard
+                name='Bored Ape <> RTFKT'
+                valuations={'600 ETH'}
+                uniqueOwners={4726}
+            />
+            <VaultCard
                 name='Bored Ape <> RTFKT'
                 valuations={'600 ETH'}
                 uniqueOwners={4726}

@@ -150,11 +150,11 @@ const VaultDetail: React.FC = () => {
     }, [selectedChain])
 
     const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
-    // useEffect(() => {
-    //     if (!currentAccount) {
-    //         router.push('/')
-    //     }
-    // }, [currentAccount])
+    useEffect(() => {
+        if (!currentAccount) {
+            router.push('/')
+        }
+    }, [currentAccount])
 
     useEffect(() => {
         getNFTs();
