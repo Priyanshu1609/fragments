@@ -1,5 +1,14 @@
 import { ArrowNarrowUpIcon } from '@heroicons/react/solid';
 import React from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/scrollbar";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// import required modules
+import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
 
 export interface VaultCardProps {
     name: string;
@@ -13,7 +22,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({
     uniqueOwners
 }) => {
     return (
-        <div className='rounded-lg bg-input max-w-[16rem] mx-auto'>
+        <div className='rounded-lg bg-input max-w-[16rem] mx-auto' >
             <img src='https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260' className='w-[250px] h-[250px] rounded-t-lg' />
             <div className='px-4 py-3'>
                 <div>
@@ -39,38 +48,101 @@ export const VaultCard: React.FC<VaultCardProps> = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
 const MyInvestment: React.FC = () => {
     return (
-        <div className='py-4 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-x-12 no-scrollbar '>
-            <VaultCard
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
-            <VaultCard
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
-            <VaultCard
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
-            <VaultCard
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
-            <VaultCard
-                name='Bored Ape <> RTFKT'
-                valuations={'600 ETH'}
-                uniqueOwners={4726}
-            />
+        <div className='py-4 '>
+            <Swiper
+                spaceBetween={30}
+                slidesPerGroupSkip={4}
+                grabCursor={true}
+                breakpoints={{
+                    425:{
+                        slidesPerView: 1,
+                    },
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    768:{
+                        slidesPerView: 3,
+                    },
+                    1024:{
+                        slidesPerView: 4,
+                    }
+                }}
+                scrollbar={true}
+                navigation={true}
+                modules={[Keyboard, Scrollbar, Navigation, Pagination]}
+                className="mySwiper"
+            >
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <VaultCard
+                        name='Bored Ape <> RTFKT'
+                        valuations={'600 ETH'}
+                        uniqueOwners={4726}
+                    />
+                </SwiperSlide>
+              
+            </Swiper>
         </div>
     )
 }

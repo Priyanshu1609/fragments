@@ -24,7 +24,7 @@ export const OpenseaContextProvider = ({ children }) => {
 
     const provider = new HDWalletProvider({
         privateKeys: [`${process.env.NEXT_PUBLIC_PRIVATE}`,],
-        providerOrUrl: `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`
+        providerOrUrl: `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`
     });
 
     const seaport = new OpenSeaPort(

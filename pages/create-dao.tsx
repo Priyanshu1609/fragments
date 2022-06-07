@@ -36,7 +36,7 @@ const CreateDao: React.FC = () => {
     }
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-montserrat'>
+        <div className='text-white max-w-4xl mx-auto font-montserrat '>
             <CreateDAOForm onSubmit={onCreateDAO} />
         </div>
     );

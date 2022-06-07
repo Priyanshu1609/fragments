@@ -8,3 +8,18 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+
+.swiper-scrollbar {
+  background-color: gray!important;
+  margin-top: 16px;
+}
+
+
+.swiper-scrollbar .swiper-scrollbar-drag {
+    background-color: black!important;
+ 
+}
+.swiper-slide{
+    padding-bottom: 16px;
+}

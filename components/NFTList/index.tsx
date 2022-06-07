@@ -7,6 +7,16 @@ import { fixTokenURI } from '../../utils';
 import NFTCard from '../NFTCard';
 import { TransactionContext } from '../../contexts/transactionContext';
 
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/scrollbar";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// import required modules
+import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
+
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
 const NFTBANK_API_KEY = process.env.NEXT_PUBLIC_NFT_BANK_API_KEY;
@@ -23,7 +33,7 @@ const NFTList: React.FC = () => {
     // const [{ data: accountData }] = useAccount({
     //     fetchEns: true,
     // })
-// console.log(accountData)
+    // console.log(accountData)
     const { currentAccount } = useContext(TransactionContext);
 
     const getNFTs = async () => {
@@ -35,7 +45,7 @@ const NFTList: React.FC = () => {
             };
             const options = { method: 'GET', headers: { 'X-API-Key': API_KEY, 'Accept': 'application/json', 'Content-Type': 'application/json', } };
 
-            const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=matic&format=decimal`, options)
+            const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=eth&format=decimal`, options)
 
             let nfts = await res.json();
 
@@ -82,12 +92,39 @@ const NFTList: React.FC = () => {
     }, [currentAccount])
 
     return (
-        <div className=' grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-x-12 no-scrollbar py-8 gap-y-4'>
-            {
-                nftList.map(nft => (
-                    <NFTCard nft={nft} floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]} key={nft.token_uri} />
-                ))
-            }
+        <div className='py-8'>
+            <Swiper
+                spaceBetween={30}
+                slidesPerGroupSkip={4}
+                grabCursor={true}
+                breakpoints={{
+                    425: {
+                        slidesPerView: 1,
+                    },
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                    }
+                }}
+                scrollbar={true}
+                navigation={true}
+                modules={[Keyboard, Scrollbar, Navigation, Pagination]}
+                className="mySwiper"
+            >
+                {
+                    nftList.map(nft => (
+                        <SwiperSlide>
+                            <NFTCard nft={nft} floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]} key={nft.token_uri} />
+                        </SwiperSlide>
+                    ))
+                }
+            </Swiper>
+
         </div>
     )
 }

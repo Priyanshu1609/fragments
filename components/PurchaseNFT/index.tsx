@@ -21,7 +21,7 @@ import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext'
 
 import UniswapTokens from '../../abis/UniswapTokens.json'
-const jsonRpcEndpoint = `https://speedy-nodes-nyc.moralis.io/${process.env.NEXT_PUBLIC_URL}/eth/rinkeby`;
+const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
