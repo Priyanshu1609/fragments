@@ -4,6 +4,9 @@ import { useRouter } from 'next/router'
 import ERC_20 from '../ERC_20.json'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
+import Web3 from 'web3';
+import { AwsClient } from 'aws4fetch';
+import axios from 'axios';
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -56,7 +59,11 @@ export const TransactionProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [isReturningUser, setIsReturningUser] = useState(false);
     const [clientId, setClientId] = useState('');
+    const [awsClient, setAwsClient] = useState();
     const router = useRouter();
+    console.log(awsClient);
+
+    const web3 = new Web3(Web3.givenProvider);
 
     let walletConnectProvider;
 
@@ -123,29 +130,79 @@ export const TransactionProvider = ({ children }) => {
                 setIsLoading(true)
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
-            }
-            // // let accounts;
 
-            // accounts = await window.ethereum.request({
-            //     method: "eth_requestAccounts",
-            //     params: [
-            //         {
-            //             eth_accounts: {}
-            //         }
-            //     ]
-            // });
-            // if (isReturningUser) {
-            //     // Runs only they are brand new, or have hit the disconnect button
-            //     window.location.reload(true)
-            //     await window.ethereum.request({
-            //         method: "wallet_requestPermissions",
-            //         params: [
-            //             {
-            //                 eth_accounts: {}
-            //             }
-            //         ]
-            //     });
-            // }
+                //* AWS AUTH
+                let address = accounts[0];
+                let customerId;
+                const res = await axios(
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
+                    }?address=${address.toLowerCase()}`,
+                    {
+                        method: 'GET',
+                        validateStatus: false,
+                    }
+                );
+                customerId = res.data.customerId;
+                console.log("data", data);
+                if (!customerId) {
+                    const res = await axios.post(
+                        `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
+                        { address: address.toLowerCase() },
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    console.log("Signup", res.data.Attributes);
+                    if (res && res.data.Attributes) {
+                        customerId = res.data.Attributes.customerId;
+                    }
+                }
+
+                console.log('customerID:', customerId);
+
+                const signature = await web3.eth.personal.sign(
+                    web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
+                    address
+                );
+
+                const data = await axios.post(
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
+                    {
+                        address,
+                        signature,
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                console.log("Login", data);
+                if (data && data.AccessKeyId) {
+                    console.log({
+                        type: 'LOGIN',
+                        payload: {
+                            isAuthenticated: true,
+                            accessKeyId: data.AccessKeyId,
+                            address,
+                            sessionToken: data.SessionToken,
+                            secretKey: data.SecretKey,
+                            expiration: data.Expiration,
+                        },
+                    });
+                    const aws = new AwsClient({
+                        accessKeyId: data.AccessKeyId,
+                        secretAccessKey: data.SecretKey,
+                        sessionToken: data.SessionToken,
+                        region: 'ap-southeast-2',
+                        service: 'execute-api',
+                    });
+                    setAwsClient(aws);
+                }
+            }
+
             else {
                 console.log('WalletConnect')
                 walletConnectProvider = new WalletConnectProvider({
@@ -156,8 +213,6 @@ export const TransactionProvider = ({ children }) => {
                 const web3Provider = new providers.Web3Provider(provider);
                 console.log('Accounts:', accounts)
             }
-
-            await handleClientId(accounts[0]);
 
             setCurrentAccount(accounts[0])
             setIsLoading(false)
@@ -197,31 +252,6 @@ export const TransactionProvider = ({ children }) => {
 
         return balance;
 
-    }
-    // const status = setInterval(async () => {
-
-    //     const statusFetched = await getTransactionRecByHash();
-    //     console.log('statusFetched', statusFetched)
-
-    //     if (statusFetched === '0x1') {
-    //         clearInterval(status)
-    //     }
-
-    // }, 1000)
-
-    const getTransactionRecByHash = async () => {
-        try {
-            const options = { method: 'GET', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', } };
-
-            const res = await fetch(`https://api-rinkeby.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash=0xdbf2c8466580b1f3d139946c75927f5d037081c53cc199fe8a23d2d2969fb0f9&apikey=KQEKR3PW3DNCMGRRCZ5CKISB4EI9STJVVK`, options)
-
-            const data = await res.json()
-
-            return (data.result.status);
-
-        } catch (error) {
-            console.error(error);
-        }
     }
 
 

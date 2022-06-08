@@ -22,7 +22,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({
     uniqueOwners
 }) => {
     return (
-        <div className='rounded-lg bg-input max-w-[16rem] mx-auto' >
+        <div className='rounded-lg bg-input max-w-[15rem] mx-auto' >
             <img src='https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260' className='w-[250px] h-[250px] rounded-t-lg' />
             <div className='px-4 py-3'>
                 <div>
@@ -57,19 +57,19 @@ const MyInvestment: React.FC = () => {
         <div className='py-4 '>
             <Swiper
                 spaceBetween={30}
-                slidesPerGroupSkip={4}
+                // slidesPerGroupSkip={4}
                 grabCursor={true}
                 breakpoints={{
-                    425:{
+                    425: {
                         slidesPerView: 1,
                     },
                     640: {
                         slidesPerView: 2,
                     },
-                    768:{
+                    768: {
                         slidesPerView: 3,
                     },
-                    1024:{
+                    1024: {
                         slidesPerView: 4,
                     }
                 }}
@@ -141,9 +141,9 @@ const MyInvestment: React.FC = () => {
                         uniqueOwners={4726}
                     />
                 </SwiperSlide>
-              
+
             </Swiper>
-        </div>
+        </div >
     )
 }
 

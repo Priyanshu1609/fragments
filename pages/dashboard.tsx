@@ -116,7 +116,7 @@ const Dashboard: React.FC = () => {
     })
 
     return (
-        <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6 '>
+        <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6 h-[55rem]'>
             <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
