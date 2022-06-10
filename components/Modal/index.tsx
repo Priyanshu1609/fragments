@@ -14,6 +14,7 @@ interface IModal {
 	readonly disabled?: boolean;
 	readonly loading?: boolean;
 	readonly showCTA?: boolean;
+	readonly showClose?: boolean;
 }
 
 const Modal: React.FC<IModal> = ({
@@ -26,7 +27,8 @@ const Modal: React.FC<IModal> = ({
 	width,
 	disabled,
 	loading,
-	showCTA = true
+	showCTA = true,
+	showClose = true
 }) => {
 	return (
 		<Transition.Root show={open} as={Fragment}>
@@ -35,7 +37,7 @@ const Modal: React.FC<IModal> = ({
 				className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide"
 				onClose={() => { }}
 			>
-				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide">
+				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-black">
 					<Transition.Child
 						as={Fragment}
 						enter="ease-out duration-300"
@@ -65,11 +67,11 @@ const Modal: React.FC<IModal> = ({
 						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 					>
 						<div
-							className={`inline-block align-bottom bg-black pb-4 rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full`}
+							className={`inline-block align-bottom bg-black pb-4 rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
 						>
-							<div className='w-full p-2 bg-[#1E1E24] border-b border-gray-400 border-solid justify-end'>
+							{showClose && <div className='w-full p-2 bg-[#1E1E24] border-b border-gray-400 border-solid justify-end'>
 								<XIcon className='w-6 h-6 text-white ml-auto cursor-pointer' onClick={onClose} />
-							</div>
+							</div>}
 							<div className="">
 								<div className="mt-3 text-center sm:mt-5">
 									{<Dialog.Title

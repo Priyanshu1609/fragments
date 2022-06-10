@@ -61,11 +61,75 @@ export const TransactionProvider = ({ children }) => {
     const [clientId, setClientId] = useState('');
     const [awsClient, setAwsClient] = useState();
     const router = useRouter();
-    console.log(awsClient);
 
     const web3 = new Web3(Web3.givenProvider);
 
     let walletConnectProvider;
+
+    const awsConnect = async (address) => {
+
+        //* AWS AUTH
+
+        let customerId;
+        const res = await axios(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
+            }?address=${address.toLowerCase()}`,
+            {
+                method: 'GET',
+                validateStatus: false,
+            }
+        );
+        customerId = res.data.customerId;
+        console.log("data", res);
+        if (!customerId) {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
+                { address: address.toLowerCase() },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            console.log("Signup", res);
+            if (res && res.data.Attributes) {
+                customerId = res.data.Attributes.customerId;
+            }
+        }
+
+        console.log('customerID:', customerId);
+        setClientId(customerId);
+
+        const signature = await web3.eth.personal.sign(
+            web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
+            address
+        );
+
+        const data = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
+            {
+                address,
+                signature,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        console.log("Login", data);
+        if (data && data.AccessKeyId) {
+
+            const aws = new AwsClient({
+                accessKeyId: data.AccessKeyId,
+                secretAccessKey: data.SecretKey,
+                sessionToken: data.SessionToken,
+                region: 'ap-south-1',
+                service: 'execute-api',
+            });
+            setAwsClient(aws);
+        }
+    }
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -74,6 +138,8 @@ export const TransactionProvider = ({ children }) => {
             const accounts = await eth.request({ method: 'eth_accounts' })
 
             if (accounts.length) {
+                let address = accounts[0];
+                await awsConnect(address);
                 setCurrentAccount(accounts[0])
             }
         } catch (error) {
@@ -86,29 +152,6 @@ export const TransactionProvider = ({ children }) => {
         return provider;
     }
 
-    const handleClientId = async (_address) => {
-        try {
-            const options = {
-                method: 'GET',
-                //  headers: {
-                //     'accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:3001',
-                // },
-                // mode: 'cors',
-
-            };
-
-            const res = await fetch(`http://heimdall-env.eba-qak5rsqj.ap-south-1.elasticbeanstalk.com/api/v1/accounts/wallet/${currentAccount}`, options)
-
-            const data = await res.json();
-            setClientId(data.clientId)
-            console.log('clientId', data.clientId);
-
-        }
-        catch (error) {
-            console.error(error)
-        }
-    }
-
 
 
     const connectWallet = async (type) => {
@@ -116,91 +159,12 @@ export const TransactionProvider = ({ children }) => {
             if (!eth) return alert('Please install metamask ')
             let accounts;
 
-            // if (provider.network !== "rinkeby") {
-            //     await window.ethereum.request({
-            //         method: "wallet_addEthereumChain",
-            //         params: [
-            //             {
-            //                 ...networks["rinkeby"],
-            //             },
-            //         ],
-            //     });
-            // }
             if (type === 'metamask') {
                 setIsLoading(true)
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
-
-                //* AWS AUTH
                 let address = accounts[0];
-                let customerId;
-                const res = await axios(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-                    }?address=${address.toLowerCase()}`,
-                    {
-                        method: 'GET',
-                        validateStatus: false,
-                    }
-                );
-                customerId = res.data.customerId;
-                console.log("data", data);
-                if (!customerId) {
-                    const res = await axios.post(
-                        `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                        { address: address.toLowerCase() },
-                        {
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        }
-                    );
-                    console.log("Signup", res.data.Attributes);
-                    if (res && res.data.Attributes) {
-                        customerId = res.data.Attributes.customerId;
-                    }
-                }
-
-                console.log('customerID:', customerId);
-
-                const signature = await web3.eth.personal.sign(
-                    web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
-                    address
-                );
-
-                const data = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
-                    {
-                        address,
-                        signature,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
-                console.log("Login", data);
-                if (data && data.AccessKeyId) {
-                    console.log({
-                        type: 'LOGIN',
-                        payload: {
-                            isAuthenticated: true,
-                            accessKeyId: data.AccessKeyId,
-                            address,
-                            sessionToken: data.SessionToken,
-                            secretKey: data.SecretKey,
-                            expiration: data.Expiration,
-                        },
-                    });
-                    const aws = new AwsClient({
-                        accessKeyId: data.AccessKeyId,
-                        secretAccessKey: data.SecretKey,
-                        sessionToken: data.SessionToken,
-                        region: 'ap-southeast-2',
-                        service: 'execute-api',
-                    });
-                    setAwsClient(aws);
-                }
+                await awsConnect(address);
             }
 
             else {
@@ -216,6 +180,7 @@ export const TransactionProvider = ({ children }) => {
 
             setCurrentAccount(accounts[0])
             setIsLoading(false)
+            
         } catch (error) {
             console.error(error)
             // throw new Error('No ethereum object.')

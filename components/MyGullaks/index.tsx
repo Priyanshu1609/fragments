@@ -1,6 +1,6 @@
-import { PlusIcon } from '@heroicons/react/solid';
+import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { VaultCard } from '../MyInvestments';
 import { TransactionContext } from '../../contexts/transactionContext';
 
@@ -18,28 +18,39 @@ const MyInvestment: React.FC = () => {
     const { currentAccount } = React.useContext(TransactionContext);
     const router = useRouter()
 
+    const sliderRef = useRef() as any;
+
+    const handlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
+
     return (
-        <div className='py-4 '>
+        <div className='py-4 flex'>
+            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
-                spaceBetween={30}
-                slidesPerGroupSkip={4}
+                ref={sliderRef}
                 grabCursor={true}
                 breakpoints={{
-                    425: {
+                    600: {
                         slidesPerView: 1,
                     },
-                    640: {
+                    700: {
                         slidesPerView: 2,
                     },
-                    768: {
+                    1000: {
                         slidesPerView: 3,
                     },
-                    1024: {
+                    1300: {
                         slidesPerView: 4,
                     }
                 }}
                 scrollbar={true}
-                navigation={true}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
@@ -124,7 +135,7 @@ const MyInvestment: React.FC = () => {
                 </SwiperSlide>
 
             </Swiper>
-
+            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
         </div >
     )

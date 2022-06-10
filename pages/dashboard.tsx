@@ -13,6 +13,7 @@ import MyGullaks from '../components/MyGullaks';
 import { TransactionContext } from '../contexts/transactionContext';
 import { ethers } from 'ethers';
 import { getEllipsisTxt } from '../utils';
+import PageLoader from '../components/PageLoader';
 
 declare var window: any;
 
@@ -117,6 +118,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6 h-[55rem]'>
+            <PageLoader />
             <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
@@ -149,7 +151,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="w-full px-2 py-16 sm:px-0 text-white">
                 <Tab.Group>
-                    <Tab.List className="flex border-b-4 border-solid border-[#1B1B1B] p-1 !pb-0 w-full space-x-1">
+                    <Tab.List className="flex  p-1 !pb-0 w-full space-x-1">
                         <div className='flex w-full  '>
                             <RenderTab tabs={tabs} />
                         </div>

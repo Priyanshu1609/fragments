@@ -1,5 +1,5 @@
-import { ArrowNarrowUpIcon } from '@heroicons/react/solid';
-import React from 'react';
+import { ArrowNarrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import React, { useCallback, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -9,6 +9,8 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
+import Logo from '../logo';
+import Modal from '../Modal';
 
 export interface VaultCardProps {
     name: string;
@@ -53,28 +55,44 @@ export const VaultCard: React.FC<VaultCardProps> = ({
 }
 
 const MyInvestment: React.FC = () => {
+
+    const sliderRef = useRef() as any;
+
+    const handlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
+
+
+
     return (
-        <div className='py-4 '>
+        <div className='py-4 flex '>
+
+            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
-                spaceBetween={30}
-                // slidesPerGroupSkip={4}
+                ref={sliderRef}
                 grabCursor={true}
                 breakpoints={{
-                    425: {
+                    600: {
                         slidesPerView: 1,
                     },
-                    640: {
+                    700: {
                         slidesPerView: 2,
                     },
-                    768: {
+                    1000: {
                         slidesPerView: 3,
                     },
-                    1024: {
+                    1300: {
                         slidesPerView: 4,
                     }
                 }}
                 scrollbar={true}
-                navigation={true}
+                // navigation={true}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
@@ -143,6 +161,7 @@ const MyInvestment: React.FC = () => {
                 </SwiperSlide>
 
             </Swiper>
+            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-5 lg:right-10 xl:right-20  bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
         </div >
     )
 }

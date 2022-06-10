@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef, useCallback } from 'react'
 // import { useAccount } from 'wagmi';
 import { MoralisNFT } from '../../contracts/nft';
 import { fixTokenURI } from '../../utils';
@@ -16,6 +16,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
@@ -91,28 +92,40 @@ const NFTList: React.FC = () => {
         console.log('called')
     }, [currentAccount])
 
+    const sliderRef = useRef() as any;
+
+    const handlePrev = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slidePrev();
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!sliderRef.current) return;
+        sliderRef.current.swiper.slideNext();
+    }, []);
+
     return (
         <div className='py-8'>
+            
+            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
-                spaceBetween={30}
-                slidesPerGroupSkip={4}
+                ref={sliderRef}
                 grabCursor={true}
                 breakpoints={{
-                    425: {
+                    600: {
                         slidesPerView: 1,
                     },
-                    640: {
+                    700: {
                         slidesPerView: 2,
                     },
-                    768: {
+                    1000: {
                         slidesPerView: 3,
                     },
-                    1024: {
+                    1300: {
                         slidesPerView: 4,
                     }
                 }}
                 scrollbar={true}
-                navigation={true}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
@@ -124,6 +137,7 @@ const NFTList: React.FC = () => {
                     ))
                 }
             </Swiper>
+            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
         </div>
     )

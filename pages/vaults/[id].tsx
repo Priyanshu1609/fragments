@@ -15,7 +15,6 @@ import networks from '../../networks';
 import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
-import { OpenseaContext } from '../../contexts/opensesContext';
 import { DataContext } from '../../contexts/dataContext';
 import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
 import SelectChain from '../../components/SelectChain';
@@ -149,7 +148,7 @@ const VaultDetail: React.FC = () => {
         handleNetworkSwitch(selectedChain?.chainId);
     }, [selectedChain])
 
-    const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+    const jsonRpcEndpoint = ``;
     useEffect(() => {
         if (!currentAccount) {
             router.push('/')

@@ -11,7 +11,6 @@ import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/vault.png';
 import Select from '../Select';
 import { NftContext } from '../../contexts/NftContext';
-import { OpenseaContext } from '../../contexts/opensesContext';
 import { SocketContext } from '../../contexts/socketContext';
 import SelectChain from '../SelectChain';
 import { TransactionContext } from '../../contexts/transactionContext';
@@ -19,7 +18,7 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
-const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+const jsonRpcEndpoint = ``;
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -41,7 +40,6 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
 
     const { getTokenIdMetadata } = useContext(NftContext)
-    const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
     const { connectallet, currentAccount, logout, getProvider, getBalanace } = useContext(TransactionContext);
     const { formData, setFormData, handleChange } = useContext(DataContext);

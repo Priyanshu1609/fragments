@@ -31,5 +31,10 @@
     border-radius: 50%;
     padding: 30px;
     color: #000 !important;
+    margin-left: -20px;
+}
+
+.over{
+    overflow: hidden;
 }
 

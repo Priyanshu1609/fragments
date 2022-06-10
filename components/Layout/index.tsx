@@ -13,7 +13,6 @@ import Logo from '../logo'
 import ConnectModal from '../ConnectModal'
 import Account from '../Account'
 import CreateDAOButton from '../CreateDAOButton'
-import bg2 from '../../assets/bg2.png'
 
 interface Props {
     children: React.ReactNode;
@@ -34,7 +33,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='min-h-screen bg-[url("/g1.png")]  bg-center scrollbar-hide bg-fixed bg-cover  font-montserrat' >
+                                    <div className='min-h-screen bg-[url("/bg3.png")]  bg-center scrollbar-hide bg-fixed bg-cover  font-montserrat' >
 
                                         <header className="overflow-y-scroll scrollbar-hide">
                                             <div className=" mx-auto lg:px-8">
