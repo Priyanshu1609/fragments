@@ -180,7 +180,7 @@ export const TransactionProvider = ({ children }) => {
 
             setCurrentAccount(accounts[0])
             setIsLoading(false)
-            
+
         } catch (error) {
             console.error(error)
             // throw new Error('No ethereum object.')
@@ -257,6 +257,7 @@ export const TransactionProvider = ({ children }) => {
                 getBalanace,
                 getTokenBalance,
                 getProvider,
+                setIsLoading
             }}
         >
             {children}

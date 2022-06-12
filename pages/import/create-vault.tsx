@@ -14,7 +14,7 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 
 
 const CreateVault: React.FC = () => {
-    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
     const { formData, defaultFormData, setFormData } = useContext(DataContext);
 
     // const [{ data: connectData }] = useConnect()
@@ -54,10 +54,11 @@ const CreateVault: React.FC = () => {
 
     const handleCreateVault = async (values: CreateVaultFormValues) => {
         try {
-            const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
-            console.log("Deployed safe address:", vaultData.data)
+            setIsLoading(true);
+            // const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
+            // console.log("Deployed safe address:", vaultData.data.address)
             console.log("FormData", values);
-            const address = vaultData.data
+            const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
 
             const data = JSON.stringify({
                 "vaultAddress": address,
@@ -97,6 +98,8 @@ const CreateVault: React.FC = () => {
             // values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportNFTForm)
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false);
         }
     }
     const handleBack = () => {

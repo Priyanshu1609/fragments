@@ -168,10 +168,10 @@ const VaultDetail: React.FC = () => {
     }
     console.log('NFTS:', nfts);
 
-    useEffect(() => {
-        fetchTokens(selectedChain?.chainId);
-        handleNetworkSwitch(selectedChain?.chainId);
-    }, [selectedChain])
+    // useEffect(() => {
+    //     fetchTokens(selectedChain?.chainId);
+    //     handleNetworkSwitch(selectedChain?.chainId);
+    // }, [selectedChain])
 
     const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
     useEffect(() => {

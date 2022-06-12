@@ -69,7 +69,7 @@ export const RenderTab: React.FC<TabProps> = ({
             {
                 tabs.map(({ name, value }) => (
                     <Tab
-                        key={value}
+                        key={name}
                         className={({ selected }) =>
                             classNames(
                                 selected

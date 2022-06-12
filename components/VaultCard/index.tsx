@@ -33,11 +33,11 @@ const VaultCard: React.FC<VaultCardProps> = ({
             <div className='p-4'>
                 <div className='flex justify-between'>
                     <div>
-                        <p className='text-xs text-white text-opacity-70'>Valuations</p>
+                        <p className='text-xs  text-opacity-70'>Valuations</p>
                         <h2>{valuations}</h2>
                     </div>
                     <div>
-                        <p className='text-xs text-white text-opacity-70'>Unique owners</p>
+                        <p className='text-xs  text-opacity-70'>Unique owners</p>
                         <h2>{uniqueOwners}</h2>
                     </div>
                 </div>

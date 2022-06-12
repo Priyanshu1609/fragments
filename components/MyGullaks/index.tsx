@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { TransactionContext } from '../../contexts/transactionContext';
 
@@ -14,10 +14,39 @@ import "swiper/css/pagination";
 // import required modules
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
 import VaultCard from '../VaultCard';
+import axios from 'axios';
 
 const MyInvestment: React.FC = () => {
     const { currentAccount } = React.useContext(TransactionContext);
-    const router = useRouter()
+    const router = useRouter();
+
+    const [vaults, setVaults] = useState<string[]>()
+
+    const getVaults = async () => {
+
+        const data = JSON.stringify({
+            "walletAddress": "0x6d4b5acFB1C08127e8553CC41A9aC8F06610eFc7"
+        });
+        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
+            headers: {
+                'content-Type': 'application/json',
+            },
+        }
+        );
+
+        let arr: any[] = [];
+        response.data.Items.forEach((el: any) => {
+            arr.push(Object.values(el.vaultAddress)[0])
+        });
+
+        var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+
+        console.log(unique);
+        setVaults(unique);
+
+    }
+
+    console.log('Vaults', vaults)
 
     const sliderRef = useRef() as any;
 
@@ -30,6 +59,11 @@ const MyInvestment: React.FC = () => {
         if (!sliderRef.current) return;
         sliderRef.current.swiper.slideNext();
     }, []);
+
+    useEffect(() => {
+        getVaults();
+    }, [])
+
 
     return (
         <div className='py-4 flex'>
@@ -59,84 +93,25 @@ const MyInvestment: React.FC = () => {
                         </div>
                     </div>
                 </SwiperSlide> */}
-                <SwiperSlide>
-                    <div className='cursor-pointer' onClick={() =>
-                        router.push({
-                            pathname: '/vaults/0x67407721B109232BfF825F186c8066045cFefe7F',
-                            query: { user: currentAccount },
-                        })}>
-                        <VaultCard
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            theme="dark"
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
 
-                    </div>
-                </SwiperSlide>
-                <div>
-
+                {vaults?.map(vault => (
                     <SwiperSlide>
-                        <VaultCard
-                            theme="light"
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
+                        <div className='cursor-pointer' onClick={() =>
+                            router.push({
+                                pathname: `/vaults/${vault}`,
+                                query: { user: currentAccount },
+                            })}>
+                            <VaultCard
+                                name={vault}
+                                valuations={'600 ETH'}
+                                uniqueOwners={4726}
+                                theme="dark"
+                                image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
+                            />
 
+                        </div>
                     </SwiperSlide>
-                </div>
-                <div>
-
-                    <SwiperSlide>
-                        <VaultCard
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
-
-                    </SwiperSlide>
-                </div>
-                <div>
-
-                    <SwiperSlide>
-                        <VaultCard
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
-
-                    </SwiperSlide>
-                </div>
-                <div>
-
-                    <SwiperSlide>
-                        <VaultCard
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
-
-                    </SwiperSlide>
-                </div>
-                <div>
-
-                    <SwiperSlide>
-                        <VaultCard
-                            name='Priyanshu panda'
-                            valuations={'600 ETH'}
-                            uniqueOwners={4726}
-                            image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        />
-
-                    </SwiperSlide>
-                </div>
-
+                ))}
 
             </Swiper>
             <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
