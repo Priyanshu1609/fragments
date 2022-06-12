@@ -1,0 +1,56 @@
+{
+  "TableName": "Vaults",
+  "Item": {
+    "vaultAddress": {
+      "S": "$input.path('$.vaultAddress')"
+    },
+    "customerId": {
+      "S": "$input.path('$.customerId')"
+    },
+    "origin": {
+      "S": "$input.path('$.origin')"
+    },
+    "vaultName": {
+      "S": "$input.path('$.vaultName')"
+    },
+    "type": {
+      "S": "$input.path('$.type')"
+    },
+    "description": {
+      "S": "$input.path('$.description')"
+    },
+    "tokenName": {
+      "S": "$input.path('$.tokenName')"
+    },
+    "numOfTokens": {
+      "N": "$input.path('$.numOfTokens')"
+    },
+    "managementFees": {
+      "N": "$input.path('$.managementFees')"
+    },
+    "votingPeriod": {
+      "S": "$input.path('$.votingPeriod')"
+    },
+    "quorum": {
+      "S": "$input.path('$.quorum')"
+    },
+    "minFavor": {
+      "S": "$input.path('$.minFavor')"
+    },
+    "nftsImported": {
+      "SS": "$input.path('$.nftsImported')"
+    },
+    "nftsPurchased": {
+      "SS": "$input.path('$.nftsPurchased')"
+    },
+    "target": {
+      "N": "$input.path('$.target')"
+    },
+    "fundraiseDuration": {
+      "N": "$input.path('$.fundraiseDuration')"
+    },
+    "amount": {
+      "N": "$input.path('$.amount')"
+    }
+  }
+}

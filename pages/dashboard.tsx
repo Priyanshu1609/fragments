@@ -38,15 +38,15 @@ export interface TabProps {
 
 const tabs = [
     {
-        name: 'MY INVESTMENTS',
+        name: 'MY FRAGMENTS',
         value: TabNames.MyInvestments
     },
     {
-        name: 'GULLAK CREATED',
+        name: 'VAULTS CREATED',
         value: TabNames.MyGullaks
     },
     {
-        name: 'NFTS',
+        name: 'MY NFTS',
         value: TabNames.NFTS
     },
     // {
@@ -119,11 +119,16 @@ const Dashboard: React.FC = () => {
     return (
         <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6 h-[55rem]'>
             <PageLoader />
-            <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() => router.push('/create-dao')}>
+            <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() =>
+                router.push({
+                    pathname: '/create-gullak',
+                    query: { user: currentAccount },
+                })}>
+                    
                 <div className='flex items-center space-x-6'>
                     <Image src={cerateDaoPeopleImage} />
                     <div>
-                        <h1 className='text-2xl font-semibold'>Create your own DAO</h1>
+                        <h1 className='text-2xl font-semibold'>Create your own Vault</h1>
                         <p className='text-base mt-2'>Make a DAO to start investing with your frens in Gullaks</p>
                     </div>
                 </div>

@@ -54,25 +54,45 @@ const CreateVault: React.FC = () => {
 
     const handleCreateVault = async (values: CreateVaultFormValues) => {
         try {
-            // const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
-            // console.log(vaultData.data)
-            // const request = {
-            //     ...values,
-            //     vault_address: "0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d",
-            //     _type: 'vault'
-            // }
-            // const response = await sanityClient.create(request)
-            // const tx = await gullakFactoryContract()?.create(
-            //     values.name,
-            //     values.description,
-            //     values.token_name,
-            //     0,
-            //     values.token_supply,
-            //     currentAccount,
-            // )
-            // console.log(tx)
-            // const tx = await sendTx("0x9C01aF527f0410cf9E5A1Ba28Eb503b1D624eB1d", 0.01)
-            // console.log(tx)
+            const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
+            console.log("Deployed safe address:", vaultData.data)
+            console.log("FormData", values);
+            const address = vaultData.data
+
+            const data = JSON.stringify({
+                "vaultAddress": address,
+                "status": 0,
+                "customerId": "adsfadsf",
+                "origin": values.origin,
+                "vaultName": values.vaultName,
+                "type": values.type,
+                "description": values.description,
+                "tokenName": values.tokenName,
+                "numOfTokens": values.numOfTokens,
+                "managementFees": values.managementFees,
+                "votingPeriod": values.votingPeriod,
+                "quorum": values.quorum,
+                "minFavor": values.minFavor,
+                "nftsImported": values.nftsImported,
+                "nftsPurchased": values.nftsPurchased,
+                "target": values.target,
+                "fundraiseDuration": values.fundraiseDuration,
+                "amount": values.myContribution
+            })
+            console.log(data);
+
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+            console.log("aws res:", response);
+            router.push({
+                pathname: `/vaults/${address}`,
+                query: { user: currentAccount },
+            })
+
             setFormData(defaultFormData)
             // values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportNFTForm)
         } catch (error) {
@@ -103,7 +123,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <CreateVaultForm flow='import' setCurrentStep={setCurrentStep} />
+                        <CreateVaultForm origin='import' setCurrentStep={setCurrentStep} />
 
                     </div>
                 )
@@ -131,7 +151,6 @@ const CreateVault: React.FC = () => {
                     </div>
                 )
             }
-            {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}
         </div>
     )
 }

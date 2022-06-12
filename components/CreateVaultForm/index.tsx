@@ -6,7 +6,7 @@ import { ArrowRightIcon } from '@heroicons/react/solid';
 import { DataContext } from '../../contexts/dataContext'
 
 interface CreateVaultFormProps {
-    flow: string
+    origin: string
     setCurrentStep: (values: CreateVaultStep) => void;
 }
 
@@ -18,7 +18,7 @@ export enum CreateVaultStep {
 }
 
 export interface CreateVaultFormValues {
-    flow: string,
+    origin: string,
     vaultName: string,
     type: string,
     description: string,
@@ -28,15 +28,15 @@ export interface CreateVaultFormValues {
     votingPeriod: number,
     quorum: number,
     minFavor: number,
-    nftsImported: object[],
-    nftsPurchased: object[],
+    nftsImported: string[],
+    nftsPurchased: string[],
     target: number,
     fundraiseDuration: number,
     myContribution: number,
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
-    flow,
+    origin,
     setCurrentStep,
 }) => {
 
@@ -56,10 +56,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                 ...prev,
                 type,
                 numOfTokens,
-                flow
+                origin
             })
         )
-        if (flow === 'import' || flow === 'purchase') {
+        if (origin === 'import' || origin === 'purchase') {
             (type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportOrPurchase))
         }
         else {
@@ -86,14 +86,27 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Vault Name{requiredTag}</p>
                             <input required type='text' className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
                         </label>
-                        {flow !== 'private' && <label>
+                        {origin !== 'private' && <label className=''>
                             <p className='text-sm'>Type of Vault{requiredTag}</p>
-                            <div className="bg-input rounded-2xl m-2 mr-3 ">
-                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Public')}>
-                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Governed</p>
+                            <div className="bg-input rounded-2xl m-2 mr-3 relative flex">
+                                <div className='group'>
+                                    <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Public')}>
+
+                                        <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Governed</p>
+                                    </div>
+                                    <div className='bg-gray-700 bg-opacity-70 shadow-lg text-center p-4 rounded-lg absolute left-0 top-12 text-sm hidden group-hover:inline-block'>
+                                        Governed
+                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero, veritatis?
+                                    </div>
                                 </div>
-                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Private')}>
-                                    <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">With Frens</p>
+                                <div className='group'>
+                                    <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Private')}>
+                                        <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">With Frens</p>
+                                    </div>
+                                    <div className='bg-gray-700 bg-opacity-70 shadow-lg text-center p-4 rounded-lg absolute left-0 top-12 text-sm hidden group-hover:inline-block'>
+                                        With Frens
+                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero, veritatis?
+                                    </div>
                                 </div>
                             </div>
 

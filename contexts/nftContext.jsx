@@ -25,13 +25,13 @@ export const NftContextProvider = ({ children }) => {
 
     }
 
-    const getTokens = async (userAddress) => {
+    const getTokens = async (id) => {
 
         try {
 
             const options = { method: 'GET', headers: { 'X-API-Key': API_KEY, 'Accept': 'application/json', 'Content-Type': 'application/json', } };
 
-            const res = await fetch(`https://deep-index.moralis.io/api/v2/0x67407721B109232BfF825F186c8066045cFefe7F/nft?chain=rinkeby&format=decimal`, options)
+            const res = await fetch(`https://deep-index.moralis.io/api/v2/${id}/nft?chain=rinkeby&format=decimal`, options)
 
             let data = await res.json();
 

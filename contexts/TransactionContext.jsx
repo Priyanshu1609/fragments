@@ -139,7 +139,7 @@ export const TransactionProvider = ({ children }) => {
 
             if (accounts.length) {
                 let address = accounts[0];
-                await awsConnect(address);
+                // await awsConnect(address);
                 setCurrentAccount(accounts[0])
             }
         } catch (error) {

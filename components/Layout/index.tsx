@@ -13,6 +13,7 @@ import Logo from '../logo'
 import ConnectModal from '../ConnectModal'
 import Account from '../Account'
 import CreateDAOButton from '../CreateDAOButton'
+import PageLoader from '../PageLoader'
 
 interface Props {
     children: React.ReactNode;
@@ -49,7 +50,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                                     </div>
                                                     <div className="flex space-x-6 items-center">
                                                         {/* <Chains /> */}
-                                                        <CreateDAOButton />
+                                                        {/* <CreateDAOButton /> */}
                                                         <Account />
                                                     </div>
                                                 </div>
@@ -57,6 +58,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         </header>
                                         {children}
                                         <ConnectModal />
+                                        <PageLoader />
                                     </div>
                                 </SocketProvider>
                             </OpenseaContextProvider>

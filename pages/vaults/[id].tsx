@@ -31,6 +31,8 @@ import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
+import axios from 'axios';
+import { CreateVaultFormValues } from '../../components/CreateVaultForm';
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
@@ -61,10 +63,6 @@ const tabs = [
         name: 'OWNERS',
         value: VaultDashboardTabs.Owners
     },
-    // {
-    //     name: 'ORDERS',
-    //     value: VaultDashboardTabs.Orders
-    // },
 ]
 
 const myDarkTheme: Theme = {
@@ -80,7 +78,7 @@ const VaultDetail: React.FC = () => {
     const { getTokens } = useContext(NftContext);
     const { formData, setFormData } = useContext(DataContext);
 
-
+    const [data, setData] = useState<any>({});
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
@@ -93,45 +91,72 @@ const VaultDetail: React.FC = () => {
     const [provider, setProvider] = useState();
     const [uniModal, setUniModal] = useState(false);
 
+    const { id } = router.query
+
     const getProviderFrom = async () => {
         const provider = await getProvider();
         setProvider(provider);
     }
 
+    const fetchData = async () => {
+        const body = JSON.stringify({
+            "vaultAddress": id,
+        })
+
+        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+            headers: {
+                'content-Type': 'application/json',
+            },
+        }
+        );
+        console.log("FETCH RES", response.data.Item);
+        let d: any = {}
+        for (let i in response.data.Item) {
+            console.log(i, Object.values(response.data.Item[i])[0])
+            d[i] = Object.values(response.data.Item[i])[0]
+        }
+        setData(d);
+        if (d?.quorum >= 1) {
+            tabs.push({
+                name: 'GOVERNED',
+                value: VaultDashboardTabs.Orders
+            })
+        }
+    }
+    console.log(data);
 
     // setIsFunded(true)
 
-    const fetchTokens = async (chainId: number | undefined) => {
+    // const fetchTokens = async (chainId: number | undefined) => {
 
-        try {
-            const res = await fetchFromTokens(chainId);
-            setCoins(res);
+    //     try {
+    //         const res = await fetchFromTokens(chainId);
+    //         setCoins(res);
 
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
-    const bridge = async () => {
-        const fromChainId = selectedToken?.chainId
-        const fromToken = selectedToken?.address
-        const amount = tokenAmount
-        const userAddress = currentAccount
+    // const bridge = async () => {
+    //     const fromChainId = selectedToken?.chainId
+    //     const fromToken = selectedToken?.address
+    //     const amount = tokenAmount
+    //     const userAddress = currentAccount
 
-        const txHash = await transaction(fromChainId, fromToken, amount, userAddress);
+    //     const txHash = await transaction(fromChainId, fromToken, amount, userAddress);
 
-        console.log('Destination Socket Tx', txHash)
-    }
+    //     console.log('Destination Socket Tx', txHash)
+    // }
 
     const getNFTs = async () => {
 
         try {
 
-            const data = await getTokens(currentAccount);
+            const data = await getTokens(id);
 
             data.forEach((e: any) => {
                 let metadata = JSON.parse(e.metadata)
-                // setNfts([...nfts, metadata]);
                 setNfts((prev: any) => ([...prev, metadata]));
             });
 
@@ -148,7 +173,7 @@ const VaultDetail: React.FC = () => {
         handleNetworkSwitch(selectedChain?.chainId);
     }, [selectedChain])
 
-    const jsonRpcEndpoint = ``;
+    const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
     useEffect(() => {
         if (!currentAccount) {
             router.push('/')
@@ -156,6 +181,7 @@ const VaultDetail: React.FC = () => {
     }, [currentAccount])
 
     useEffect(() => {
+        fetchData();
         getNFTs();
         getProviderFrom();
     }, [])
@@ -174,12 +200,10 @@ const VaultDetail: React.FC = () => {
 
     return (
         <div className='text-white max-w-7xl mx-auto font-montserrat md:flex md:flex-row-reverse pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
-            {true && <div className='flex flex-[0.6]  items-start justify-center mt-4'>
+            {data?.origin !== "private" && <div className='flex flex-[0.6]  items-start justify-center mt-4'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <div className='flex-[0.8]  p-4'>
                     <div>
-                        {/* <img src={fixTokenURI(nfts[0]?.image)} className='w-full rounded-lg' />
-                        <p className='!bg-input p-2 w-36 rounded-2xl text-center mt-2 mx-auto z-50'>{nfts[0]?.name}</p> */}
                         <Swiper
                             ref={sliderRef}
                             effect={"fade"}
@@ -193,10 +217,9 @@ const VaultDetail: React.FC = () => {
                             className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !rounded-lg !rounded-b-lg"
                         >
                             {nfts?.map((nft: any) => (
-                                <div>
+                                <div key={nft?.image}>
                                     <SwiperSlide>
                                         <img src={fixTokenURI(nft?.image)} />
-                                        <p className='!bg-input text-white p-2 w-36 mt-36 rounded-2xl text-center mx-auto z-50'>Name: {nft?.name}</p>
                                     </SwiperSlide>
 
                                 </div>
@@ -215,15 +238,15 @@ const VaultDetail: React.FC = () => {
                         scale={3}
                         className='rounded-full mr-3'
                     />
-                    <p className='text-sm'>MakerdockDAO</p>
+                    <p className='text-sm'>{data?.tokenName}</p>
                 </div>
                 <div className='mt-5 mb-5'>
-                    <h2 className='text-2xl font-semibold text-[#2bffb1]  mb-2'>{`Bored Ape <> RTFKT`}</h2>
+                    <h2 className='text-2xl font-semibold text-[#2bffb1]  mb-2'>{data?.vaultName}</h2>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pharetra eget sagittis, libero morbi consequat lacus tempor mattis nunc
+                        {data?.description}
                     </p>
                 </div >
-                {isFunded ? <div className='mt-4 mb-6'>
+                {data?.amount >= 1 ? <div className='mt-4 mb-6'>
                     <div className='mb-5 bg-input rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
                         <p className='text-sm text-gray-300'>You have deposited: </p>
                         <p className='text-[#2bffb1] text-sm'>5000 ETH</p>
@@ -231,13 +254,13 @@ const VaultDetail: React.FC = () => {
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-sm'>Fund raised: </p><span className='text-sm font-semibold'>1000 ETH</span>
+                                <p className='text-gray-300 text-sm'>Fund raised: </p><span className='text-sm font-semibold'>{data?.amount} ETH</span>
                             </div>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>1300 ETH</span>
+                                <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>{data?.target} ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={60} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={data?.myContribution / data?.target} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     <div>
                         {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
@@ -256,7 +279,7 @@ const VaultDetail: React.FC = () => {
                     </div>
 
                     <div className='text-center' >
-                        <button onClick={bridge} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                        <button onClick={() => { }} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                             <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>
@@ -273,7 +296,7 @@ const VaultDetail: React.FC = () => {
                 }
                 <div>
                     <Tab.Group>
-                        <Tab.List className='flex border-b-4 border-solid border-[#1B1B1B] p-1 !pb-0 w-full space-x-1'>
+                        <Tab.List className='flex p-1 !pb-0 w-full space-x-1'>
                             <div className='flex w-full max-w-4xl'>
                                 <RenderTab tabs={tabs} />
                             </div>
@@ -294,11 +317,11 @@ const VaultDetail: React.FC = () => {
                                     <div className='flex justify-between mt-6'>
                                         <div>
                                             <p className='text-sm text-white opacity-70 mb-2'>Management fee</p>
-                                            <p className='text-xl font-semibold'>1%</p>
+                                            <p className='text-xl font-semibold'>{data?.managementFees}</p>
                                         </div>
                                         <div>
                                             <p className='text-sm text-white opacity-70 mb-2'>Unique owners</p>
-                                            <p className='text-xl font-semibold'>4364</p>
+                                            <p className='text-xl font-semibold'>1</p>
                                         </div>
                                     </div>
                                     <div></div>
@@ -306,10 +329,10 @@ const VaultDetail: React.FC = () => {
                             </Tab.Panel>
                             <Tab.Panel>
                                 <div className='py-4'>
-                                    <div className='flex justify-between items-center mb-4'>
+                                    {/* <div className='flex justify-between items-center mb-4'>
                                         <p>Vault owners</p>
                                         <button className='bg-white rounded-lg p-2 text-sm text-gray-900'>Add owner</button>
-                                    </div>
+                                    </div> */}
                                     <div>
                                         <div className='py-4 flex justify-between border-y-2 border-[#1E1E24]'>
                                             <div className='flex items-center w-full justify-between'>
@@ -339,46 +362,29 @@ const VaultDetail: React.FC = () => {
                                     </div>
                                 </div>
                             </Tab.Panel>
-                            {/* <Tab.Panel>
+                            {data?.quorum >= 1 && <Tab.Panel>
                                 <div className='py-4'>
+                                    <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
+
                                     <div className='flex justify-between mb-4'>
-                                        <p className='font-semibold text-lg'>Orders</p>
-                                        <div className='flex space-x-2'>
-                                            <div
-                                                className={`text-sm cursor-pointer px-4 py-2 bg-[#0F0F13] rounded-full ${currentOrderView === OrdersState.ACTIVE ? 'bg-white text-gray-900' : ''}`}
-                                                onClick={() => setCurrentOrderView(OrdersState.ACTIVE)}
-                                            >
-                                                Active
-                                            </div>
-                                            <div
-                                                className={`text-sm cursor-pointer px-4 py-2 bg-[#0F0F13] rounded-full ${currentOrderView === OrdersState.CLOSED ? 'bg-white text-gray-900' : ''}`}
-                                                onClick={() => setCurrentOrderView(OrdersState.CLOSED)}
-                                            >
-                                                Closed
-                                            </div>
+                                        <div>
+                                            <p className='text-sm text-white opacity-70 mb-2'>Voting Period</p>
+                                            <p className='text-xl font-semibold'>{data?.fundraiseDuration}</p>
                                         </div>
                                     </div>
-                                    <div className='py-4 flex justify-between border-y-2 border-[#1E1E24]'>
-                                        <div className='flex'>
-                                            <Blockies
-                                                seed='need to be changed'
-                                                size={8}
-                                                scale={5}
-                                                className='rounded-full mr-3'
-                                            />
-                                            <div>
-                                                <p className='font-semibold text-base'>
-                                                    rungta.eth is selling <span className='text-[#F5E58F]'>5000 BORE</span>
-                                                </p>
-                                                <p className='text-gray-300 text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
-                                            </div>
+                                    <div className='flex justify-between mt-6'>
+                                        <div>
+                                            <p className='text-sm text-white opacity-70 mb-2'>Quorum</p>
+                                            <p className='text-xl font-semibold'>{data?.quorum}</p>
                                         </div>
-                                        <button className='px-4 text-xs py-2 bg-white text-gray-900 rounded-full'>
-                                            Buy Token
-                                        </button>
+                                        <div>
+                                            <p className='text-sm text-white opacity-70 mb-2'>Min Favourable Majority</p>
+                                            <p className='text-xl font-semibold'>{data?.minFavor}</p>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </Tab.Panel> */}
+                            </Tab.Panel>}
                         </Tab.Panels>
                     </Tab.Group>
                 </div>

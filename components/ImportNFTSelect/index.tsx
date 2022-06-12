@@ -37,7 +37,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const [nftList, setNftList] = React.useState<any[]>([]);
     const [selected, setSelected] = useState(-1);
     const [transferred, setTransferred] = useState<any>([]);
-    const [nftsImported, setNftsImported] = useState<object[]>()
+    const [nftsImported, setNftsImported] = useState<string[]>()
 
     const { connectallet, currentAccount } = useContext(TransactionContext);
     const { formData, setFormData, handleChange } = useContext(DataContext);
@@ -46,17 +46,11 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
 
-        setFormData(
-            (prev: CreateVaultFormProps) => ({
-                ...prev,
-                nftsImported: nftsImported,
-            })
-        )
-        handleCreateVault(formData);
-        router.push({
-            pathname: '/vaults/random',
-            query: { user: currentAccount },
-        })
+        const form = {
+            ...formData, nftsImported
+        }
+
+        handleCreateVault(form);
     }
 
 
@@ -91,21 +85,6 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     //     }
     // }
 
-    const getContract = async (tokenAddress: string) => {
-        try {
-
-            const res = await fetch(`https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${tokenAddress}&apikey=${process.env.NEXT_PUBLIC_API}`)
-
-            const data = await res.json();
-            const contractABI = JSON.parse(data.result);
-            // console.log('contract abi', contractABI)
-            return contractABI
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     const getNFTs = async () => {
         setIsLoading(true)
         console.log(currentAccount)
@@ -128,30 +107,32 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const send_token = async (tokenAddress: string, tokenId: string, id: number, schema: string) => {
         try {
 
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const to_address = '0x67407721B109232BfF825F186c8066045cFefe7F'
-            const fromAddress = currentAccount;
+            // const provider = new ethers.providers.Web3Provider(window.ethereum);
+            // const signer = provider.getSigner();
+            // const to_address = '0x67407721B109232BfF825F186c8066045cFefe7F'
+            // const fromAddress = currentAccount;
 
 
-            const abi = schema === "ERC721" ? ERC_721 : ERC_1155;
-            let contract = new ethers.Contract(
-                tokenAddress,
-                abi,
-                signer
-            )
-            // console.log('Contract', { contract, signer, fromAddress, to_address, tokenId, tokenAddress })
+            // const abi = schema === "ERC721" ? ERC_721 : ERC_1155;
+            // let contract = new ethers.Contract(
+            //     tokenAddress,
+            //     abi,
+            //     signer
+            // )
+            // // console.log('Contract', { contract, signer, fromAddress, to_address, tokenId, tokenAddress })
 
-            let numberOfTokens = 1
-            console.log(`numberOfTokens: ${numberOfTokens}`)
-            let transfer;
-            schema === "ERC721" ? transfer = await contract.transferFrom(fromAddress, to_address, tokenId) :
-                transfer = await contract.safeTransferFrom(fromAddress, to_address, tokenId, 1, "0x0")
+            // let numberOfTokens = 1
+            // console.log(`numberOfTokens: ${numberOfTokens}`)
+            // let transfer;
+            // schema === "ERC721" ? transfer = await contract.transferFrom(fromAddress, to_address, tokenId) :
+            //     transfer = await contract.safeTransferFrom(fromAddress, to_address, tokenId, 1, "0x0")
 
-            console.log('transfer', transfer)
-            await transfer.wait();
+            // console.log('transfer', transfer)
+            // await transfer.wait();
             setTransferred([...transferred, id]);
-            setNftsImported([...nftsImported ?? [], { tokenAddress, tokenId }])
+            let add: string = `https://testnets.opensea.io/assets/rinkeby/${tokenAddress}/${tokenId}`;
+
+            setNftsImported([...nftsImported ?? [], add])
 
         } catch (error) {
             console.error(error)
@@ -210,7 +191,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                 <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-x-12 gap-y-4 no-scrollbar mx-auto'>
                     {
                         nftList?.map((nft, i) => (
-                            <div key={nft.id} className={`cursor-pointer rounded-md hover:bg-[#1E1E24] max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
+                            <div key={nft.id} className={`cursor-pointer rounded-md bg-black hover:bg-[#1E1E24] max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>
                                     <p className=''>{(nft.name).slice(0, 20)}...</p>

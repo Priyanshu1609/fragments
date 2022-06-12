@@ -106,26 +106,14 @@ const NFTList: React.FC = () => {
 
     return (
         <div className='py-8'>
-            
+
             <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
                 ref={sliderRef}
                 grabCursor={true}
-                breakpoints={{
-                    600: {
-                        slidesPerView: 1,
-                    },
-                    700: {
-                        slidesPerView: 2,
-                    },
-                    1000: {
-                        slidesPerView: 3,
-                    },
-                    1300: {
-                        slidesPerView: 4,
-                    }
-                }}
+                slidesPerView={'auto'}
                 scrollbar={true}
+                spaceBetween={80}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
@@ -139,7 +127,7 @@ const NFTList: React.FC = () => {
             </Swiper>
             <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
-        </div>
+        </div >
     )
 }
 

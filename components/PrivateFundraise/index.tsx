@@ -18,7 +18,7 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
-const jsonRpcEndpoint = ``;
+const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;

@@ -107,7 +107,7 @@ const CreateVault: React.FC = () => {
                                 <ArrowLeftIcon className='w-4' />
                                 <span>Back</span>
                             </button>
-                            <CreateVaultForm flow='purchase' setCurrentStep={setCurrentStep} />
+                            <CreateVaultForm origin='purchase' setCurrentStep={setCurrentStep} />
                         </div>
                     )
                 }
