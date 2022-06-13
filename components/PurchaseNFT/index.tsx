@@ -99,24 +99,20 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
-        setFormData(
-            (prev: CreateVaultFormProps) => ({
-                ...prev,
-                nftsPurchased: links,
-                target: target,
-                fundraiseDuration: duration ?? 0,
-                myContribution: amount ?? 0,
-            })
-        )
+        let arr = [] as any;
+        links.forEach(link => {
+            arr.push(link.value)
+        });
 
-        handleCreateVault(formData);
+        const form = {
+            ...formData,
+            nftsPurchased: arr,
+            target: target,
+            fundraiseDuration: duration ?? 0,
+            myContribution: amount ?? 0,
+        }
 
-
-        router.push({
-            pathname: '/vaults/random',
-            query: { user: currentAccount },
-        })
-
+        handleCreateVault(form);
     }
 
     const getNFTs = async (i: number) => {

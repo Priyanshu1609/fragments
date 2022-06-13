@@ -1,21 +1,24 @@
+import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState, useContext } from 'react'
+import { ArrowLeftIcon } from '@heroicons/react/solid'
+
+
+import { gullakFactoryContract } from '../../utils/crypto'
+import sanityClient from '../../utils/sanitySetup'
+import { DataContext, } from '../../contexts/dataContext'
+import { TransactionContext } from '../../contexts/transactionContext';
+
 import CreateVaultForm from '../../components/CreateVaultForm'
 import CreateGovernedForm from '../../components/CreateGovernedForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
-import { gullakFactoryContract } from '../../utils/crypto'
-import sanityClient from '../../utils/sanitySetup'
-import { TransactionContext } from '../../contexts/transactionContext';
-import { ArrowLeftIcon } from '@heroicons/react/solid'
-import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
-    const { formData, defaultFormData, setFormData } = useContext(DataContext);
+    const { formData, defaultFormData, setFormData,  } = useContext(DataContext);
 
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
@@ -85,7 +88,7 @@ const CreateVault: React.FC = () => {
                 "walletAddress": currentAccount,
                 "amountPledged": 20,
                 "timestamp": new Date().getTime(),
-                "transactions": [],
+                "transactions": ["12"],
                 "vaultAddress": address,
                 "vaultName": values.vaultName,
                 "target": values.target,
@@ -105,7 +108,8 @@ const CreateVault: React.FC = () => {
             }
             );
 
-            console.log("aws res:", response, response2);
+            console.log("aws res 1:", response);
+            console.log("aws res 1:", response2);
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount },

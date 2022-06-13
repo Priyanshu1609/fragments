@@ -39,7 +39,6 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     const [balance, setBalance] = useState('0');
 
 
-    const { getTokenIdMetadata } = useContext(NftContext)
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
     const { connectallet, currentAccount, logout, getProvider, getBalanace } = useContext(TransactionContext);
     const { formData, setFormData, handleChange } = useContext(DataContext);
@@ -63,21 +62,10 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         }
     }
 
-    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+    const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
-        // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
-        //     console.log('Error in values, Please input again')
-        //     return;
-        // }
-
 
         handleCreateVault(formData);
-
-        router.push({
-            pathname: '/vaults/random',
-            query: { user: currentAccount },
-        })
-
     }
 
     useEffect(() => {
@@ -129,7 +117,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
-                    <button onClick={e => router.push('/vaults/random')} type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                    <button onClick={onSubmitHandler} type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

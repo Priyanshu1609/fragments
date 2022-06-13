@@ -51,54 +51,6 @@ const MyInvestment: React.FC = () => {
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                 className="mySwiper"
             >
-                <SwiperSlide>
-                    <VaultCard
-                        name='Bored Ape <> RTFKT'
-                        valuations={'600 ETH'}
-                        uniqueOwners={4726}
-                        theme="dark"
-                        image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <VaultCard
-                        name='Bored Ape <> RTFKT'
-                        theme="light"
-                        valuations={'600 ETH'}
-                        uniqueOwners={4726}
-                        image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-
-                    />
-                </SwiperSlide>
-                {/* <SwiperSlide>
-                    <VaultCard
-                    name='Bored Ape <> RTFKT'
-                    valuations={'600 ETH'}
-                    uniqueOwners={4726}
-                    image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-
-                    />
-                </SwiperSlide> 
-                <SwiperSlide>
-                    <VaultCard
-                        name='Bored Ape <> RTFKT'
-                        valuations={'600 ETH'}
-                        uniqueOwners={4726}
-                        image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-
-                    />
-                    </SwiperSlide> 
-                <SwiperSlide>
-                    <VaultCard
-                        name='Bored Ape <> RTFKT'
-                        valuations={'600 ETH'}
-                        uniqueOwners={4726}
-                        image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-
-                    />
-                </SwiperSlide>  */}
-
 
 
             </Swiper>

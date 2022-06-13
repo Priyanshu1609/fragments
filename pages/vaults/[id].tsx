@@ -73,10 +73,10 @@ const myDarkTheme: Theme = {
 const VaultDetail: React.FC = () => {
     const router = useRouter();
 
-    const { connectallet, currentAccount, logout, getProvider } = useContext(TransactionContext);
-    const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading } = useContext(TransactionContext);
+    // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens } = useContext(NftContext);
-    const { formData, setFormData } = useContext(DataContext);
+    // const { formData, setFormData } = useContext(DataContext);
 
     const [data, setData] = useState<any>({});
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
@@ -99,29 +99,39 @@ const VaultDetail: React.FC = () => {
     }
 
     const fetchData = async () => {
-        const body = JSON.stringify({
-            "vaultAddress": id,
-        })
 
-        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
-            headers: {
-                'content-Type': 'application/json',
-            },
-        }
-        );
-        console.log("FETCH RES", response.data.Item);
-        let d: any = {}
-        for (let i in response.data.Item) {
-            console.log(i, Object.values(response.data.Item[i])[0])
-            d[i] = Object.values(response.data.Item[i])[0]
-        }
-        setData(d);
-        if (d?.quorum >= 1) {
-            tabs.push({
-                name: 'GOVERNED',
-                value: VaultDashboardTabs.Orders
+        try {
+            setIsLoading(true);
+            const body = JSON.stringify({
+                "vaultAddress": id,
             })
+
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+            console.log("FETCH RES", response.data.Item);
+            let d: any = {}
+            for (let i in response.data.Item) {
+                console.log(i, Object.values(response.data.Item[i])[0])
+                d[i] = Object.values(response.data.Item[i])[0]
+            }
+            setData(d);
+            if (d?.quorum >= 1) {
+                tabs.push({
+                    name: 'GOVERNED',
+                    value: VaultDashboardTabs.Orders
+                })
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
+
+
     }
     console.log(data);
 
