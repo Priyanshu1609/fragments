@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { TransactionContext } from '../../contexts/transactionContext';
+import logoWhite from '../../assets/LogoWhite.png'
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -20,12 +21,12 @@ const MyInvestment: React.FC = () => {
     const { currentAccount } = React.useContext(TransactionContext);
     const router = useRouter();
 
-    const [vaults, setVaults] = useState<string[]>()
+    const [vaults, setVaults] = useState<object[]>()
 
     const getVaults = async () => {
 
         const data = JSON.stringify({
-            "walletAddress": "0x6d4b5acFB1C08127e8553CC41A9aC8F06610eFc7"
+            "walletAddress": currentAccount
         });
         const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
             headers: {
@@ -34,15 +35,20 @@ const MyInvestment: React.FC = () => {
         }
         );
 
-        let arr: any[] = [];
-        response.data.Items.forEach((el: any) => {
-            arr.push(Object.values(el.vaultAddress)[0])
+
+
+        console.log(response)
+
+        response.data.Items.forEach((element: any) => {
+            console.log(element);
+            let d: object = {}
+            for (let i in element) {
+                console.log(i, Object.values(element[i])[0])
+                d[i] = Object.values(element[i])[0]
+            }
+
+            setVaults([...vaults ?? [], d]);
         });
-
-        var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
-
-        console.log(unique);
-        setVaults(unique);
 
     }
 
@@ -61,13 +67,14 @@ const MyInvestment: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        setVaults([])
         getVaults();
     }, [])
 
 
     return (
-        <div className='py-4 flex'>
-            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        <div className='py-4 flex relative'>
+            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-7 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
                 ref={sliderRef}
                 // grabCursor={true}
@@ -98,14 +105,17 @@ const MyInvestment: React.FC = () => {
                     <SwiperSlide>
                         <div className='cursor-pointer' onClick={() =>
                             router.push({
-                                pathname: `/vaults/${vault}`,
+                                pathname: `/vaults/${vault?.vaultAddress}`,
                                 query: { user: currentAccount },
                             })}>
                             <VaultCard
-                                name={vault}
-                                valuations={'600 ETH'}
-                                uniqueOwners={4726}
-                                theme="dark"
+                                name={vault?.vaultName}
+                                address={vault?.vaultAddress}
+                                valuations={vault?.target}
+                                uniqueOwners={1}
+                                status={vault?.vaultStatus}
+                                amount={vault?.amountPledged}
+                                timestamp={vault?.timestamp}
                                 image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
                             />
 
@@ -114,7 +124,7 @@ const MyInvestment: React.FC = () => {
                 ))}
 
             </Swiper>
-            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
         </div >
     )

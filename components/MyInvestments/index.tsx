@@ -38,14 +38,14 @@ const MyInvestment: React.FC = () => {
 
 
     return (
-        <div className='py-4 flex '>
+        <div className='py-4 flex relative'>
 
-            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-7 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
                 ref={sliderRef}
                 // grabCursor={true}
                 slidesPerView={'auto'}
-            
+
                 scrollbar={true}
                 spaceBetween={80}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
@@ -58,9 +58,9 @@ const MyInvestment: React.FC = () => {
                         uniqueOwners={4726}
                         theme="dark"
                         image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        
-                        />
-                </SwiperSlide> 
+
+                    />
+                </SwiperSlide>
                 <SwiperSlide>
                     <VaultCard
                         name='Bored Ape <> RTFKT'
@@ -68,9 +68,9 @@ const MyInvestment: React.FC = () => {
                         valuations={'600 ETH'}
                         uniqueOwners={4726}
                         image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
-                        
-                        />
-                </SwiperSlide> 
+
+                    />
+                </SwiperSlide>
                 {/* <SwiperSlide>
                     <VaultCard
                     name='Bored Ape <> RTFKT'
@@ -102,7 +102,7 @@ const MyInvestment: React.FC = () => {
 
 
             </Swiper>
-            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-5 lg:right-10 xl:right-20  bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
         </div >
     )
 }

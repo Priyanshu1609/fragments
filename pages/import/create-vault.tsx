@@ -62,7 +62,7 @@ const CreateVault: React.FC = () => {
 
             const data = JSON.stringify({
                 "vaultAddress": address,
-                "status": 0,
+                "status": 1,
                 "customerId": "adsfadsf",
                 "origin": values.origin,
                 "vaultName": values.vaultName,
@@ -80,7 +80,17 @@ const CreateVault: React.FC = () => {
                 "fundraiseDuration": values.fundraiseDuration,
                 "amount": values.myContribution
             })
-            console.log(data);
+
+            const data2 = JSON.stringify({
+                "walletAddress": currentAccount,
+                "amountPledged": 20,
+                "timestamp": new Date().getTime(),
+                "transactions": [],
+                "vaultAddress": address,
+                "vaultName": values.vaultName,
+                "target": values.target,
+                "vaultStatus": 1
+            });
 
             const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {
@@ -88,7 +98,14 @@ const CreateVault: React.FC = () => {
                 },
             }
             );
-            console.log("aws res:", response);
+            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
+            console.log("aws res:", response, response2);
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount },

@@ -154,7 +154,7 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full px-2 py-16 sm:px-0 text-white">
+            <div className="w-full px-2 py-10 sm:px-0 text-white">
                 <Tab.Group>
                     <Tab.List className="flex  p-1 !pb-0 w-full space-x-1">
                         <div className='flex w-full  '>
