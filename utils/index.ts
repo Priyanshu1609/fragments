@@ -54,7 +54,7 @@ export const minDtTime = () => {
   const min = formateDigit(d.getMinutes());
   const sec = formateDigit(d.getSeconds());
   const ms = formateDigit(d.getMilliseconds());
-  return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
+  return `${yr}-${mo}-${dy}T${hr}:${min}`;
 
 }
 
@@ -72,7 +72,7 @@ export const maxDtTime = (unixTime: any) => {
   const min = formateDigit(d.getMinutes());
   const sec = formateDigit(d.getSeconds());
   const ms = formateDigit(d.getMilliseconds());
-  return `${yr}-${mo}-${dy}T${hr}:${min}:${sec}`;
+  return `${yr}-${mo}-${dy}T${hr}:${min}`;
 
 }
 

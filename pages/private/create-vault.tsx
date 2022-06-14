@@ -52,12 +52,11 @@ const CreateVault: React.FC = () => {
             setIsLoading(true);
             // const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
             // console.log("Deployed safe address:", vaultData.data.address)
-            console.log("FormData", values);
             const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
 
             const data = JSON.stringify({
                 "vaultAddress": address,
-                "status": 1,
+                "vaultStatus": 1,
                 "customerId": "adsfadsf",
                 "origin": values.origin,
                 "vaultName": values.vaultName,
@@ -72,7 +71,7 @@ const CreateVault: React.FC = () => {
                 "nftsImported": values.nftsImported,
                 "nftsPurchased": values.nftsPurchased,
                 "target": values.target,
-                "fundraiseDuration": values.fundraiseDuration,
+                "fundraiseDuration": new Date(values.fundraiseDuration).getTime(),
                 "amount": values.myContribution
             })
 
@@ -86,6 +85,8 @@ const CreateVault: React.FC = () => {
                 "target": values.target,
                 "vaultStatus": 1
             });
+
+            console.log(data);
 
             const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {

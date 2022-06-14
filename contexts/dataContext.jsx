@@ -53,7 +53,7 @@ export const DataContextProvider = ({ children }) => {
         console.log(response)
 
         response.data.Items.forEach((element) => {
-            console.log(element);
+            // console.log(element);
             let d = {}
             for (let i in element) {
                 d[i] = Object.values(element[i])[0]
@@ -138,7 +138,7 @@ export const DataContextProvider = ({ children }) => {
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, putAssociation, putVault, vaults }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults }}>
             {children}
         </DataContext.Provider>
     )

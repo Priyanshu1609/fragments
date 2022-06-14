@@ -75,7 +75,7 @@ const CreateVault: React.FC = () => {
                 "nftsImported": values.nftsImported,
                 "nftsPurchased": values.nftsPurchased,
                 "target": values.target,
-                "fundraiseDuration": values.fundraiseDuration,
+                "fundraiseDuration": new Date(values.fundraiseDuration).getTime(),
                 "amount": values.myContribution
             })
 

@@ -198,7 +198,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         }
         setLinks((products) => products.filter((_, index) => index !== i));
     }
-    console.log('Formdata', formData.fundraiseDuration, (duration));
+
     console.log('Links', links);
     useEffect(() => {
         fetchBalance()

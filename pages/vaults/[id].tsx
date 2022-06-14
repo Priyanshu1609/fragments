@@ -112,6 +112,7 @@ const VaultDetail: React.FC = () => {
                 },
             }
             );
+            // const response = {}
             console.log("FETCH RES", response.data.Item);
             let d: any = {}
             for (let i in response.data.Item) {
@@ -209,7 +210,7 @@ const VaultDetail: React.FC = () => {
     }, []);
 
     return (
-        <div className='text-white max-w-7xl mx-auto font-montserrat md:flex md:flex-row-reverse pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
+        <div className='text-white max-w-7xl mx-auto font-montserrat md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
             {data?.origin !== "private" && <div className='flex flex-[0.6]  items-start justify-center mt-4'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <div className='flex-[0.8]  p-4'>
@@ -256,7 +257,7 @@ const VaultDetail: React.FC = () => {
                         {data?.description}
                     </p>
                 </div >
-                {data?.amount >= 1 ? <div className='mt-4 mb-6'>
+                {data?.amount > 0 ? <div className='mt-4 mb-6'>
                     <div className='mb-5 bg-input rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
                         <p className='text-sm text-gray-300'>You have deposited: </p>
                         <p className='text-[#2bffb1] text-sm'>5000 ETH</p>
