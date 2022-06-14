@@ -101,7 +101,7 @@ export const NftContextProvider = ({ children }) => {
                 .catch(_err => null)) ?? []
 
             const nftsMetadata = await Promise.all(nftsMetadataPromise)
-            const nftsFloorPrices = await Promise.all(nftsFloorPricesPromises)
+
             setNFTFloorPriceMapping(NFTFloorPriceMapping)
             console.log(nftsMetadata)
             console.log(nfts.result?.filter((nft) => nft.symbol !== 'ENS'))

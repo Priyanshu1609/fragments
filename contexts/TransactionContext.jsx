@@ -133,7 +133,8 @@ export const TransactionProvider = ({ children }) => {
 
     const checkIfWalletIsConnected = async () => {
         try {
-            if (!eth) return alert('Please install metamask ')
+            
+            setIsLoading(true);
 
             const accounts = await eth.request({ method: 'eth_accounts' })
 
@@ -144,6 +145,8 @@ export const TransactionProvider = ({ children }) => {
             }
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -156,7 +159,7 @@ export const TransactionProvider = ({ children }) => {
 
     const connectWallet = async (type) => {
         try {
-            if (!eth) return alert('Please install metamask ')
+            
             let accounts;
 
             if (type === 'metamask') {
@@ -179,17 +182,18 @@ export const TransactionProvider = ({ children }) => {
             }
 
             setCurrentAccount(accounts[0])
-            setIsLoading(false)
 
         } catch (error) {
             console.error(error)
             // throw new Error('No ethereum object.')
+        } finally {
+            setIsLoading(false)
         }
     }
 
     const logoutWallet = async () => {
         try {
-            if (!eth) return alert('Please install metamask ')
+            
             setIsReturningUser(true);
 
             setCurrentAccount('');

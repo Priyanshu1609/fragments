@@ -14,12 +14,16 @@ import ConnectModal from '../ConnectModal'
 import Account from '../Account'
 import CreateDAOButton from '../CreateDAOButton'
 import PageLoader from '../PageLoader'
+import { useRouter } from 'next/router'
 
 interface Props {
     children: React.ReactNode;
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
+
+    const router = useRouter();
+
     return (
         <>
             <TransactionProvider>
@@ -34,18 +38,16 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='min-h-screen bg-[url("/bg3.png")]  bg-center scrollbar-hide bg-fixed bg-cover  font-montserrat' >
+                                    <div className='min-h-screen bg-[url("/bg3.png")]  bg-center scrollbar-hide bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
 
                                         <header className="overflow-y-scroll scrollbar-hide">
                                             <div className=" mx-auto lg:px-8">
                                                 <div className="flex items-center w-full justify-between pt-1 pb-5 px-4">
                                                     <div className="flex px-2 lg:px-0">
                                                         <div className="flex-shrink-0 flex items-center cursor-pointer">
-                                                            <Link href="/">
-                                                                <div className="inline-flex items-center">
-                                                                    <Logo />
-                                                                </div>
-                                                            </Link>
+                                                            <div className="inline-flex items-center" onClick={e => router.push("/")}>
+                                                                <Logo />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div className="flex space-x-6 items-center">

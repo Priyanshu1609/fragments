@@ -55,7 +55,7 @@ const MyInvestment: React.FC = () => {
                         <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                             router.push({
                                 pathname: `/vaults/${vault?.vaultAddress}`,
-                                query: { user: currentAccount },
+                                query: { user: currentAccount, client: vault?.timestamp },
                             })}>
                             <VaultCard
                                 name={vault?.vaultName}

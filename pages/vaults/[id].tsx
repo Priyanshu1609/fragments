@@ -9,7 +9,7 @@ import { Tab } from '@headlessui/react';
 import Select from '../../components/Select';
 import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
-import { getEllipsisTxt } from '../../utils';
+import { getEllipsisTxt, minDtTime } from '../../utils';
 import { OrdersState } from '../../components/Orders';
 import networks from '../../networks';
 import { SocketContext } from '../../contexts/socketContext';
@@ -76,7 +76,7 @@ const VaultDetail: React.FC = () => {
     const { connectallet, currentAccount, logout, getProvider, setIsLoading } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens } = useContext(NftContext);
-    // const { formData, setFormData } = useContext(DataContext);
+    const { getVaultsByWallet } = useContext(DataContext);
 
     const [data, setData] = useState<any>({});
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
@@ -85,18 +85,25 @@ const VaultDetail: React.FC = () => {
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
     const [currentOrderView, setCurrentOrderView] = useState<OrdersState>(OrdersState.ACTIVE);
-    const [isFunded, setIsFunded] = useState(true);
     const [visible, setVisible] = useState(false);
     const [nfts, setNfts] = useState<any>([]);
     const [provider, setProvider] = useState();
     const [uniModal, setUniModal] = useState(false);
+    const [modalForm, setModalForm] = useState<any>({
+        target: 0,
+        fundraiseDuration: 0,
+        amount: 0
+    })
 
-    const { id } = router.query
+    const { id, client } = router.query
+
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
         setProvider(provider);
     }
+
+    console.log("Modal Data", modalForm)
 
     const fetchData = async () => {
 
@@ -105,15 +112,15 @@ const VaultDetail: React.FC = () => {
             const body = JSON.stringify({
                 "vaultAddress": id,
             })
-
+            // const response = {}
             const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
                 headers: {
                     'content-Type': 'application/json',
                 },
             }
             );
-            // const response = {}
-            console.log("FETCH RES", response.data.Item);
+
+            // console.log("FETCH RES", response.data.Item);
             let d: any = {}
             for (let i in response.data.Item) {
                 console.log(i, Object.values(response.data.Item[i])[0])
@@ -177,7 +184,52 @@ const VaultDetail: React.FC = () => {
             // setLoading(false);
         }
     }
-    console.log('NFTS:', nfts);
+    // console.log('NFTS:', nfts);
+
+    const handleModalSubmit = async () => {
+
+        try {
+            setIsLoading(true);
+            const body = JSON.stringify({
+                "vaultAddress": id,
+                "amount": modalForm.amount,
+                "fundraiseDuration": new Date(modalForm.fundraiseDuration).getTime(),
+                "target": modalForm.target
+            })
+
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/update `, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
+
+            // console.log("FETCH RES", response.data.Attributes);
+            let d: any = {}
+            for (let i in response.data.Attributes) {
+                console.log(i, Object.values(response.data.Attributes[i])[0])
+                d[i] = Object.values(response.data.Attributes[i])[0]
+            }
+            setData(d);
+            if (d?.quorum >= 1) {
+                tabs.push({
+                    name: 'GOVERNED',
+                    value: VaultDashboardTabs.Orders
+                })
+            }
+
+
+
+            setVisible(false);
+            await getVaultsByWallet();
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
+
+    }
 
     // useEffect(() => {
     //     fetchTokens(selectedChain?.chainId);
@@ -185,11 +237,11 @@ const VaultDetail: React.FC = () => {
     // }, [selectedChain])
 
     const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
-    useEffect(() => {
-        if (!currentAccount) {
-            router.push('/')
-        }
-    }, [currentAccount])
+    // useEffect(() => {
+    //     if (!currentAccount) {
+    //         router.push('/')
+    //     }
+    // }, [currentAccount])
 
     useEffect(() => {
         fetchData();
@@ -409,19 +461,19 @@ const VaultDetail: React.FC = () => {
                 <div className='font-montserrat p-6'>
                     {/* <Image src={walletmodal} /> */}
                     <p className='text-2xl mt-4 mb-6 text-white'>Start Fundraising</p>
-                    <div className='flex flex-col text-white space-y-4'>
+                    <form className='flex flex-col text-white space-y-4'>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Fundraise Duration</p>
                             </div>
-                            <input required type='date' placeholder='Enter Duration of Fundraise' className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-input  focus:outline-none w-full mt-2' value={modalForm.fundraiseDuration} onChange={e => setModalForm((prev: any) => ({ ...prev, fundraiseDuration: e.target.value }))} />
                         </div>
                         <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
                         <div>
@@ -434,21 +486,21 @@ const VaultDetail: React.FC = () => {
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Enter amount</p>
-                                <p>Min Investment: 5 ETH</p>
+                                <p>Min Investment: {modalForm.target / 10} ETH</p>
                             </div>
-                            <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="any" placeholder='Enter amount' min={modalForm.target / 10} value={modalForm.amount} onChange={e => setModalForm((prev: any) => ({ ...prev, amount: e.target.value }))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                         </div>
 
                         <div className='text-center !pb-6' >
-                            <button onClick={e => { setIsFunded(true); setVisible(false); }} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                            <button onClick={handleModalSubmit} type="submit" className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                                 <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
-                            {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+
                         </div>
 
 
-                    </div>
+                    </form>
                 </div>
             </Modal>
             <Modal

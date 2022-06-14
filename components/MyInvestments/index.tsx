@@ -38,24 +38,26 @@ const MyInvestment: React.FC = () => {
 
 
     return (
-        <div className='py-4 flex relative'>
+        <div className='h-[30rem]'>
+            <div className='py-4 flex relative '>
 
-            <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-7 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-            <Swiper
-                ref={sliderRef}
-                // grabCursor={true}
-                slidesPerView={'auto'}
+                <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-7 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+                <Swiper
+                    ref={sliderRef}
+                    // grabCursor={true}
+                    slidesPerView={'auto'}
 
-                scrollbar={true}
-                spaceBetween={80}
-                modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-                className="mySwiper"
-            >
+                    scrollbar={true}
+                    spaceBetween={80}
+                    modules={[Keyboard, Scrollbar, Navigation, Pagination]}
+                    className="mySwiper"
+                >
 
 
-            </Swiper>
-            <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
-        </div >
+                </Swiper>
+                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+            </div >
+        </div>
     )
 }
 

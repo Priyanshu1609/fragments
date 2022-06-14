@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import React, { useEffect, useState, useContext, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useContext, useRef, useCallback, RefAttributes } from 'react'
 // import { useAccount } from 'wagmi';
 import { MoralisNFT } from '../../contracts/nft';
 import { fixTokenURI } from '../../utils';
 import NFTCard from '../NFTCard';
 import { TransactionContext } from '../../contexts/transactionContext';
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperProps, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/scrollbar";
@@ -37,7 +37,7 @@ const NFTList: React.FC = () => {
     }, []);
 
     return (
-        <div className='py-8'>
+        <div className='py-6'>
 
             <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
             <Swiper
