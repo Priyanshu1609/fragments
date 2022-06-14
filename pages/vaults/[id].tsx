@@ -356,17 +356,17 @@ const VaultDetail: React.FC = () => {
                                                     />
                                                     <div>
                                                         <p className='font-semibold text-base'>
-                                                            rungta.eth
+                                                            {getEllipsisTxt(currentAccount)}
                                                         </p>
-                                                        <p className='text-gray-300 text-xs'>{getEllipsisTxt('0xCF193782f2eBC069ae05eC0Ef955E4B042D000Dd')}</p>
+
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <p className='text-sm'>3913 BORED</p>
-                                                    <p className='text-[#D0D0DA] text-xs'>$ 341,315</p>
+                                                    <p className='text-sm'>{((data?.amount / data?.target) * 1000000) + "  frag-" + data?.tokenName}</p>
+                                                    {/* <p className='text-[#D0D0DA] text-xs'>$ 341,315</p> */}
                                                 </div>
                                                 <div>
-                                                    <p>37.53%</p>
+                                                    <p>{(data?.amount / data?.target) * 100}</p>
                                                 </div>
                                             </div>
                                         </div>

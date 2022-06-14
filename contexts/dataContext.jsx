@@ -50,7 +50,7 @@ export const DataContextProvider = ({ children }) => {
         }
         );
 
-        console.log(response)
+        console.log("Vaults response:", response)
 
         response.data.Items.forEach((element) => {
             // console.log(element);
@@ -59,7 +59,7 @@ export const DataContextProvider = ({ children }) => {
                 d[i] = Object.values(element[i])[0]
             }
 
-            setVaults([...vaults, d]);
+            setVaults(prev => [...prev, d]);
         });
     }
 
@@ -138,7 +138,7 @@ export const DataContextProvider = ({ children }) => {
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet }}>
             {children}
         </DataContext.Provider>
     )

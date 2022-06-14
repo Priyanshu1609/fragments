@@ -4,8 +4,7 @@ import logoWhite from '../../assets/LogoWhite.png'
 
 export interface VaultCardProps {
     name: string;
-    valuations: string;
-    uniqueOwners: number;
+    target: number;
     image: string;
     status: number,
     amount: number,
@@ -15,8 +14,7 @@ export interface VaultCardProps {
 
 const VaultCard: React.FC<VaultCardProps> = ({
     name,
-    valuations,
-    uniqueOwners,
+    target,
     image,
     status,
     amount,
@@ -28,13 +26,13 @@ const VaultCard: React.FC<VaultCardProps> = ({
             <img src={image} className='w-[250px] h-[250px] rounded-t-lg' />
             <div className='px-4 py-3'>
                 <div>
-                    <div className='flex text-xs'>
-                        <p>Completed : {amount}</p>
-                        <span className='flex text-green-500 ml-3'>5% <ArrowNarrowUpIcon className='w-4' /></span>
-                        <p>{dtToString(timestamp)}</p>
+                    <div className='flex text-xs justify-between'>
+                        <p>Status : {status == 1 ? "Running" : "Closed"}</p>
+                        <span className='flex text-green-500 ml-3'>{((amount - target) / target) * 100} <ArrowNarrowUpIcon className='w-4' /></span>
                     </div>
+                    <p className="text-xs mt-1">{dtToString(timestamp)}</p>
                     <div className='mt-2'>
-                        <h1 className='font-semibold text-lg'>{name}</h1>
+                        <h1 className='font-semibold text-lg'>{name.length >= 19 ? name.slice(0, 19) + "..." : name}</h1>
                     </div>
                     <p> {getEllipsisTxt(address)}</p>
                 </div>
@@ -44,11 +42,11 @@ const VaultCard: React.FC<VaultCardProps> = ({
                 <div className='flex justify-between'>
                     <div>
                         <p className='text-xs  text-opacity-70'>Target</p>
-                        <h2>{valuations}</h2>
+                        <h2>{target} ETH</h2>
                     </div>
                     <div>
                         <p className='text-xs  text-opacity-70'>Fundraised</p>
-                        <h2>{uniqueOwners}</h2>
+                        <h2>{amount} ETH</h2>
                     </div>
                 </div>
             </div>

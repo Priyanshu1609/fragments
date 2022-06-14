@@ -8,7 +8,9 @@
 ::-webkit-scrollbar {
     display: none;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 
 .swiper-scrollbar {
   background-color: #2C2C35!important;

@@ -18,7 +18,7 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
-    const { formData, defaultFormData, setFormData, } = useContext(DataContext);
+    const { formData, defaultFormData, setFormData, getVaultsByWallet } = useContext(DataContext);
 
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
@@ -116,8 +116,8 @@ const CreateVault: React.FC = () => {
                 query: { user: currentAccount },
             })
 
+            await getVaultsByWallet();
             setFormData(defaultFormData)
-            // values.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.ImportNFTForm)
         } catch (error) {
             console.error(error)
         } finally {

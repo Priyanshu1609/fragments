@@ -37,7 +37,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const [nftList, setNftList] = React.useState<any[]>([]);
     const [selected, setSelected] = useState(-1);
     const [transferred, setTransferred] = useState<any>([]);
-    const [nftsImported, setNftsImported] = useState<string[]>()
+    const [nftsImported, setNftsImported] = useState<string[]>([""])
 
     const { connectallet, currentAccount } = useContext(TransactionContext);
     const { formData, setFormData, handleChange } = useContext(DataContext);

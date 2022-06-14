@@ -21,7 +21,7 @@ import axios from 'axios';
 const MyInvestment: React.FC = () => {
     const { currentAccount } = useContext(TransactionContext);
     const { vaults } = useContext(DataContext);
-
+    console.log(vaults);
     const router = useRouter();
 
     const sliderRef = useRef() as any;
@@ -43,7 +43,7 @@ const MyInvestment: React.FC = () => {
             <Swiper
                 ref={sliderRef}
                 // grabCursor={true}
-                slidesPerView={4}
+                slidesPerView={"auto"}
                 spaceBetween={80}
                 scrollbar={true}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
@@ -52,7 +52,7 @@ const MyInvestment: React.FC = () => {
 
                 {vaults?.map((vault: any) => (
                     <SwiperSlide>
-                        <div className='cursor-pointer' onClick={() =>
+                        <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                             router.push({
                                 pathname: `/vaults/${vault?.vaultAddress}`,
                                 query: { user: currentAccount },
@@ -60,8 +60,7 @@ const MyInvestment: React.FC = () => {
                             <VaultCard
                                 name={vault?.vaultName}
                                 address={vault?.vaultAddress}
-                                valuations={vault?.target}
-                                uniqueOwners={1}
+                                target={vault?.target}
                                 status={vault?.vaultStatus}
                                 amount={vault?.amountPledged}
                                 timestamp={vault?.timestamp}
