@@ -18,7 +18,7 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 
 const CreateVault: React.FC = () => {
     const { connectallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
-    const { formData, defaultFormData, setFormData,  } = useContext(DataContext);
+    const { formData, defaultFormData, setFormData, } = useContext(DataContext);
 
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
@@ -58,10 +58,11 @@ const CreateVault: React.FC = () => {
     const handleCreateVault = async (values: CreateVaultFormValues) => {
         try {
             setIsLoading(true);
-            // const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
-            // console.log("Deployed safe address:", vaultData.data.address)
+            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
+            console.log("Deployed safe address:", vaultData.data.address)
+            const address = vaultData.data.address;
             console.log("FormData", values);
-            const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
 
             const data = JSON.stringify({
                 "vaultAddress": address,

@@ -43,7 +43,7 @@ const MyInvestment: React.FC = () => {
             <Swiper
                 ref={sliderRef}
                 // grabCursor={true}
-                slidesPerView={'auto'}
+                slidesPerView={4}
                 spaceBetween={80}
                 scrollbar={true}
                 modules={[Keyboard, Scrollbar, Navigation, Pagination]}
