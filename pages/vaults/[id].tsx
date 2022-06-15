@@ -222,6 +222,25 @@ const VaultDetail: React.FC = () => {
 
 
             setVisible(false);
+
+            const data2 = JSON.stringify({
+                "walletAddress": currentAccount,
+                "amountPledged": modalForm.amount,
+                "timestamp": new Date().getTime(),
+                "transactions": [""],
+                "vaultAddress": id,
+                "vaultName": data.vaultName,
+                "target": modalForm.target,
+                "vaultStatus": 1
+            });
+
+            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
             await getVaultsByWallet();
         } catch (error) {
             console.error(error)
@@ -268,7 +287,8 @@ const VaultDetail: React.FC = () => {
                 <div className='flex-[0.8]  p-4'>
                     <div>
                         <Swiper
-                            ref={sliderRef}
+                            // ref={sliderRef}
+                            // navigation={true}
                             effect={"fade"}
                             pagination={true}
                             loop={true}

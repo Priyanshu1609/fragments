@@ -5,15 +5,17 @@ import cerateDaoPeopleImage from '../assets/create-dao-people.png';
 import Image from 'next/image';
 import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
-import MyInvestment from '../components/MyInvestments';
+
 import Orders from '../components/Orders';
 import Proposals from '../components/Proposals';
-import NFTList from '../components/NFTList';
-import MyGullaks from '../components/MyGullaks';
 import { TransactionContext } from '../contexts/transactionContext';
 import { ethers } from 'ethers';
 import { getEllipsisTxt } from '../utils';
 import PageLoader from '../components/PageLoader';
+import MyInvestment from "../components/MyInvestments"
+import MyGullaks from "../components/MyGullaks"
+import NFTList from "../components/NFTList"
+
 
 declare var window: any;
 

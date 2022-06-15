@@ -80,7 +80,7 @@ export const NftContextProvider = ({ children }) => {
             };
             const options = { method: 'GET', headers: { 'X-API-Key': API_KEY, 'Accept': 'application/json', 'Content-Type': 'application/json', } };
 
-            const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=matic&format=decimal`, options)
+            const res = await fetch(`https://deep-index.moralis.io/api/v2/${currentAccount}/nft?chain=eth&format=decimal`, options)
 
             let nfts = await res.json();
 

@@ -13,17 +13,11 @@ import Logo from '../logo';
 import Modal from '../Modal';
 import VaultCard from '../VaultCard';
 
-export interface VaultCardProps {
-    name: string;
-    valuations: string;
-    uniqueOwners: number;
-}
 
 
+const MyInvestment= () => {
 
-const MyInvestment: React.FC = () => {
-
-    const sliderRef = useRef() as any;
+    const sliderRef = useRef();
 
     const handlePrev = useCallback(() => {
         if (!sliderRef.current) return;
@@ -40,7 +34,6 @@ const MyInvestment: React.FC = () => {
     return (
         <div className='h-[30rem]'>
             <div className='py-4 flex relative '>
-
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-7 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <Swiper
                     ref={sliderRef}
@@ -52,7 +45,6 @@ const MyInvestment: React.FC = () => {
                     modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                     className="mySwiper"
                 >
-
 
                 </Swiper>
                 <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
