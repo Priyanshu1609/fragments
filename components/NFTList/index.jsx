@@ -22,7 +22,7 @@ import { NftContext } from '../../contexts/NftContext';
 const NFTList = () => {
     const { currentAccount } = useContext(TransactionContext);
     const { nftList, nftFloorPriceMapping } = useContext(NftContext);
-
+console.log("NFTS FROM PAGE",nftList)
 
     const sliderRef = useRef();
 

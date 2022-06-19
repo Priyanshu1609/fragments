@@ -20,10 +20,16 @@ import VaultCard from '../VaultCard';
 const MyInvestment = () => {
     const { currentAccount } = useContext(TransactionContext);
     const { vaults } = useContext(DataContext);
-    console.log(vaults);
+
+    const key = 'vaultAddress';
+
+    const uniqueVaults = [...new Map(vaults.map(item =>
+        [item[key], item])).values()];
+
+
     const router = useRouter();
 
-    const sliderRef = useRef() ;
+    const sliderRef = useRef();
 
     const handlePrev = useCallback(() => {
         if (!sliderRef.current) return;
@@ -50,7 +56,7 @@ const MyInvestment = () => {
                     className="mySwiper"
                 >
 
-                    {vaults?.map((vault) => (
+                    {uniqueVaults?.map((vault) => (
                         <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({

@@ -78,7 +78,7 @@ export const RenderTab: React.FC<TabProps> = ({
                                     ? 'text-white !opacity-100 border-b-white border-b-2'
                                     : 'text-white hover:text-white',
                                 'w-full font-bold py-2.5 text-sm leading-5 text-white opacity-50 transition-all delay-200',
-                                'focus:outline-hidden'
+                                '!focus:outline-hidden border-0'
                             )
                         }
                     >
