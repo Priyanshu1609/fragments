@@ -7,7 +7,7 @@ import '@uniswap/widgets/fonts.css'
 import { useRouter } from 'next/router';
 
 import { requiredTag } from '../CreateDAOForm';
-import vault from '../../assets/vault.png';
+import vault from '../../assets/NFT.png';
 import Modal from '../Modal';
 import Select from '../Select';
 import SelectChain from '../SelectChain';
@@ -214,13 +214,13 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     return (
         <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
-            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover rounded-lg pb-8'>
+            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover rounded-lg '>
                 <div>
                     <h2 className='text-black text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
                     <p className='text-black'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
-                    <Image src={vault} />
+                    <Image src={vault} width={150} height={150} />
                 </div>
             </div>
             <div className='mt-10'>

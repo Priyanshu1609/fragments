@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import vault from '../../assets/vault.png';
 import Image from 'next/image';
 
 import { requiredTag } from '../CreateDAOForm';
@@ -7,6 +6,7 @@ import { ArrowRightIcon } from '@heroicons/react/solid';
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import Select from '../Select';
+import governance from '../../assets/governance.png';
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -58,7 +58,7 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                     <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
-                    <Image src={vault} />
+                    <Image src={governance} height={150} width={150} />
                 </div>
             </div>
             <div className='mt-10'>

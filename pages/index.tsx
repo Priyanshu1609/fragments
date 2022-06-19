@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 // import { useConnect } from 'wagmi'
-import connectwallet from '../assets/connectwallet.png'
+import connectwallet from '../assets/Vaultpage.png'
 import ConnectModalContext from '../contexts/connectwallet'
 import { TransactionContext } from '../contexts/transactionContext'
 
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex min-h-screen  flex-col items-center justify-center py-2">
       <div className='text-white border border-white border-solid border-opacity-10 rounded-lg text-center font-montserrat p-8 bg-[#0F0F10] w-[330px]'>
-        <Image src={connectwallet} />
+        <Image src={connectwallet} width={150} height={150} />
         <h1 className='text-2xl mt-6 mb-2'>Wallet not connected</h1>
         <p className='text-sm text-white text-opacity-60'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
         <button className='py-3 mt-6 rounded-md bg-white text-black w-full' onClick={() => setVisible(true)}>

@@ -8,7 +8,7 @@ import '@uniswap/widgets/fonts.css'
 
 import Modal from '../Modal';
 import { requiredTag } from '../CreateDAOForm';
-import vault from '../../assets/vault.png';
+import vault from '../../assets/vaultcreation.png';
 import Select from '../Select';
 import { NftContext } from '../../contexts/NftContext';
 import { SocketContext } from '../../contexts/socketContext';
@@ -83,7 +83,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <p className='text-black'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
-                    <Image src={vault} />
+                    <Image src={vault} width={150} height={150} />
                 </div>
             </div>
             <div className='mt-10'>

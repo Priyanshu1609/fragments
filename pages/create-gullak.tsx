@@ -3,7 +3,8 @@ import React, { useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { TransactionContext } from '../contexts/transactionContext';
 
-import atomillustration from '../assets/atomillustration.png';
+import importWallet from '../assets/import-wallet.png';
+import buy1 from '../assets/buy1.png';
 
 
 const CreateGullak: React.FC = () => {
@@ -29,7 +30,7 @@ const CreateGullak: React.FC = () => {
         <div className='min-h-screen flex flex-col items-center justify-center text-white font-montserrat'>
             <div className='flex space-x-4 items-center justify-center '>
                 <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
-                    <Image src={atomillustration} />
+                    <Image src={importWallet} height={150} width={150} />
                     <h1 className='text-2xl font-semibold'>Import NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
                     <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e =>
@@ -40,7 +41,7 @@ const CreateGullak: React.FC = () => {
                     }>Make Vault</button >
                 </div>
                 <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
-                    <Image src={atomillustration} />
+                    <Image src={buy1} height={150} width={150} />
                     <h1 className='text-2xl font-semibold'>Purchase NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
                     <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e =>

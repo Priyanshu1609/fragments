@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import { ArrowRightIcon, CheckIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
 
-import NFTillustration from '../../assets/nftillustration.png'
+import NFTillustration from '../../assets/NFT.png'
 import { fixTokenURI } from '../../utils';
 import { MoralisNFT } from '../../contracts/nft';
 import { TransactionContext } from '../../contexts/transactionContext';
@@ -106,6 +106,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
     const send_token = async (tokenAddress: string, tokenId: string, id: number, schema: string) => {
         try {
+            setIsLoading(true)
 
             // const provider = new ethers.providers.Web3Provider(window.ethereum);
             // const signer = provider.getSigner();
@@ -136,6 +137,8 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false);
         }
 
 
@@ -178,13 +181,13 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
     return (
         <div className='pb-8'>
-            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover  rounded-lg pb-16'>
+            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover  rounded-lg '>
                 <div className='text-black'>
                     <h2 className=' text-2xl font-semibold mb-2'>Select NFTs to Fractionalize</h2>
                     <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
-                    <Image src={NFTillustration} />
+                    <Image src={NFTillustration} width={150} height={150} />
                 </div>
             </div>
             <div className='mt-10'>

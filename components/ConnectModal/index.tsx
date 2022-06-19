@@ -5,7 +5,7 @@ import Modal from '../Modal';
 import Image from 'next/image'
 import walletconnectlogo from '../../assets/walletconnectlogo.png'
 import metamasklogo from '../../assets/metamasklogo.png'
-import walletmodal from '../../assets/walletmodal.png'
+import walletmodal from '../../assets/walletconnect.png'
 import { TransactionContext } from '../../contexts/transactionContext';
 
 const ConnectModal: React.FC = () => {
@@ -31,7 +31,7 @@ const ConnectModal: React.FC = () => {
             showCTA={false}
         >
             <div className='font-montserrat p-10  '>
-                <Image src={walletmodal} />
+                <Image src={walletmodal} height={120} width={120}/>
                 <p className='text-2xl mt-4 mb-2 text-white'>Select Wallet</p>
                 <p className='mb-6 text-gray-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, iure?</p>
                 <div className='flex flex-col text-white space-y-4'>

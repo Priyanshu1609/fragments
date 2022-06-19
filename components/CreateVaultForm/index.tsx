@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import vault from '../../assets/vault.png';
+import vault from '../../assets/vaultcreation.png';
 import Image from 'next/image';
 import { requiredTag } from '../CreateDAOForm';
 import { ArrowRightIcon } from '@heroicons/react/solid';
@@ -76,7 +76,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
                 </div>
                 <div>
-                    <Image src={vault} />
+                    <Image src={vault} height={140} width={140}/>
                 </div>
             </div>
             <div className='mt-10'>
