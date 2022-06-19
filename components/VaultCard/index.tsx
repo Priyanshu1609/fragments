@@ -28,7 +28,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
                 <div>
                     <div className='flex text-xs justify-between'>
                         <p>Status : {status == 1 ? "Running" : "Closed"}</p>
-                        <span className='flex text-green-500 ml-3'>{((amount - target) / target) * 100} <ArrowNarrowUpIcon className='w-4' /></span>
+                        <span className='flex text-green-500 ml-3'>{target != 0 && parseFloat((((target - amount) / target) * 100).toFixed(2))} {target != 0 && <ArrowNarrowUpIcon className='w-4' />} </span>
                     </div>
                     <p className="text-xs mt-1">{dtToString(timestamp)}</p>
                     <div className='mt-2'>

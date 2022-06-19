@@ -69,71 +69,83 @@ export const TransactionProvider = ({ children }) => {
     const awsConnect = async (address) => {
 
         //* AWS AUTH
+        try {
 
-        let customerId;
-        const res = await axios(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-            }?address=${address.toLowerCase()}`,
-            {
-                method: 'GET',
-                validateStatus: false,
+            setIsLoading(true);
+            let customerId;
+            const res = await axios(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
+                }?address=${address.toLowerCase()}`,
+                {
+                    method: 'GET',
+                    validateStatus: false,
+                }
+            );
+            customerId = res.data.customerId;
+            console.log("data", res);
+            if (!customerId) {
+                const res = await axios.post(
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
+                    { address: address.toLowerCase() },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                console.log("Signup", res);
+                if (res && res.data.Attributes) {
+                    customerId = res.data.Attributes.customerId;
+                }
             }
-        );
-        customerId = res.data.customerId;
-        console.log("data", res);
-        if (!customerId) {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                { address: address.toLowerCase() },
+
+            console.log('customerID:', customerId);
+            setClientId(customerId);
+
+            const signature = await web3.eth.personal.sign(
+                web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
+                address
+            );
+
+            const data = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
+                {
+                    address,
+                    signature,
+                },
                 {
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }
             );
-            console.log("Signup", res);
-            if (res && res.data.Attributes) {
-                customerId = res.data.Attributes.customerId;
+            console.log("Login", data);
+            if (data && data.AccessKeyId) {
+
+                const aws = new AwsClient({
+                    accessKeyId: data.AccessKeyId,
+                    secretAccessKey: data.SecretKey,
+                    sessionToken: data.SessionToken,
+                    region: 'ap-south-1',
+                    service: 'execute-api',
+                });
+                setAwsClient(aws);
             }
-        }
 
-        console.log('customerID:', customerId);
-        setClientId(customerId);
+        } catch (error) {
 
-        const signature = await web3.eth.personal.sign(
-            web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
-            address
-        );
+            console.error(error);
 
-        const data = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
-            {
-                address,
-                signature,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        console.log("Login", data);
-        if (data && data.AccessKeyId) {
+        } finally {
 
-            const aws = new AwsClient({
-                accessKeyId: data.AccessKeyId,
-                secretAccessKey: data.SecretKey,
-                sessionToken: data.SessionToken,
-                region: 'ap-south-1',
-                service: 'execute-api',
-            });
-            setAwsClient(aws);
+            setIsLoading(false);
+
         }
     }
 
     const checkIfWalletIsConnected = async () => {
         try {
-            
+
             setIsLoading(true);
 
             const accounts = await eth.request({ method: 'eth_accounts' })
@@ -159,7 +171,7 @@ export const TransactionProvider = ({ children }) => {
 
     const connectWallet = async (type) => {
         try {
-            
+
             let accounts;
 
             if (type === 'metamask') {
@@ -193,7 +205,7 @@ export const TransactionProvider = ({ children }) => {
 
     const logoutWallet = async () => {
         try {
-            
+
             setIsReturningUser(true);
 
             setCurrentAccount('');

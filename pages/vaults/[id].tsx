@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
+import { GetServerSideProps } from 'next'
 
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 
 import Select from '../../components/Select';
@@ -16,7 +17,7 @@ import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
 import { DataContext } from '../../contexts/dataContext';
-import { bnToString, dtToString, ipfsParse, fixTokenURI } from '../../utils';
+import { fixTokenURI } from '../../utils';
 import SelectChain from '../../components/SelectChain';
 
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
@@ -34,11 +35,14 @@ import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
 import axios from 'axios';
 import { CreateVaultFormValues } from '../../components/CreateVaultForm';
 
+const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
     Owners = 'OWNERS',
     Orders = 'ORDERS'
 }
+
 interface selectedChain {
     chainId: number;
     icon: string;
@@ -70,7 +74,7 @@ const myDarkTheme: Theme = {
     fontFamily: 'Sora'
 }
 
-const VaultDetail: React.FC = () => {
+const VaultDetail: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { connectallet, currentAccount, logout, getProvider, setIsLoading } = useContext(TransactionContext);
@@ -78,7 +82,7 @@ const VaultDetail: React.FC = () => {
     const { getTokens } = useContext(NftContext);
     const { getVaultsByWallet } = useContext(DataContext);
 
-    const [data, setData] = useState<any>({});
+    // const [data, setData] = useState<any>({});
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
@@ -103,45 +107,6 @@ const VaultDetail: React.FC = () => {
         setProvider(provider);
     }
 
-    console.log("Modal Data", modalForm)
-
-    const fetchData = async () => {
-
-        try {
-            setIsLoading(true);
-            const body = JSON.stringify({
-                "vaultAddress": id,
-            })
-            // const response = {}
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            }
-            );
-
-            // console.log("FETCH RES", response.data.Item);
-            let d: any = {}
-            for (let i in response.data.Item) {
-                console.log(i, Object.values(response.data.Item[i])[0])
-                d[i] = Object.values(response.data.Item[i])[0]
-            }
-            setData(d);
-            if (d?.quorum >= 1) {
-                tabs.push({
-                    name: 'GOVERNED',
-                    value: VaultDashboardTabs.Orders
-                })
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
-
-
-    }
-    console.log(data);
 
     // setIsFunded(true)
 
@@ -211,7 +176,7 @@ const VaultDetail: React.FC = () => {
                 console.log(i, Object.values(response.data.Attributes[i])[0])
                 d[i] = Object.values(response.data.Attributes[i])[0]
             }
-            setData(d);
+
             if (d?.quorum >= 1) {
                 tabs.push({
                     name: 'GOVERNED',
@@ -220,7 +185,7 @@ const VaultDetail: React.FC = () => {
             }
 
 
-
+            refreshData();
             setVisible(false);
 
             const data2 = JSON.stringify({
@@ -255,18 +220,21 @@ const VaultDetail: React.FC = () => {
     //     handleNetworkSwitch(selectedChain?.chainId);
     // }, [selectedChain])
 
-    const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
     // useEffect(() => {
     //     if (!currentAccount) {
     //         router.push('/')
     //     }
     // }, [currentAccount])
 
+    const refreshData = () => {
+        router.replace(router.asPath);
+    }
+
+    console.log(data);
     useEffect(() => {
-        fetchData();
-        getNFTs();
         getProviderFrom();
-    }, [])
+        getNFTs();
+    }, [currentAccount])
 
     const sliderRef = useRef() as any;
 
@@ -332,7 +300,7 @@ const VaultDetail: React.FC = () => {
                 {data?.amount > 0 ? <div className='mt-4 mb-6'>
                     <div className='mb-5 bg-input rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
                         <p className='text-sm text-gray-300'>You have deposited: </p>
-                        <p className='text-[#2bffb1] text-sm'>5000 ETH</p>
+                        <p className='text-[#2bffb1] text-sm'>{data?.amount} ETH</p>
                     </div >
                     <div>
                         <div className='flex justify-between items-center mb-3'>
@@ -471,6 +439,16 @@ const VaultDetail: React.FC = () => {
                         </Tab.Panels>
                     </Tab.Group>
                 </div>
+                <div>
+                    <a href='' target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
+                        <p className='ml-4'>View on Etherscan</p>
+                        <ArrowUpIcon className='h-6 w-6 rotate-45' />
+                    </a>
+                    <a href={`https://gnosis-safe.io/app/rin:${id}/home`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between cursor-pointer'>
+                        <p className='ml-4'>View on Gnosis Wallet</p>
+                        <ArrowUpIcon className='h-6 w-6 rotate-45' />
+                    </a>
+                </div>
             </div >
 
             <Modal
@@ -546,6 +524,43 @@ const VaultDetail: React.FC = () => {
 }
 
 export default VaultDetail
+
+export async function getServerSideProps(context: any) {
+    // Fetch data from external API
+    let data: any = {}
+    const { id } = context.params
+
+    try {
+        const body = JSON.stringify({
+            "vaultAddress": id,
+        })
+        // const response = {}
+        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+            headers: {
+                'content-Type': 'application/json',
+            },
+        }
+        );
+
+        console.log("FETCH RES", response.data.Item);
+
+        for (let i in response.data.Item) {
+            console.log(i, Object.values(response.data.Item[i])[0])
+            data[i] = Object.values(response.data.Item[i])[0]
+        }
+        if (data?.quorum >= 1) {
+            tabs.push({
+                name: 'GOVERNED',
+                value: VaultDashboardTabs.Orders
+            })
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    // Pass data to the page via props
+    return { props: { data } }
+}
 
 
 
