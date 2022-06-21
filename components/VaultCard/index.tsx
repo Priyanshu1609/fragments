@@ -32,7 +32,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
                     </div>
                     <p className="text-xs mt-1">{dtToString(timestamp)}</p>
                     <div className='mt-2'>
-                        <h1 className='font-semibold text-lg'>{name.length >= 19 ? name.slice(0, 19) + "..." : name}</h1>
+                        <h1 className='font-semibold text-lg'>{name.length >= 18 ? name.slice(0, 18) + "..." : name}</h1>
                     </div>
                     <p> {getEllipsisTxt(address)}</p>
                 </div>

@@ -84,7 +84,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     <div className='flex justify-between'>
                         <label className='flex-grow mr-4'>
                             <p className='text-sm'>Vault Name{requiredTag}</p>
-                            <input required type='text' className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
+                            <input required type='text' maxLength={50} className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
                         </label>
                         {origin !== 'private' && <label className=''>
                             <p className='text-sm'>Type of Vault{requiredTag}</p>
@@ -114,7 +114,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <label>
                         <p className='text-sm'>Description{requiredTag}</p>
-                        <textarea required rows={4} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={formData.description} onChange={(e) => handleChange(e, 'description')} />
+                        <textarea required rows={4} maxLength={500} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={formData.description} onChange={(e) => handleChange(e, 'description')} />
                     </label>
                     <div className='grid grid-cols-2 gap-6'>
                         <label>

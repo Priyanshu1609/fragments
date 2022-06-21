@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useRef, useState } from 'react';
 import { ArrowNarrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { DataContext } from '../../contexts/dataContext';
+import { TransactionContext } from '../../contexts/transactionContext';
 
 import "swiper/css";
 import "swiper/css/scrollbar";
@@ -13,11 +14,15 @@ import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
 import Logo from '../logo';
 import Modal from '../Modal';
 import VaultCard from '../VaultCard';
+import { useRouter } from 'next/router';
 
 
 
 const MyInvestment = () => {
     const { vaults } = useContext(DataContext);
+    const { currentAccount } = useContext(TransactionContext);
+
+    const router = useRouter();
 
     const key = 'vaultAddress';
 
@@ -53,7 +58,7 @@ const MyInvestment = () => {
                 >
 
                     {uniqueVaults?.map((vault) => (
-                        vault.amountPledged && <SwiperSlide>
+                        vault.target != 0 && <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
