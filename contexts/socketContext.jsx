@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from 'react'
 import { ethers } from 'ethers'
-const ERC20_ABI = require('../ERC_20.json')
+const ERC20_ABI = require('../abis/ERC_20.json')
 import networks from '../networks';
 
 import { TransactionContext } from './transactionContext';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import ERC_20 from '../ERC_20.json'
+import ERC_20 from '../abis/ERC_20.json'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
 import Web3 from 'web3';

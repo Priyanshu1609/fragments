@@ -8,9 +8,9 @@ import NFTillustration from '../../assets/NFT.png'
 import { fixTokenURI } from '../../utils';
 import { MoralisNFT } from '../../contracts/nft';
 import { TransactionContext } from '../../contexts/transactionContext';
-import ERC_20 from '../../ERC_20.json'
-import ERC_721 from '../../ERC_721.json'
-import ERC_1155 from '../../ERC_1155.json'
+import ERC_20 from '../../abis/ERC_20.json'
+import ERC_721 from '../../abis/ERC_721.json'
+import ERC_1155 from '../../abis/ERC_1155.json'
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { useRouter } from 'next/router';
