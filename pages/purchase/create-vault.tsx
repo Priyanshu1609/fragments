@@ -9,14 +9,17 @@ import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { gullakFactoryContract } from '../../utils/crypto'
 import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
-import { ArrowLeftIcon } from '@heroicons/react/solid'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid'
 import PurchaseNFT from '../../components/PurchaseNFT'
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
+import Modal from '../../components/Modal'
 
 const CreateVault: React.FC = () => {
-    const { connectallet, currentAccount, logout, defaultFormData, setIsLoading } = useContext(TransactionContext);
-    const { formData, setFormData, getVaultsByWallet } = useContext(DataContext);
+    const { currentAccount } = useContext(TransactionContext);
+    const { formData, handleCreateVault } = useContext(DataContext);
+    const [vaultLink, setVaultLink] = useState("http://localhost:3000/purchase/create-vault?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7");
+    const [modal, setModal] = useState(true);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
@@ -49,77 +52,6 @@ const CreateVault: React.FC = () => {
             return tx;
         }
     };
-
-    const handleCreateVault = async (values: CreateVaultFormValues) => {
-        try {
-            setIsLoading(true);
-            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
-            console.log("Deployed safe address:", vaultData.data.address)
-            const address = vaultData.data.address;
-            console.log("FormData", values);
-            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
-
-            const data = JSON.stringify({
-                "vaultAddress": address,
-                "status": 1,
-                "customerId": "adsfadsf",
-                "origin": values.origin,
-                "vaultName": values.vaultName,
-                "type": values.type,
-                "description": values.description,
-                "tokenName": values.tokenName,
-                "numOfTokens": values.numOfTokens,
-                "managementFees": values.managementFees,
-                "votingPeriod": values.votingPeriod,
-                "quorum": values.quorum,
-                "minFavor": values.minFavor,
-                "nftsImported": values.nftsImported,
-                "nftsPurchased": values.nftsPurchased,
-                "target": values.target,
-                "fundraiseDuration": new Date(values.fundraiseDuration).getTime(),
-                "amount": values.myContribution
-            })
-
-            const data2 = JSON.stringify({
-                "walletAddress": currentAccount,
-                "amountPledged": 20,
-                "timestamp": new Date().getTime(),
-                "transactions": ["12"],
-                "vaultAddress": address,
-                "vaultName": values.vaultName,
-                "target": values.target,
-                "vaultStatus": 1
-            });
-
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            }
-            );
-            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            }
-            );
-
-            console.log("aws res 1:", response);
-            console.log("aws res 1:", response2);
-            router.push({
-                pathname: `/vaults/${address}`,
-                query: { user: currentAccount },
-            })
-
-            await getVaultsByWallet();
-            setFormData(defaultFormData)
-
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false);
-        }
-    }
 
     const handleBack = () => {
 
@@ -178,6 +110,31 @@ const CreateVault: React.FC = () => {
                 }
                 {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}
             </div>
+            <Modal
+                open={modal}
+                onClose={() => setModal(false)}
+                showCTA={false}
+                title="Swap Tokens"
+            >
+                <div className="p-6 flex flex-col items-center justify-center">
+                    <p className='text-left'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius doloremque harum minus sapiente </p>
+                    <div className='w-full p-3  mt-4'>
+                        <p className='text-gray-300 text-left'>Private Vault Link</p>
+                        <div className='p-3 rounded-l-lg focus:outline-none w-full mt-2  flex'>
+                            <p className='text-ellipsis bg-input w-4/5 rounded-lg'>
+                                {vaultLink}
+                            </p>
+                            <button className='bg-input p-2 w-1/5 rounded-lg' onClick={() => { navigator.clipboard.writeText(vaultLink) }}>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                        <span className='text-base'>Done</span>
+                        <ArrowRightIcon className='w-4' />
+                    </button>
+                </div>
+            </Modal>
         </div>
     )
 }

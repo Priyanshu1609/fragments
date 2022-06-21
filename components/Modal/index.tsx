@@ -37,7 +37,7 @@ const Modal: React.FC<IModal> = ({
 				className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide"
 				onClose={() => { }}
 			>
-				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-black">
+				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-black ">
 					<Transition.Child
 						as={Fragment}
 						enter="ease-out duration-300"
@@ -66,20 +66,21 @@ const Modal: React.FC<IModal> = ({
 						leaveFrom="opacity-100 translate-y-0 sm:scale-100"
 						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 					>
-						<div
-							className={`inline-block align-bottom bg-black pb-4 rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
+						<Dialog.Panel
+							className={`inline-block align-bottom bg-black pb-4 overflow-hidden rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
 						>
-							{showClose && <div className='w-full p-2 bg-[#1E1E24] border-b border-gray-400 border-solid justify-end'>
-								<XIcon className='w-6 h-6 text-white ml-auto cursor-pointer' onClick={onClose} />
-							</div>}
+							<div className='w-full p-4 bg-black border-b border-gray-400 border-solid flex justify-between px-8'>
+								{<Dialog.Title
+									as="h3"
+									className="text-2xl leading-6 font-bold font-montserrat"
+								>
+									{title}
+								</Dialog.Title>}
+								{showClose &&
+									<XIcon className='w-6 h-6 text-white cursor-pointer  hover:scale-125 ' onClick={onClose} />}
+							</div>
 							<div className="">
 								<div className="mt-3 text-center sm:mt-5">
-									{<Dialog.Title
-										as="h3"
-										className="text-2xl leading-6 font-medium font-montserrat"
-									>
-										{title}
-									</Dialog.Title>}
 									<div className="mt-2">{children}</div>
 								</div>
 							</div>
@@ -100,7 +101,7 @@ const Modal: React.FC<IModal> = ({
 									</div>
 								)
 							}
-						</div>
+						</Dialog.Panel>
 					</Transition.Child>
 				</div>
 			</Dialog>
