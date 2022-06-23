@@ -70,14 +70,11 @@ export const DataContextProvider = ({ children }) => {
     const deploySafe = async () => {
         try {
             setIsLoading(true);
-            console.log("Deploying Safe");
-            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            });
-            console.log("Deployed safe address:", vaultData.data.address)
-            const address = vaultData.data.address;
+            const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            // console.log("Deploying Safe");
+            // const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
+            // console.log("Deployed safe address:", vaultData.data.address)
+            // const address = vaultData.data.address;
             return address;
         } catch (error) {
             console.error(error)
@@ -90,27 +87,27 @@ export const DataContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             console.log("FormData", values);
-            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
-            if (values.myContribution > 0) {
-        
-                const tx = await sendTx(address, values.myContribution);
-                console.log("Transaction reciept", tx);
-                if(!tx){
-                    alert("Please complete the transaction");
-                    return;
-                }
-            }
+            // if (values.myContribution > 0) {
 
-            const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, data2, {
+            //     const tx = await sendTx(address, values.myContribution);
+            //     console.log("Transaction reciept", tx);
+            //     if (!tx) {
+            //         alert("Please complete the transaction");
+            //         return;
+            //     }
+            // }
+
+            const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, {
                 headers: {
                     'content-Type': 'application/json',
                 },
             });
+            console.log("Contract Address:", contractAddress.data);
 
             const data = JSON.stringify({
                 "vaultAddress": address,
-                "status": 1,
-                "customerId": contractAddress,
+                "vaultStatus": 1,
+                "contractAddress": contractAddress.data,
                 "origin": values.origin,
                 "vaultName": values.vaultName,
                 "type": values.type,
@@ -132,12 +129,15 @@ export const DataContextProvider = ({ children }) => {
                 "walletAddress": currentAccount,
                 "amountPledged": 20,
                 "timestamp": new Date().getTime(),
-                "transactions": ["12"],
+                "transactions": [""],
                 "vaultAddress": address,
                 "vaultName": values.vaultName,
                 "target": values.target,
                 "vaultStatus": 1
             });
+
+            console.log("aws res 1:", data);
+            console.log("aws res 2:", data2);
 
             const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {

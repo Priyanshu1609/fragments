@@ -40,9 +40,9 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
     const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
-    const { formData, handleCreateVault, handleChange, deploySafe } = useContext(DataContext);
+    const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
-    console.log({ selectedToken, selectedChain });
+    // console.log({ selectedToken, selectedChain });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -61,16 +61,16 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         }
     }
 
-    const sendTransaction = async () => {
-        const tx = await sendTx(safeAddress, formData.myContribution);
-        console.log("transaction reciept", tx);
-    }
-
     const createSafe = async () => {
         const address = await deploySafe();
         // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
+            router.push({
+                pathname: `/dashboard`,
+                query: { user: currentAccount },
+            })
+            setFormData(defaultFormData)
             return;
         }
         console.log("Import page deployed address :", address);
@@ -81,10 +81,14 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         createSafe();
     }, [])
 
-    const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
+        const form = {
+            ...formData,
+            fundraiseDuration: new Date(formData.fundraiseDuration).getTime() ?? 0,
+        }
 
-        handleCreateVault(formData, safeAddress);
+        handleCreateVault(form, safeAddress);
     }
 
     useEffect(() => {
@@ -105,7 +109,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <Image src={vault} width={150} height={150} />
                 </div>
             </div>
-            <div className='mt-10'>
+            <form onSubmit={onSubmitHandler} className='mt-10'>
                 <div>
                     <div className=''>
                         <label>
@@ -136,12 +140,12 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
-                    <button onClick={onSubmitHandler} type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
                         <ArrowRightIcon className='w-4' />
                     </button>
                 </div>
-            </div>
+            </form>
             <Modal
                 open={uniModal}
                 onClose={() => setUniModal(false)}

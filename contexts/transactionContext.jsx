@@ -245,8 +245,6 @@ export const TransactionProvider = ({ children }) => {
     ) => {
         try {
             setIsLoading(true);
-
-            console.log("started transferring");
             const provider = new ethers.providers.Web3Provider(eth);
             console.log(provider);
             const signer = provider.getSigner();
@@ -256,8 +254,7 @@ export const TransactionProvider = ({ children }) => {
                 to: receiver,
                 value: ethers.utils.parseEther(amount.toString())
             });
-
-            console.log("ended transferring");
+            await tx.wait();
             return tx;
 
         } catch (error) {

@@ -48,7 +48,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     const router = useRouter()
 
-    
+
     // const [selectedToken, setSelectedToken] = useState<selectedToken>()
     // const [selectedChain, setSelectedChain] = useState<selectedChain>()
     // const [coins, setCoins] = useState([]);
@@ -71,12 +71,12 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         }
     ]);
     console.log(target);
-    
+
     const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
-    const { formData, handleCreateVault, handleChange, deploySafe } = useContext(DataContext);
-    
+    const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
+
     const getProviderFrom = async () => {
         const provider = await getProvider();
         setProvider(provider);
@@ -98,6 +98,11 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         const address = await deploySafe();
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
+            router.push({
+                pathname: `/dashboard`,
+                query: { user: currentAccount },
+            })
+            setFormData(defaultFormData)
             return;
         }
         console.log("Import page deployed address :", address);

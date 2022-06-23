@@ -34,7 +34,7 @@ export const dtToString = (unixTime: any) => {
   }
   else {
     const date = new Date(unixTime * 1000);
-    return (date.toLocaleDateString("en-US") + " at " + date.toLocaleTimeString("en-US"));
+    return (date.toLocaleString());
   }
 }
 const formateDigit = (myNumber: any) => {

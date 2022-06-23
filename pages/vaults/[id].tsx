@@ -99,7 +99,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
         amount: 0
     })
 
-    const { id, client } = router.query
+    const { id } = router.query
 
 
     const getProviderFrom = async () => {
@@ -186,13 +186,6 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 d[i] = Object.values(response.data.Attributes[i])[0]
             }
 
-            if (d?.quorum >= 1) {
-                tabs.push({
-                    name: 'GOVERNED',
-                    value: VaultDashboardTabs.Orders
-                })
-            }
-
 
             refreshData();
             setVisible(false);
@@ -222,6 +215,19 @@ const VaultDetail: React.FC = ({ data }: any) => {
         }
 
     }
+
+    const checkGovernedState = async () => {
+        if (data?.origin !== "private") {
+            tabs.push({
+                name: 'GOVERNED',
+                value: VaultDashboardTabs.Orders
+            })
+        }
+    }
+    useEffect(() => {
+        checkGovernedState();
+    }, [currentAccount])
+
 
 
 
@@ -424,14 +430,15 @@ const VaultDetail: React.FC = ({ data }: any) => {
                                     </div>
                                 </div>
                             </Tab.Panel>
-                            {data?.quorum >= 1 && <Tab.Panel>
+
+                            {data?.origin !== "private" && <Tab.Panel>
                                 <div className='py-4'>
                                     <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
 
                                     <div className='flex justify-between mb-4'>
                                         <div>
                                             <p className='text-sm text-white opacity-70 mb-2'>Voting Period</p>
-                                            <p className='text-xl font-semibold'>{data?.fundraiseDuration}</p>
+                                            <p className='text-xl font-semibold'>{data?.votingPeriod}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-between mt-6'>
@@ -451,7 +458,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                     </Tab.Group>
                 </div>
                 <div>
-                    <a href={`https://mumbai.polygonscan.com/address/${data.customerId}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
+                    <a href={`https://mumbai.polygonscan.com/address/${data.contractAddress}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
                         <p className='ml-4'>View on Etherscan</p>
                         <ArrowUpIcon className='h-6 w-6 rotate-45' />
                     </a>
@@ -584,12 +591,7 @@ export async function getServerSideProps(context: any) {
             console.log(i, Object.values(response.data.Item[i])[0])
             data[i] = Object.values(response.data.Item[i])[0]
         }
-        if (data?.quorum >= 1) {
-            tabs.push({
-                name: 'GOVERNED',
-                value: VaultDashboardTabs.Orders
-            })
-        }
+
     } catch (error) {
         console.error(error);
     }
