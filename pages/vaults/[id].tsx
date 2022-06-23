@@ -451,7 +451,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                     </Tab.Group>
                 </div>
                 <div>
-                    <a href='' target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
+                    <a href={`https://mumbai.polygonscan.com/address/${data.customerId}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
                         <p className='ml-4'>View on Etherscan</p>
                         <ArrowUpIcon className='h-6 w-6 rotate-45' />
                     </a>

@@ -101,10 +101,16 @@ export const DataContextProvider = ({ children }) => {
                 }
             }
 
+            const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
             const data = JSON.stringify({
                 "vaultAddress": address,
                 "status": 1,
-                "customerId": "adsfadsf",
+                "customerId": contractAddress,
                 "origin": values.origin,
                 "vaultName": values.vaultName,
                 "type": values.type,
@@ -143,6 +149,8 @@ export const DataContextProvider = ({ children }) => {
                     'content-Type': 'application/json',
                 },
             });
+
+
 
             console.log("aws res 1:", response);
             console.log("aws res 2:", response2);
