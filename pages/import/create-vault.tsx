@@ -17,15 +17,12 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 
 
 const CreateVault: React.FC = () => {
-    const { connectallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
-    const { formData, defaultFormData, setFormData, getVaultsByWallet, handleCreateVault } = useContext(DataContext);
-
-    // const [{ data: connectData }] = useConnect()
-    // const [{ data: accountData }] = useAccount()
-    const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
-
-
     const router = useRouter()
+
+    const { connectallet, currentAccount, } = useContext(TransactionContext);
+    const { formData,} = useContext(DataContext);
+
+    const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
 
     useEffect(() => {
@@ -33,27 +30,6 @@ const CreateVault: React.FC = () => {
             router.push('/')
         }
     }, [currentAccount])
-
-    const sendTx = async (
-        receiver: string,
-        amount: number,
-    ) => {
-        const { ethereum } = window as any;
-
-        if (ethereum) {
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            console.log(provider);
-            const signer = provider.getSigner();
-            ethers.utils.getAddress(receiver);
-            // const hexaMessage = ethers.utils.formatBytes32String(message);
-            const tx = await signer.sendTransaction({
-                to: receiver,
-                value: ethers.utils.parseEther(amount.toString())
-            });
-
-            return tx;
-        }
-    };
 
     
     const handleBack = () => {
@@ -104,7 +80,7 @@ const CreateVault: React.FC = () => {
                             <span>Back</span>
                         </button>
 
-                        <ImportNFTSelect handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} />
+                        <ImportNFTSelect  setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

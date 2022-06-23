@@ -79,7 +79,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <PrivateFundraise handleCreateVault={handleCreateVault} setCurrentStep={setCurrentStep} />
+                        <PrivateFundraise  setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

@@ -11,7 +11,7 @@ import { TransactionContext } from '../../contexts/transactionContext';
 import ERC_20 from '../../abis/ERC_20.json'
 import ERC_721 from '../../abis/ERC_721.json'
 import ERC_1155 from '../../abis/ERC_1155.json'
-import { DataContext, } from '../../contexts/dataContext'
+import { DataContext } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { useRouter } from 'next/router';
 
@@ -22,14 +22,12 @@ declare var window: any
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
-    handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
 
 
 
 const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     setCurrentStep,
-    handleCreateVault,
 }) => {
     const router = useRouter();
 
@@ -38,52 +36,41 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const [selected, setSelected] = useState(-1);
     const [transferred, setTransferred] = useState<any>([]);
     const [nftsImported, setNftsImported] = useState<string[]>([""])
+    const [safeAddress, setSafeAddress] = useState("");
 
-    const { connectallet, currentAccount } = useContext(TransactionContext);
-    const { formData, setFormData, handleChange } = useContext(DataContext);
+    const { currentAccount, sendTx } = useContext(TransactionContext);
+    const { formData, handleCreateVault, deploySafe } = useContext(DataContext);
+
+    const createSafe = async () => {
+        // const address = await deploySafe();
+        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+        if (!address) {
+            alert("Error in deploying Gnosis safe! Please try again");
+            return;
+        }
+        console.log("Import page deployed address :", address);
+        setSafeAddress(address);
+    }
+
+    useEffect(() => {
+        createSafe();
+    }, [])
+
 
 
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
+        if (transferred.length === 0) {
+            alert("Please import atleast 1 NFT");
+            return;
+        }
 
         const form = {
             ...formData, nftsImported
         }
 
-        handleCreateVault(form);
+        handleCreateVault(form, safeAddress);
     }
-
-
-    // const getNFTs = async () => {
-    //     setIsLoading(true)
-    //     try {
-    //         if(!currentAccount.length) return
-    //         if(!APP_ID?.length || !SERVER_URL?.length) {
-    //             throw new Error("can't fetch NFTs")
-    //         };
-    //         Moralis.start({
-    //             appId: APP_ID,
-    //             serverUrl: SERVER_URL,
-    //         })
-    //         const nfts = await Moralis.Web3API.account.getNFTs({ chain: 'eth', address: currentAccount });
-    //         const nftsMetadataPromise = nfts.result?.filter(nft => nft.symbol !== 'ENS')?.map(nft => fixTokenURI(nft.token_uri ?? '')).map(nft => fetch(nft).then(res => res.json())) ?? []
-
-    //         const nftsMetadata = await Promise.all(nftsMetadataPromise)
-
-    //         const nftsMetadataFixedWithImages = nftsMetadata.map(
-    //             (nft, i) => ({
-    //                 ...(nfts?.result?.[i] ?? {}),
-    //                 ...nft,
-    //                 image: fixTokenURI(nft.image ?? nft.image_url),
-    //             })
-    //         )
-    //         setNftList(!nftsMetadataFixedWithImages?.length ? [] : nftsMetadataFixedWithImages);
-    //     } catch (error) {
-    //         console.error(error)
-    //     } finally {
-    //         setIsLoading(false)
-    //     }
-    // }
 
     const getNFTs = async () => {
         setIsLoading(true)

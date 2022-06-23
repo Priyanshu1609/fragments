@@ -19,7 +19,6 @@ const CreateVault: React.FC = () => {
     const { currentAccount } = useContext(TransactionContext);
     const { formData, handleCreateVault } = useContext(DataContext);
     const [vaultLink, setVaultLink] = useState("http://localhost:3000/purchase/create-vault?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7");
-    const [modal, setModal] = useState(true);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
@@ -104,37 +103,12 @@ const CreateVault: React.FC = () => {
                                 <ArrowLeftIcon className='w-4' />
                                 <span>Back</span>
                             </button>
-                            <PurchaseNFT setCurrentStep={setCurrentStep} handleCreateVault={handleCreateVault} />
+                            <PurchaseNFT setCurrentStep={setCurrentStep}  />
                         </div>
                     )
                 }
                 {/* <CreateGovernedForm onSubmit={handleCreateVault} /> */}
             </div>
-            <Modal
-                open={modal}
-                onClose={() => setModal(false)}
-                showCTA={false}
-                title="Swap Tokens"
-            >
-                <div className="p-6 flex flex-col items-center justify-center">
-                    <p className='text-left'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius doloremque harum minus sapiente </p>
-                    <div className='w-full p-3  mt-4'>
-                        <p className='text-gray-300 text-left'>Private Vault Link</p>
-                        <div className='p-3 rounded-l-lg focus:outline-none w-full mt-2  flex'>
-                            <p className='text-ellipsis bg-input w-4/5 rounded-lg'>
-                                {vaultLink}
-                            </p>
-                            <button className='bg-input p-2 w-1/5 rounded-lg' onClick={() => { navigator.clipboard.writeText(vaultLink) }}>
-                                Copy
-                            </button>
-                        </div>
-                    </div>
-                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
-                        <span className='text-base'>Done</span>
-                        <ArrowRightIcon className='w-4' />
-                    </button>
-                </div>
-            </Modal>
         </div>
     )
 }

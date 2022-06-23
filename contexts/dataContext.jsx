@@ -27,7 +27,7 @@ export const defaultFormData = {
 
 export const DataContextProvider = ({ children }) => {
 
-    const { currentAccount, setIsLoading } = useContext(TransactionContext);
+    const { currentAccount, setIsLoading, sendTx } = useContext(TransactionContext);
     const router = useRouter();
 
     const [formData, setFormData] = useState(defaultFormData)
@@ -67,57 +67,82 @@ export const DataContextProvider = ({ children }) => {
         });
     }
 
-    const handleCreateVault = async (values) => {
+    const deploySafe = async () => {
         try {
             setIsLoading(true);
-            // const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
-            // console.log("Deployed safe address:", vaultData.data.address)
-            // const address = vaultData.data.address;
-            // console.log("FormData", values);
-            const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            console.log("Deploying Safe");
+            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+            console.log("Deployed safe address:", vaultData.data.address)
+            const address = vaultData.data.address;
+            return address;
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
-            // const data = JSON.stringify({
-            //     "vaultAddress": address,
-            //     "status": 1,
-            //     "customerId": "adsfadsf",
-            //     "origin": values.origin,
-            //     "vaultName": values.vaultName,
-            //     "type": values.type,
-            //     "description": values.description,
-            //     "tokenName": values.tokenName,
-            //     "numOfTokens": values.numOfTokens,
-            //     "managementFees": values.managementFees,
-            //     "votingPeriod": values.votingPeriod,
-            //     "quorum": values.quorum,
-            //     "minFavor": values.minFavor,
-            //     "nftsImported": values.nftsImported,
-            //     "nftsPurchased": values.nftsPurchased,
-            //     "target": values.target,
-            //     "fundraiseDuration": values.fundraiseDuration,
-            //     "amount": values.myContribution
-            // })
+    const handleCreateVault = async (values, address) => {
+        try {
+            setIsLoading(true);
+            console.log("FormData", values);
+            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            if (values.myContribution > 0) {
+        
+                const tx = await sendTx(address, values.myContribution);
+                console.log("Transaction reciept", tx);
+                if(!tx){
+                    alert("Please complete the transaction");
+                    return;
+                }
+            }
 
-            // const data2 = JSON.stringify({
-            //     "walletAddress": currentAccount,
-            //     "amountPledged": 20,
-            //     "timestamp": new Date().getTime(),
-            //     "transactions": ["12"],
-            //     "vaultAddress": address,
-            //     "vaultName": values.vaultName,
-            //     "target": values.target,
-            //     "vaultStatus": 1
-            // });
+            const data = JSON.stringify({
+                "vaultAddress": address,
+                "status": 1,
+                "customerId": "adsfadsf",
+                "origin": values.origin,
+                "vaultName": values.vaultName,
+                "type": values.type,
+                "description": values.description,
+                "tokenName": values.tokenName,
+                "numOfTokens": values.numOfTokens,
+                "managementFees": values.managementFees,
+                "votingPeriod": values.votingPeriod,
+                "quorum": values.quorum,
+                "minFavor": values.minFavor,
+                "nftsImported": values.nftsImported,
+                "nftsPurchased": values.nftsPurchased,
+                "target": values.target,
+                "fundraiseDuration": values.fundraiseDuration,
+                "amount": values.myContribution
+            })
 
-            // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
-            //     headers: {
-            //         'content-Type': 'application/json',
-            //     },
-            // });
-            // const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
-            //     headers: {
-            //         'content-Type': 'application/json',
-            //     },
-            // });
+            const data2 = JSON.stringify({
+                "walletAddress": currentAccount,
+                "amountPledged": 20,
+                "timestamp": new Date().getTime(),
+                "transactions": ["12"],
+                "vaultAddress": address,
+                "vaultName": values.vaultName,
+                "target": values.target,
+                "vaultStatus": 1
+            });
+
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
 
             console.log("aws res 1:", response);
             console.log("aws res 2:", response2);
@@ -141,7 +166,7 @@ export const DataContextProvider = ({ children }) => {
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe }}>
             {children}
         </DataContext.Provider>
     )

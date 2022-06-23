@@ -25,7 +25,6 @@ const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6b
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
-    handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
 
 interface selectedChain {
@@ -44,17 +43,16 @@ interface selectedToken {
 
 
 const PurchaseNft: React.FC<CreateVaultFormProps> = ({
-    setCurrentStep,
-    handleCreateVault
+    setCurrentStep
 }) => {
 
     const router = useRouter()
 
-    const { formData, setFormData, handleChange } = useContext(DataContext);
-
+    
     // const [selectedToken, setSelectedToken] = useState<selectedToken>()
     // const [selectedChain, setSelectedChain] = useState<selectedChain>()
     // const [coins, setCoins] = useState([]);
+    const [safeAddress, setSafeAddress] = useState("");
     const [target, setTarget] = useState(0);
     const [duration, setDuration] = useState<number>(Number.MAX_SAFE_INTEGER);
     const [amount, setAmount] = useState();
@@ -73,12 +71,12 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         }
     ]);
     console.log(target);
-
-    const { getTokenIdMetadata } = useContext(NftContext)
+    
     const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
-
+    const { formData, handleCreateVault, handleChange, deploySafe } = useContext(DataContext);
+    
     const getProviderFrom = async () => {
         const provider = await getProvider();
         setProvider(provider);
@@ -96,6 +94,20 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         }
     }
 
+    const createSafe = async () => {
+        const address = await deploySafe();
+        if (!address) {
+            alert("Error in deploying Gnosis safe! Please try again");
+            return;
+        }
+        console.log("Import page deployed address :", address);
+        setSafeAddress(address);
+    }
+
+    useEffect(() => {
+        createSafe();
+    }, [])
+
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
@@ -112,7 +124,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
             myContribution: amount ?? 0,
         }
 
-        handleCreateVault(form);
+        handleCreateVault(form, safeAddress);
     }
 
     const getNFTs = async (i: number) => {

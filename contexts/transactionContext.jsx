@@ -119,18 +119,19 @@ export const TransactionProvider = ({ children }) => {
                     },
                 }
             );
-            console.log("Login", data);
-            if (data && data.AccessKeyId) {
-
+            if (data) {
                 const aws = new AwsClient({
-                    accessKeyId: data.AccessKeyId,
-                    secretAccessKey: data.SecretKey,
-                    sessionToken: data.SessionToken,
+                    accessKeyId: data.data.AccessKeyId,
+                    secretAccessKey: data.data.SecretKey,
+                    sessionToken: data.data.SessionToken,
                     region: 'ap-south-1',
                     service: 'execute-api',
                 });
+                console.log("aws:", aws);
                 setAwsClient(aws);
+                return true;
             }
+            else { return false; }
 
         } catch (error) {
 
@@ -152,7 +153,8 @@ export const TransactionProvider = ({ children }) => {
 
             if (accounts.length) {
                 let address = accounts[0];
-                // await awsConnect(address);
+                // const res = await awsConnect(address);
+                // if (!res) { return }
                 setCurrentAccount(accounts[0])
             }
         } catch (error) {
@@ -179,7 +181,9 @@ export const TransactionProvider = ({ children }) => {
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
                 let address = accounts[0];
-                await awsConnect(address);
+                const res = await awsConnect(address);
+                console.log(res);
+                if (!res) { return }
             }
 
             else {
@@ -235,6 +239,34 @@ export const TransactionProvider = ({ children }) => {
 
     }
 
+    const sendTx = async (
+        receiver,
+        amount,
+    ) => {
+        try {
+            setIsLoading(true);
+
+            console.log("started transferring");
+            const provider = new ethers.providers.Web3Provider(eth);
+            console.log(provider);
+            const signer = provider.getSigner();
+            ethers.utils.getAddress(receiver);
+            // const hexaMessage = ethers.utils.formatBytes32String(message);
+            const tx = await signer.sendTransaction({
+                to: receiver,
+                value: ethers.utils.parseEther(amount.toString())
+            });
+
+            console.log("ended transferring");
+            return tx;
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     useEffect(() => {
         async function listenMMAccount() {
@@ -273,7 +305,8 @@ export const TransactionProvider = ({ children }) => {
                 getBalanace,
                 getTokenBalance,
                 getProvider,
-                setIsLoading
+                setIsLoading,
+                sendTx
             }}
         >
             {children}

@@ -77,11 +77,11 @@ const myDarkTheme: Theme = {
 const VaultDetail: React.FC = ({ data }: any) => {
     const router = useRouter();
 
-    const { connectallet, currentAccount, logout, getProvider, setIsLoading } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens } = useContext(NftContext);
     const { getVaultsByWallet } = useContext(DataContext);
-
+    const [modal, setModal] = useState(false);
     // const [data, setData] = useState<any>({});
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
@@ -106,7 +106,6 @@ const VaultDetail: React.FC = ({ data }: any) => {
         const provider = await getProvider();
         setProvider(provider);
     }
-
 
     // setIsFunded(true)
 
@@ -155,6 +154,16 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
         try {
             setIsLoading(true);
+            if (modalForm.amount > 0) {
+
+                const tx = await sendTx(id, modalForm.amount);
+                console.log("Transaction reciept", tx);
+                if (!tx) {
+                    alert("Please complete the transaction");
+                    return;
+                }
+            }
+
             const body = JSON.stringify({
                 "vaultAddress": id,
                 "amount": modalForm.amount,
@@ -203,8 +212,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 headers: {
                     'content-Type': 'application/json',
                 },
-            }
-            );
+            });
 
             await getVaultsByWallet();
         } catch (error) {
@@ -214,6 +222,8 @@ const VaultDetail: React.FC = ({ data }: any) => {
         }
 
     }
+
+
 
     // useEffect(() => {
     //     fetchTokens(selectedChain?.chainId);
@@ -232,6 +242,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
     console.log(data);
     useEffect(() => {
+        setTimeout(() => { setModal(true); }, 2000);
         getProviderFrom();
         getNFTs();
     }, [currentAccount])
@@ -517,6 +528,31 @@ const VaultDetail: React.FC = ({ data }: any) => {
                         theme={darkTheme}
                         width={512}
                     />
+                </div>
+            </Modal>
+            <Modal
+                open={modal}
+                onClose={() => setModal(false)}
+                showCTA={false}
+                title="Swap Tokens"
+            >
+                <div className="p-6 flex flex-col items-center justify-center">
+                    <p className='text-left'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius doloremque harum minus sapiente </p>
+                    <div className='w-full p-3  mt-4'>
+                        <p className='text-gray-300 text-left'>Private Vault Link</p>
+                        <div className='rounded-l-lg focus:outline-none  bg-input w-full mt-2  flex'>
+                            <p className='text-ellipsis p-4 my-auto w-4/5 rounded-tl-lg rounded-bl-lg overflow-hidden'>
+                                {`https://www.fragments.money/vaults/${id}`}
+                            </p>
+                            <button className='bg-gray-700 p-4 w-1/5 rounded-tr-lg rounded-br-lg' onClick={() => { navigator.clipboard.writeText(`https://www.fragments.money/vaults/${id}`); alert("Copied") }}>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                        <span className='text-base'>Done</span>
+                        <ArrowRightIcon className='w-4' />
+                    </button>
                 </div>
             </Modal>
         </div >

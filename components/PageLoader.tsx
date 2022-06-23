@@ -5,7 +5,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { TransactionContext } from '../contexts/transactionContext';
 
-const PageLoader = () => {
+interface PageProps {
+  message: string;
+}
+
+const PageLoader = ({ message }: PageProps) => {
 
   const { isLoading, setIsLoading } = useContext(TransactionContext);
 
@@ -53,7 +57,9 @@ const PageLoader = () => {
                 <div className="mt-3 text-center sm:mt-5">
                   <div className="mt-2">
                     <div className='flex flex-col items-center justify-center p-16'>
-                      <div className="border-t-transparent w-16 h-16 border-4 border-white border-solid rounded-full animate-spin mb-4"></div>
+                      <div className="border-t-transparent w-16 h-16 border-4 border-white border-solid rounded-full animate-spin mb-4">
+                      </div>
+                      {/* <p className='font-bold my-4'>Creating Vault</p> */}
                       <Logo />
                     </div>
                   </div>

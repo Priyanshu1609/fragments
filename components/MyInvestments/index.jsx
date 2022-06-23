@@ -62,7 +62,7 @@ const MyInvestment = () => {
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
-                                    query: { user: currentAccount, client: vault?.timestamp },
+                                    query: { user: currentAccount },
                                 })}>
                                 <VaultCard
                                     name={vault?.vaultName}

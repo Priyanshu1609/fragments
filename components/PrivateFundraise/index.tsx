@@ -22,12 +22,10 @@ const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6b
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
-    handleCreateVault: (values: CreateVaultFormValues) => Promise<void>;
 }
 
 const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
-    setCurrentStep,
-    handleCreateVault
+    setCurrentStep
 }) => {
     const router = useRouter();
 
@@ -37,11 +35,12 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     const [uniModal, setUniModal] = useState(false);
     const [provider, setProvider] = useState();
     const [balance, setBalance] = useState('0');
+    const [safeAddress, setSafeAddress] = useState("");
 
 
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
-    const { connectallet, currentAccount, logout, getProvider, getBalanace } = useContext(TransactionContext);
-    const { formData, setFormData, handleChange } = useContext(DataContext);
+    const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
+    const { formData, handleCreateVault, handleChange, deploySafe } = useContext(DataContext);
 
     console.log({ selectedToken, selectedChain });
 
@@ -62,10 +61,30 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         }
     }
 
+    const sendTransaction = async () => {
+        const tx = await sendTx(safeAddress, formData.myContribution);
+        console.log("transaction reciept", tx);
+    }
+
+    const createSafe = async () => {
+        // const address = await deploySafe();
+        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+        if (!address) {
+            alert("Error in deploying Gnosis safe! Please try again");
+            return;
+        }
+        console.log("Import page deployed address :", address);
+        setSafeAddress(address);
+    }
+
+    useEffect(() => {
+        createSafe();
+    }, [])
+
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
 
-        handleCreateVault(formData);
+        handleCreateVault(formData, safeAddress);
     }
 
     useEffect(() => {
