@@ -73,7 +73,7 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(true);
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             console.log("Deploying Safe");
-            const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
+            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
             return address;
