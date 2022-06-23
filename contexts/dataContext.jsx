@@ -54,7 +54,6 @@ export const DataContextProvider = ({ children }) => {
         }
         );
 
-        console.log("Vaults response:", response)
 
         response.data.Items.forEach((element) => {
             // console.log(element);
@@ -65,7 +64,9 @@ export const DataContextProvider = ({ children }) => {
 
             setVaults(prev => [...prev, d]);
         });
+
     }
+    console.log(vaults);
 
     const deploySafe = async () => {
         try {

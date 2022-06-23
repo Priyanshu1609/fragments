@@ -82,7 +82,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
     const { getTokens } = useContext(NftContext);
     const { getVaultsByWallet } = useContext(DataContext);
     const [modal, setModal] = useState(false);
-    // const [data, setData] = useState<any>({});
+    const [countDown, setCountDown] = useState("");
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
@@ -229,7 +229,33 @@ const VaultDetail: React.FC = ({ data }: any) => {
     }, [currentAccount])
 
 
+    const countDownTimer = (countDownDate: any) => {
 
+        var x = setInterval(function () {
+
+            var now = new Date().getTime();
+
+
+            var distance = countDownDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+            setCountDown(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
+
+            if (distance < 0) {
+                clearInterval(x);
+                setCountDown("EXPIRED");
+            }
+        }, 1000);
+    }
+
+    useEffect(() => {
+        countDownTimer(data.fundraiseDuration);
+    }, [])
 
     // useEffect(() => {
     //     fetchTokens(selectedChain?.chainId);
@@ -299,14 +325,17 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
             </div>}
             <div className=' p-6 flex-[0.4] '>
-                <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
-                    <Blockies
-                        seed='need to be changed'
-                        size={7}
-                        scale={3}
-                        className='rounded-full mr-3'
-                    />
-                    <p className='text-sm'>{data?.tokenName}</p>
+                <div className='flex items-center justify-between'>
+                    <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
+                        <Blockies
+                            seed='need to be changed'
+                            size={7}
+                            scale={3}
+                            className='rounded-full mr-3'
+                        />
+                        <p className='text-sm'>{data?.tokenName}</p>
+                    </div>
+                    <p>{countDown}</p>
                 </div>
                 <div className='mt-5 mb-5'>
                     <h2 className='text-2xl font-semibold text-[#2bffb1]  mb-2'>{data?.vaultName}</h2>
@@ -523,7 +552,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 open={uniModal}
                 onClose={() => setUniModal(false)}
                 showCTA={false}
-                title="Swap Tokens"
+                title="Private Link"
             >
                 <div className="Uniswap p-6 flex items-center justify-center">
                     <SwapWidget

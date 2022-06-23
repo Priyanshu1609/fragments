@@ -33,7 +33,7 @@ export const dtToString = (unixTime: any) => {
     return "Duration"
   }
   else {
-    const date = new Date(unixTime * 1000);
+    const date = new Date(parseInt(unixTime));
     return (date.toLocaleString());
   }
 }

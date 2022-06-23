@@ -79,7 +79,7 @@ const MyInvestment = () => {
                     ))}
 
                 </Swiper>
-                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-7  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
             </div >
         </div >

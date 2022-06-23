@@ -21,10 +21,18 @@ const MyInvestment = () => {
     const { currentAccount } = useContext(TransactionContext);
     const { vaults } = useContext(DataContext);
 
+    let unique;
+
+    unique = vaults;
+
     const key = 'vaultAddress';
 
-    const uniqueVaults = [...new Map(vaults.map(item =>
-        [item[key], item])).values()];
+    unique.reverse();
+    let uniqueVaults = [...new Map(unique.map(item => [item[key], item])).values()];
+
+    console.log("Vaults", uniqueVaults);
+
+
 
 
     const router = useRouter();
@@ -56,12 +64,12 @@ const MyInvestment = () => {
                     className="mySwiper"
                 >
 
-                    {uniqueVaults?.map((vault) => (
+                    {unique?.map((vault) => (
                         <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
-                                    query: { user: currentAccount},
+                                    query: { user: currentAccount },
                                 })}>
                                 <VaultCard
                                     name={vault?.vaultName}
@@ -78,7 +86,7 @@ const MyInvestment = () => {
                     ))}
 
                 </Swiper>
-                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-0  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-7  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
             </div >
         </div>
