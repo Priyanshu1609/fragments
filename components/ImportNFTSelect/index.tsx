@@ -42,8 +42,8 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const { formData, handleCreateVault, deploySafe } = useContext(DataContext);
 
     const createSafe = async () => {
-        // const address = await deploySafe();
-        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+        const address = await deploySafe();
+        // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
             return;
