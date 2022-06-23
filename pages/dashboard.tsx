@@ -120,7 +120,6 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <PageLoader />
             <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',

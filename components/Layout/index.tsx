@@ -38,7 +38,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='min-h-screen bg-[url("/bg3.png")]  bg-center scrollbar-hide bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
+                                    <div className='bg-[url("/bg3.png")] h-screen bg-center bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
 
                                         <header className="overflow-y-scroll scrollbar-hide">
                                             <div className=" mx-auto lg:px-8">
@@ -60,7 +60,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         </header>
                                         {children}
                                         <ConnectModal />
-                                        <PageLoader />
+                                        <PageLoader message='' />
                                     </div>
                                 </SocketProvider>
                             </OpenseaContextProvider>
