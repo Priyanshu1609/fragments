@@ -70,11 +70,11 @@ export const DataContextProvider = ({ children }) => {
     const deploySafe = async () => {
         try {
             setIsLoading(true);
-            const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
-            // console.log("Deploying Safe");
-            // const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
-            // console.log("Deployed safe address:", vaultData.data.address)
-            // const address = vaultData.data.address;
+            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            console.log("Deploying Safe");
+            const vaultData = await axios.get(`http://stage-safe-api.gullak.party:3000/api/v1/daos/createSafe`);
+            console.log("Deployed safe address:", vaultData.data.address)
+            const address = vaultData.data.address;
             return address;
         } catch (error) {
             console.error(error)
@@ -87,15 +87,15 @@ export const DataContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             console.log("FormData", values);
-            // if (values.myContribution > 0) {
+            if (values.myContribution > 0) {
 
-            //     const tx = await sendTx(address, values.myContribution);
-            //     console.log("Transaction reciept", tx);
-            //     if (!tx) {
-            //         alert("Please complete the transaction");
-            //         return;
-            //     }
-            // }
+                const tx = await sendTx(address, values.myContribution);
+                console.log("Transaction reciept", tx);
+                if (!tx) {
+                    alert("Please complete the transaction");
+                    return;
+                }
+            }
 
             const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, {
                 headers: {
