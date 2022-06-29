@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useContext } from 'react';
 // import { useConnect } from 'wagmi';
-import cerateDaoPeopleImage from '../assets/create-dao-people.png';
+import cerateDaoPeopleImage from '../assets/Vaultpage.png';
 import Image from 'next/image';
 import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
@@ -119,15 +119,15 @@ const Dashboard: React.FC = () => {
     })
 
     return (
-        <div className='text-black font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <div className='flex px-2 items-center justify-between bg-[url("/heading.png")] bg-cover  rounded-lg text-black shadow-lg cursor-pointer' onClick={() =>
+        <div className='text-white font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
+            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover  rounded-lg text-white shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',
                     query: { user: currentAccount },
                 })}>
 
                 <div className='flex items-center space-x-6'>
-                    <Image src={cerateDaoPeopleImage} />
+                    <Image src={cerateDaoPeopleImage} height={150} width={150} />
                     <div>
                         <h1 className='text-2xl font-semibold'>Create your own Vault</h1>
                         <p className='text-base mt-2'>Make a DAO to start investing with your frens in Gullaks</p>
@@ -135,11 +135,11 @@ const Dashboard: React.FC = () => {
                 </div>
                 <ArrowRightIcon className='w-6 h-6 mr-6' />
             </div>
-            <div className='bg-[url("/heading.png")] bg-cover flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
+            <div className='bg-white bg-opacity-20 bg-cover flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
                 <div className=''>
-                    <div className='text-black font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
+                    <div className='text-white font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
-                        <div className='text-black text-lg'>
+                        <div className='text-white text-lg'>
                             {name !== '' ? name : getEllipsisTxt(currentAccount)}
                         </div>
                     </div>

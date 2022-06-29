@@ -188,6 +188,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
 
             refreshData();
+            countDownTimer(data.fundraiseDuration);
             setVisible(false);
 
             const data2 = JSON.stringify({
@@ -217,7 +218,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
     }
 
     const checkGovernedState = async () => {
-        if (data?.origin !== "private") {
+        if (data?.origin !== "private" && tabs.length === 2) {
             tabs.push({
                 name: 'GOVERNED',
                 value: VaultDashboardTabs.Orders
@@ -248,7 +249,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
             if (distance < 0) {
                 clearInterval(x);
-                setCountDown("EXPIRED");
+                setCountDown("");
             }
         }, 1000);
     }
@@ -298,7 +299,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 <div className='flex-[0.8]  p-4'>
                     <div>
                         <Swiper
-                            // ref={sliderRef}
+                            ref={sliderRef}
                             // navigation={true}
                             effect={"fade"}
                             pagination={true}
@@ -570,7 +571,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 open={modal}
                 onClose={() => setModal(false)}
                 showCTA={false}
-                title="Swap Tokens"
+                title="Start Funding Cycle"
             >
                 <div className="p-6 flex flex-col items-center justify-center">
                     <p className='text-left'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius doloremque harum minus sapiente </p>
