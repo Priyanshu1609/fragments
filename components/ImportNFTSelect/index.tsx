@@ -189,7 +189,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                             <div key={nft.id} className={`cursor-pointer rounded-md bg-black hover:bg-[#1E1E24] max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>
-                                    <p className=''>{(nft.name).slice(0, 20)}...</p>
+                                    <p className=''>{(nft?.name).slice(0, 20)}...</p>
                                 </div>
                                 <div className='flex items-center w-[260px] h-[260px]'>
                                     <img src={nft.animation_url ? nft.animation_url : nft.image_url} />
