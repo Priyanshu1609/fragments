@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useContext } from 'react';
 // import { useConnect } from 'wagmi';
-import cerateDaoPeopleImage from '../assets/Vaultpage.png';
+import cerateDaoPeopleImage from '../assets/People.png';
 import Image from 'next/image';
 import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
@@ -120,14 +120,14 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-white font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover  rounded-lg text-white shadow-lg cursor-pointer' onClick={() =>
+            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover bg-[url("/Button.png")] rounded-lg text-white shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',
                     query: { user: currentAccount },
                 })}>
 
-                <div className='flex items-center space-x-6'>
-                    <Image src={cerateDaoPeopleImage} height={150} width={150} />
+                <div className='flex items-center space-x-6 p-4'>
+                    <Image src={cerateDaoPeopleImage} height={100} width={130} />
                     <div>
                         <h1 className='text-2xl font-semibold'>Create your own Vault</h1>
                         <p className='text-base mt-2'>Make a DAO to start investing with your frens in Gullaks</p>

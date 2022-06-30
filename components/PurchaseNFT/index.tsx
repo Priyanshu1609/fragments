@@ -231,7 +231,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
 
     return (
         <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
-            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover rounded-lg '>
+            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")] bg-cover rounded-lg '>
                 <div>
                     <h2 className='text-black text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
                     <p className='text-black'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>

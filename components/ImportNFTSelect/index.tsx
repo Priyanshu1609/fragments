@@ -173,7 +173,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
     return (
         <div className='pb-8'>
-            <div className='flex items-center justify-between p-6 bg-[url("/heading.png")] bg-cover  rounded-lg '>
+            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")] bg-cover  rounded-lg '>
                 <div className='text-black'>
                     <h2 className=' text-2xl font-semibold mb-2'>Select NFTs to Fractionalize</h2>
                     <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
