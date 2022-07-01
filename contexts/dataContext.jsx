@@ -100,11 +100,12 @@ export const DataContextProvider = ({ children }) => {
                 }
             }
 
-            const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            });
+            // const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, {
+            //     headers: {
+            //         'content-Type': 'application/json',
+            //     },
+            // });
+            const contractAddress = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
             console.log("Contract Address:", contractAddress.data);
 
             const data = JSON.stringify({
