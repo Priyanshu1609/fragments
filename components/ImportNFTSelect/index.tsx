@@ -42,8 +42,8 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const { formData, handleCreateVault, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
     const createSafe = async () => {
-        const address = await deploySafe();
-        // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+        // const address = await deploySafe();
+        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
             router.push({
@@ -189,7 +189,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                             <div key={nft.id} className={`cursor-pointer rounded-md bg-black hover:bg-[#1E1E24] max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
 
                                 <div className='p-2 truncate'>
-                                    <p className=''>{(nft?.name).slice(0, 20)}...</p>
+                                    <p className=''>{(nft?.name)}...</p>
                                 </div>
                                 <div className='flex items-center w-[260px] h-[260px]'>
                                     <img src={nft.animation_url ? nft.animation_url : nft.image_url} />

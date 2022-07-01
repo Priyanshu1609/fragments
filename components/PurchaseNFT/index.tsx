@@ -95,7 +95,8 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     }
 
     const createSafe = async () => {
-        const address = await deploySafe();
+        // const address = await deploySafe();
+        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
             router.push({
