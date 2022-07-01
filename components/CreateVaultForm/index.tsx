@@ -20,9 +20,11 @@ export enum CreateVaultStep {
 export interface CreateVaultFormValues {
     origin: string,
     vaultName: string,
+    contractAddress: string,
     type: string,
     description: string,
     tokenName: string,
+    creator: string,
     numOfTokens: number,
     managementFees: number,
     votingPeriod: number,
@@ -33,6 +35,7 @@ export interface CreateVaultFormValues {
     target: number,
     fundraiseDuration: number,
     myContribution: number,
+    amount: number,
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({

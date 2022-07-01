@@ -13,6 +13,7 @@ export const defaultFormData = {
     type: '',
     description: '',
     tokenName: '',
+    creator: '',
     numOfTokens: 0,
     managementFees: 0,
     votingPeriod: 0,
@@ -23,6 +24,7 @@ export const defaultFormData = {
     target: 0,
     fundraiseDuration: 0,
     myContribution: 0,
+    amount: 0,
 }
 
 export const DataContextProvider = ({ children }) => {
@@ -44,26 +46,76 @@ export const DataContextProvider = ({ children }) => {
         if (!currentAccount) { return }
         setVaults([])
 
-        const data = JSON.stringify({
-            "walletAddress": currentAccount
-        });
-        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
-            headers: {
-                'content-Type': 'application/json',
+        // const data = JSON.stringify({
+        //     "walletAddress": currentAccount
+        // });
+        // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
+        //     headers: {
+        //         'content-Type': 'application/json',
+        //     },
+        // }
+        // );
+
+
+        // response.data.Items.forEach((element) => {
+        //     // console.log(element);
+        //     let d = {}
+        //     for (let i in element) {
+        //         d[i] = Object.values(element[i])[0]
+        //     }
+
+        //     setVaults(prev => [...prev, d]);
+        // });
+        setVaults([
+            {
+                "vaultAddress": "0x764885Ba1125372a7dC915B3f021b1A858ACC6e1",
+                "target": "0",
+                "timestamp": "1656650508753",
+                "vaultStatus": "1",
+                "transactions": [
+                    ""
+                ],
+                "walletAddress": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7",
+                "vaultName": "Ut et vel ipsum temporibus et ut dolorem officia q",
+                "amountPledged": "20"
             },
-        }
-        );
-
-
-        response.data.Items.forEach((element) => {
-            // console.log(element);
-            let d = {}
-            for (let i in element) {
-                d[i] = Object.values(element[i])[0]
+            {
+                "vaultAddress": "0x52eF36d0f0762E478b08b3c123D19B794C0cF947",
+                "target": "0",
+                "timestamp": "1656647428798",
+                "vaultStatus": "1",
+                "transactions": [
+                    ""
+                ],
+                "walletAddress": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7",
+                "vaultName": "Ut sint sint Nam proident vero suscipit ut velit",
+                "amountPledged": "20"
+            },
+            {
+                "vaultAddress": "0x764885Ba1125372a7dC915B3f021b1A858ACC6e1",
+                "target": "0.001",
+                "timestamp": "1656650563944",
+                "vaultStatus": "1",
+                "transactions": [
+                    ""
+                ],
+                "walletAddress": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7",
+                "vaultName": "Ut et vel ipsum temporibus et ut dolorem officia q",
+                "amountPledged": "0.0001"
+            },
+            {
+                "vaultAddress": "0x52eF36d0f0762E478b08b3c123D19B794C0cF947",
+                "target": "0.001",
+                "timestamp": "1656649258387",
+                "vaultStatus": "1",
+                "transactions": [
+                    ""
+                ],
+                "walletAddress": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7",
+                "vaultName": "Ut sint sint Nam proident vero suscipit ut velit",
+                "amountPledged": "0.0001"
             }
-
-            setVaults(prev => [...prev, d]);
-        });
+        ])
 
     }
     console.log(vaults);
@@ -123,7 +175,8 @@ export const DataContextProvider = ({ children }) => {
                 "nftsPurchased": values.nftsPurchased,
                 "target": values.target,
                 "fundraiseDuration": values.fundraiseDuration,
-                "amount": values.myContribution
+                "amount": values.myContribution,
+                "creator": currentAccount
             })
 
             const data2 = JSON.stringify({

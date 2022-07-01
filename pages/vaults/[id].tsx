@@ -69,12 +69,8 @@ const tabs = [
     },
 ]
 
-const myDarkTheme: Theme = {
-    ...darkTheme, // Extend the darkTheme
-    fontFamily: 'Sora'
-}
 
-const VaultDetail: React.FC = ({ data }: any) => {
+const VaultDetail: React.FC = () => {
     const router = useRouter();
 
     const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx } = useContext(TransactionContext);
@@ -98,6 +94,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
         fundraiseDuration: 0,
         amount: 0
     })
+    const [data, setData] = useState<CreateVaultFormValues>();
 
     const { id } = router.query
 
@@ -131,6 +128,39 @@ const VaultDetail: React.FC = ({ data }: any) => {
     //     console.log('Destination Socket Tx', txHash)
     // }
 
+    const getVaultData = async () => {
+        try {
+
+            setIsLoading(true);
+            console.log("getVaultData", id)
+            let data: any = {}
+
+            const body = JSON.stringify({
+                "vaultAddress": id,
+            })
+            // const response = {}
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
+            console.log("FETCH RES", response.data.Item);
+
+            for (let i in response.data.Item) {
+                console.log(i, Object.values(response.data.Item[i])[0])
+                data[i] = Object.values(response.data.Item[i])[0]
+            }
+            setData(data);
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const getNFTs = async () => {
 
         try {
@@ -150,7 +180,8 @@ const VaultDetail: React.FC = ({ data }: any) => {
     }
     // console.log('NFTS:', nfts);
 
-    const handleModalSubmit = async () => {
+    const handleModalSubmit = async (e: any) => {
+        e.preventDefault();
 
         try {
             setIsLoading(true);
@@ -187,9 +218,10 @@ const VaultDetail: React.FC = ({ data }: any) => {
             }
 
 
-            refreshData();
-            countDownTimer(data.fundraiseDuration);
+            countDownTimer(data?.fundraiseDuration);
+
             setVisible(false);
+            await getVaultData();
 
             const data2 = JSON.stringify({
                 "walletAddress": currentAccount,
@@ -197,7 +229,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 "timestamp": new Date().getTime(),
                 "transactions": [""],
                 "vaultAddress": id,
-                "vaultName": data.vaultName,
+                "vaultName": data?.vaultName,
                 "target": modalForm.target,
                 "vaultStatus": 1
             });
@@ -218,25 +250,23 @@ const VaultDetail: React.FC = ({ data }: any) => {
     }
 
     const checkGovernedState = async () => {
-        if (data?.origin !== "private" && tabs.length === 2) {
+        if (data?.type === "Public" && tabs.length === 2) {
+            console.log("pushed", data?.type);
             tabs.push({
                 name: 'GOVERNED',
                 value: VaultDashboardTabs.Orders
             })
         }
     }
-    useEffect(() => {
-        checkGovernedState();
-    }, [currentAccount])
 
 
     const countDownTimer = (countDownDate: any) => {
+        if (!countDownDate) { return }
 
         var x = setInterval(function () {
 
             var now = new Date().getTime();
-
-
+         
             var distance = countDownDate - now;
 
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -249,14 +279,11 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
             if (distance < 0) {
                 clearInterval(x);
-                setCountDown("");
+                setCountDown(now.toLocaleString());
             }
         }, 1000);
     }
 
-    useEffect(() => {
-        countDownTimer(data.fundraiseDuration);
-    }, [])
 
     // useEffect(() => {
     //     fetchTokens(selectedChain?.chainId);
@@ -269,16 +296,23 @@ const VaultDetail: React.FC = ({ data }: any) => {
     //     }
     // }, [currentAccount])
 
-    const refreshData = () => {
-        router.replace(router.asPath);
-    }
 
-    console.log(data);
     useEffect(() => {
-        setTimeout(() => { setModal(true); }, 2000);
-        getProviderFrom();
-        getNFTs();
-    }, [currentAccount])
+        if (data) {
+            checkGovernedState();
+            countDownTimer(data?.fundraiseDuration);
+        }
+    }, [data])
+
+    useEffect(() => {
+        // setTimeout(() => { setModal(true); }, 2000);
+        if (id) {
+            getVaultData()
+            getProviderFrom();
+            getNFTs();
+        }
+    }, [currentAccount, id])
+
 
     const sliderRef = useRef() as any;
 
@@ -461,7 +495,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                                 </div>
                             </Tab.Panel>
 
-                            {data?.origin !== "private" && <Tab.Panel>
+                            {data?.type !== "Private" && <Tab.Panel>
                                 <div className='py-4'>
                                     <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
 
@@ -488,7 +522,7 @@ const VaultDetail: React.FC = ({ data }: any) => {
                     </Tab.Group>
                 </div>
                 <div>
-                    <a href={`https://mumbai.polygonscan.com/address/${data.contractAddress}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
+                    <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
                         <p className='ml-4'>View on Etherscan</p>
                         <ArrowUpIcon className='h-6 w-6 rotate-45' />
                     </a>
@@ -507,13 +541,13 @@ const VaultDetail: React.FC = ({ data }: any) => {
                 <div className='font-montserrat p-6'>
                     {/* <Image src={walletmodal} /> */}
                     <p className='text-2xl mt-4 mb-6 text-white'>Start Fundraising</p>
-                    <form className='flex flex-col text-white space-y-4'>
+                    <form onSubmit={handleModalSubmit} className='flex flex-col text-white space-y-4'>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input required type='number' step="0" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
+                            <input required type='number' step="any" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
@@ -538,8 +572,8 @@ const VaultDetail: React.FC = ({ data }: any) => {
                         </div>
 
                         <div className='text-center !pb-6' >
-                            <button onClick={handleModalSubmit} type="submit" className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
+                            <button type="submit" className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                                <p>Purchase {modalForm.value} {selectedToken?.symbol}</p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
 
@@ -598,37 +632,37 @@ const VaultDetail: React.FC = ({ data }: any) => {
 
 export default VaultDetail
 
-export async function getServerSideProps(context: any) {
-    // Fetch data from external API
-    let data: any = {}
-    const { id } = context.params
+// export async function getServerSideProps(context: any) {
+//     // Fetch data from external API
+//     let data: any = {}
+//     const { id } = context.params
 
-    try {
-        const body = JSON.stringify({
-            "vaultAddress": id,
-        })
-        // const response = {}
-        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
-            headers: {
-                'content-Type': 'application/json',
-            },
-        }
-        );
+//     try {
+//         const body = JSON.stringify({
+//             "vaultAddress": id,
+//         })
+//         // const response = {}
+//         const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+//             headers: {
+//                 'content-Type': 'application/json',
+//             },
+//         }
+//         );
 
-        console.log("FETCH RES", response.data.Item);
+//         console.log("FETCH RES", response.data.Item);
 
-        for (let i in response.data.Item) {
-            console.log(i, Object.values(response.data.Item[i])[0])
-            data[i] = Object.values(response.data.Item[i])[0]
-        }
+//         for (let i in response.data.Item) {
+//             console.log(i, Object.values(response.data.Item[i])[0])
+//             data[i] = Object.values(response.data.Item[i])[0]
+//         }
 
-    } catch (error) {
-        console.error(error);
-    }
+//     } catch (error) {
+//         console.error(error);
+//     }
 
-    // Pass data to the page via props
-    return { props: { data } }
-}
+//     // Pass data to the page via props
+//     return { props: { data } }
+// }
 
 
 

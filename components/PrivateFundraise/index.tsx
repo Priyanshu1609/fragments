@@ -114,7 +114,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
-                            <input required type='number' step="0" min={1} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
+                            <input required type='number' step="any"  className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise duration{requiredTag}</p>

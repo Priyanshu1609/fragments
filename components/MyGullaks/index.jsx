@@ -27,7 +27,7 @@ const MyInvestment = () => {
 
     const key = 'vaultAddress';
 
-    unique.reverse();
+    //  unique.reverse();
     let uniqueVaults = [...new Map(unique.map(item => [item[key], item])).values()];
 
     console.log("Vaults", uniqueVaults);
@@ -64,7 +64,7 @@ const MyInvestment = () => {
                     className="mySwiper"
                 >
 
-                    {unique?.map((vault) => (
+                    {uniqueVaults?.map((vault) => (
                         <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({
