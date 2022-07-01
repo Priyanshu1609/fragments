@@ -279,7 +279,7 @@ const VaultDetail: React.FC = () => {
 
             if (distance < 0) {
                 clearInterval(x);
-                setCountDown(now.toLocaleString());
+                setCountDown("");
             }
         }, 1000);
     }
