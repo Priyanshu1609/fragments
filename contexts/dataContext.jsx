@@ -19,13 +19,15 @@ export const defaultFormData = {
     votingPeriod: 0,
     quorum: 0,
     minFavor: 0,
-    nftsImported: [""],
-    nftsPurchased: [""],
+    nfts: [],
     target: 0,
     fundraiseDuration: 0,
+    fundraiseCreatedAt: 0,
     myContribution: 0,
     amount: 0,
 }
+
+
 
 export const DataContextProvider = ({ children }) => {
 
@@ -56,8 +58,8 @@ export const DataContextProvider = ({ children }) => {
         }
         );
 
-
-        response.data.Items.forEach((element) => {
+        console.log("response now", response, data);
+        response.data.Items?.forEach((element) => {
             // console.log(element);
             let d = {}
             for (let i in element) {
@@ -75,7 +77,16 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(true);
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             console.log("Deploying Safe");
-            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/createsafe`);
+            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
+
+            var config = {
+                method: 'get',
+                url: 'https://swtsnugw7hvjemexl6wehip2dm0tqedl.lambda-url.ap-south-1.on.aws/',
+            };
+
+            const res = axios(config);
+            console.log(res);
+
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
             return address;
@@ -90,9 +101,10 @@ export const DataContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             console.log("FormData", values);
+            let tx;
             if (values.myContribution > 0) {
 
-                const tx = await sendTx(address, values.myContribution);
+                tx = await sendTx(address, values.myContribution);
                 console.log("Transaction reciept", tx);
                 if (!tx) {
                     alert("Please complete the transaction");
@@ -110,7 +122,7 @@ export const DataContextProvider = ({ children }) => {
 
             const data = JSON.stringify({
                 "vaultAddress": address,
-                "vaultStatus": 1,
+                "vaultStatus": "RUNNING",
                 "contractAddress": contractAddress.data,
                 "origin": values.origin,
                 "vaultName": values.vaultName,
@@ -126,36 +138,36 @@ export const DataContextProvider = ({ children }) => {
                 "nftsPurchased": values.nftsPurchased,
                 "target": values.target,
                 "fundraiseDuration": values.fundraiseDuration,
+                "fundraiseCreatedAt": new Date().getTime(),
                 "amount": values.myContribution,
                 "creator": currentAccount
             })
-
-            const data2 = JSON.stringify({
-                "walletAddress": currentAccount,
-                "amountPledged": 20,
-                "timestamp": new Date().getTime(),
-                "transactions": [""],
-                "vaultAddress": address,
-                "vaultName": values.vaultName,
-                "target": values.target,
-                "vaultStatus": 1
-            });
-
-            console.log("aws res 1:", data);
-            console.log("aws res 2:", data2);
 
             const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {
                     'content-Type': 'application/json',
                 },
             });
-            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            });
+            let response2;
+            if (values.myContribution > 0) {
 
+                const data2 = JSON.stringify({
+                    "walletAddress": currentAccount,
+                    "amountPledged": values.myContribution,
+                    "timestamp": new Date().getTime(),
+                    "transactions": tx,
+                    "vaultAddress": address,
+                    "vaultName": values.vaultName,
+                    "target": values.target,
+                    "vaultStatus": 1
+                });
 
+                response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                    headers: {
+                        'content-Type': 'application/json',
+                    },
+                });
+            }
 
             console.log("aws res 1:", response);
             console.log("aws res 2:", response2);

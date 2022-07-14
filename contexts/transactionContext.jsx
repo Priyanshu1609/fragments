@@ -75,7 +75,7 @@ export const TransactionProvider = ({ children }) => {
             let customerId;
             const res = await axios(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-                }?address=${address.toLowerCase()}`,
+                }?address=${address}`,
                 {
                     method: 'GET',
                     validateStatus: false,
@@ -86,7 +86,7 @@ export const TransactionProvider = ({ children }) => {
             if (!customerId) {
                 const res = await axios.post(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                    { address: address.toLowerCase() },
+                    { address: address },
                     {
                         headers: {
                             'Content-Type': 'application/json',

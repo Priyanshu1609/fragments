@@ -1,20 +1,84 @@
-{
-	"TableName": "Associations",
+[
+  {
+    "TableName": "Associations",
+    "Item": {
+      "walletAddress": {
+        "S": "$input.path('$.walletAddress')"
+      },
+      "timestamp": {
+        "S": "$input.path('$.timestamp')"
+      },
+      "amountPledged": {
+        "N": "$input.path('$.amountPledged')"
+      },
+      "transactions": {
+        "SS": "$input.path('$.transactions')"
+      },
+      "vaultAddress": {
+        "S": "$input.path('$.vaultAddress')"
+      }
+    }
+  },
+  {
+	"TableName": "Vaults",
 	"Item": {
-		"walletAddress": {
-			"S": "$input.path('$.walletAddress')"
-		},
-		"timestamp": {
-			"S": "$input.path('$.timestamp')"
-		},
-		"amountPledged": {
-			"N": "$input.path('$.amountPledged')"
-		},
-		"transactions": {
-			"SS": "$input.path('$.transactions')"
-		},
 		"vaultAddress": {
 			"S": "$input.path('$.vaultAddress')"
+		},
+		"origin": {
+			"S": "$input.path('$.origin')"
+		},
+		"vaultName": {
+			"S": "$input.path('$.vaultName')"
+		},
+		"type": {
+			"S": "$input.path('$.type')"
+		},
+		"description": {
+			"S": "$input.path('$.description')"
+		},
+		"tokenName": {
+			"S": "$input.path('$.tokenName')"
+		},
+		"numOfTokens": {
+			"N": "$input.path('$.numOfTokens')"
+		},
+		"managementFees": {
+			"N": "$input.path('$.managementFees')"
+		},
+		"votingPeriod": {
+			"S": "$input.path('$.votingPeriod')"
+		},
+		"quorum": {
+			"S": "$input.path('$.quorum')"
+		},
+		"minFavor": {
+			"S": "$input.path('$.minFavor')"
+		},
+		"nfts": {
+			"SS": "$input.path('$.nftsImported')"
+		},
+		"target": {
+			"N": "$input.path('$.target')"
+		},
+		"fundraiseDuration": {
+			"N": "$input.path('$.fundraiseDuration')"
+		},
+		"fundraiseCreatedAt": {
+			"N": "$input.path('$.fundraiseCreatedAt')"
+		},
+		"vaultStatus":{
+		    "S" :  "$input.path('$.vaultStatus')"
+		},
+		"amount": {
+			"N": "$input.path('$.amount')"
+		},
+		"contractAddress": {
+			"S": "$input.path('$.contractAddress')"
+		},
+		"creator": {
+			"S": "$input.path('$.creator')"
 		}
 	}
 }
+]
