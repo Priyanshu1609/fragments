@@ -185,9 +185,10 @@ const VaultDetail: React.FC = () => {
 
         try {
             setIsLoading(true);
+            let tx;
             if (modalForm.amount > 0) {
 
-                const tx = await sendTx(id, modalForm.amount);
+                tx = await sendTx(id, modalForm.amount);
                 console.log("Transaction reciept", tx);
                 if (!tx) {
                     alert("Please complete the transaction");
@@ -227,7 +228,7 @@ const VaultDetail: React.FC = () => {
                 "walletAddress": currentAccount,
                 "amountPledged": modalForm.amount,
                 "timestamp": new Date().getTime(),
-                "transactions": [""],
+                "transactionHash": tx.hash,
                 "vaultAddress": id,
                 "vaultName": data?.vaultName,
                 "target": modalForm.target,
@@ -266,7 +267,7 @@ const VaultDetail: React.FC = () => {
         var x = setInterval(function () {
 
             var now = new Date().getTime();
-         
+
             var distance = countDownDate - now;
 
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -359,7 +360,8 @@ const VaultDetail: React.FC = () => {
                 </div>
                 <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
             </div>}
-            <div className=' p-6 flex-[0.4] '>
+            {/* <div className=' p-6 flex-[0.4] '> */}
+            <div className={`p-6 ${data?.origin !== "private" && "flex-[0.4]" } ${data?.origin === "private" && "flex-[0.6]" } `}>
                 <div className='flex items-center justify-between'>
                     <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
                         <Blockies

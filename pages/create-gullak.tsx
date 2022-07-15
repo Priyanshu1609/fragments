@@ -29,7 +29,7 @@ const CreateGullak: React.FC = () => {
     return (
         <div className='min-h-screen flex flex-col items-center justify-center text-white font-montserrat'>
             <div className='flex space-x-4 items-center justify-center '>
-                <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
+                <button className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
                     <Image src={importWallet} height={150} width={150} />
                     <h1 className='text-2xl font-semibold'>Import NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
@@ -39,8 +39,8 @@ const CreateGullak: React.FC = () => {
                             query: { user: currentAccount },
                         })
                     }>Make Vault</button >
-                </div>
-                <div className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center'>
+                </button>
+                <button disabled className='w-80 p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed'>
                     <Image src={buy1} height={150} width={150} />
                     <h1 className='text-2xl font-semibold'>Purchase NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
@@ -49,11 +49,11 @@ const CreateGullak: React.FC = () => {
                             pathname: '/purchase/create-vault',
                             query: { user: currentAccount },
                         })
-                    }>Make Vault</button>
-                </div>
+                    }>Coming Soon</button>
+                </button>
             </div>
 
-            <div className='w-[41rem] p-8 border border-white border-opacity-50 rounded-lg flex items-center justify-center mt-4'>
+            <button className='w-[41rem] p-8 border border-white border-opacity-50 rounded-lg flex items-center justify-center mt-4'>
                 <div className='flex flex-col flex-[0.5]'>
                     <h1 className='text-2xl font-semibold'>Fundraise with frens</h1>
                     <p className='text-sm  text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
@@ -66,7 +66,7 @@ const CreateGullak: React.FC = () => {
                         })
                     }>Make Vault</button>
                 </div>
-            </div>
+            </button>
 
         </div >
     )

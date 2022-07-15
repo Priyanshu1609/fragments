@@ -19,7 +19,7 @@ export const defaultFormData = {
     votingPeriod: 0,
     quorum: 0,
     minFavor: 0,
-    nfts: [],
+    nfts: [""],
     target: 0,
     fundraiseDuration: 0,
     fundraiseCreatedAt: 0,
@@ -76,6 +76,7 @@ export const DataContextProvider = ({ children }) => {
         try {
             setIsLoading(true);
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
             console.log("Deploying Safe");
             const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
 
@@ -123,7 +124,7 @@ export const DataContextProvider = ({ children }) => {
             const data = JSON.stringify({
                 "vaultAddress": address,
                 "vaultStatus": "RUNNING",
-                "contractAddress": contractAddress.data,
+                "contractAddress": contractAddress,
                 "origin": values.origin,
                 "vaultName": values.vaultName,
                 "type": values.type,
@@ -134,8 +135,7 @@ export const DataContextProvider = ({ children }) => {
                 "votingPeriod": values.votingPeriod,
                 "quorum": values.quorum,
                 "minFavor": values.minFavor,
-                "nftsImported": values.nftsImported,
-                "nftsPurchased": values.nftsPurchased,
+                "nfts": values.nfts,
                 "target": values.target,
                 "fundraiseDuration": values.fundraiseDuration,
                 "fundraiseCreatedAt": new Date().getTime(),
@@ -148,14 +148,14 @@ export const DataContextProvider = ({ children }) => {
                     'content-Type': 'application/json',
                 },
             });
-            let response2;
+            let response2, data2;
             if (values.myContribution > 0) {
 
-                const data2 = JSON.stringify({
+                data2 = JSON.stringify({
                     "walletAddress": currentAccount,
                     "amountPledged": values.myContribution,
                     "timestamp": new Date().getTime(),
-                    "transactions": tx,
+                    "transactionHash": tx.hash,
                     "vaultAddress": address,
                     "vaultName": values.vaultName,
                     "target": values.target,
@@ -169,8 +169,8 @@ export const DataContextProvider = ({ children }) => {
                 });
             }
 
-            console.log("aws res 1:", response);
-            console.log("aws res 2:", response2);
+            console.log("aws res 1:", response, data);
+            console.log("aws res 2:", response2, data2);
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount },

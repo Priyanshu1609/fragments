@@ -69,9 +69,9 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
             alert("Please import atleast 1 NFT");
             return;
         }
-
+        const nfts = nftsImported;
         const form = {
-            ...formData, nftsImported
+            ...formData, nfts
         }
 
         handleCreateVault(form, safeAddress);
