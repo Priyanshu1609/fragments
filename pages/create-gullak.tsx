@@ -44,7 +44,7 @@ const CreateGullak: React.FC = () => {
                     <Image src={buy1} height={150} width={150} />
                     <h1 className='text-2xl font-semibold'>Purchase NFT</h1>
                     <p className='text-sm text-center text-white opacity-50'>Lorem ipsum dolor sit amet, ectetur adipiscing elita dipiscing elit.</p>
-                    <button className='bg-white text-black w-full py-3 rounded-md mt-4' onClick={e =>
+                    <button className='bg-white text-black w-full py-3 rounded-md mt-4 disabled:cursor-not-allowed' disabled onClick={e =>
                         router.push({
                             pathname: '/purchase/create-vault',
                             query: { user: currentAccount },

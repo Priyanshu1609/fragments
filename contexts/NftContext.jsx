@@ -114,6 +114,8 @@ export const NftContextProvider = ({ children }) => {
                 })
             )
             setNftList(!nftsMetadataFixedWithImages?.length ? [] : nftsMetadataFixedWithImages);
+
+            
         } catch (error) {
             console.error(error)
         } finally {

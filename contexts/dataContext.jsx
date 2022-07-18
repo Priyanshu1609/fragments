@@ -80,14 +80,6 @@ export const DataContextProvider = ({ children }) => {
             console.log("Deploying Safe");
             const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
 
-            var config = {
-                method: 'get',
-                url: 'https://swtsnugw7hvjemexl6wehip2dm0tqedl.lambda-url.ap-south-1.on.aws/',
-            };
-
-            const res = axios(config);
-            console.log(res);
-
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
             return address;
