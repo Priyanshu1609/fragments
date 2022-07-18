@@ -216,12 +216,12 @@ const VaultDetail: React.FC = () => {
             );
 
 
-            // console.log("FETCH RES", response.data.Attributes);
-            let d: any = {}
-            for (let i in response.data.Attributes) {
-                console.log(i, Object.values(response.data.Attributes[i])[0])
-                d[i] = Object.values(response.data.Attributes[i])[0]
-            }
+            // // console.log("FETCH RES", response.data.Attributes);
+            // let d: any = {}
+            // for (let i in response.data.Attributes) {
+            //     console.log(i, Object.values(response.data.Attributes[i])[0])
+            //     d[i] = Object.values(response.data.Attributes[i])[0]
+            // }
 
 
             countDownTimer(data?.fundraiseDuration);
@@ -276,7 +276,7 @@ const VaultDetail: React.FC = () => {
 
             const body = JSON.stringify({
                 "vaultAddress": id,
-                "amount": data?.amount + tokenAmount,
+                "amount": Number(tokenAmount),
                 "fundraiseDuration": data?.fundraiseDuration,
                 "target": data?.target
             })
@@ -288,6 +288,8 @@ const VaultDetail: React.FC = () => {
             }
             );
 
+            console.log("adding amount", response, Number(data?.amount), Number(tokenAmount));
+
 
             // console.log("FETCH RES", response.data.Attributes);
             // let d: any = {}
@@ -298,7 +300,7 @@ const VaultDetail: React.FC = () => {
 
 
             // countDownTimer(data?.fundraiseDuration);
-
+            setTokenAmount(0);
             await getVaultData();
             setVisible(false);
 
@@ -454,7 +456,7 @@ const VaultDetail: React.FC = () => {
                         />
                         <p className='text-sm'>{data?.tokenName}</p>
                     </div>
-                    <p>{countDown}</p>
+                    <p>{data?.vaultStatus === "RUNNING" && countDown}</p>
                 </div>
                 <div className='mt-5 mb-5'>
                     <h2 className='text-2xl font-semibold text-[#2bffb1]  mb-2'>{data?.vaultName}</h2>
@@ -478,29 +480,39 @@ const VaultDetail: React.FC = () => {
                         </div>
                         <ProgressBar completed={data?.myContribution / data?.target} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
-                    <div>
-                        {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                        <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
-                            <p className='text-red-500'>We only accept funds in ETH</p>
-                            <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                        </div>
+                    {
+                        data?.vaultStatus === "RUNNING" ? <div>
+                            <div>
+                                {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
+                                <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                                    <p className='text-red-500'>We only accept funds in ETH</p>
+                                    <p className='text-green-500'>Have funds in different token ! Swap here !</p>
+                                </div>
 
-                    </div>
-                    <div className='mt-4'>
-                        <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                            <p>Enter amount</p>
-                            <p>Balance: {balance} ETH</p>
-                        </div>
-                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
-                    </div>
+                            </div>
+                            <div className='mt-4'>
+                                <div className='flex justify-between text-sm text-gray-300 mb-2'>
+                                    <p>Enter amount</p>
+                                    <p>Balance: {balance} ETH</p>
+                                </div>
+                                <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                            </div>
 
-                    <div className='text-center' >
-                        <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                            <p>Purchase {tokenAmount}</p>
-                            <ArrowRightIcon className='w-4 h-4' />
-                        </button>
-                        {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
-                    </div>
+                            <div className='text-center' >
+                                <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                                    <p>Purchase {tokenAmount}</p>
+                                    <ArrowRightIcon className='w-4 h-4' />
+                                </button>
+                                {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                            </div>
+                        </div> :
+                            <div>
+                                <div className='bg-input p-3 text-center rounded-lg text-2xl mt-4'>
+                                    <p className='text-red-500'>Fundraise is {data?.vaultStatus}</p>
+                                </div>
+
+                            </div>
+                    }
 
 
                 </div > :
