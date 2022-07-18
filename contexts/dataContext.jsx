@@ -151,7 +151,7 @@ export const DataContextProvider = ({ children }) => {
                     "vaultAddress": address,
                     "vaultName": values.vaultName,
                     "target": values.target,
-                    "vaultStatus": 1
+                    "vaultStatus": "RUNNING",
                 });
 
                 response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {

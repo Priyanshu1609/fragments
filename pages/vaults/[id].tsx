@@ -73,12 +73,13 @@ const tabs = [
 const VaultDetail: React.FC = () => {
     const router = useRouter();
 
-    const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx, getBalanace } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens } = useContext(NftContext);
     const { getVaultsByWallet } = useContext(DataContext);
     const [modal, setModal] = useState(false);
     const [countDown, setCountDown] = useState("");
+    const [balance, setBalance] = useState("");
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
@@ -183,6 +184,10 @@ const VaultDetail: React.FC = () => {
     const handleModalSubmit = async (e: any) => {
         e.preventDefault();
 
+        if (modalForm.amount <= 0 || modalForm.amount > data?.target - data?.amount) {
+            alert("Please enter a valid amount")
+            return;
+        }
         try {
             setIsLoading(true);
             let tx;
@@ -232,7 +237,7 @@ const VaultDetail: React.FC = () => {
                 "vaultAddress": id,
                 "vaultName": data?.vaultName,
                 "target": modalForm.target,
-                "vaultStatus": 1
+                "vaultStatus": "RUNNING",
             });
 
             const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
@@ -248,6 +253,78 @@ const VaultDetail: React.FC = () => {
             setIsLoading(false);
         }
 
+    }
+
+    const handleAddAmount = async () => {
+
+        if (tokenAmount <= 0 || tokenAmount >= data?.target - data?.amount) {
+            alert("Please enter a valid amount")
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+            let tx;
+
+
+            tx = await sendTx(id, tokenAmount);
+            console.log("Transaction reciept", tx);
+            if (!tx) {
+                alert("Please complete the transaction");
+                return;
+            }
+
+            const body = JSON.stringify({
+                "vaultAddress": id,
+                "amount": data?.amount + tokenAmount,
+                "fundraiseDuration": data?.fundraiseDuration,
+                "target": data?.target
+            })
+
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/update `, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
+
+            // console.log("FETCH RES", response.data.Attributes);
+            // let d: any = {}
+            // for (let i in response.data.Attributes) {
+            //     console.log(i, Object.values(response.data.Attributes[i])[0])
+            //     d[i] = Object.values(response.data.Attributes[i])[0]
+            // }
+
+
+            // countDownTimer(data?.fundraiseDuration);
+
+            await getVaultData();
+            setVisible(false);
+
+            const data2 = JSON.stringify({
+                "walletAddress": currentAccount,
+                "amountPledged": tokenAmount,
+                "timestamp": new Date().getTime(),
+                "transactionHash": tx.hash,
+                "vaultAddress": id,
+                "vaultName": data?.vaultName,
+                "target": data?.target,
+                "vaultStatus": "RUNNING",
+            });
+
+            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+            await getVaultsByWallet();
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     const checkGovernedState = async () => {
@@ -296,6 +373,10 @@ const VaultDetail: React.FC = () => {
     //         router.push('/')
     //     }
     // }, [currentAccount])
+    const getBalanaceInEth = async () => {
+        const balance = await getBalanace();
+        setBalance(balance);
+    }
 
 
     useEffect(() => {
@@ -311,6 +392,7 @@ const VaultDetail: React.FC = () => {
             getVaultData()
             getProviderFrom();
             getNFTs();
+            getBalanaceInEth();
         }
     }, [currentAccount, id])
 
@@ -361,7 +443,7 @@ const VaultDetail: React.FC = () => {
                 <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
             </div>}
             {/* <div className=' p-6 flex-[0.4] '> */}
-            <div className={`p-6 ${data?.origin !== "private" && "flex-[0.4]" } ${data?.origin === "private" && "flex-[0.6]" } `}>
+            <div className={`p-6 ${data?.origin !== "private" && "flex-[0.4]"} ${data?.origin === "private" && "flex-[0.6]"} `}>
                 <div className='flex items-center justify-between'>
                     <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
                         <Blockies
@@ -404,17 +486,17 @@ const VaultDetail: React.FC = () => {
                         </div>
 
                     </div>
-                    <div className='mt-3'>
+                    <div className='mt-4'>
                         <div className='flex justify-between text-sm text-gray-300 mb-2'>
                             <p>Enter amount</p>
-                            {/* <p>Balance: 32 ETH</p> */}
+                            <p>Balance: {balance} ETH</p>
                         </div>
-                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} onFocus={() => setIsPurchaseButtonVisible(true)} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
                     </div>
 
                     <div className='text-center' >
-                        <button onClick={() => { }} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                            <p>Purchase {tokenAmount} {selectedToken?.symbol}</p>
+                        <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                            <p>Purchase {tokenAmount}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>
                         {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}

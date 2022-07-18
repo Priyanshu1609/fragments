@@ -6,7 +6,7 @@ export interface VaultCardProps {
     name: string;
     target: number;
     image: string;
-    status: number,
+    status: string,
     amount: number,
     address: string,
     timestamp: number,
@@ -22,12 +22,12 @@ const VaultCard: React.FC<VaultCardProps> = ({
     timestamp
 }) => {
     return (
-        <div className={`rounded-lg  ${status == 1 ? 'bg-input text-white' : 'bg-gray-300 text-black'} w-[15rem]`} >
+        <div className={`rounded-lg  ${status === "RUNNING" ? 'bg-input text-white' : 'bg-gray-300 text-black'} w-[15rem]`} >
             <img src={image} className='w-[250px] h-[250px] rounded-t-lg' />
             <div className='px-4 py-3'>
                 <div>
                     <div className='flex text-xs justify-between'>
-                        <p>Status : {status == 1 ? "Running" : "Closed"}</p>
+                        <p>Status : {status}</p>
                         <span className='flex text-green-500 ml-3'>{target != 0 && parseFloat((((target - amount) / target) * 100).toFixed(2))} {target != 0 && <ArrowNarrowUpIcon className='w-4' />} </span>
                     </div>
                     <p className="text-xs mt-1">{dtToString(timestamp)}</p>
