@@ -61,6 +61,7 @@ export const TransactionProvider = ({ children }) => {
     const [clientId, setClientId] = useState('');
     const [awsClient, setAwsClient] = useState();
     const router = useRouter();
+    const [ens, setEns] = useState();
 
     const web3 = new Web3(Web3.givenProvider);
 
@@ -239,6 +240,24 @@ export const TransactionProvider = ({ children }) => {
 
     }
 
+    const fetchEns = async () => {
+        if (!currentAccount) { return }
+        try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            var name = await provider?.lookupAddress(currentAccount);
+            setEns(name ?? '');
+            console.log('ENS Name', name);
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        fetchEns();
+    }, [currentAccount])
+
+
+
     const sendTx = async (
         receiver,
         amount,
@@ -303,7 +322,8 @@ export const TransactionProvider = ({ children }) => {
                 getTokenBalance,
                 getProvider,
                 setIsLoading,
-                sendTx
+                sendTx,
+                ens,
             }}
         >
             {children}

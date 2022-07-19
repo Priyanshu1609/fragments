@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { GetServerSideProps } from 'next'
 
+import { unmarshall } from "@aws-sdk/util-dynamodb";
+
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { ArrowRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
@@ -64,7 +66,7 @@ const tabs = [
         value: VaultDashboardTabs.Information
     },
     {
-        name: 'OWNERS',
+        name: 'LAST TRANSACTIONS',
         value: VaultDashboardTabs.Owners
     },
 ]
@@ -83,6 +85,7 @@ const VaultDetail: React.FC = () => {
     const [selectedToken, setSelectedToken] = useState<selectedToken>()
     const [selectedChain, setSelectedChain] = useState<selectedChain>()
     const [coins, setCoins] = useState([]);
+    const [ownerData, setOwnerData] = useState<any>([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
     const [currentOrderView, setCurrentOrderView] = useState<OrdersState>(OrdersState.ACTIVE);
@@ -95,10 +98,11 @@ const VaultDetail: React.FC = () => {
         fundraiseDuration: 0,
         amount: 0
     })
-    const [data, setData] = useState<CreateVaultFormValues>();
+    const [data, setData] = useState<CreateVaultFormValues | any>();
 
     const { id } = router.query
 
+    // console.log("owners", ownerData);
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -146,14 +150,37 @@ const VaultDetail: React.FC = () => {
                 },
             }
             );
-
             console.log("FETCH RES", response.data.Item);
 
+
             for (let i in response.data.Item) {
-                console.log(i, Object.values(response.data.Item[i])[0])
+                // console.log(i, Object.values(response.data.Item[i])[0])
                 data[i] = Object.values(response.data.Item[i])[0]
             }
+
+            let body2 = JSON.stringify({
+                "vaultAddress": id
+            });
+
+            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyvault`, body2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+            let owners = [] as any;
+            for (let i in response2.data.Items) {
+                // console.log(i, Object.values(response2.data.Items[i])[0])
+                const regularObject = unmarshall(response2.data.Items[i]);
+                owners.push(regularObject);
+            }
+            // owners[i] = temp;
+
+            console.log("FETCH OWNER RES", response2.data.Items)
+
+
             setData(data);
+            setOwnerData(owners);
 
         } catch (error) {
             console.error(error);
@@ -330,7 +357,7 @@ const VaultDetail: React.FC = () => {
     }
 
     const checkGovernedState = async () => {
-        if (data?.type === "Public" && tabs.length === 2) {
+        if (data?.type === "Public" && tabs.length === 2 && data?.origin !== "private") {
             console.log("pushed", data?.type);
             tabs.push({
                 name: 'GOVERNED',
@@ -481,7 +508,7 @@ const VaultDetail: React.FC = () => {
                         <ProgressBar completed={data?.myContribution / data?.target} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     {
-                        data?.vaultStatus === "RUNNING" ? <div>
+                        data?.vaultStatus === "RUNNING" && data?.amount >= data?.target ? <div>
                             <div>
                                 {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
                                 <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
@@ -562,36 +589,40 @@ const VaultDetail: React.FC = () => {
                                         <button className='bg-white rounded-lg p-2 text-sm text-gray-900'>Add owner</button>
                                     </div> */}
                                     <div>
-                                        <div className='py-4 flex justify-between border-y-2 border-[#1E1E24]'>
-                                            <div className='flex items-center w-full justify-between'>
-                                                <div className='flex space-x-3'>
-                                                    <Blockies
-                                                        seed='need to be changed'
-                                                        size={19}
-                                                        scale={2}
-                                                        className='rounded-full mr-3'
-                                                    />
-                                                    <div>
-                                                        <p className='font-semibold text-base'>
-                                                            {getEllipsisTxt(currentAccount)}
-                                                        </p>
+                                        <div className='py-4 flex flex-col items-center space-y-4 justify-between border-y-2 border-[#1E1E24]'>
+                                            {
+                                                ownerData?.map((owner: any, index: number) => (
+                                                    <div key={index} className='flex items-center w-full justify-between'>
+                                                        <div className='flex space-x-3'>
+                                                            <Blockies
+                                                                seed='need to be changed'
+                                                                size={19}
+                                                                scale={2}
+                                                                className='rounded-full mr-3'
+                                                            />
+                                                            <div className='flex items-center justify-center'>
+                                                                <p className='font-semibold text-base'>
+                                                                    {getEllipsisTxt(owner.walletAddress)}
+                                                                </p>
 
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
+                                                            {/* <p className='text-[#D0D0DA] text-xs'>$ 341,315</p> */}
+                                                        </div>
+                                                        <div>
+                                                            <p>{owner.amountPledged} ETH</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div>
-                                                    <p className='text-sm'>{((data?.amount / data?.target) * 1000000) + "  frag-" + data?.tokenName}</p>
-                                                    {/* <p className='text-[#D0D0DA] text-xs'>$ 341,315</p> */}
-                                                </div>
-                                                <div>
-                                                    <p>{(data?.amount / data?.target) * 100}</p>
-                                                </div>
-                                            </div>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </Tab.Panel>
 
-                            {data?.type !== "Private" && <Tab.Panel>
+                            {data?.type !== "Private" && data?.origin !== "private" &&  <Tab.Panel>
                                 <div className='py-4'>
                                     <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
 
@@ -727,38 +758,6 @@ const VaultDetail: React.FC = () => {
 }
 
 export default VaultDetail
-
-// export async function getServerSideProps(context: any) {
-//     // Fetch data from external API
-//     let data: any = {}
-//     const { id } = context.params
-
-//     try {
-//         const body = JSON.stringify({
-//             "vaultAddress": id,
-//         })
-//         // const response = {}
-//         const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
-//             headers: {
-//                 'content-Type': 'application/json',
-//             },
-//         }
-//         );
-
-//         console.log("FETCH RES", response.data.Item);
-
-//         for (let i in response.data.Item) {
-//             console.log(i, Object.values(response.data.Item[i])[0])
-//             data[i] = Object.values(response.data.Item[i])[0]
-//         }
-
-//     } catch (error) {
-//         console.error(error);
-//     }
-
-//     // Pass data to the page via props
-//     return { props: { data } }
-// }
 
 
 

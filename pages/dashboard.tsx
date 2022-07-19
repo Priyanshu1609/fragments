@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 // import { useConnect } from 'wagmi';
 import cerateDaoPeopleImage from '../assets/People.png';
 import Image from 'next/image';
@@ -15,6 +15,7 @@ import PageLoader from '../components/PageLoader';
 import MyInvestment from "../components/MyInvestments"
 import MyGullaks from "../components/MyGullaks"
 import NFTList from "../components/NFTList"
+import { DataContext } from '../contexts/dataContext';
 
 
 declare var window: any;
@@ -94,23 +95,44 @@ const Dashboard: React.FC = () => {
 
     // const [{ data: connectData }] = useConnect()
 
-    const { connectallet, currentAccount } = useContext(TransactionContext);
+    const { connectallet, currentAccount, ens } = useContext(TransactionContext);
+    const { vaults } = useContext(DataContext);
+
     const [name, setName] = React.useState('');
+    const [valuation, setValuation] = useState(0)
 
     const router = useRouter();
 
-    const fetchEns = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        var name = await provider?.lookupAddress(currentAccount);
-        setName(name ?? '');
-        console.log('ENS Name', name);
+    let unique;
+
+    unique = vaults;
+
+    const key = 'vaultAddress';
+
+    let uniqueVaults = [] as any;
+    uniqueVaults = [...new Map(unique.map((item: any) => [item[key], item])).values()];
+
+    const handleValuation = async () => {
+        if (!vaults) { return }
+        let value = 0;
+        vaults.forEach(async (vault: any) => {
+            const vaultValuation = Number(vault.amountPledged)
+            console.log({ valuation, vaultValuation })
+            value += vaultValuation
+        }
+        )
+        setValuation(value);
     }
+
+    useEffect(() => {
+        handleValuation();
+    }, [currentAccount])
+
 
     useEffect(() => {
         if (!currentAccount) {
             router.push('/')
         }
-        { currentAccount && fetchEns() }
     }, [currentAccount])
 
     useEffect(() => {
@@ -140,18 +162,18 @@ const Dashboard: React.FC = () => {
                     <div className='text-white font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
                         <div className='text-white text-lg'>
-                            {name !== '' ? name : getEllipsisTxt(currentAccount)}
+                            {ens !== '' ? ens : getEllipsisTxt(currentAccount)}
                         </div>
                     </div>
                 </div>
                 <div className='flex space-x-10 '>
                     <div className='flex  space-x-2 items-center'>
                         <p className='opacity-70'>Curent Value: </p>
-                        <span className='font-bold text-xl opacity-100 -mt-1'>600 ETH </span>
+                        <span className='font-bold text-xl opacity-100 -mt-1'>{(valuation).toFixed(2)} ETH </span>
                         {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
                     <div className='flex space-x-2'>
-                        <p className='opacity-70'>Active Gullaks: </p><span className='font-bold opacity-100'>50</span>
+                        <p className='opacity-70'>Active Vaults: </p><span className='font-bold opacity-100'>{uniqueVaults.length}</span>
                     </div>
                 </div>
             </div>
