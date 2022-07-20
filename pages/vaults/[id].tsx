@@ -508,7 +508,7 @@ const VaultDetail: React.FC = () => {
                         <ProgressBar completed={data?.myContribution / data?.target} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     {
-                        data?.vaultStatus === "RUNNING" && data?.amount >= data?.target ? <div>
+                        data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
                             <div>
                                 {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
                                 <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
