@@ -38,6 +38,7 @@ export const DataContextProvider = ({ children }) => {
     const [vaults, setVaults] = useState([]);
     const [vaultModal, setVaultModal] = useState(false);
     const [vaultLink, setVaultLink] = useState("")
+    const [creatorVaults, setCreatorVaults] = useState([]);
     // console.log('FormData : ', formData);
 
     const handleChange = (e, name) => {
@@ -71,6 +72,34 @@ export const DataContextProvider = ({ children }) => {
 
     }
     console.log(vaults);
+
+    const getVaultsByCreator = async () => {
+        if (!currentAccount) { return }
+        setCreatorVaults([])
+
+        const data = JSON.stringify({
+            "creator": currentAccount
+        });
+        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
+            headers: {
+                'content-Type': 'application/json',
+            },
+        }
+        );
+
+        console.log("response creator vault", response, data);
+        response.data.Items?.forEach((element) => {
+            // console.log(element);
+            let d = {}
+            for (let i in element) {
+                d[i] = Object.values(element[i])[0]
+            }
+
+            setCreatorVaults(prev => [...prev, d]);
+        })
+
+    }
+    console.log(creatorVaults);
 
     const deploySafe = async () => {
         try {
@@ -169,6 +198,8 @@ export const DataContextProvider = ({ children }) => {
             })
 
             await getVaultsByWallet();
+            await getVaultsByCreator();
+
             setFormData(defaultFormData)
         } catch (error) {
             console.error(error)
@@ -179,11 +210,12 @@ export const DataContextProvider = ({ children }) => {
 
     useEffect(() => {
         getVaultsByWallet();
+        getVaultsByCreator();
     }, [currentAccount])
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe, creatorVaults }}>
             {children}
         </DataContext.Provider>
     )

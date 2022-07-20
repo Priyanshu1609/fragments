@@ -19,21 +19,7 @@ import VaultCard from '../VaultCard';
 
 const MyInvestment = () => {
     const { currentAccount } = useContext(TransactionContext);
-    const { vaults } = useContext(DataContext);
-
-    let unique;
-
-    unique = vaults;
-
-    const key = 'vaultAddress';
-
-    //  unique.reverse();
-    let uniqueVaults = [...new Map(unique.map(item => [item[key], item])).values()];
-
-    console.log("Vaults", uniqueVaults);
-
-
-
+    const {  creatorVaults } = useContext(DataContext);
 
     const router = useRouter();
 
@@ -64,7 +50,7 @@ const MyInvestment = () => {
                     className="mySwiper"
                 >
 
-                    {uniqueVaults?.map((vault) => (
+                    {creatorVaults?.map((vault) => (
                         <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                                 router.push({
@@ -76,8 +62,8 @@ const MyInvestment = () => {
                                     address={vault?.vaultAddress}
                                     target={vault?.target}
                                     status={vault?.vaultStatus}
-                                    amount={vault?.amountPledged}
-                                    timestamp={vault?.timestamp}
+                                    amount={vault?.amount}
+                                    timestamp={vault?.fundraiseCreatedAt}
                                     image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
                                 />
 
