@@ -112,6 +112,7 @@ export const DataContextProvider = ({ children }) => {
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
             return address;
+            
         } catch (error) {
             console.error(error)
         } finally {

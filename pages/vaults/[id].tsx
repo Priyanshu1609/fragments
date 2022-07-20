@@ -82,9 +82,9 @@ const VaultDetail: React.FC = () => {
     const [modal, setModal] = useState(false);
     const [countDown, setCountDown] = useState("");
     const [balance, setBalance] = useState("");
-    const [selectedToken, setSelectedToken] = useState<selectedToken>()
-    const [selectedChain, setSelectedChain] = useState<selectedChain>()
-    const [coins, setCoins] = useState([]);
+    // const [selectedToken, setSelectedToken] = useState<selectedToken>()
+    // const [selectedChain, setSelectedChain] = useState<selectedChain>()
+    // const [coins, setCoins] = useState([]);
     const [ownerData, setOwnerData] = useState<any>([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
@@ -510,7 +510,7 @@ const VaultDetail: React.FC = () => {
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
                             <div>
-                                {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
+                                <SelectChain  />
                                 <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                                     <p className='text-red-500'>We only accept funds in ETH</p>
                                     <p className='text-green-500'>Have funds in different token ! Swap here !</p>
@@ -700,7 +700,7 @@ const VaultDetail: React.FC = () => {
 
                         <div className='text-center !pb-6' >
                             <button type="submit" className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                <p>Purchase {modalForm.value} {selectedToken?.symbol}</p>
+                                <p>Purchase {modalForm.value} </p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
 

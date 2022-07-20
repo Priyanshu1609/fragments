@@ -96,7 +96,7 @@ const Dashboard: React.FC = () => {
     // const [{ data: connectData }] = useConnect()
 
     const { connectallet, currentAccount, ens } = useContext(TransactionContext);
-    const { vaults } = useContext(DataContext);
+    const { vaults, creatorVaults } = useContext(DataContext);
 
     const [name, setName] = React.useState('');
     const [valuation, setValuation] = useState(0)
@@ -113,7 +113,10 @@ const Dashboard: React.FC = () => {
     uniqueVaults = [...new Map(unique.map((item: any) => [item[key], item])).values()];
 
     const handleValuation = async () => {
-        if (!vaults) { return }
+        if (!vaults) {
+            console.log("no vaults")
+            return
+        }
         let value = 0;
         vaults.forEach(async (vault: any) => {
             const vaultValuation = Number(vault.amountPledged)
@@ -173,7 +176,7 @@ const Dashboard: React.FC = () => {
                         {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
                     <div className='flex space-x-2'>
-                        <p className='opacity-70'>Active Vaults: </p><span className='font-bold opacity-100'>{uniqueVaults.length}</span>
+                        <p className='opacity-70'>Active Vaults: </p><span className='font-bold opacity-100'>{creatorVaults.length}</span>
                     </div>
                 </div>
             </div>

@@ -59,9 +59,16 @@ export const SocketProvider = ({ children }) => {
     const API_KEY = 'f09a7c60-cc6f-4656-ad1b-ac8879df3424';
     const { currentAccount } = useContext(TransactionContext);
 
-    const [values, setValues] = useState({ fromChainId: "137", toChainId: "1", fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', toToken: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount: '100' });
+    // const [chainData, setChainData] = useState({ fromChainId: "137", toChainId: "1", fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', toToken: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount: '100' });
+    // const [coins, setCoins] = useState([]);
 
-    const [selectedChain, setSelectedChain] = useState("137")
+    // const handleChainChange = (e, name) => {
+    //     setChainData(prevState => ({ ...prevState, [name]: e.target.value }))
+    // }
+
+    const [selectedToken, setSelectedToken] = useState()
+    const [selectedChain, setSelectedChain] = useState()
+    const [coins, setCoins] = useState([]);
 
     const handleNetworkSwitch = async (chainId) => {
         const chains = networks.networks
@@ -439,13 +446,15 @@ export const SocketProvider = ({ children }) => {
             transaction,
             fetchFromTokens,
             fetchToTokens,
-            values,
-            setValues,
             getQuote,
             chains,
             handleNetworkSwitch,
             selectedChain,
             setSelectedChain,
+            selectedToken,
+            setSelectedToken,
+            coins,
+            setCoins
         }}>
             {children}
         </SocketContext.Provider>

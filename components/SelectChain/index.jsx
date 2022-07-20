@@ -2,8 +2,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import { SocketContext } from '../../contexts/socketContext';
 import Select from '../Select';
 
-const Index = ({ selectedChain, selectedToken, setSelectedChain, setSelectedToken, setCoins, coins }) => {
-    const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
+const Index = () => {
+    const { fetchFromTokens, transaction, chains, handleNetworkSwitch, selectedChain,
+        setSelectedChain,
+        selectedToken,
+        setSelectedToken,
+        coins,
+        setCoins } = useContext(SocketContext);
 
     const fetchTokens = async (chainId) => {
 
