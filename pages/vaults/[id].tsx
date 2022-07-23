@@ -83,8 +83,8 @@ const VaultDetail: React.FC = () => {
 
     const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx, getBalanace } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
-    const { getTokens } = useContext(NftContext);
-    const { getVaultsByWallet } = useContext(DataContext);
+    const { getTokens, getTokenIdMetadata } = useContext(NftContext);
+    const { getVaultsByWallet, getVaultsByCreator } = useContext(DataContext);
     const [modal, setModal] = useState(false);
     const [countDown, setCountDown] = useState("");
     const [balance, setBalance] = useState("");
@@ -188,6 +188,8 @@ const VaultDetail: React.FC = () => {
             setData(data);
             setOwnerData(owners);
 
+            // await getNFTs();
+
         } catch (error) {
             console.error(error);
         } finally {
@@ -195,32 +197,63 @@ const VaultDetail: React.FC = () => {
         }
     }
 
+    console.log({ nfts })
+    // console.log(data?.nfts)
     const getNFTs = async () => {
 
+        if (!data?.nfts) return;
+
         try {
+            setIsLoading(true);
 
-            const data = await getTokens(id);
+            const nfts = data?.nfts;
+            console.log("nfts fetched", data?.nfts);
 
-            data.forEach((e: any) => {
-                let metadata = JSON.parse(e.metadata)
-                setNfts((prev: any) => ([...prev, metadata]));
+            nfts?.forEach(async (link: string) => {
+
+                const tokenId = link.split('/')[6]
+                const tokenAddress = link.split('/')[5]
+
+                console.log({ tokenId, tokenAddress })
+                if (tokenAddress && tokenId) {
+
+                    let data = await getTokenIdMetadata(tokenId, tokenAddress);
+                    setNfts((prev: any) => ([...prev, data]));
+                }
+
+                // data.forEach((e: any) => {
+                //     let metadata = JSON.parse(e.metadata)
+                // });
             });
+
 
         } catch (error) {
             console.error(error)
         } finally {
-            // setLoading(false);
+            setIsLoading(false);
         }
     }
+
+    useEffect(() => {
+        getNFTs();
+    }, [data])
+
     // console.log('NFTS:', nfts);
 
     const handleModalSubmit = async (e: any) => {
         e.preventDefault();
 
-        if (modalForm.amount <= 0 || modalForm.amount > data?.target - data?.amount) {
-            alert("Please enter a valid amount")
+        if (modalForm.amount <= 0) {
+            alert(`Please enter a valid amount`)
             return;
         }
+        if (data?.target > 0) {
+            if (modalForm.amount > (data?.target) - (data?.amount)) {
+                alert(`Please enter a valid amount, ${data?.amount}, ${data?.target}, ${modalForm.amount}`)
+                return;
+            }
+        }
+
         try {
             setIsLoading(true);
             let tx;
@@ -258,8 +291,6 @@ const VaultDetail: React.FC = () => {
 
 
             countDownTimer(data?.fundraiseDuration);
-
-            setVisible(false);
             await getVaultData();
 
             const data2 = JSON.stringify({
@@ -280,6 +311,10 @@ const VaultDetail: React.FC = () => {
             });
 
             await getVaultsByWallet();
+            await getVaultsByCreator()
+
+            setVisible(false);
+
         } catch (error) {
             console.error(error)
         } finally {
@@ -335,6 +370,7 @@ const VaultDetail: React.FC = () => {
             // countDownTimer(data?.fundraiseDuration);
             setTokenAmount(0);
             await getVaultData();
+            await getVaultsByCreator()
             setVisible(false);
 
             const data2 = JSON.stringify({
@@ -397,17 +433,6 @@ const VaultDetail: React.FC = () => {
         }, 1000);
     }
 
-
-    // useEffect(() => {
-    //     fetchTokens(selectedChain?.chainId);
-    //     handleNetworkSwitch(selectedChain?.chainId);
-    // }, [selectedChain])
-
-    // useEffect(() => {
-    //     if (!currentAccount) {
-    //         router.push('/')
-    //     }
-    // }, [currentAccount])
     const getBalanaceInEth = async () => {
         const balance = await getBalanace();
         setBalance(balance);
@@ -426,7 +451,6 @@ const VaultDetail: React.FC = () => {
         if (id) {
             getVaultData()
             getProviderFrom();
-            getNFTs();
             getBalanaceInEth();
         }
     }, [currentAccount, id])
