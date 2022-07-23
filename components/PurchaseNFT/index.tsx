@@ -5,12 +5,18 @@ import { BigNumber } from 'ethers';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic'
+
+const SelectChain = dynamic(
+    () => import('../../components/SelectChain'),
+    { ssr: false }
+)
 
 import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/NFT.png';
 import Modal from '../Modal';
 import Select from '../Select';
-import SelectChain from '../SelectChain';
+
 import { bnToString, dtToString, ipfsParse, fixTokenURI, minDtTime, maxDtTime } from '../../utils';
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 
