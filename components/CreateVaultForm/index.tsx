@@ -133,7 +133,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <p className='text-sm'>Management Fees <span className='text-xs'> ( Upto 99% )</span>{requiredTag}</p>
                         <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                     </label>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg  bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
                         <span>Next</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

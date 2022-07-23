@@ -441,6 +441,21 @@
     "@ethersproject/properties" "^5.6.0"
     "@ethersproject/strings" "^5.6.1"
 
+"@ethersproject/abi@5.6.4":
+  version "5.6.4"
+  resolved "https://registry.yarnpkg.com/@ethersproject/abi/-/abi-5.6.4.tgz#f6e01b6ed391a505932698ecc0d9e7a99ee60362"
+  integrity sha512-TTeZUlCeIHG6527/2goZA6gW5F8Emoc7MrZDC7hhP84aRGvW3TEdTnZR08Ls88YXM1m2SuK42Osw/jSi3uO8gg==
+  dependencies:
+    "@ethersproject/address" "^5.6.1"
+    "@ethersproject/bignumber" "^5.6.2"
+    "@ethersproject/bytes" "^5.6.1"
+    "@ethersproject/constants" "^5.6.1"
+    "@ethersproject/hash" "^5.6.1"
+    "@ethersproject/keccak256" "^5.6.1"
+    "@ethersproject/logger" "^5.6.0"
+    "@ethersproject/properties" "^5.6.0"
+    "@ethersproject/strings" "^5.6.1"
+
 "@ethersproject/abstract-provider@5.6.1", "@ethersproject/abstract-provider@^5.6.1":
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/@ethersproject/abstract-provider/-/abstract-provider-5.6.1.tgz#02ddce150785caf0c77fe036a0ebfcee61878c59"
@@ -598,6 +613,13 @@
   version "5.6.3"
   resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.6.3.tgz#3ee3ab08f315b433b50c99702eb32e0cf31f899f"
   integrity sha512-QZxRH7cA5Ut9TbXwZFiCyuPchdWi87ZtVNHWZd0R6YFgYtes2jQ3+bsslJ0WdyDe0i6QumqtoYqvY3rrQFRZOQ==
+  dependencies:
+    "@ethersproject/logger" "^5.6.0"
+
+"@ethersproject/networks@5.6.4":
+  version "5.6.4"
+  resolved "https://registry.yarnpkg.com/@ethersproject/networks/-/networks-5.6.4.tgz#51296d8fec59e9627554f5a8a9c7791248c8dc07"
+  integrity sha512-KShHeHPahHI2UlWdtDMn2lJETcbtaJge4k7XSjDR9h79QTd6yQJmv6Cp2ZA4JdqWnhszAOLSuJEd9C0PRw7hSQ==
   dependencies:
     "@ethersproject/logger" "^5.6.0"
 
@@ -1059,10 +1081,66 @@
   resolved "https://registry.yarnpkg.com/@ramonak/react-progress-bar/-/react-progress-bar-4.4.0.tgz#094ce2275599cc43349ca11f21fb6efa25a84bc0"
   integrity sha512-/djk0ZzQZXd2x6uMJ1YL5EeFBN1uJQVFcV5NrP1B29m31LL6xb5ahbpz255m3bFY3ZHpI7awE6L4SlfBW4mDWw==
 
+"@react-spring/animated@~9.5.1":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.5.1.tgz#663aa587ea83cd16fb8fa650dc0966a226bbc8b2"
+  integrity sha512-Q3p5XkpaRj/d1rmWmunPo0g0QOU7QCI/lBrk0xEmRROElIUUTIrhDxwlSV6OgmP5Meil3crQ255I/CiUzCONKQ==
+  dependencies:
+    "@react-spring/shared" "~9.5.1"
+    "@react-spring/types" "~9.5.1"
+
+"@react-spring/core@~9.5.1":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/core/-/core-9.5.1.tgz#378ffc74a131b8c476673dfe1efed28bcfb8d2ca"
+  integrity sha512-rGJSUFvbVGA50cnKEBb869LkaT+fm+4jm5O3B6w6Sx9YN3oKLpfcl/zw5Ltbav9qYnELOQlk2xx1ccUQPFHYpA==
+  dependencies:
+    "@react-spring/animated" "~9.5.1"
+    "@react-spring/rafz" "~9.5.1"
+    "@react-spring/shared" "~9.5.1"
+    "@react-spring/types" "~9.5.1"
+
+"@react-spring/rafz@~9.5.1":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/rafz/-/rafz-9.5.1.tgz#4b885b0ff3d8c4afdf5fe4d19e607f9189d35d48"
+  integrity sha512-sCqRZUdJRCmkBxyDoTDQZ0xTQU8aJZoVAy/VJcY44JcYBimoPtQevaT2yNRc8tW2ZQlbqK/O78yffy9e/U9gTQ==
+
+"@react-spring/shared@~9.5.1":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/shared/-/shared-9.5.1.tgz#82c65bfbcc31cba194921187220ff503c85c4fc9"
+  integrity sha512-c7aB74XPtzvtJfzsLlxesKg9+eZTkyo6et+1BCTJ9Jwvk9v6zrTxZqs9VmywDsLhFeBdVhx2mKrxY03WiuA+Jg==
+  dependencies:
+    "@react-spring/rafz" "~9.5.1"
+    "@react-spring/types" "~9.5.1"
+
+"@react-spring/types@~9.5.1":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.1.tgz#00514faf8f655f46c8c15c98c89ddb59d3acff66"
+  integrity sha512-rDppRFYFmLnscvXJC5G/plJdHpEWHzaPA3cTk2NDieVFhAJEZUTzsxYgpnvyrGJ8AmsMRkWflDrKqCXFhHm0+A==
+
+"@react-spring/web@^9.5.0":
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.5.1.tgz#b0af65a81294d648d35f2201e18d1189db1c547c"
+  integrity sha512-sk8STUg8Fny94AC6g8KVRUAzIP3kVITrPGKKoVz+9/gSzLZBksOrTIQUElVsybrYvV0QVtpsbRv5dazZeTpRzA==
+  dependencies:
+    "@react-spring/animated" "~9.5.1"
+    "@react-spring/core" "~9.5.1"
+    "@react-spring/shared" "~9.5.1"
+    "@react-spring/types" "~9.5.1"
+
 "@reduxjs/toolkit@^1.6.1":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.2.tgz#352fd17bc858af51d21ce8d28183a930cab9e638"
   integrity sha512-CtPw5TkN1pHRigMFCOS/0qg3b/yfPV5qGCsltVnIz7bx4PKTJlGHYfIxm97qskLknMzuGfjExaYdXJ77QTL0vg==
+  dependencies:
+    immer "^9.0.7"
+    redux "^4.1.2"
+    redux-thunk "^2.4.1"
+    reselect "^4.1.5"
+
+"@reduxjs/toolkit@^1.8.2":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.3.tgz#9c6a9c497bde43a67618d37a4175a00ae12efeb2"
+  integrity sha512-lU/LDIfORmjBbyDLaqFN2JB9YmAT1BElET9y0ZszwhSBa5Ef3t6o5CrHupw5J1iOXwd+o92QfQZ8OJpwXvsssg==
   dependencies:
     immer "^9.0.7"
     redux "^4.1.2"
@@ -1161,6 +1239,25 @@
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
+
+"@socket.tech/ll-core@^0.1.10", "@socket.tech/ll-core@^0.1.8":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@socket.tech/ll-core/-/ll-core-0.1.14.tgz#16a0160da4d3fd702289f179147a2b06a4f49b9f"
+  integrity sha512-6gkUVN/RAoN1ZnjPcq5O9tmyagLXnWFjLDa5G8jz4Y+zFatwr9x345yFPJFHcRB59WfRMYpm2SxrPdpYAJiX8A==
+
+"@socket.tech/widget@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@socket.tech/widget/-/widget-0.0.8.tgz#d39144e49ed902563dc0d87a553becaa0d3c27d5"
+  integrity sha512-OQZ7LRMiT0foZCKSdiYCUu8hV+rbolG2gIeWo640s+zaC9edPf1M2UWClTtRjAALSFQCnaKw/Na3E8nQB0u4yQ==
+  dependencies:
+    "@react-spring/web" "^9.5.0"
+    "@reduxjs/toolkit" "^1.8.2"
+    "@socket.tech/ll-core" "^0.1.10"
+    ethers "^5.6.9"
+    react-feather "^2.0.10"
+    react-redux "^8.0.2"
+    socket-v2-sdk "1.11.0"
+    swr "^1.3.0"
 
 "@styled-system/background@^5.1.2":
   version "5.1.2"
@@ -1623,7 +1720,7 @@
     "@uniswap/v3-core" "1.0.0"
     "@uniswap/v3-periphery" "^1.0.1"
 
-"@uniswap/widgets@^1.0.10":
+"@uniswap/widgets@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@uniswap/widgets/-/widgets-1.1.1.tgz#199d6300fb6769da11f4ac752badbd567c39d6ae"
   integrity sha512-UWRpx+t0NFEhurUGsKMB0nMjJX7T9c+5GX2Ide5Y/IDQdG9WDyGYCJV3UG7HH2Yy22rNUweMEUdTh5pqVN43tA==
@@ -2414,6 +2511,14 @@ axios@^0.26.1:
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
   dependencies:
     follow-redirects "^1.14.8"
+
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -4674,6 +4779,42 @@ ethers@^5.1.4, ethers@^5.6.2:
     "@ethersproject/web" "5.6.1"
     "@ethersproject/wordlists" "5.6.1"
 
+ethers@^5.6.5, ethers@^5.6.9:
+  version "5.6.9"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.6.9.tgz#4e12f8dfcb67b88ae7a78a9519b384c23c576a4d"
+  integrity sha512-lMGC2zv9HC5EC+8r429WaWu3uWJUCgUCt8xxKCFqkrFuBDZXDYIdzDUECxzjf2BMF8IVBByY1EBoGSL3RTm8RA==
+  dependencies:
+    "@ethersproject/abi" "5.6.4"
+    "@ethersproject/abstract-provider" "5.6.1"
+    "@ethersproject/abstract-signer" "5.6.2"
+    "@ethersproject/address" "5.6.1"
+    "@ethersproject/base64" "5.6.1"
+    "@ethersproject/basex" "5.6.1"
+    "@ethersproject/bignumber" "5.6.2"
+    "@ethersproject/bytes" "5.6.1"
+    "@ethersproject/constants" "5.6.1"
+    "@ethersproject/contracts" "5.6.2"
+    "@ethersproject/hash" "5.6.1"
+    "@ethersproject/hdnode" "5.6.2"
+    "@ethersproject/json-wallets" "5.6.1"
+    "@ethersproject/keccak256" "5.6.1"
+    "@ethersproject/logger" "5.6.0"
+    "@ethersproject/networks" "5.6.4"
+    "@ethersproject/pbkdf2" "5.6.1"
+    "@ethersproject/properties" "5.6.0"
+    "@ethersproject/providers" "5.6.8"
+    "@ethersproject/random" "5.6.1"
+    "@ethersproject/rlp" "5.6.1"
+    "@ethersproject/sha2" "5.6.1"
+    "@ethersproject/signing-key" "5.6.2"
+    "@ethersproject/solidity" "5.6.1"
+    "@ethersproject/strings" "5.6.1"
+    "@ethersproject/transactions" "5.6.2"
+    "@ethersproject/units" "5.6.1"
+    "@ethersproject/wallet" "5.6.2"
+    "@ethersproject/web" "5.6.1"
+    "@ethersproject/wordlists" "5.6.1"
+
 ethjs-unit@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/ethjs-unit/-/ethjs-unit-0.1.6.tgz#c665921e476e87bce2a9d588a6fe0405b2c41699"
@@ -4934,7 +5075,7 @@ find-versions@^2.0.0:
     array-uniq "^1.0.0"
     semver-regex "^1.0.0"
 
-follow-redirects@^1.14.0, follow-redirects@^1.14.8, follow-redirects@^1.2.4, follow-redirects@^1.2.5:
+follow-redirects@^1.14.0, follow-redirects@^1.14.8, follow-redirects@^1.14.9, follow-redirects@^1.2.4, follow-redirects@^1.2.5:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
@@ -7546,7 +7687,7 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-feather@^2.0.8:
+react-feather@^2.0.10, react-feather@^2.0.8:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/react-feather/-/react-feather-2.0.10.tgz#0e9abf05a66754f7b7bb71757ac4da7fb6be3b68"
   integrity sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==
@@ -8184,6 +8325,17 @@ slash@^1.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
   integrity sha512-3TYDR7xWt4dIqV2JauJr+EJeW356RXijHeUlO+8djJ+uBXPn8/2dpzBc8yQhh583sVvc9CvFAeQVgijsH+PNNg==
 
+socket-v2-sdk@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/socket-v2-sdk/-/socket-v2-sdk-1.11.0.tgz#23a0a07822032cf7be18b51299a934e2e31bfdfa"
+  integrity sha512-m3lP0GTEaDH9DLOKiUdWLvwwyr9AgPcZXsnWb77sfzLWm3lu9/5I7vgJmqAo7px9MkZh2l09+mFvHZjLKoRBKg==
+  dependencies:
+    "@socket.tech/ll-core" "^0.1.8"
+    axios "^0.27.2"
+    ethers "^5.6.5"
+    form-data "^4.0.0"
+    tslib "^2.4.0"
+
 solc@^0.4.2:
   version "0.4.26"
   resolved "https://registry.yarnpkg.com/solc/-/solc-0.4.26.tgz#5390a62a99f40806b86258c737c1cf653cc35cb5"
@@ -8527,6 +8679,11 @@ swiper@^8.1.6:
     dom7 "^4.0.4"
     ssr-window "^4.0.2"
 
+swr@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-1.3.0.tgz#c6531866a35b4db37b38b72c45a63171faf9f4e8"
+  integrity sha512-dkghQrOl2ORX9HYrMDtPa7LTVHJjCTeZoB1dqTbnnEDlSvN8JEKpYIYurDfvbQFUUS8Cg8PceFVZNkW0KNNYPw==
+
 tailwind-scrollbar-hide@^1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/tailwind-scrollbar-hide/-/tailwind-scrollbar-hide-1.1.7.tgz#90b481fb2e204030e3919427416650c54f56f847"
@@ -8720,7 +8877,7 @@ tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.0, tslib@^2.3.1:
+tslib@^2.0.0, tslib@^2.3.1, tslib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==

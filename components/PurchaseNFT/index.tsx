@@ -286,11 +286,11 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                         <p className='text-base text-center  text-green-600'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
                     <div>
-                        {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                        <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                        <SelectChain />
+                        {/* <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                             <p className='text-red-500'>We only accept funds in ETH</p>
                             <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                        </div>
+                        </div> */}
 
                     </div>
                     <div className='mt-4'>

@@ -29,25 +29,13 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 }) => {
     const router = useRouter();
 
-    const [selectedToken, setSelectedToken] = useState()
-    const [selectedChain, setSelectedChain] = useState()
-    const [coins, setCoins] = useState([]);
-    const [uniModal, setUniModal] = useState(false);
-    const [provider, setProvider] = useState();
     const [balance, setBalance] = useState('0');
     const [safeAddress, setSafeAddress] = useState("");
 
-
-    const { fetchFromTokens, transaction, chains, handleNetworkSwitch } = useContext(SocketContext);
     const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
     // console.log({ selectedToken, selectedChain });
-
-    const getProviderFrom = async () => {
-        const provider = await getProvider();
-        setProvider(provider);
-    }
 
     const fetchBalance = async () => {
 
@@ -92,7 +80,6 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     }
 
     useEffect(() => {
-        getProviderFrom();
         fetchBalance();
     }, [])
 
@@ -114,7 +101,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
-                            <input required type='number' step="any"  className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
+                            <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise duration{requiredTag}</p>
@@ -125,11 +112,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         <p className='text-base text-center font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
                     <div>
-                        {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                        <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 font-bold' onClick={e => setUniModal(true)}>
+                        <SelectChain />
+                        {/* <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 font-bold' onClick={e => setUniModal(true)}>
                             <p className='text-red-500'>We only accept funds in ETH</p>
                             <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                        </div>
+                        </div> */}
 
                     </div>
                     <div className='mt-4'>
@@ -145,25 +132,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         <ArrowRightIcon className='w-4' />
                     </button>
                 </div>
-            </form>
-            <Modal
-                open={uniModal}
-                onClose={() => setUniModal(false)}
-                showCTA={false}
-                title="Swap Tokens"
-            >
-                <div className="Uniswap p-6 flex items-center justify-center">
-                    <SwapWidget
-                        provider={provider}
-                        jsonRpcEndpoint={jsonRpcEndpoint}
-
-
-                        defaultOutputTokenAddress='NATIVE'
-                        theme={darkTheme}
-                        width={512}
-                    />
-                </div>
-            </Modal>
+            </form>         
         </div>
     )
 }

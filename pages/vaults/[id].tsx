@@ -1,6 +1,14 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { GetServerSideProps } from 'next'
+import dynamic from 'next/dynamic'
+
+const SelectChain = dynamic(
+    () => import('../../components/SelectChain'),
+    { ssr: false }
+)
+
+// import SelectChain from '../../components/SelectChain';
 
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
@@ -9,7 +17,6 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { ArrowRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 
-import Select from '../../components/Select';
 import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
 import { getEllipsisTxt, minDtTime } from '../../utils';
@@ -20,7 +27,6 @@ import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
 import { DataContext } from '../../contexts/dataContext';
 import { fixTokenURI } from '../../utils';
-import SelectChain from '../../components/SelectChain';
 
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
@@ -510,11 +516,11 @@ const VaultDetail: React.FC = () => {
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
                             <div>
-                                <SelectChain  />
-                                <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                                <SelectChain />
+                                {/* <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                                     <p className='text-red-500'>We only accept funds in ETH</p>
                                     <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                                </div>
+                                </div> */}
 
                             </div>
                             <div className='mt-4'>
@@ -622,7 +628,7 @@ const VaultDetail: React.FC = () => {
                                 </div>
                             </Tab.Panel>
 
-                            {data?.type !== "Private" && data?.origin !== "private" &&  <Tab.Panel>
+                            {data?.type !== "Private" && data?.origin !== "private" && <Tab.Panel>
                                 <div className='py-4'>
                                     <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
 
@@ -684,11 +690,11 @@ const VaultDetail: React.FC = () => {
                         </div>
                         <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
                         <div>
-                            {/* <SelectChain coins={coins} setCoins={setCoins} selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedToken={selectedToken} setSelectedToken={setSelectedToken} /> */}
-                            <div className='bg-input p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
+                            <SelectChain />
+                            {/* <div className='bg-input p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                                 <p className='text-red-500'>We only accept funds in ETH</p>
                                 <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                            </div>
+                            </div> */}
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
