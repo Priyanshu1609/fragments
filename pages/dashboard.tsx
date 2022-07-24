@@ -142,8 +142,8 @@ const Dashboard: React.FC = () => {
                 <div className='flex items-center space-x-6 p-4'>
                     <Image src={cerateDaoPeopleImage} height={100} width={130} />
                     <div>
-                        <h1 className='text-2xl font-semibold'>Create your own Vault</h1>
-                        <p className='text-base mt-2'>Make a DAO to start investing with your frens in Gullaks</p>
+                        <h1 className='text-2xl font-semibold'>CREATE YOUR OWN VAULT</h1>
+                        <p className='text-base mt-2'>Make a vault to start investing with your frens</p>
                     </div>
                 </div>
                 <ArrowRightIcon className='w-6 h-6 mr-6' />

@@ -508,7 +508,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>{data?.target} ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={data?.myContribution / data?.target} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={Number(data?.amount) / Number(data?.target)} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
@@ -648,7 +648,7 @@ const VaultDetail: React.FC = () => {
                 </div>
                 <div>
                     <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between  cursor-pointer'>
-                        <p className='ml-4'>View on Etherscan</p>
+                        <p className='ml-4'>View on PolygonScan</p>
                         <ArrowUpIcon className='h-6 w-6 rotate-45' />
                     </a>
                     <a href={`https://gnosis-safe.io/app/rin:${id}/home`} target='_blank' className='mt-4 bg-input p-4 m-2 rounded-md flex justify-between cursor-pointer'>
