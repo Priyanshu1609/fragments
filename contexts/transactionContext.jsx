@@ -170,7 +170,15 @@ export const TransactionProvider = ({ children }) => {
         return provider;
     }
 
-
+    const validateSig = async (address, signature, customerId) => {
+        const message = `zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`;
+        console.log('Message', message);
+        const hash = web3.utils.sha3(message);
+        console.log('Hash:', hash);
+        const signing_address = await web3.eth.accounts.recover(hash, signature);
+        console.log("Address:", signing_address);
+        return signing_address.toLowerCase() === address.toLowerCase();
+    };
 
     const connectWallet = async (type) => {
         try {

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { GetServerSideProps } from 'next'
+import { BigNumber } from 'ethers';
 import dynamic from 'next/dynamic'
 
 const SelectChain = dynamic(
@@ -8,10 +9,7 @@ const SelectChain = dynamic(
     { ssr: false }
 )
 
-// import SelectChain from '../../components/SelectChain';
-
 import { unmarshall } from "@aws-sdk/util-dynamodb";
-
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { ArrowRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
@@ -21,16 +19,10 @@ import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
 import { getEllipsisTxt, minDtTime } from '../../utils';
 import { OrdersState } from '../../components/Orders';
-import networks from '../../networks';
-import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
 import { DataContext } from '../../contexts/dataContext';
 import { fixTokenURI } from '../../utils';
-
-import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
-import '@uniswap/widgets/fonts.css'
-import { BigNumber } from 'ethers';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -43,7 +35,6 @@ import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
 import axios from 'axios';
 import { CreateVaultFormValues } from '../../components/CreateVaultForm';
 
-const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
@@ -64,7 +55,6 @@ interface selectedToken {
     currentPrice: BigNumber;
     chainId: number;
 }
-
 
 const tabs = [
     {
@@ -281,15 +271,6 @@ const VaultDetail: React.FC = () => {
             }
             );
 
-
-            // // console.log("FETCH RES", response.data.Attributes);
-            // let d: any = {}
-            // for (let i in response.data.Attributes) {
-            //     console.log(i, Object.values(response.data.Attributes[i])[0])
-            //     d[i] = Object.values(response.data.Attributes[i])[0]
-            // }
-
-
             countDownTimer(data?.fundraiseDuration);
             await getVaultData();
 
@@ -357,15 +338,6 @@ const VaultDetail: React.FC = () => {
             );
 
             console.log("adding amount", response, Number(data?.amount), Number(tokenAmount));
-
-
-            // console.log("FETCH RES", response.data.Attributes);
-            // let d: any = {}
-            // for (let i in response.data.Attributes) {
-            //     console.log(i, Object.values(response.data.Attributes[i])[0])
-            //     d[i] = Object.values(response.data.Attributes[i])[0]
-            // }
-
 
             // countDownTimer(data?.fundraiseDuration);
             setTokenAmount(0);
@@ -736,26 +708,7 @@ const VaultDetail: React.FC = () => {
 
                         </div>
 
-
                     </form>
-                </div>
-            </Modal>
-            <Modal
-                open={uniModal}
-                onClose={() => setUniModal(false)}
-                showCTA={false}
-                title="Private Link"
-            >
-                <div className="Uniswap p-6 flex items-center justify-center">
-                    <SwapWidget
-                        provider={provider}
-                        jsonRpcEndpoint={jsonRpcEndpoint}
-
-
-                        defaultOutputTokenAddress='NATIVE'
-                        theme={darkTheme}
-                        width={512}
-                    />
                 </div>
             </Modal>
             <Modal
