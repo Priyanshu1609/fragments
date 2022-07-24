@@ -178,7 +178,7 @@ const VaultDetail: React.FC = () => {
             setData(data);
             setOwnerData(owners);
 
-            // await getNFTs();
+            setTokenAmount(0);
 
         } catch (error) {
             console.error(error);
@@ -272,7 +272,6 @@ const VaultDetail: React.FC = () => {
             );
 
             countDownTimer(data?.fundraiseDuration);
-            await getVaultData();
 
             const data2 = JSON.stringify({
                 "walletAddress": currentAccount,
@@ -291,6 +290,7 @@ const VaultDetail: React.FC = () => {
                 },
             });
 
+            await getVaultData();
             await getVaultsByWallet();
             await getVaultsByCreator()
 
@@ -340,10 +340,6 @@ const VaultDetail: React.FC = () => {
             console.log("adding amount", response, Number(data?.amount), Number(tokenAmount));
 
             // countDownTimer(data?.fundraiseDuration);
-            setTokenAmount(0);
-            await getVaultData();
-            await getVaultsByCreator()
-            setVisible(false);
 
             const data2 = JSON.stringify({
                 "walletAddress": currentAccount,
@@ -362,7 +358,12 @@ const VaultDetail: React.FC = () => {
                 },
             });
 
+            await getVaultData();
+            await getVaultsByCreator()
             await getVaultsByWallet();
+            setTokenAmount(0);
+            setVisible(false);
+
         } catch (error) {
             console.error(error)
         } finally {
@@ -511,13 +512,8 @@ const VaultDetail: React.FC = () => {
                     </div>
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
-                            <div>
+                            <div className='h-full'>
                                 <SelectChain />
-                                {/* <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
-                                    <p className='text-red-500'>We only accept funds in ETH</p>
-                                    <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                                </div> */}
-
                             </div>
                             <div className='mt-4'>
                                 <div className='flex justify-between text-sm text-gray-300 mb-2'>
