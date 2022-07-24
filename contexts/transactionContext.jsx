@@ -252,7 +252,8 @@ export const TransactionProvider = ({ children }) => {
         if (!currentAccount) { return }
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            var name = await provider?.lookupAddress(currentAccount);
+            let name = await provider?.lookupAddress(currentAccount);
+            name = name.toString();
             setEns(name);
             console.log('ENS Name', name);
         } catch (error) {

@@ -93,31 +93,19 @@ export const RenderTab: React.FC<TabProps> = ({
 
 const Dashboard: React.FC = () => {
 
-    // const [{ data: connectData }] = useConnect()
-
     const { connectallet, currentAccount, ens } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
 
-    const [name, setName] = React.useState('');
     const [valuation, setValuation] = useState(0)
 
     const router = useRouter();
-
-    let unique;
-
-    unique = vaults;
-
-    const key = 'vaultAddress';
-
-    let uniqueVaults = [] as any;
-    uniqueVaults = [...new Map(unique.map((item: any) => [item[key], item])).values()];
 
     const handleValuation = async () => {
         if (!vaults) {
             console.log("no vaults")
             return
         }
-        let value = 0;
+        let value = 0.00;
         vaults.forEach(async (vault: any) => {
             const vaultValuation = Number(vault.amountPledged)
             console.log({ valuation, vaultValuation })
@@ -165,7 +153,7 @@ const Dashboard: React.FC = () => {
                     <div className='text-white font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
                         <div className='text-white text-lg'>
-                            {ens !== '' ? ens : getEllipsisTxt(currentAccount)}
+                            {ens !== "" ? ens : getEllipsisTxt(currentAccount)}
                         </div>
                     </div>
                 </div>
