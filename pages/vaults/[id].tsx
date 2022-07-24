@@ -508,7 +508,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>{data?.target} ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={Number(data?.amount) / Number(data?.target)} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={(Number(data?.amount) / Number(data?.target))*100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
