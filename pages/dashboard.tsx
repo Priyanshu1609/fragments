@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         handleValuation();
-    }, [currentAccount])
+    }, [currentAccount, vaults])
 
 
     useEffect(() => {
