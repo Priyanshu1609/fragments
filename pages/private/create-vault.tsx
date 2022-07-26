@@ -60,7 +60,7 @@ const CreateVault: React.FC = () => {
     }
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4 pb-16'>
+        <div className='text-white max-w-4xl mx-auto  sm:px-4 pb-16'>
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
@@ -79,7 +79,7 @@ const CreateVault: React.FC = () => {
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <PrivateFundraise  setCurrentStep={setCurrentStep} />
+                        <PrivateFundraise setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

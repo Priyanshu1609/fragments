@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import ConnectModalContext from '../../contexts/connectwallet';
 import Modal from '../Modal';
 import Image from 'next/image'
-import walletconnectlogo from '../../assets/walletconnectlogo.png'
-import metamasklogo from '../../assets/metamasklogo.png'
-import walletmodal from '../../assets/walletconnect.png'
+
+import metamasklogo from '../../assets/MetaMask_Fox.svg.png'
+import walletconnectlogo from '../../assets/WalletConnect-Logo.png'
 import { TransactionContext } from '../../contexts/transactionContext';
 
 const ConnectModal: React.FC = () => {
@@ -29,39 +29,27 @@ const ConnectModal: React.FC = () => {
             open={visible}
             onClose={() => setVisible(false)}
             showCTA={false}
+            title="Connect Wallet"
         >
-            <div className='font-montserrat p-10  '>
-                <Image src={walletmodal} height={120} width={120}/>
-                <p className='text-2xl mt-4 mb-2 text-white'>Select Wallet</p>
-                <p className='mb-6 text-gray-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, iure?</p>
-                <div className='flex flex-col text-white space-y-4'>
-                    {/* {data.connectors.map((connector) => (
-                        <button
-                            disabled={!connector.ready}
-                            key={connector.id}
-                            onClick={() => onConnect(connector)}
-                            className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
-                        >
-                            <Image src={connector.name == "MetaMask" ? metamasklogo : walletconnectlogo} />
-                            <p>Connect to {connector.name}</p>
-                            {!connector.ready && ' (unsupported)'}
-                        </button>
-                    ))} */}
-                    <button
+            <p className='mx-8 pr-10 text-lg font-extralight text-left -mt-5'>Connect with one of the available wallet providers or create a new wallet.</p>
+            <div className='p-4 pt-8'>
+                <div className='flex items-center justify-evenly  text-white hover:cursor-pointer'>
+                    <div
                         onClick={e => onConnect('metamask')}
-                        className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
+                        className='h-48 w-52 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
                     >
-                        <Image src={metamasklogo} />
-                        <p>Connect to Metamask</p>
-                    </button>
-                    <button
+                        <Image src={metamasklogo} height={80} width={80} />
+                        <p className='font-black text-lg mt-1'>Metamask</p>
+                    </div>
+                    <div
                         onClick={() => onConnect('wallectconnect')}
-                        className='py-3 flex hover:bg-gray-700 space-x-2 items-center px-4 text-sm rounded-md border border-solid border-gray-400 text-left w-full'
+                        className='h-48 w-52 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
                     >
-                        <Image src={walletconnectlogo} />
-                        <p>Connect to WalletConnect</p>
-                    </button>
+                        <Image src={walletconnectlogo} height={70} width={100} />
+                        <p className='font-black text-lg mt-3'>WalletConnect</p>
+                    </div>
                 </div>
+                <p className='text-gray-400 text-sm text-left mt-4 px-4'>Connecting your wallet does not give Fragments, access to your private keys or your funds.</p>
             </div>
         </Modal>
     )

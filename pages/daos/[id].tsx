@@ -3,7 +3,7 @@ import Blockies from 'react-blockies';
 
 const DaoPage: React.FC = () => {
     return (
-        <div className='max-w-7xl font-montserrat mx-auto text-white'>
+        <div className='max-w-7xl  mx-auto text-white'>
             <div className='bg-[#0F0F13] flex items-center rounded-lg px-4 py-10 mt-4'>
                 <div>
                     <div className='flex justify-between'>

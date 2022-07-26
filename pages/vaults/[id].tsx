@@ -442,7 +442,7 @@ const VaultDetail: React.FC = () => {
     }, []);
 
     return (
-        <div className='text-white max-w-7xl mx-auto font-montserrat md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
+        <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
             {data?.origin !== "private" && <div className='flex flex-[0.6]  items-start justify-center mt-4'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <div className='flex-[0.8]  p-4'>
@@ -508,7 +508,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>{data?.target} ETH</span>
                             </div>
                         </div>
-                        <ProgressBar completed={(Number(data?.amount) / Number(data?.target))*100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <ProgressBar completed={(Number(data?.amount) / Number(data?.target)) * 100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                     </div>
                     {
                         data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
@@ -663,7 +663,7 @@ const VaultDetail: React.FC = () => {
                 onClose={() => setVisible(false)}
                 showCTA={false}
             >
-                <div className='font-montserrat p-6'>
+                <div className=' p-6'>
                     {/* <Image src={walletmodal} /> */}
                     <p className='text-2xl mt-4 mb-6 text-white'>Start Fundraising</p>
                     <form onSubmit={handleModalSubmit} className='flex flex-col text-white space-y-4'>

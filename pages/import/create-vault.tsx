@@ -20,7 +20,7 @@ const CreateVault: React.FC = () => {
     const router = useRouter()
 
     const { connectallet, currentAccount, } = useContext(TransactionContext);
-    const { formData,} = useContext(DataContext);
+    const { formData, } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
@@ -31,7 +31,7 @@ const CreateVault: React.FC = () => {
         }
     }, [currentAccount])
 
-    
+
     const handleBack = () => {
 
         if (currentStep === CreateVaultStep.InputFieldsForm) {
@@ -48,7 +48,7 @@ const CreateVault: React.FC = () => {
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4 pb-16 '>
+        <div className='text-white max-w-4xl mx-auto  sm:px-4 pb-16 '>
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
@@ -80,7 +80,7 @@ const CreateVault: React.FC = () => {
                             <span>Back</span>
                         </button>
 
-                        <ImportNFTSelect  setCurrentStep={setCurrentStep} />
+                        <ImportNFTSelect setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

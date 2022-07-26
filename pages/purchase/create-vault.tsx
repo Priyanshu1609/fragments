@@ -72,7 +72,7 @@ const CreateVault: React.FC = () => {
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto  font-montserrat sm:px-4 pb-16'>
+        <div className='text-white max-w-4xl mx-auto   sm:px-4 pb-16'>
             <div className=''>
                 {
                     currentStep === CreateVaultStep.InputFieldsForm && (
@@ -103,7 +103,7 @@ const CreateVault: React.FC = () => {
                                 <ArrowLeftIcon className='w-4' />
                                 <span>Back</span>
                             </button>
-                            <PurchaseNFT setCurrentStep={setCurrentStep}  />
+                            <PurchaseNFT setCurrentStep={setCurrentStep} />
                         </div>
                     )
                 }

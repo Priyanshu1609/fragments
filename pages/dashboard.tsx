@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useContext, useState } from 'react';
 // import { useConnect } from 'wagmi';
-import cerateDaoPeopleImage from '../assets/People.png';
+import cerateDaoPeopleImage from '../assets/vaultcreation.png';
 import Image from 'next/image';
 import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
@@ -16,6 +16,7 @@ import MyInvestment from "../components/MyInvestments"
 import MyGullaks from "../components/MyGullaks"
 import NFTList from "../components/NFTList"
 import { DataContext } from '../contexts/dataContext';
+import pattern from '../assets/Pattern.png'
 
 
 declare var window: any;
@@ -132,28 +133,33 @@ const Dashboard: React.FC = () => {
     })
 
     return (
-        <div className='text-white font-montserrat max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover bg-[url("/Button.png")] rounded-lg text-white shadow-lg cursor-pointer' onClick={() =>
+        <div className='text-white  max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
+            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover bg-[url("/Button.png")] rounded-2xl text-white shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',
                     query: { user: currentAccount },
                 })}>
 
-                <div className='flex items-center space-x-6 p-4'>
-                    <Image src={cerateDaoPeopleImage} height={100} width={130} />
+                <div className='h-32 flex items-center space-x-6 p-4 !overflow-hidden'>
+                    <Image src={cerateDaoPeopleImage} height={200} width={230} />
                     <div>
                         <h1 className='text-2xl font-semibold'>CREATE YOUR OWN VAULT</h1>
                         <p className='text-base mt-2'>Make a vault to start investing with your frens</p>
                     </div>
                 </div>
-                <ArrowRightIcon className='w-6 h-6 mr-6' />
+                <div className='flex space-x-4 bg-[#232529] px-5 py-3 rounded-lg mr-10'>
+                    <p>Start Creating</p>
+                    <ArrowRightIcon className='w-6 h-6 mr-6' />
+                </div>
             </div>
-            <div className='bg-white bg-opacity-20 bg-cover flex items-center justify-around rounded-lg px-4 py-10 mt-4 w-full'>
+            <div className='h-32 bg-[#232529] bg-cover flex items-center justify-around rounded-2xl px-4 py-10 mt-4 w-full overflow-hidden'>
+                {/* <Image src={pattern} height={200} width={230} className="" /> */}
                 <div className=''>
-                    <div className='text-white font-montserrat flex space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
+                    <div className='text-white text-3xl flex space-x-3 p-3 rounded-md'>
                         {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
-                        <div className='text-white text-lg'>
-                            {ens !== "" ? ens : getEllipsisTxt(currentAccount)}
+                        <div className='flex flex-col items-start justify-center'>
+                            <p>{ens}rohandesign.eth</p>
+                            <p className='text-gray-300 text-2xl'>{getEllipsisTxt(currentAccount)}</p>
                         </div>
                     </div>
                 </div>

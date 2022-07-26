@@ -13,7 +13,7 @@ const CreateDAOButton: React.FC = () => {
 
     return currentAccount ? (
         <button
-            className='text-black bg-white px-3 py-2 rounded-lg font-montserrat'
+            className='text-black bg-white px-3 py-2 rounded-lg '
             onClick={(e) => {
                 e.preventDefault()
                 router.push({

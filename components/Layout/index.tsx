@@ -12,7 +12,6 @@ import { DataContextProvider } from '../../contexts/dataContext'
 import Logo from '../logo'
 import ConnectModal from '../ConnectModal'
 import Account from '../Account'
-import CreateDAOButton from '../CreateDAOButton'
 import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
 
@@ -38,9 +37,9 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='bg-[url("/bg3.png")] h-screen bg-center bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
+                                    <div className='bg-[url("/bg.png")] h-screen bg-center bg-fixed bg-cover  font-britanica !overflow-y-scroll' >
 
-                                        <header className="overflow-y-scroll scrollbar-hide">
+                                        <header className="overflow-y-scroll scrollbar-hide ">
                                             <div className=" mx-auto lg:px-8 py-3">
                                                 <div className="flex items-center w-full justify-between pt-1 pb-5 px-4">
                                                     <div className="flex px-2 lg:px-0">
@@ -60,7 +59,6 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         </header>
                                         {children}
                                         <ConnectModal />
-                                        <PageLoader message='' />
                                     </div>
                                 </SocketProvider>
                             </OpenseaContextProvider>

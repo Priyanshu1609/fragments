@@ -182,6 +182,7 @@ export const TransactionProvider = ({ children }) => {
 
     const connectWallet = async (type) => {
         try {
+            setIsLoading(true);
 
             let accounts;
 

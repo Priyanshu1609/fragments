@@ -236,7 +236,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     }, [])
 
     return (
-        <div className='text-white max-w-4xl mx-auto font-montserrat sm:px-4  pb-16'>
+        <div className='text-white max-w-4xl mx-auto  sm:px-4  pb-16'>
             <div className='flex items-center justify-between p-6 bg-[url("/Button.png")] bg-cover rounded-lg '>
                 <div>
                     <h2 className='text-black text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
@@ -318,7 +318,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                 onClose={() => setVisible(false)}
                 showCTA={false}
             >
-                <div className='mx-4 items-center justify-center  text-white !font-montserrat'>
+                <div className='mx-4 items-center justify-center  text-white !'>
                     <div className='mx-auto '>
                         <img src={order?.asset?.imageUrl} className='w-full rounded-lg' />
                     </div>

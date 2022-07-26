@@ -18,6 +18,9 @@ module.exports = {
         input: {
           DEFAULT: '#151515',
         },
+      },
+      fontFamily: {
+        britanica: 'BritanicaBlack'
       }
     },
   },

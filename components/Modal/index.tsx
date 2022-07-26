@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/solid";
+import { CgCloseR } from "react-icons/cg";
 import { Fragment } from "react";
 import Button from "../Button";
 
@@ -37,7 +38,7 @@ const Modal: React.FC<IModal> = ({
 				className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide"
 				onClose={() => { }}
 			>
-				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-black ">
+				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-black font-britanica ">
 					<Transition.Child
 						as={Fragment}
 						enter="ease-out duration-300"
@@ -67,17 +68,17 @@ const Modal: React.FC<IModal> = ({
 						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 					>
 						<Dialog.Panel
-							className={`inline-block align-bottom bg-black pb-4 overflow-hidden rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
+							className={`inline-block align-bottom bg-[#232529] py-4 overflow-hidden rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
 						>
-							<div className='w-full p-4 bg-black border-b border-gray-400 border-solid flex justify-between px-8'>
+							<div className='w-full p-4 bg-[#232529] flex justify-between px-8'>
 								{<Dialog.Title
 									as="h3"
-									className="text-2xl leading-6 font-bold font-montserrat"
+									className="text-2xl leading-6 font-bold "
 								>
 									{title}
 								</Dialog.Title>}
 								{showClose &&
-									<XIcon className='w-6 h-6 text-white cursor-pointer  hover:scale-125 ' onClick={onClose} />}
+									<CgCloseR className='w-7 h-7 text-white cursor-pointer  hover:scale-125 ' onClick={onClose} />}
 							</div>
 							<div className="">
 								<div className="mt-3 text-center sm:mt-5">
