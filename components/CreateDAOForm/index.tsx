@@ -1,10 +1,10 @@
 import React from 'react';
 import Image from 'next/image'
-import createDaoPeople from '../../assets/create-dao-people.png';
+import createDaoPeople from '../../assets/vaultcreation.png';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/solid';
 import { useFileUpload } from 'use-file-upload';
 
-export const requiredTag = (<sup className='text-[#A162F7]'>*</sup>)
+export const requiredTag = (<sup className='text-[#A162F7] h-10 w-10'>*</sup>)
 
 interface CreateDAOFormProps {
     onSubmit: (values: CreateDAOFormValues) => void;
@@ -45,10 +45,10 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
 
     return (
         <div className='pb-16'>
-            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")] bg-cover  rounded-lg'>
-                <div className='text-black'>
-                    <h2 className=' text-2xl font-semibold mb-2'>Create DAO</h2>
-                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover  rounded-lg overflow-hidden'>
+                <div className='text-white'>
+                    <h2 className='text-white text-2xl font-semibold mb-2'>Create your own Vault</h2>
+                    <p className='text-white'>Make a DAO to start investing with your frens in fragments</p>
                 </div>
                 <div>
                     <Image src={createDaoPeople} />
@@ -87,7 +87,7 @@ const CreateDAOForm: React.FC<CreateDAOFormProps> = ({
                             <input value={websiteLink} onChange={(e) => setWebsiteLink(e.target.value)} type='text' className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter DAO Website Link' />
                         </label>
                     </div>
-                    <button type='submit' className='w-full p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full p-3 rounded-lg bg-[#2BFFB1] text-black flex items-center justify-center space-x-4'>
                         <span>Create DAO</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

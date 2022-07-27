@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react';
 import vault from '../../assets/vaultcreation.png';
 import Image from 'next/image';
 import { requiredTag } from '../CreateDAOForm';
-import { ArrowRightIcon } from '@heroicons/react/solid';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
 import { DataContext } from '../../contexts/dataContext'
+import { TiTick } from "react-icons/ti"
 
 interface CreateVaultFormProps {
     origin: string
@@ -72,71 +73,81 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
 
 
     return (
-        <div className='max-w-2xl mx-auto'>
-            <div className='flex items-center justify-between h-24 p-6 bg-[url("/Button.png")] bg-cover  rounded-lg'>
-                <div className='text-black'>
-                    <h2 className=' text-2xl font-semibold mb-2'>Make vault</h2>
-                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+        <div className='max-w-2xl mx-auto text-lg'>
+            <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
+                <div className='text-white'>
+                    <h2 className='  font-semibold'>Create your own Vault</h2>
+                    <p className='font-thin'>Make a DAO to start investing with your frens in fragments</p>
                 </div>
-                <div>
-                    <Image src={vault} height={140} width={140} />
+                <div className='-mr-[4.4rem] mt-4'>
+                    <Image src={vault} height={160} width={160} />
                 </div>
             </div>
             <div className='mt-10'>
                 <form onSubmit={onSubmitHandler}>
-                    <div className='flex justify-between'>
-                        <label className='flex-grow mr-4'>
-                            <p className='text-sm'>Vault Name{requiredTag}</p>
-                            <input required type='text' maxLength={50} className='p-3 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
+                    <div className='flex flex-col justify-between'>
+                        <label className='flex-grow'>
+                            <p className='text-xl'>What should we call this Vault?{requiredTag}</p>
+                            <input required type='text' maxLength={50} className='text-lg p-3 mb-6 rounded-lg w-full mt-2 bg-transparent focus:outline-none border-[1px] border-gray-600' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
+                        </label>
+                        <label>
+                            <p className='text-xl'>What is this vault is all about?{requiredTag}</p>
+                            <textarea required rows={3} maxLength={500} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Add Description about the vault' value={formData.description} onChange={(e) => handleChange(e, 'description')} />
                         </label>
                         {origin !== 'private' && <label className=''>
-                            <p className='text-sm'>Type of Vault{requiredTag}</p>
-                            <div className="bg-input rounded-2xl m-2 mr-3 relative flex">
-                                <div className='group'>
-                                    <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Public')}>
+                            <p className='text-xl mb-2'>What's this vault like?{requiredTag}</p>
+                            <div className=" rounded-2xl relative flex flex-col space-y-2">
+                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white`}`} onClick={e => setType('Public')}>
 
-                                        <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Governed</p>
-                                    </div>
-                                    <div className='bg-gray-700 bg-opacity-70 shadow-lg text-center p-4 rounded-lg absolute left-0 top-12 text-sm hidden group-hover:inline-block'>
-                                        Governed
-                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero, veritatis?
+                                    <div className="radio bg-black m-[0.05rem]  py-2 px-4 rounded-lg cursor-pointer flex">
+                                        <div>
+                                            <p>Governed</p>
+                                            <p className='tex-sm text-gray-500'>Vault uses policies to govern the behavior of clients and instrument Role-Based Access Control (RBAC) by specifying access privileges (authorization).</p>
+                                        </div>
+                                        <div className={` ${type === 'Public' ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 my-auto mx-2 rounded-full`}>
+                                            <TiTick className={`h-4 w-4 ${type === 'Public' ? 'text-black' : 'text-white'}`} />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='group'>
-                                    <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black`}`} onClick={e => setType('Private')}>
-                                        <p className="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">With Frens</p>
-                                    </div>
-                                    <div className='bg-gray-700 bg-opacity-70 shadow-lg text-center p-4 rounded-lg absolute left-0 top-12 text-sm hidden group-hover:inline-block'>
-                                        With Frens
-                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero, veritatis?
+                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white`}`} onClick={e => setType('Private')}>
+                                    <div className="radio bg-black m-[0.05rem]  py-2 px-4 rounded-lg cursor-pointer flex group">
+                                        <div>
+                                            <p>With Frens</p>
+                                            <p className='tex-sm text-gray-500 font-thin'>Vault uses policies to govern the behavior of clients and instrument Role-Based Access Control (RBAC) by specifying access privileges (authorization).
+                                            </p>
+                                        </div>
+                                        <div className={` ${type === 'Private' ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 my-auto mx-2 rounded-full`}>
+                                            <TiTick className={`h-4 w-4 ${type === 'Private' ? 'text-black' : 'text-white'}`} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </label>}
                     </div>
-                    <label>
-                        <p className='text-sm'>Description{requiredTag}</p>
-                        <textarea required rows={4} maxLength={500} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Add Description about the vault' value={formData.description} onChange={(e) => handleChange(e, 'description')} />
-                    </label>
-                    <div className='grid grid-cols-2 gap-6'>
+                    <div className='grid grid-cols-2 gap-6 mt-8'>
                         <label>
-                            <p className='text-sm'>Token Name <span className='text-xs'> ( 4 letters )</span>{requiredTag}</p>
-                            <input required type='text' minLength={4} maxLength={4} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
+                            <p className='text-xl'>Token Name <span className='text-xs'> ( 4 letters )</span>{requiredTag}</p>
+                            <input required type='text' minLength={4} maxLength={4} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
                         </label>
                         <label>
-                            <p className='text-sm'>No. of Tokens{requiredTag}</p>
-                            <p className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2'>{tokenSupply}</p>
+                            <p className='text-xl'>No. of Tokens{requiredTag}</p>
+                            <p className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2'>{tokenSupply}</p>
                         </label>
                     </div>
                     <label>
-                        <p className='text-sm'>Management Fees <span className='text-xs'> ( Upto 99% )</span>{requiredTag}</p>
-                        <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
+                        <p className='text-xl'>Management Fees <span className='text-base'> ( Upto 99% )</span>{requiredTag}</p>
+                        <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                     </label>
-                    <button type='submit' className='w-full p-3 rounded-lg  bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
-                        <span>Next</span>
-                        <ArrowRightIcon className='w-4' />
-                    </button>
+                    <div className='flex justify-between'>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+                            <ArrowLeftIcon className='w-4' />
+                            <span>Back</span>
+                        </button>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
+                            <span>Next Step</span>
+                            <ArrowRightIcon className='w-4' />
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

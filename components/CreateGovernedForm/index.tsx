@@ -51,14 +51,14 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
     }
 
     return (
-        <div>
-            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")] bg-cover  rounded-lg'>
-                <div className='text-black'>
-                    <h2 className=' text-2xl font-semibold mb-2'>Governance Parameters</h2>
-                    <p className=''>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+        <div className='max-w-2xl mx-auto text-lg'>
+            <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
+                <div className='text-white'>
+                    <h2 className=' text-2xl font-semibold'>Governance Parameters</h2>
+                    <p className='font-thin'>How is the vault being monitored?</p>
                 </div>
-                <div>
-                    <Image src={governance} height={150} width={150} />
+                <div className='-mr-[5rem] mt-8'>
+                    <Image src={governance} height={160} width={200} />
                 </div>
             </div>
             <div className='mt-10'>
