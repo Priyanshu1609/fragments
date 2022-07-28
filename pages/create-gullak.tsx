@@ -5,7 +5,7 @@ import { TransactionContext } from '../contexts/transactionContext';
 
 import importWallet from '../assets/import-wallet.png';
 import buy1 from '../assets/buy1.png';
-import poeple from '../assets/people.png';
+import poeple from '../assets/People.png';
 
 
 const CreateGullak: React.FC = () => {
