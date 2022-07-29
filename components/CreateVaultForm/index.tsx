@@ -76,8 +76,8 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         <div className='max-w-2xl mx-auto text-lg'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className='  font-semibold'>Create your own Vault</h2>
-                    <p className='font-thin'>Make a DAO to start investing with your frens in fragments</p>
+                    <h2 className='text-3xl  font-semibold'>Create your own Vault</h2>
+                    <p className='font-montserrat text-base'>Make a DAO to start investing with your frens in fragments</p>
                 </div>
                 <div className='-mr-[4.4rem] mt-4'>
                     <Image src={vault} height={160} width={160} />
@@ -139,11 +139,11 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                     </label>
                     <div className='flex justify-between'>
-                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+                        <div className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
-                        </button>
-                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
+                        </div>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-button  text-black flex items-center justify-center space-x-4'>
                             <span>Next Step</span>
                             <ArrowRightIcon className='w-4' />
                         </button>

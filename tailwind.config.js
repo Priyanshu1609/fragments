@@ -16,8 +16,11 @@ module.exports = {
       },
       colors: {
         input: {
-          DEFAULT: '#151515',
+          DEFAULT: '#232529',
         },
+        button: {
+          DEFAULT: '#2BFFB1',
+        }
       },
       fontFamily: {
         britanica: 'BritanicaBlack'

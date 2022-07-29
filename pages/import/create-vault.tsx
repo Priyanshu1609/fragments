@@ -48,7 +48,7 @@ const CreateVault: React.FC = () => {
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto  sm:px-4 pb-16 '>
+        <div className='text-white mx-auto  sm:px-4 pb-16 '>
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>

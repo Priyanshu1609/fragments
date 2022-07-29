@@ -17,6 +17,7 @@ import MyGullaks from "../components/MyGullaks"
 import NFTList from "../components/NFTList"
 import { DataContext } from '../contexts/dataContext';
 import pattern from '../assets/Pattern.png'
+import demo from '../assets/demo.png'
 
 
 declare var window: any;
@@ -134,17 +135,19 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-white  max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <div className='flex px-2 items-center justify-between bg-white bg-opacity-20 bg-cover bg-[url("/Button.png")]  bg-[#232529]    rounded-2xl text-white shadow-lg cursor-pointer' onClick={() =>
+            <div className='flex items-center justify-between bg-opacity-20 bg-cover bg-[url("/Button.png")]  bg-[#232529]    rounded-2xl text-white shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',
                     query: { user: currentAccount },
                 })}>
 
                 <div className='h-32 flex items-center space-x-6 p-4 !overflow-hidden'>
-                    <Image src={cerateDaoPeopleImage} height={200} width={230} />
+                    <div className='-ml-12 -mt-2'>
+                        <Image src={cerateDaoPeopleImage} height={200} width={230} />
+                    </div>
                     <div>
-                        <h1 className='text-2xl font-semibold'>CREATE YOUR OWN VAULT</h1>
-                        <p className='text-base mt-2'>Make a vault to start investing with your frens</p>
+                        <h1 className='text-3xl font-semibold'>Create your own Vault</h1>
+                        <p className='text-lg font-montserrat'>Make a DAO to start investing with your frens in fragments</p>
                     </div>
                 </div>
                 <div className='flex space-x-4 bg-[#232529] px-5 py-3 rounded-lg mr-10'>
@@ -152,25 +155,31 @@ const Dashboard: React.FC = () => {
                     <ArrowRightIcon className='w-6 h-6 mr-6' />
                 </div>
             </div>
-            <div className='h-32 bg-[#232529] bg-cover flex items-center justify-around rounded-2xl px-4 py-10 mt-4 w-full overflow-hidden'>
-                {/* <Image src={pattern} height={200} width={230} className="" /> */}
-                <div className=''>
+            <div className='h-32 bg-[#232529] bg-cover flex items-center justify-between rounded-2xl px-16 py-10 mt-4 w-full overflow-hidden'>
+              
+                <div className='flex '>
+                    <div className='h-40 w-40 -ml-16 mt-8'>
+                        <Image src={pattern} />
+                    </div>
+                    <div className='rounded-full overflow-hidden h-24 w-24 -ml-16 border-2 border-button mr-6 mt-12'>
+                        <img src="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260" alt="ENS Avatar"  />
+                    </div>
                     <div className='text-white text-3xl flex space-x-3 p-3 rounded-md'>
-                        {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
                         <div className='flex flex-col items-start justify-center'>
-                            <p>{ens}rohandesign.eth</p>
+                            <p>{ens}</p>
                             <p className='text-gray-300 text-2xl'>{getEllipsisTxt(currentAccount)}</p>
                         </div>
                     </div>
                 </div>
-                <div className='flex space-x-10 '>
-                    <div className='flex  space-x-2 items-center'>
-                        <p className='opacity-70'>Curent Value: </p>
-                        <span className='font-bold text-xl opacity-100 -mt-1'>{(valuation).toFixed(2)} ETH </span>
+                <div className='flex space-x-16 mr-24 '>
+                    <div className=''>
+                        <p className='opacity-70 text-lg'>Curent Value </p>
+                        <span className='font-bold text-2xl opacity-100 -mt-1'>{(valuation).toFixed(2)} ETH </span>
                         {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
-                    <div className='flex space-x-2'>
-                        <p className='opacity-70'>Active Vaults: </p><span className='font-bold opacity-100'>{creatorVaults.length}</span>
+                    <div className=''>
+                        <p className='opacity-70 text-lg'>Active Vaults </p>
+                        <span className='font-bold text-2xl opacity-100'>{creatorVaults.length}</span>
                     </div>
                 </div>
             </div>

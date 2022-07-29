@@ -23,6 +23,8 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
+import people from '../../assets/People.png'
+
 const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 
 interface CreateVaultFormProps {
@@ -91,14 +93,14 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
 
     return (
-        <div className='text-white max-w-4xl mx-auto  sm:px-4 pb-24'>
-            <div className='flex items-center justify-between p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover  rounded-lg'>
-                <div>
-                    <h2 className='text-black text-2xl font-semibold mb-2'>Select NFTs to fractionalise</h2>
-                    <p className='text-black'>Lorem ipsum dolor sit amet, ectetur adipisc elita dipiscing elit.</p>
+        <div className='max-w-2xl mx-auto text-lg sm:px-4 pb-24'>
+            <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
+                <div className='text-white'>
+                    <h2 className='text-3xl  font-semibold'>Fundraise with Frens</h2>
+                    <p className='font-montserrat text-base'>Create a Vault to start investing with your frens</p>
                 </div>
-                <div>
-                    <Image src={vault} width={150} height={150} />
+                <div className=' mt-8'>
+                    <Image src={people} height={130} width={160} />
                 </div>
             </div>
             <form onSubmit={onSubmitHandler} className='mt-10'>
@@ -106,11 +108,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
-                            <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
+                            <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
                             <p className='text-sm'>Fundraise duration{requiredTag}</p>
-                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-input  focus:outline-none w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
+                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
                     <div className='p-2 bg-input'>
@@ -129,10 +131,10 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                             <p className='text-sm'>Your Contribution {requiredTag}</p>
                             <p className='text-sm'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-input focus:outline-none w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
+                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
-                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-button  text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

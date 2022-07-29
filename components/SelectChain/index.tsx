@@ -72,7 +72,7 @@ const Index: React.FC = () => {
 
 
     return (
-        <div className='grid grid-cols-2 gap-4 mt-4'>
+        <div className='grid grid-cols-2 gap-4 mt-4 '>
             <div onClick={() => setSwap(true)} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16 bg-input ">
                 <p className='text-lg text-white'>Dex Swap</p>
             </div>

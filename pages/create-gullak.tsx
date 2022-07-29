@@ -33,7 +33,7 @@ const CreateGullak: React.FC = () => {
                 <button className='w-80 h-[21rem] p-8 border bg-[#232529] border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center space-y-2'>
                     <Image src={importWallet} height={120} width={140} />
                     <h1 className='text-2xl font-semibold'>Import NFT</h1>
-                    <p className='text-sm text-center text-white opacity-50'>Import an NFT from your wallet and start a fundraise for it.</p>
+                    <p className='text-sm text-center text-white  font-montserrat '>Import an NFT from your wallet and start a fundraise for it.</p>
                     <button className='bg-[#2BFFB1] text-black w-full py-3 rounded-md mt-4' onClick={e =>
                         router.push({
                             pathname: '/import/create-vault',
@@ -44,7 +44,7 @@ const CreateGullak: React.FC = () => {
                 <button className='bg-[#232529] w-80 h-[21rem] p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed space-y-2'>
                     <Image src={poeple} height={120} width={160} />
                     <h1 className='text-2xl font-semibold'>Fundraise with frens</h1>
-                    <p className='text-sm  text-white opacity-50'>
+                    <p className='text-sm  text-white  font-montserrat '>
                         Start a fundraise and then deploy where your community wants.
                     </p>
                     <button className='bg-[#2BFFB1] text-black  py-3 rounded-md mt-4 w-full ' onClick={e =>
@@ -60,7 +60,7 @@ const CreateGullak: React.FC = () => {
             <button disabled className='bg-[#232529] w-[41rem] p-8 border border-white border-opacity-50 rounded-lg flex items-center justify-center mt-4 disabled:opacity-50 disabled:cursor-not-allowed'>
                 <div className='flex flex-col flex-[0.5]'>
                     <h1 className='text-2xl font-semibold'>Purchase NFT</h1>
-                    <p className='text-sm text-center text-white opacity-50'>
+                    <p className='text-sm text-center font-montserrat  text-white '>
                         Fundraise together to purchase an NFT from Opensea or Rarible.
                     </p>
 

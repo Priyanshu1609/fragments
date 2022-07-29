@@ -49,7 +49,7 @@ const Select: React.FC<ISelectProps> = ({
 			{({ open }) => (
 				<>
 					<div className="mt-1 relative text-white">
-						<Listbox.Button className="bg-[#1E1E24] w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm">
+						<Listbox.Button className="bg-transparent w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm">
 							<div className=" truncate flex p-1">
 								{selectedValue?.icon && <img className={selectedValue?.icon && 'mr-3 ml-1'} height="24px" width='24px' src={selectedValue?.icon} />}
 								{selectedValue?.name ?? (
@@ -73,7 +73,7 @@ const Select: React.FC<ISelectProps> = ({
 							leaveFrom="opacity-100"
 							leaveTo="opacity-0"
 						>
-							<Listbox.Options className="w-56 absolute z-10 mt-1 bg-[#1E1E24] text-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+							<Listbox.Options className="w-48 absolute z-10 mt-1 bg-[#232529] text-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
 								{options?.map((option) => (
 									<Listbox.Option
 										// key={option.address ?? option.chainId}
@@ -81,7 +81,7 @@ const Select: React.FC<ISelectProps> = ({
 										className={({ active }) =>
 											classNames(
 												active
-													? "text-white bg-indigo-600"
+													? "text-white bg-[#2BFFB1]"
 													: "text-white",
 												"cursor-default select-none relative py-2 pl-3 pr-9"
 											)
@@ -108,7 +108,7 @@ const Select: React.FC<ISelectProps> = ({
 														className={classNames(
 															active
 																? "text-white"
-																: "text-indigo-600",
+																: "text-[#2BFFB1]",
 															"absolute inset-y-0 right-0 flex items-center pr-4"
 														)}
 													>
