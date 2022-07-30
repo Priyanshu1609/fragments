@@ -20,6 +20,9 @@ module.exports = {
         },
         button: {
           DEFAULT: '#2BFFB1',
+        },
+        bluebutton: {
+          DEFAULT: '#2bd8ff',
         }
       },
       fontFamily: {

@@ -78,10 +78,10 @@ export const RenderTab: React.FC<TabProps> = ({
                         className={({ selected }) =>
                             classNames(
                                 selected
-                                    ? 'text-white !opacity-100 border-b-white border-b-2'
+                                    ? 'text-white !opacity-100 border-b-2 border-white '
                                     : 'text-white hover:text-white',
-                                'w-full font-bold py-2.5 text-sm leading-5 text-white opacity-50 transition-all delay-200',
-                                '!focus:outline-hidden border-0'
+                                'w-full font-bold py-2.5 text-sm leading-5 text-white opacity-50 transition-all delay-200 !focus:outline-hidden border-0'
+
                             )
                         }
                     >

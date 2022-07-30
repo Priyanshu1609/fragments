@@ -70,7 +70,7 @@ const Modal: React.FC<IModal> = ({
 						<Dialog.Panel
 							className={`inline-block align-bottom bg-[#232529] py-4 overflow-hidden rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-lg w-full `}
 						>
-							<div className='w-full p-4 bg-[#232529] flex justify-between px-8'>
+							<div className='w-full pt-4 bg-[#232529] flex justify-between px-8'>
 								{<Dialog.Title
 									as="h3"
 									className="text-2xl leading-6 font-bold "
@@ -80,9 +80,9 @@ const Modal: React.FC<IModal> = ({
 								{showClose &&
 									<CgCloseR className='w-7 h-7 text-white cursor-pointer  hover:scale-125 ' onClick={onClose} />}
 							</div>
-							<div className="">
-								<div className="mt-3 text-center sm:mt-5">
-									<div className="mt-2">{children}</div>
+							<div className="px-8">
+								<div className="">
+									<div className="">{children}</div>
 								</div>
 							</div>
 							{
