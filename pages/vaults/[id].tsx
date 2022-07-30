@@ -448,10 +448,10 @@ const VaultDetail: React.FC = () => {
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
             <div className='flex flex-col flex-[0.6] items-center  mt-4'>
                 {data?.origin !== "private" &&
-                    <div className='flex items-start justify-center mt-4 bg-input rounded-xl overflow-hidden'>
+                    <div className='flex items-start justify-center mt-4 rounded-xl w-full'>
                         <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-                        <div className='flex-[0.8]  p-4'>
-                            <div>
+                        <div className='flex-[0.8]'>
+                            <div className=''>
                                 <Swiper
                                     ref={sliderRef}
                                     // navigation={true}
@@ -463,54 +463,62 @@ const VaultDetail: React.FC = () => {
                                         disableOnInteraction: false,
                                     }}
                                     modules={[EffectFade, Navigation, Autoplay, Pagination]}
-                                    className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !rounded-lg !rounded-b-lg"
+                                    className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] "
                                 >
                                     {nfts?.map((nft: any) => (
                                         <div key={nft?.image}>
                                             <SwiperSlide>
-                                                <img src={fixTokenURI(nft?.image)} />
+                                                <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
                                             </SwiperSlide>
-
                                         </div>
 
                                     ))}
                                 </Swiper>
                             </div>
+                            <div className='p-4 truncate text-xl bg-input mx-5 rounded-b-xl'>
+                                    <div className='flex space-x-2 items-center justify-start'>
+                                        <img src="" className="h-5 w-5 rounded-full"/>
+                                        <p className='text-base'>asdfasdf</p>
+                                    </div>
+                                    <p className='mt-2'>asdf</p>
+                                </div>
                         </div>
                         <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
                     </div>
                 }
-                <div className='flex items-start justify-center my-4 bg-input rounded-xl w-full'>
-                    <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>General Information</span>
-                    <div className='mt-2'>
-                        <div className='py-4 flex flex-col items-center space-y-4 justify-between border-y-2 border-[#1E1E24]'>
-                            {
-                                ownerData?.map((owner: any, index: number) => (
-                                    <div key={index} className='flex items-center w-full justify-between'>
-                                        <div className='flex space-x-3'>
-                                            <Blockies
-                                                seed='need to be changed'
-                                                size={19}
-                                                scale={2}
-                                                className='rounded-full mr-3'
-                                            />
-                                            <div className='flex items-center justify-center'>
-                                                <p className='font-semibold text-base'>
-                                                    {getEllipsisTxt(owner.walletAddress)}
-                                                </p>
+                <div className='flex items-start justify-center  w-full'>
+                    <div className='bg-input rounded-xl w-full mx-16 my-4 p-4'>
+                        <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Last Transaction</span>
+                        <div className='mt-2'>
+                            <div className='py-4 flex flex-col items-center space-y-4 justify-between border-y-2 border-[#1E1E24]'>
+                                {
+                                    ownerData?.map((owner: any, index: number) => (
+                                        <div key={index} className='flex items-center w-full justify-between'>
+                                            <div className='flex space-x-3'>
+                                                <Blockies
+                                                    seed='need to be changed'
+                                                    size={19}
+                                                    scale={2}
+                                                    className='rounded-full mr-3'
+                                                />
+                                                <div className='flex items-center justify-center'>
+                                                    <p className='font-semibold text-base'>
+                                                        {getEllipsisTxt(owner.walletAddress)}
+                                                    </p>
 
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
+                                                <p className='text-[#D0D0DA] text-xs'>$ 341,315</p>
+                                            </div>
+                                            <div>
+                                                <p>{owner.amountPledged} ETH</p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
-                                            <p className='text-[#D0D0DA] text-xs'>$ 341,315</p>
-                                        </div>
-                                        <div>
-                                            <p>{owner.amountPledged} ETH</p>
-                                        </div>
-                                    </div>
-                                ))
-                            }
+                                    ))
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
