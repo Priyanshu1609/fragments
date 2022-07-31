@@ -447,7 +447,7 @@ const VaultDetail: React.FC = () => {
 
     return (
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
-            <div className='flex flex-col flex-[0.6] items-center'>
+            <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
                         <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
@@ -490,7 +490,7 @@ const VaultDetail: React.FC = () => {
                 <div className='flex items-start justify-center mt-4 w-full'>
                     <div className='bg-input rounded-xl w-full mx-16 p-4'>
                         <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Last Transaction</span>
-                        <div className='mt-2 h-72 overflow-y-scroll'>
+                        <div className='mt-2 h-96 overflow-y-scroll'>
                             <div className='py-4 flex flex-col items-center space-y-4 justify-between'>
                                 {
                                     ownerData?.map((owner: any, index: number) => (
@@ -565,7 +565,7 @@ const VaultDetail: React.FC = () => {
                         <div className='flex justify-end space-x-2 ml-auto mt-1 mb-4'>
                             <p className='text-gray-300 text-base'>Time Left: </p><span className=' font-semibold'>{countDown}</span>
                         </div>
-                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between' >
+                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
                             <div className='bg-[#1E1E24] rounded-lg w-4/6 p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
