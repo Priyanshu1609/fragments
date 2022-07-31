@@ -105,7 +105,7 @@ const Index: React.FC = () => {
                 onClose={() => setSwap(false)}
                 showCTA={false}
                 title="Dex Swap"
-            >
+            >glob
                 <div className="p-3 Uniswap flex items-center justify-center">
                     <SwapWidget
                         provider={provider}

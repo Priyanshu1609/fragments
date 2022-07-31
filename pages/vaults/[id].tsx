@@ -449,7 +449,7 @@ const VaultDetail: React.FC = () => {
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
             <div className='flex flex-col flex-[0.6] items-center'>
                 {data?.origin !== "private" &&
-                    <div className='flex items-start justify-center mt-4 rounded-xl w-full'>
+                    <div className='flex items-start justify-center rounded-xl w-full'>
                         <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                         <div className='flex-[0.8]'>
                             <div className=''>
@@ -464,27 +464,24 @@ const VaultDetail: React.FC = () => {
                                         disableOnInteraction: false,
                                     }}
                                     modules={[EffectFade, Navigation, Autoplay, Pagination]}
-                                    className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] "
+                                    className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center"
                                 >
                                     {nfts?.map((nft: any) => (
-                                        <div>
-
-                                            <div key={nft?.image}>
-                                                <SwiperSlide>
-                                                    <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
-                                                </SwiperSlide>
-                                            </div>
-
+                                        <div key={nft?.image} className="mx-auto w-full">
+                                            <SwiperSlide>
+                                                <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
+                                                <div className='p-4 truncate text-xl bg-input rounded-b-xl'>
+                                                    <div className='flex space-x-2 items-center justify-start'>
+                                                        <img src={fixTokenURI(nft?.image)} className="h-5 w-5 rounded-full" />
+                                                        <p className='text-base'>{nft?.compiler}</p>
+                                                    </div>
+                                                    <p className='mt-2'>{nft?.name}</p>
+                                                </div>
+                                            </SwiperSlide>
                                         </div>
                                     ))}
                                 </Swiper>
-                                <div className='p-4 truncate text-xl bg-input mx-5 rounded-b-xl'>
-                                    <div className='flex space-x-2 items-center justify-start'>
-                                        <img src="asdf" className="h-5 w-5 rounded-full" />
-                                        <p className='text-base'>asdfasdf</p>
-                                    </div>
-                                    <p className='mt-2'>asdf</p>
-                                </div>
+
                             </div>
                         </div>
                         <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
@@ -644,7 +641,7 @@ const VaultDetail: React.FC = () => {
                             <div className='flex justify-between mb-4'>
                                 <div>
                                     <p className='text-xl text-white  mb-2'>Voting Period</p>
-                                    <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ?data?.votingPeriod : "-"}</p>
+                                    <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.votingPeriod : "-"}</p>
                                 </div>
                             </div>
                             <div className='flex justify-between mt-6'>
