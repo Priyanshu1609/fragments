@@ -31,25 +31,25 @@ const ConnectModal: React.FC = () => {
             showCTA={false}
             title="Connect Wallet"
         >
-            <p className='mx-8 pr-10 text-lg font-extralight text-left -mt-5'>Connect with one of the available wallet providers or create a new wallet.</p>
-            <div className='p-4 pt-8'>
-                <div className='flex items-center justify-evenly  text-white hover:cursor-pointer'>
+            <p className='pr-24 text-base font-extralight text-left font-montserrat'>Connect with one of the available wallet providers or create a new wallet.</p>
+            <div className='p-4 mt-6'>
+                <div className='flex items-center justify-between  text-white hover:cursor-pointer'>
                     <div
                         onClick={e => onConnect('metamask')}
-                        className='h-48 w-52 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
+                        className='h-44 w-48 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
                     >
                         <Image src={metamasklogo} height={80} width={80} />
                         <p className='font-black text-lg mt-1'>Metamask</p>
                     </div>
                     <div
                         onClick={() => onConnect('wallectconnect')}
-                        className='h-48 w-52 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
+                        className='h-44 w-48 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
                     >
                         <Image src={walletconnectlogo} height={70} width={100} />
                         <p className='font-black text-lg mt-3'>WalletConnect</p>
                     </div>
                 </div>
-                <p className='text-gray-400 text-sm text-left mt-4 px-4'>Connecting your wallet does not give Fragments, access to your private keys or your funds.</p>
+                <p className='text-gray-400 text-sm text-left mt-4 font-montserrat'>Connecting your wallet does not give Fragments, access to your private keys or your funds.</p>
             </div>
         </Modal>
     )

@@ -80,6 +80,7 @@ const VaultDetail: React.FC = () => {
     // const [selectedToken, setSelectedToken] = useState<selectedToken>()
     // const [selectedChain, setSelectedChain] = useState<selectedChain>()
     // const [coins, setCoins] = useState([]);
+    const [purchaseForm, setPurchaseForm] = useState(false);
     const [ownerData, setOwnerData] = useState<any>([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
     const [isPurchaseButtonVisible, setIsPurchaseButtonVisible] = useState<boolean>(false)
@@ -446,7 +447,7 @@ const VaultDetail: React.FC = () => {
 
     return (
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
-            <div className='flex flex-col flex-[0.6] items-center  mt-4'>
+            <div className='flex flex-col flex-[0.6] items-center'>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center mt-4 rounded-xl w-full'>
                         <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
@@ -466,31 +467,34 @@ const VaultDetail: React.FC = () => {
                                     className="w-[18rem] lg:w-[24rem] xl:w-[30rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] "
                                 >
                                     {nfts?.map((nft: any) => (
-                                        <div key={nft?.image}>
-                                            <SwiperSlide>
-                                                <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
-                                            </SwiperSlide>
-                                        </div>
+                                        <div>
 
+                                            <div key={nft?.image}>
+                                                <SwiperSlide>
+                                                    <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
+                                                </SwiperSlide>
+                                            </div>
+
+                                        </div>
                                     ))}
                                 </Swiper>
-                            </div>
-                            <div className='p-4 truncate text-xl bg-input mx-5 rounded-b-xl'>
+                                <div className='p-4 truncate text-xl bg-input mx-5 rounded-b-xl'>
                                     <div className='flex space-x-2 items-center justify-start'>
-                                        <img src="" className="h-5 w-5 rounded-full"/>
+                                        <img src="asdf" className="h-5 w-5 rounded-full" />
                                         <p className='text-base'>asdfasdf</p>
                                     </div>
                                     <p className='mt-2'>asdf</p>
                                 </div>
+                            </div>
                         </div>
                         <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
                     </div>
                 }
-                <div className='flex items-start justify-center  w-full'>
-                    <div className='bg-input rounded-xl w-full mx-16 my-4 p-4'>
+                <div className='flex items-start justify-center mt-4 w-full'>
+                    <div className='bg-input rounded-xl w-full mx-16 p-4'>
                         <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Last Transaction</span>
-                        <div className='mt-2'>
-                            <div className='py-4 flex flex-col items-center space-y-4 justify-between border-y-2 border-[#1E1E24]'>
+                        <div className='mt-2 h-72 overflow-y-scroll'>
+                            <div className='py-4 flex flex-col items-center space-y-4 justify-between'>
                                 {
                                     ownerData?.map((owner: any, index: number) => (
                                         <div key={index} className='flex items-center w-full justify-between'>
@@ -510,7 +514,6 @@ const VaultDetail: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
-                                                <p className='text-[#D0D0DA] text-xs'>$ 341,315</p>
                                             </div>
                                             <div>
                                                 <p>{owner.amountPledged} ETH</p>
@@ -541,7 +544,7 @@ const VaultDetail: React.FC = () => {
                     </button>
                     {/* <p>{data?.vaultStatus === "RUNNING" && countDown}</p> */}
                 </div>
-                <div className='my-5 '>
+                <div className='my-5'>
                     <h1
                         className="mb-2 font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-button to-bluebutton"
                     >
@@ -552,48 +555,51 @@ const VaultDetail: React.FC = () => {
                     </p>
                 </div >
                 {data?.amount > 0 ? <div className='mt-4 mb-6'>
-                    <div className='mb-5 bg-input rounded-lg flex space-x-3 p-3 w-full items-center justify-center' >
-                        <p className='text-sm text-gray-300'>You have deposited: </p>
-                        <p className='text-[#2bffb1] text-sm'>{data?.amount} ETH</p>
-                    </div >
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-sm'>Fund raised: </p><span className='text-sm font-semibold'>{data?.amount} ETH</span>
+                                <p className='text-gray-300 text-base'>Funding raised: </p><span className=' font-semibold'>{data?.amount} ETH</span>
                             </div>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-sm'>Funding goal: </p><span className='text-sm font-semibold'>{data?.target} ETH</span>
+                                <p className='text-gray-300 text-base'>Funding goal: </p><span className=' font-semibold'>{data?.target} ETH</span>
                             </div>
                         </div>
                         <ProgressBar completed={(Number(data?.amount) / Number(data?.target)) * 100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                        <div className='flex justify-end space-x-2 ml-auto mt-1 mb-4'>
+                            <p className='text-gray-300 text-base'>Time Left: </p><span className=' font-semibold'>{countDown}</span>
+                        </div>
+                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between' >
+                            <div className='bg-[#1E1E24] rounded-lg w-4/6 p-3 flex space-x-3 justify-center'>
+                                <p className='text-gray-300'>You Own: </p>
+                                <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
+                            </div>
+                            <button onClick={() => setPurchaseForm(true)} className='text-black bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
+                        </div >
                     </div>
                     {
-                        data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
-                            <div className='h-full'>
-                                <SelectChain />
-                            </div>
-                            <div className='mt-4'>
-                                <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                                    <p>Enter amount</p>
-                                    <p>Balance: {balance} ETH</p>
-                                </div>
-                                <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
-                            </div>
+                        // data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
+                        //     <div className='mt-4'>
+                        //         <div className='flex justify-between text-sm text-gray-300 mb-2'>
+                        //             <p>Enter amount</p>
+                        //             <p>Balance: {balance} ETH</p>
+                        //         </div>
+                        //         <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                        //     </div>
 
-                            <div className='text-center' >
-                                <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                    <p>Purchase {tokenAmount}</p>
-                                    <ArrowRightIcon className='w-4 h-4' />
-                                </button>
-                                {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
-                            </div>
-                        </div> :
-                            <div>
-                                <div className='bg-input p-3 text-center rounded-lg text-2xl mt-4'>
-                                    <p className='text-red-500'>Fundraise is {data?.vaultStatus}</p>
-                                </div>
+                        //     <div className='text-center' >
+                        //         <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                        //             <p>Purchase {tokenAmount}</p>
+                        //             <ArrowRightIcon className='w-4 h-4' />
+                        //         </button>
+                        //         {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                        //     </div>
+                        // </div> :
+                        //     <div>
+                        //         <div className='bg-input p-3 text-center rounded-lg text-2xl mt-4'>
+                        //             <p className='text-red-500'>Fundraise is {data?.vaultStatus}</p>
+                        //         </div>
 
-                            </div>
+                        //     </div>
                     }
 
 
@@ -638,17 +644,17 @@ const VaultDetail: React.FC = () => {
                             <div className='flex justify-between mb-4'>
                                 <div>
                                     <p className='text-xl text-white  mb-2'>Voting Period</p>
-                                    <p className='text-xl font-semibold'>{data?.votingPeriod}</p>
+                                    <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ?data?.votingPeriod : "-"}</p>
                                 </div>
                             </div>
                             <div className='flex justify-between mt-6'>
                                 <div>
                                     <p className='text-xl text-white  mb-2'>Quorum</p>
-                                    <p className='text-xl font-semibold'>{data?.quorum}</p>
+                                    <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.quorum : "-"}</p>
                                 </div>
                                 <div>
                                     <p className='text-xl text-white  mb-2'>Min Favourable Majority</p>
-                                    <p className='text-xl font-semibold'>{data?.minFavor}</p>
+                                    <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.minFavor : "-"}</p>
                                 </div>
 
                             </div>
@@ -674,149 +680,46 @@ const VaultDetail: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                {/* <div>
-                    <Tab.Group>
-                        <Tab.List className='flex p-1 !pb-0 w-full space-x-1'>
-                            <div className='flex w-full max-w-4xl'>
-                                <RenderTab tabs={tabs} />
-                            </div>
-                        </Tab.List>
-                        <Tab.Panels className='mt-2'>
-                            <Tab.Panel>
-                                <div className='p-4'>
-                                    <div className='flex justify-between'>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Valuations</p>
-                                            <p className='text-xl font-semibold'>600 ETH</p>
-                                        </div>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>No. of tokens</p>
-                                            <p className='text-xl font-semibold'>1000000</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex justify-between mt-6'>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Management fee</p>
-                                            <p className='text-xl font-semibold'>{data?.managementFees}</p>
-                                        </div>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Unique owners</p>
-                                            <p className='text-xl font-semibold'>1</p>
-                                        </div>
-                                    </div>
-                                    <div></div>
-                                </div>
-                            </Tab.Panel>
-                            <Tab.Panel>
-                                <div className='py-4'>
-                                    {/* <div className='flex justify-between items-center mb-4'>
-                                        <p>Vault owners</p>
-                                        <button className='bg-white rounded-lg p-2 text-sm text-gray-900'>Add owner</button>
-                                    </div>
-                                    <div>
-                                        <div className='py-4 flex flex-col items-center space-y-4 justify-between border-y-2 border-[#1E1E24]'>
-                                            {
-                                                ownerData?.map((owner: any, index: number) => (
-                                                    <div key={index} className='flex items-center w-full justify-between'>
-                                                        <div className='flex space-x-3'>
-                                                            <Blockies
-                                                                seed='need to be changed'
-                                                                size={19}
-                                                                scale={2}
-                                                                className='rounded-full mr-3'
-                                                            />
-                                                            <div className='flex items-center justify-center'>
-                                                                <p className='font-semibold text-base'>
-                                                                    {getEllipsisTxt(owner.walletAddress)}
-                                                                </p>
-
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
-                                                            {/* <p className='text-[#D0D0DA] text-xs'>$ 341,315</p>
-                                                        </div>
-                                                        <div>
-                                                            <p>{owner.amountPledged} ETH</p>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </Tab.Panel>
-
-                            {data?.type !== "Private" && data?.origin !== "private" && <Tab.Panel>
-                                <div className='py-4'>
-                                    <p className='font-semibold text-lg mb-4'>Governed Parameters</p>
-
-                                    <div className='flex justify-between mb-4'>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Voting Period</p>
-                                            <p className='text-xl font-semibold'>{data?.votingPeriod}</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex justify-between mt-6'>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Quorum</p>
-                                            <p className='text-xl font-semibold'>{data?.quorum}</p>
-                                        </div>
-                                        <div>
-                                            <p className='text-sm text-white  mb-2'>Min Favourable Majority</p>
-                                            <p className='text-xl font-semibold'>{data?.minFavor}</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </Tab.Panel>}
-                        </Tab.Panels>
-                    </Tab.Group>
-                </div> */}
-
             </div >
 
             <Modal
                 open={visible}
                 onClose={() => setVisible(false)}
                 showCTA={false}
+                title="Start Fundraising"
             >
-                <div className=' p-6'>
-                    {/* <Image src={walletmodal} /> */}
-                    <p className='text-2xl mt-4 mb-6 text-white'>Start Fundraising</p>
+                <div className=''>
+                    <p className='text-gray-500'>You can start the fundraise from here</p>
                     <form onSubmit={handleModalSubmit} className='flex flex-col text-white space-y-4'>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Target Fundraise</p>
                                 <p>Max Amount: 50 ETH</p>
                             </div>
-                            <input required type='number' step="any" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg focus:outline-none' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
+                            <input required type='number' step="any" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
                         </div>
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Fundraise Duration</p>
                             </div>
-                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-input  focus:outline-none w-full mt-2' value={modalForm.fundraiseDuration} onChange={e => setModalForm((prev: any) => ({ ...prev, fundraiseDuration: e.target.value }))} />
+                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-4 rounded-lg bg-input  bg-transparent focus:outline-none border-[1px] border-gray-600 w-full' value={modalForm.fundraiseDuration} onChange={e => setModalForm((prev: any) => ({ ...prev, fundraiseDuration: e.target.value }))} />
                         </div>
-                        <p className='text-green-500 text-xs font-bold'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
+                        <p className='text-green-500 text-base rounded-lg font-bold p-2 bg-[#043127]'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
                         <div>
-                            <SelectChain />
-                            {/* <div className='bg-input p-3 text-center rounded-lg text-sm cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
-                                <p className='text-red-500'>We only accept funds in ETH</p>
-                                <p className='text-green-500'>Have funds in different token ! Swap here !</p>
-                            </div> */}
+                            {/* <SelectChain /> */}
                         </div>
+                        <SelectChain />
                         <div className='mt-3'>
                             <div className='flex justify-between text-sm text-gray-300 mb-2'>
                                 <p>Enter amount</p>
                                 <p>Min Investment: {modalForm.target / 10} ETH</p>
                             </div>
-                            <input required type='number' step="any" placeholder='Enter amount' min={modalForm.target / 10} value={modalForm.amount} onChange={e => setModalForm((prev: any) => ({ ...prev, amount: e.target.value }))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
+                            <input required type='number' step="any" placeholder='Enter amount' min={modalForm.target / 10} value={modalForm.amount} onChange={e => setModalForm((prev: any) => ({ ...prev, amount: e.target.value }))} className='bg-input p-4 w-full rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600' />
                         </div>
 
                         <div className='text-center !pb-6' >
-                            <button type="submit" className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                <p>Purchase {modalForm.value} </p>
+                            <button type="submit" className='bg-button  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                                <p>Set Funding Cycle </p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
 
@@ -863,13 +766,40 @@ const VaultDetail: React.FC = () => {
                                     alert("something went wrong while copying");
                                 });
                         }}
-                        className='w-full mt-4 p-3 rounded-lg bg-button  text-black flex items-center justify-center space-x-4'>
+                        className='w-full mt-4 p-3 rounded-lg bg-button text-black flex items-center justify-center space-x-4'>
                         <span className='text-xl'>Copy</span>
                     </button>
                     <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
                         <span className='text-xl'>Close</span>
                     </button>
                 </div>
+            </Modal>
+            <Modal
+                open={purchaseForm}
+                onClose={() => setPurchaseForm(false)}
+                showCTA={false}
+                title="Buy More"
+            >
+                <p>You can start buying from here</p>
+                <div className=''>
+                    <SelectChain />
+                    <div className='mt-4'>
+                        <div className='flex justify-between text-sm text-gray-300 mb-2'>
+                            <p>Enter amount</p>
+                            <p>Balance: {balance} ETH</p>
+                        </div>
+                        <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-transparent focus:outline-none border-[1px] border-gray-600 p-4 w-full rounded-lg ' />
+                    </div>
+
+                    <div className='text-center' >
+                        <button onClick={handleAddAmount} className='bg-button flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                            <p>Purchase {tokenAmount}</p>
+                            <ArrowRightIcon className='w-4 h-4' />
+                        </button>
+                        {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
+                    </div>
+                </div>
+
             </Modal>
         </div >
     )

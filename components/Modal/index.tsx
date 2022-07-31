@@ -38,7 +38,7 @@ const Modal: React.FC<IModal> = ({
 				className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide "
 				onClose={() => { }}
 			>
-				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-50 bg-[#232529] font-britanica ">
+				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-70 bg-[#000000] font-britanica ">
 					<Transition.Child
 						as={Fragment}
 						enter="ease-out duration-300"
@@ -48,7 +48,7 @@ const Modal: React.FC<IModal> = ({
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0"
 					>
-						<Dialog.Overlay className="fixed inset-0  bg-opacity-50 transition-opacity" />
+						<Dialog.Overlay className="fixed inset-0  bg-opacity-70 transition-opacity" />
 					</Transition.Child>
 
 					{/* This element is to trick the browser into centering the modal contents. */}

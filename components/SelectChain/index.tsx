@@ -73,10 +73,10 @@ const Index: React.FC = () => {
 
     return (
         <div className='grid grid-cols-2 gap-4 mt-4 '>
-            <div onClick={() => setSwap(true)} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16 bg-input ">
+            <div onClick={() => setSwap(true)} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
                 <p className='text-lg text-white'>Dex Swap</p>
             </div>
-            <div onClick={() => setSocket(true)} className="p-4 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-16 bg-input ">
+            <div onClick={() => setSocket(true)} className="p-4 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
                 <p className='text-lg text-white'>Multichain bridge</p>
             </div>
             <Modal
@@ -85,7 +85,7 @@ const Index: React.FC = () => {
                 showCTA={false}
                 title="Multichain Bridge"
             >
-                <div className="flex items-center justify-center !w-full">
+                <div className="p-3 flex items-center justify-center !w-full ">
                     <Bridge
                         provider={provider}
                         API_KEY={SOCKET_API_KEY}
@@ -106,7 +106,7 @@ const Index: React.FC = () => {
                 showCTA={false}
                 title="Dex Swap"
             >
-                <div className="Uniswap flex items-center justify-center">
+                <div className="p-3 Uniswap flex items-center justify-center">
                     <SwapWidget
                         provider={provider}
                         jsonRpcEndpoint={jsonRpcEndpoint}

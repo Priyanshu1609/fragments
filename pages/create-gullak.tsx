@@ -28,7 +28,7 @@ const CreateGullak: React.FC = () => {
 
 
     return (
-        <div className=' flex flex-col h-screen items-center justify-center text-white '>
+        <div className='flex flex-col h-[80%] items-center justify-center text-white !overflow-hidden'>
             <div className='flex space-x-4 items-center justify-center '>
                 <button className='w-80 h-[21rem] p-8 border bg-[#232529] border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center space-y-2'>
                     <Image src={importWallet} height={120} width={140} />

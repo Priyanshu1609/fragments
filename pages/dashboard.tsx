@@ -135,7 +135,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className='text-white  max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
-            <div className='flex items-center justify-between bg-opacity-20 bg-cover bg-[url("/Button.png")]  bg-[#232529]    rounded-2xl text-white shadow-lg cursor-pointer' onClick={() =>
+            <div className='flex items-center justify-between bg-cover bg-[url("/Button.png")]  bg-[#232529]    rounded-2xl text-white shadow-lg cursor-pointer' onClick={() =>
                 router.push({
                     pathname: '/create-gullak',
                     query: { user: currentAccount },
