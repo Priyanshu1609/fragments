@@ -52,35 +52,21 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
-                        {/* <button onClick={handleBack} className='w-1/6 p-2 mb-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button> */}
-                        <CreateVaultForm origin='import' setCurrentStep={setCurrentStep} />
-
+                        <CreateVaultForm handleBack = {handleBack} origin='import' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.GovernedStep && (
                     <div>
-                        {/* <button onClick={handleBack} className='w-1/6 p-2 rounded-lg mb-2 bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button> */}
-                        <CreateGovernedForm setCurrentStep={setCurrentStep} />
+                        <CreateGovernedForm handleBack = {handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.ImportOrPurchase && (
                     <div>
-                        {/* <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  text-black flex items-center justify-center space-x-4 mb-2'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button> */}
-
-                        <ImportNFTSelect setCurrentStep={setCurrentStep} />
+                        <ImportNFTSelect  setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

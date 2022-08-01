@@ -85,7 +85,7 @@ const Index: React.FC = () => {
                 showCTA={false}
                 title="Multichain Bridge"
             >
-                <div className="p-3 flex items-center justify-center !w-full ">
+                <div className="py-3 flex items-center justify-center !w-full ">
                     <Bridge
                         provider={provider}
                         API_KEY={SOCKET_API_KEY}
@@ -105,8 +105,8 @@ const Index: React.FC = () => {
                 onClose={() => setSwap(false)}
                 showCTA={false}
                 title="Dex Swap"
-            >glob
-                <div className="p-3 Uniswap flex items-center justify-center">
+            >
+                <div className="py-3 Uniswap flex items-center justify-center">
                     <SwapWidget
                         provider={provider}
                         jsonRpcEndpoint={jsonRpcEndpoint}

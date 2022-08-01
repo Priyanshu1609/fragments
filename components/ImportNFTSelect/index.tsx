@@ -14,6 +14,9 @@ import ERC_1155 from '../../abis/ERC_1155.json'
 import { DataContext } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { useRouter } from 'next/router';
+import PageLoader from '../PageLoader';
+
+import loader from "../../assets/loader.json";
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
 const SERVER_URL = process.env.NEXT_PUBLIC_MORALIS_SERVER_URL;
@@ -37,6 +40,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const [transferred, setTransferred] = useState<any>([]);
     const [nftsImported, setNftsImported] = useState<string[]>([""])
     const [safeAddress, setSafeAddress] = useState("");
+    const [safe, setSafe] = useState(false)
 
     const { currentAccount, sendTx } = useContext(TransactionContext);
     const { formData, handleCreateVault, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
@@ -183,8 +187,131 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                     <Image src={NFTillustration} height={220} width={220} />
                 </div>
             </div>
-            <div className='mt-10 max-w-7xl mx-auto'>
-                <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-y-4 no-scrollbar mx-auto'>
+            <div className='mt-10 max-w-7xl mx-auto overflow-y-scroll h-[55rem]'>
+                <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-y-4 no-scrollbar mx-auto '>
+                    {
+                        nftList?.map((nft, i) => (
+                            <div key={nft.id} className={`w-[17rem] h-[26.5rem] cursor-pointer bg-[#232529] overflow-hidden rounded-xl mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
+
+                                <div className='flex items-center w-[17rem] h-[260px]'>
+                                    <img src={nft.animation_url ? nft.animation_url : nft.image_url} />
+                                </div>
+                                <div className='p-4 truncate text-xl border-b-[1px] border-gray-700'>
+                                    <div className='flex space-x-2 items-center justify-start'>
+                                        <img src={nft?.asset_contract.image_url} className="h-5 w-5 rounded-full"/>
+                                        <p className='text-base'>{(nft?.asset_contract.name)}</p>
+                                    </div>
+                                    <p className='mt-2'>{(nft?.name)}</p>
+                                </div>
+                                <div className={`text-center p-3 text-xl`}>
+                                    <div className=' rounded-lg'>
+                                        {
+                                            !transferred.includes(nft.id) && selected !== i && (
+                                                <button className="flex items-center rounded-lg hover:cursor-pointer px-4 py-2 text-black bg-button border-[1px] border-button w-full justify-center" disabled>
+                                                    <span className="font-medium">Select NFT</span>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            !transferred.includes(nft.id) && selected === i && (
+                                                <Loader />
+                                            )
+                                        }
+                                        {
+                                            transferred.includes(nft.id) && (
+                                                <button className="flex items-center rounded-lg  border-[1px] border-button  px-4 py-2 text-button w-full justify-center" disabled>
+                                                    <span className="font-medium"> Transferred</span>
+                                                </button>
+                                            )
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))
+                    }
+                    {
+                        nftList?.map((nft, i) => (
+                            <div key={nft.id} className={`w-[17rem] cursor-pointer bg-[#232529] overflow-hidden rounded-xl max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
+
+                                <div className='flex items-center w-[17rem] h-[260px]'>
+                                    <img src={nft.animation_url ? nft.animation_url : nft.image_url} />
+                                </div>
+                                <div className='p-4 truncate text-xl border-b-[1px] border-gray-700'>
+                                    <div className='flex space-x-2 items-center justify-start'>
+                                        <img src={nft?.asset_contract.image_url} className="h-5 w-5 rounded-full"/>
+                                        <p className='text-base'>{(nft?.asset_contract.name)}</p>
+                                    </div>
+                                    <p className='mt-2'>{(nft?.name)}</p>
+                                </div>
+                                <div className={`text-center p-3 text-xl`}>
+                                    <div className=' rounded-lg'>
+                                        {
+                                            !transferred.includes(nft.id) && selected !== i && (
+                                                <button className="flex items-center rounded-lg hover:cursor-pointer px-4 py-2 text-black bg-button border-[1px] border-button w-full justify-center" disabled>
+                                                    <span className="font-medium">Select NFT</span>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            !transferred.includes(nft.id) && selected === i && (
+                                                <Loader />
+                                            )
+                                        }
+                                        {
+                                            transferred.includes(nft.id) && (
+                                                <button className="flex items-center rounded-lg  border-[1px] border-button  px-4 py-2 text-button w-full justify-center" disabled>
+                                                    <span className="font-medium"> Transferred</span>
+                                                </button>
+                                            )
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))
+                    }
+                    {
+                        nftList?.map((nft, i) => (
+                            <div key={nft.id} className={`w-[17rem] cursor-pointer bg-[#232529] overflow-hidden rounded-xl max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
+
+                                <div className='flex items-center w-[17rem] h-[260px]'>
+                                    <img src={nft.animation_url ? nft.animation_url : nft.image_url} />
+                                </div>
+                                <div className='p-4 truncate text-xl border-b-[1px] border-gray-700'>
+                                    <div className='flex space-x-2 items-center justify-start'>
+                                        <img src={nft?.asset_contract.image_url} className="h-5 w-5 rounded-full"/>
+                                        <p className='text-base'>{(nft?.asset_contract.name)}</p>
+                                    </div>
+                                    <p className='mt-2'>{(nft?.name)}</p>
+                                </div>
+                                <div className={`text-center p-3 text-xl`}>
+                                    <div className=' rounded-lg'>
+                                        {
+                                            !transferred.includes(nft.id) && selected !== i && (
+                                                <button className="flex items-center rounded-lg hover:cursor-pointer px-4 py-2 text-black bg-button border-[1px] border-button w-full justify-center" disabled>
+                                                    <span className="font-medium">Select NFT</span>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            !transferred.includes(nft.id) && selected === i && (
+                                                <Loader />
+                                            )
+                                        }
+                                        {
+                                            transferred.includes(nft.id) && (
+                                                <button className="flex items-center rounded-lg  border-[1px] border-button  px-4 py-2 text-button w-full justify-center" disabled>
+                                                    <span className="font-medium"> Transferred</span>
+                                                </button>
+                                            )
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))
+                    }
                     {
                         nftList?.map((nft, i) => (
                             <div key={nft.id} className={`w-[17rem] cursor-pointer bg-[#232529] overflow-hidden rounded-xl max-w-[20rem] mx-auto`} onClick={e => transferToken(i, nft.asset_contract.address, nft.token_id, nft.id, nft.asset_contract.schema_name)}>
@@ -229,16 +356,18 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
 
                 </div>
             </div>
-            <div className='flex justify-evenly'>
-                <div className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+            <div className='flex justify-evenly mt-8'>
+                {/* <div className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                     <ArrowLeftIcon className='w-4' />
                     <span>Back</span>
-                </div>
+                </div> */}
                 <button onClick={onSubmitHandler} className='w-64 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
                     <span>Fractionlise {nftsImported.length -1} NFTs</span>
                     <ArrowRightIcon className='w-4' />
                 </button>
             </div>
+
+            <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
         </div>
     )
 }

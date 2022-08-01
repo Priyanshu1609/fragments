@@ -9,25 +9,27 @@ import ConnectModalContext from '../contexts/connectwallet'
 import { TransactionContext } from '../contexts/transactionContext'
 import PageLoader from '../components/PageLoader'
 
-import loader from '../assets/Vaultpage.png'
-import tick from '../assets/Tick-Square.png'
+import loader from '../assets/loader.json'
+import success from '../assets/success.json'
 
 const Home: NextPage = () => {
 
   const { setVisible } = useContext(ConnectModalContext)
-  const { connectallet, currentAccount, setIsLoading } = useContext(TransactionContext)
-
-  const [load, setLoad] = useState(false)
+  const { connectallet, currentAccount, setIsLoading, isLoading } = useContext(TransactionContext)
+  const [connected, setConnected] = useState(false)
 
   const router = useRouter();
 
 
   useEffect(() => {
     if (currentAccount) {
-      router.push({
-        pathname: '/dashboard',
-        query: { user: currentAccount },
-      })
+      setConnected(true);
+      setTimeout(() => {
+        router.push({
+          pathname: '/dashboard',
+          query: { user: currentAccount },
+        })
+      }, 3000);
     }
   }, [currentAccount])
 
@@ -41,8 +43,8 @@ const Home: NextPage = () => {
           Connect Wallet to Get Started
         </button>
       </div>
-      <PageLoader img={loader} message='Connecting to wallet...' desc='Accept the prompt in your wallet to continue' />
-      {/* {load && <PageLoader img={tick} message='Connecting Successfull' desc='Redirecting to your Fragments dashboard' />} */}
+      <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Connecting to wallet...' desc='Accept the prompt in your wallet to continue' />
+      <PageLoader bg={false} open={connected} onClose={() => setConnected(false)} img={success} message='Connecting Successfull!' desc="Redirecting to Fragment's dashboard " />
     </div>
   )
 }

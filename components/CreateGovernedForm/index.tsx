@@ -10,6 +10,7 @@ import governance from '../../assets/governance.png';
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
+    handleBack: () => void;
 }
 
 const option = [
@@ -28,7 +29,8 @@ const option = [
 ]
 
 const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
-    setCurrentStep
+    setCurrentStep,
+    handleBack
 }) => {
 
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
@@ -108,10 +110,10 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                         </label>
                     </div>
                     <div className='flex justify-between'>
-                        <div className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
-                        </div>
+                        </button>
                         <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
                             <span>Next Step</span>
                             <ArrowRightIcon className='w-4' />

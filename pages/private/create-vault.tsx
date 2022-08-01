@@ -64,22 +64,14 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
-                        {/* <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] mb-2 text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button> */}
-                        <CreateVaultForm origin='private' setCurrentStep={setCurrentStep} />
+                        <CreateVaultForm handleBack={handleBack} origin='private' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.Fundraise && (
                     <div>
-                        {/* <button onClick={handleBack} className='w-1/6 p-2 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  mb-2 text-black flex items-center justify-center space-x-4'>
-                            <ArrowLeftIcon className='w-4' />
-                            <span>Back</span>
-                        </button> */}
-                        <PrivateFundraise setCurrentStep={setCurrentStep} />
+                        <PrivateFundraise  setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
