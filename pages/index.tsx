@@ -44,7 +44,7 @@ const Home: NextPage = () => {
         </button>
       </div>
       <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Connecting to wallet...' desc='Accept the prompt in your wallet to continue' />
-      <PageLoader bg={false} open={connected} onClose={() => setConnected(false)} img={success} message='Connecting Successfull!' desc="Redirecting to Fragment's dashboard " />
+      <PageLoader bg={false} open={connected} onClose={() => setConnected(false)} img={success} message='Connection Successfull!' desc="Redirecting to Fragment's dashboard " />
     </div>
   )
 }

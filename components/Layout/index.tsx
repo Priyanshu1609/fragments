@@ -1,4 +1,4 @@
-import React, { Children, ReactElement } from 'react'
+import React, { Children, ReactElement, useContext } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -6,7 +6,7 @@ import { ConnectModalProvider } from '../../contexts/connectwallet'
 import { SocketProvider } from '../../contexts/socketContext'
 import { OpenseaContextProvider } from '../../contexts/opensesContext'
 import { NftContextProvider } from '../../contexts/NftContext'
-import { TransactionProvider } from '../../contexts/transactionContext'
+import { TransactionContext, TransactionProvider } from '../../contexts/transactionContext'
 import { DataContextProvider } from '../../contexts/dataContext'
 
 import Logo from '../logo'
@@ -44,7 +44,9 @@ const Layout: React.FC<Props> = ({ children }) => {
                                                 <div className="flex items-center w-full justify-between pt-1 pb-5 px-4">
                                                     <div className="flex px-2 lg:px-0">
                                                         <div className="flex-shrink-0 flex items-center cursor-pointer">
-                                                            <div className="inline-flex items-center" onClick={e => router.push("/")}>
+                                                            <div className="inline-flex items-center" onClick={e => router.push({
+                                                                pathname: '/dashboard'
+                                                            })}>
                                                                 <Logo />
                                                             </div>
                                                         </div>
