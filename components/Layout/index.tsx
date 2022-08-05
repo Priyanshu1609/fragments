@@ -14,7 +14,11 @@ import ConnectModal from '../ConnectModal'
 import Account from '../Account'
 import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
-import SelectChain from '../SelectChain'
+import dynamic from 'next/dynamic'
+const SelectChain = dynamic(
+    () => import('../../components/SelectChain'),
+    { ssr: false }
+)
 
 interface Props {
     children: React.ReactNode;

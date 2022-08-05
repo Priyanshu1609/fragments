@@ -124,7 +124,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                     <div className='p-2 bg-input rounded-lg'>
                         <p className='text-base text-center  font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
-                    {/* <SelectChain /> */}
+                    
                     <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
                         <div className='px-3'>
                             <p className='font-black'>Note: We only accepts funds in ETH</p>
