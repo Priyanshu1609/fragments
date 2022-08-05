@@ -8,6 +8,7 @@ import Modal from '../Modal';
 import { Bridge } from "@socket.tech/widget";
 // import { Provider } from "./providerComponent"
 import tokens from '../../abis/UniswapTokens.json'
+import ConnectModalContext from '../../contexts/connectwallet';
 
 const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 // Socket public testing API Key
@@ -50,13 +51,15 @@ const defaultDestNetwork = 1;
 const defaultSourceToken = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 const defaultDestToken = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
-const Index: React.FC = () => {
+const SelectChain: React.FC = () => {
 
     const { getProvider, currentAccount } = useContext(TransactionContext);
+    const { swapModal, setSwapModal } = useContext(ConnectModalContext);
     const [provider, setProvider] = useState<any>();
     const [socket, setSocket] = useState(false)
     const [swap, setSwap] = useState(false)
     const [coins, setCoins] = useState<any>([])
+    const [state, setState] = useState("swap")
 
 
     const getProviderFrom = async () => {
@@ -72,53 +75,53 @@ const Index: React.FC = () => {
 
 
     return (
-        <div className='grid grid-cols-2 gap-4 mt-4 '>
-            <div onClick={() => setSwap(true)} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
-                <p className='text-lg text-white'>Dex Swap</p>
-            </div>
-            <div onClick={() => setSocket(true)} className="p-4 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
-                <p className='text-lg text-white'>Multichain bridge</p>
-            </div>
-            <Modal
-                open={socket}
-                onClose={() => setSocket(false)}
-                showCTA={false}
-                title="Multichain Bridge"
-            >
-                <div className="py-3 flex items-center justify-center !w-full ">
-                    <Bridge
-                        provider={provider}
-                        API_KEY={SOCKET_API_KEY}
-                        defaultSourceNetwork={defaultSourceNetwork}
-                        defaultDestNetwork={defaultDestNetwork}
-                        defaultSourceToken={defaultSourceToken}
-                        defaultDestToken={defaultDestToken}
-                        customize={customize}
-                        destNetworks={[
-                            1
-                        ]}
-                    />
+        <Modal
+            open={swapModal}
+            onClose={() => setSwapModal(false)}
+            showCTA={false}
+            title="Multichain Bridge"
+        >
+
+            <div className='h-fit w-full'>
+                <div className='grid grid-cols-2 gap-4 mt-4 '>
+                    <div onClick={() => setState("swap")} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
+                        <p className='text-lg text-white'>Dex Swap</p>
+                    </div>
+                    <div onClick={() => setState("bridge")} className="p-4 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
+                        <p className='text-lg text-white'>Multichain bridge</p>
+                    </div>
+                    <div className='flex items-center justify-evenly'>
+                        {state === "swap" && <div className="flex items-center justify-center !w-full ">
+                            <Bridge
+                                provider={provider}
+                                API_KEY={SOCKET_API_KEY}
+                                defaultSourceNetwork={defaultSourceNetwork}
+                                defaultDestNetwork={defaultDestNetwork}
+                                defaultSourceToken={defaultSourceToken}
+                                defaultDestToken={defaultDestToken}
+                                customize={customize}
+                                destNetworks={[
+                                    1
+                                ]}
+                            />
+                        </div>}
+
+                        {state === "bridge" && <div className=" Uniswap flex items-center justify-center">
+                            <SwapWidget
+                                provider={provider}
+                                jsonRpcEndpoint={jsonRpcEndpoint}
+                                defaultOutputTokenAddress='NATIVE'
+                                theme={darkTheme}
+                                width={512}
+                                tokenList={tokens}
+                            />
+                        </div>}
+                    </div>
+
                 </div>
-            </Modal>
-            <Modal
-                open={swap}
-                onClose={() => setSwap(false)}
-                showCTA={false}
-                title="Dex Swap"
-            >
-                <div className="py-3 Uniswap flex items-center justify-center">
-                    <SwapWidget
-                        provider={provider}
-                        jsonRpcEndpoint={jsonRpcEndpoint}
-                        defaultOutputTokenAddress='NATIVE'
-                        theme={darkTheme}
-                        width={512}
-                        tokenList={tokens}
-                    />
-                </div>
-            </Modal>
-        </div>
+            </div>
+        </Modal>
     )
 }
 
-export default Index
+export default SelectChain;

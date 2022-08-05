@@ -6,7 +6,6 @@ import { ArrowLeftIcon } from '@heroicons/react/solid'
 
 
 import { gullakFactoryContract } from '../../utils/crypto'
-import sanityClient from '../../utils/sanitySetup'
 import { DataContext, } from '../../contexts/dataContext'
 import { TransactionContext } from '../../contexts/transactionContext';
 
@@ -14,6 +13,7 @@ import CreateVaultForm from '../../components/CreateVaultForm'
 import CreateGovernedForm from '../../components/CreateGovernedForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
+import SetFundingCycle from '../../components/SetFundingCycle'
 
 
 const CreateVault: React.FC = () => {
@@ -67,6 +67,13 @@ const CreateVault: React.FC = () => {
                 currentStep === CreateVaultStep.ImportOrPurchase && (
                     <div>
                         <ImportNFTSelect  setCurrentStep={setCurrentStep} />
+                    </div>
+                )
+            }
+            {
+                currentStep === CreateVaultStep.FundingCycle && (
+                    <div>
+                        <SetFundingCycle  setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

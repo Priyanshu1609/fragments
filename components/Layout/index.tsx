@@ -14,6 +14,7 @@ import ConnectModal from '../ConnectModal'
 import Account from '../Account'
 import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
+import SelectChain from '../SelectChain'
 
 interface Props {
     children: React.ReactNode;
@@ -61,6 +62,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         </header>
                                         {children}
                                         <ConnectModal />
+                                        <SelectChain />
                                     </div>
                                 </SocketProvider>
                             </OpenseaContextProvider>

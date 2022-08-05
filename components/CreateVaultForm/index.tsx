@@ -16,7 +16,8 @@ export enum CreateVaultStep {
     InputFieldsForm = 'input-fields-form',
     GovernedStep = 'governed-form',
     ImportOrPurchase = 'import-or-purchase',
-    Fundraise = 'fundraise'
+    Fundraise = 'fundraise',
+    FundingCycle = 'funding-cycle'
 }
 
 export interface CreateVaultFormValues {

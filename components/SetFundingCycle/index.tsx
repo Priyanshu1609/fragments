@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, ArrowSmRightIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
@@ -24,14 +24,14 @@ import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
 import people from '../../assets/People.png'
-
-const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+import ImportNFTSelect from '../ImportNFTSelect';
+import ConnectModalContext from '../../contexts/connectwallet';
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
 }
 
-const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
+const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
     setCurrentStep
 }) => {
     const router = useRouter();
@@ -41,6 +41,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
     const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
+    const { swapModal, setSwapModal } = useContext(ConnectModalContext);
 
     // console.log({ selectedToken, selectedChain });
 
@@ -96,8 +97,8 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         <div className='max-w-2xl mx-auto text-lg sm:px-4 pb-24'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className='text-3xl  font-semibold'>Fundraise with Frens</h2>
-                    <p className='font-montserrat text-base'>Create a Vault to start investing with your frens</p>
+                    <h2 className='text-3xl  font-semibold'>Start Funding Cycle</h2>
+                    <p className='font-montserrat text-base'>Here you can start the vault to fundraise</p>
                 </div>
                 <div className=' mt-8'>
                     <Image src={people} height={130} width={160} />
@@ -107,6 +108,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                 <div>
                     <div className=''>
                         <label>
+                            <p className='text-xl'>Notification Email Address {requiredTag}</p>
+                            <p className='text-sm font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
+                            <input required type='text' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
+                        </label>
+                        <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
                             <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
@@ -115,11 +121,19 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                             <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
-                    <div className='p-2 bg-input'>
-                        <p className='text-base text-center font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
+                    <div className='p-2 bg-input rounded-lg'>
+                        <p className='text-base text-center  font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
-                    <div>
-                        <SelectChain />
+                    {/* <SelectChain /> */}
+                    <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
+                        <div className='px-3'>
+                            <p className='font-black'>Note: We only accepts funds in ETH</p>
+                            <p className='text-[#C6BE0F]'>Have funds in different tokens? Click on swap tokens</p>
+                        </div>
+                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg'>
+                            <p>Swap Tokens</p>
+                            <ArrowSmRightIcon className='h-8 w-8' />
+                        </div>
                     </div>
                     <div className='mt-4'>
                         <div className='flex justify-between'>
@@ -139,4 +153,4 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     )
 }
 
-export default PrivateFundraise;
+export default SetFundingCycle;

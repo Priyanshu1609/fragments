@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "contexts/socketContext.jsx", "pages/_app.jsx", "contexts/dataContext.jsx", "components/MyInvestments/index.jsx", "components/NFTList/index.jsx", "components/MyGullaks/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "contexts/socketContext.jsx", "pages/_app.jsx", "contexts/dataContext.jsx", "components/MyInvestments/index.jsx", "components/NFTList/index.jsx", "components/MyGullaks/index.jsx", "components/SelectChain/index.tsx"],
   "exclude": ["node_modules"]
 }
