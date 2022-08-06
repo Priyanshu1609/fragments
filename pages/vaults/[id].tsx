@@ -570,7 +570,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
                             </div>
-                            <button onClick={() => setPurchaseForm(true)} className='text-black bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
+                            <button onClick={() => setPurchaseForm(true)} className='text-black !bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
                         </div >
                     </div>
                     {
@@ -602,7 +602,7 @@ const VaultDetail: React.FC = () => {
 
                 </div > :
                     <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
-                        <div className='mb-5 bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                        <div className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
                             <p className='text-black'>Set Funding Cycle</p>
                         </div>
                     </div>
@@ -715,7 +715,7 @@ const VaultDetail: React.FC = () => {
                         </div>
 
                         <div className='text-center !pb-6' >
-                            <button type="submit" className='bg-button  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                            <button type="submit" className='!bg-button  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                                 <p>Set Funding Cycle </p>
                                 <ArrowRightIcon className='w-4 h-4' />
                             </button>
@@ -763,7 +763,7 @@ const VaultDetail: React.FC = () => {
                                     alert("something went wrong while copying");
                                 });
                         }}
-                        className='w-full mt-4 p-3 rounded-lg bg-button text-black flex items-center justify-center space-x-4'>
+                        className='w-full mt-4 p-3 rounded-lg !bg-button text-black flex items-center justify-center space-x-4'>
                         <span className='text-xl'>Copy</span>
                     </button>
                     <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
@@ -789,7 +789,7 @@ const VaultDetail: React.FC = () => {
                     </div>
 
                     <div className='text-center' >
-                        <button onClick={handleAddAmount} className='bg-button flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
+                        <button onClick={handleAddAmount} className='!bg-button flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
                             <p>Purchase {tokenAmount}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>

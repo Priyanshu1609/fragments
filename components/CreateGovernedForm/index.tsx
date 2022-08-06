@@ -114,7 +114,7 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  !bg-button  text-black flex items-center justify-center space-x-4'>
                             <span>Next Step</span>
                             <ArrowRightIcon className='w-4' />
                         </button>

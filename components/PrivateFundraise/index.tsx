@@ -129,7 +129,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                         <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-sm flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
                     </div>
-                    <button type='submit' className='w-full mt-4 p-3 rounded-lg bg-button  text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-button  text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
                         <ArrowRightIcon className='w-4' />
                     </button>

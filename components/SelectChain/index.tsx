@@ -79,45 +79,44 @@ const SelectChain: React.FC = () => {
             open={swapModal}
             onClose={() => setSwapModal(false)}
             showCTA={false}
-            title="Multichain Bridge"
+            title={`${state === "swap" ? "Dex Swap" : "Multichain Bridge"}`}
         >
 
-            <div className='h-fit w-full'>
-                <div className='grid grid-cols-2 gap-4 mt-4 '>
-                    <div onClick={() => setState("swap")} className="p-4  hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
+            <div className=' w-full h-[30rem] mt-4'>
+                <div className='flex space-x-4'>
+                    <div onClick={() => setState("swap")} className="p-2 hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-12  bg-transparent focus:outline-none border-[1px] border-gray-600">
                         <p className='text-lg text-white'>Dex Swap</p>
                     </div>
-                    <div onClick={() => setState("bridge")} className="p-4 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-16  bg-transparent focus:outline-none border-[1px] border-gray-600">
+                    <div onClick={() => setState("bridge")} className="p-2 hover:cursor-pointer  flex items-center justify-center w-full rounded-lg h-12  bg-transparent focus:outline-none border-[1px] border-gray-600">
                         <p className='text-lg text-white'>Multichain bridge</p>
                     </div>
-                    <div className='flex items-center justify-evenly'>
-                        {state === "swap" && <div className="flex items-center justify-center !w-full ">
-                            <Bridge
-                                provider={provider}
-                                API_KEY={SOCKET_API_KEY}
-                                defaultSourceNetwork={defaultSourceNetwork}
-                                defaultDestNetwork={defaultDestNetwork}
-                                defaultSourceToken={defaultSourceToken}
-                                defaultDestToken={defaultDestToken}
-                                customize={customize}
-                                destNetworks={[
-                                    1
-                                ]}
-                            />
-                        </div>}
+                </div>
+                <div className='flex items-center mt-4'>
+                    {state === "bridge" && <div className="flex flex-grow items-center justify-center !w-full ">
+                        <Bridge
+                            provider={provider}
+                            API_KEY={SOCKET_API_KEY}
+                            defaultSourceNetwork={defaultSourceNetwork}
+                            defaultDestNetwork={defaultDestNetwork}
+                            defaultSourceToken={defaultSourceToken}
+                            defaultDestToken={defaultDestToken}
+                            customize={customize}
+                            destNetworks={[
+                                1
+                            ]}
+                        />
+                    </div>}
 
-                        {state === "bridge" && <div className=" Uniswap flex items-center justify-center">
-                            <SwapWidget
-                                provider={provider}
-                                jsonRpcEndpoint={jsonRpcEndpoint}
-                                defaultOutputTokenAddress='NATIVE'
-                                theme={darkTheme}
-                                width={512}
-                                tokenList={tokens}
-                            />
-                        </div>}
-                    </div>
-
+                    {state === "swap" && <div className=" Uniswap flex flex-grow items-center justify-center !w-full">
+                        <SwapWidget
+                            provider={provider}
+                            jsonRpcEndpoint={jsonRpcEndpoint}
+                            defaultOutputTokenAddress='NATIVE'
+                            theme={darkTheme}
+                            width={512}
+                            tokenList={tokens}
+                        />
+                    </div>}
                 </div>
             </div>
         </Modal>

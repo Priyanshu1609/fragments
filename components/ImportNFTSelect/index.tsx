@@ -179,7 +179,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     return (
         <div className='pb-8 text-lg'>
             <div className='max-w-2xl mx-auto text-lg flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl '>
-                
+
                 <div className='text-white'>
                     <h2 className=' text-3xl font-semibold'>Select NFTs to Fractionalize</h2>
                     <p className='text-lg font-montserrat'>Fractionalise your NFTs and get em going</p>
@@ -199,7 +199,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                                 </div>
                                 <div className='p-4 truncate text-xl border-b-[1px] border-gray-700'>
                                     <div className='flex space-x-2 items-center justify-start'>
-                                        <img src={nft?.asset_contract.image_url} className="h-5 w-5 rounded-full"/>
+                                        <img src={nft?.asset_contract.image_url} className="h-5 w-5 rounded-full" />
                                         <p className='text-base'>{(nft?.asset_contract.name)}</p>
                                     </div>
                                     <p className='mt-2'>{(nft?.name)}</p>
@@ -208,7 +208,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                                     <div className=' rounded-lg'>
                                         {
                                             !transferred.includes(nft.id) && selected !== i && (
-                                                <button className="flex items-center rounded-lg hover:cursor-pointer px-4 py-2 text-black bg-button border-[1px] border-button w-full justify-center" disabled>
+                                                <button className="flex items-center rounded-lg hover:cursor-pointer px-4 py-2 text-black !bg-button border-[1px] border-button w-full justify-center" disabled>
                                                     <span className="font-medium">Select NFT</span>
                                                 </button>
                                             )
@@ -231,8 +231,8 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                             </div>
                         ))
                     }
-                
-                    
+
+
 
                 </div>
             </div>
@@ -242,7 +242,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                     <span>Back</span>
                 </div> */}
                 <button onClick={onSubmitHandler} className='w-64 px-3 py-2 rounded-lg  bg-[#2BFFB1]  text-black flex items-center justify-center space-x-4'>
-                    <span>Fractionlise {nftsImported.length -1} NFTs</span>
+                    <span>Fractionlise {nftsImported.length - 1} NFTs</span>
                     <ArrowRightIcon className='w-4' />
                 </button>
             </div>

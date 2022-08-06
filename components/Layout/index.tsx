@@ -15,6 +15,7 @@ import Account from '../Account'
 import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+
 const SelectChain = dynamic(
     () => import('../../components/SelectChain'),
     { ssr: false }
