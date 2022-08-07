@@ -45,25 +45,6 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const { currentAccount, sendTx } = useContext(TransactionContext);
     const { formData, handleCreateVault, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
-    const createSafe = async () => {
-        const address = await deploySafe();
-        // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
-        if (!address) {
-            alert("Error in deploying Gnosis safe! Please try again");
-            router.push({
-                pathname: `/dashboard`,
-                query: { user: currentAccount },
-            })
-            setFormData(defaultFormData)
-            return;
-        }
-        console.log("Import page deployed address :", address);
-        setSafeAddress(address);
-    }
-
-    useEffect(() => {
-        createSafe();
-    }, [])
 
 
 
@@ -246,8 +227,6 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                     <ArrowRightIcon className='w-4' />
                 </button>
             </div>
-
-            <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
         </div>
     )
 }

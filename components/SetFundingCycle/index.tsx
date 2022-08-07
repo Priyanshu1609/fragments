@@ -26,6 +26,9 @@ import { minDtTime } from '../../utils';
 import people from '../../assets/People.png'
 import ImportNFTSelect from '../ImportNFTSelect';
 import ConnectModalContext from '../../contexts/connectwallet';
+import PageLoader from '../PageLoader';
+
+import loader from '../../assets/loader.json'
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -39,9 +42,12 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
     const [balance, setBalance] = useState('0');
     const [safeAddress, setSafeAddress] = useState("");
 
-    const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
+    const { currentAccount, isLoading, setIsLoading, getBalanace } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
+
+    const [safeDeploy, setSafeDeploy] = useState(false);
+    const [deploy, setDeploy] = useState(false)
 
     // console.log({ selectedToken, selectedChain });
 
@@ -58,6 +64,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
     }
 
     const createSafe = async () => {
+        setSafeDeploy(true);
         const address = await deploySafe();
         // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
@@ -67,29 +74,28 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                 query: { user: currentAccount },
             })
             setFormData(defaultFormData)
+            setSafeDeploy(false);
             return;
         }
         console.log("Import page deployed address :", address);
         setSafeAddress(address);
+        setSafeDeploy(false);
     }
 
     useEffect(() => {
         createSafe();
     }, [])
 
-    const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
-        if (transferred.length === 0) {
-            alert("Please import atleast 1 NFT");
-            return;
-        }
-        const nfts = nftsImported;
+        setDeploy(true);
         const form = {
-            ...formData, nfts
+            ...formData,
+            fundraiseDuration: new Date(formData.fundraiseDuration).getTime() ?? 0,
         }
-        setFormData(form);
 
-        setCurrentStep(CreateVaultStep.FundingCycle)
+        await handleCreateVault(form, safeAddress);
+        setDeploy(false);
     }
 
     useEffect(() => {
@@ -115,7 +121,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                         <label>
                             <p className='text-xl'>Notification Email Address {requiredTag}</p>
                             <p className='text-lg font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
-                            <input required type='text' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
+                            <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
                         </label>
                         <label>
                             <p className='text-lg'>Target Fundraise {requiredTag}</p>
@@ -154,6 +160,9 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                     </button>
                 </div>
             </form>
+
+            <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
+            <PageLoader bg={false} open={deploy} onClose={() => setDeploy(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
         </div>
     )
 }

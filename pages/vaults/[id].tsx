@@ -4,15 +4,10 @@ import { GetServerSideProps } from 'next'
 import { BigNumber } from 'ethers';
 import dynamic from 'next/dynamic'
 
-const SelectChain = dynamic(
-    () => import('../../components/SelectChain'),
-    { ssr: false }
-)
-
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
-import { ArrowRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ArrowSmRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 
 import Modal from '../../components/Modal';
@@ -47,6 +42,7 @@ export enum VaultDashboardTabs {
 import { BsWhatsapp } from 'react-icons/bs'
 import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien, FaDiscord } from 'react-icons/fa'
 import { TiSocialTwitter } from 'react-icons/ti'
+import ConnectModalContext from '../../contexts/connectwallet';
 const links = [
     "https://web.whatsapp.com/send?text=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
     "https://telegram.me/share/url?url=Hey bro, &text=%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
@@ -70,6 +66,7 @@ const tabs = [
 const VaultDetail: React.FC = () => {
     const router = useRouter();
 
+    const { swapModal, setSwapModal } = useContext(ConnectModalContext);
     const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx, getBalanace } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens, getTokenIdMetadata } = useContext(NftContext);
@@ -229,80 +226,6 @@ const VaultDetail: React.FC = () => {
     }, [data])
 
     // console.log('NFTS:', nfts);
-
-    const handleModalSubmit = async (e: any) => {
-        e.preventDefault();
-
-        if (modalForm.amount <= 0) {
-            alert(`Please enter a valid amount`)
-            return;
-        }
-        if (data?.target > 0) {
-            if (modalForm.amount > (data?.target) - (data?.amount)) {
-                alert(`Please enter a valid amount, ${data?.amount}, ${data?.target}, ${modalForm.amount}`)
-                return;
-            }
-        }
-
-        try {
-            setIsLoading(true);
-            let tx;
-            if (modalForm.amount > 0) {
-
-                tx = await sendTx(id, modalForm.amount);
-                console.log("Transaction reciept", tx);
-                if (!tx) {
-                    alert("Please complete the transaction");
-                    return;
-                }
-            }
-
-            const body = JSON.stringify({
-                "vaultAddress": id,
-                "amount": modalForm.amount,
-                "fundraiseDuration": new Date(modalForm.fundraiseDuration).getTime(),
-                "target": modalForm.target
-            })
-
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/update `, body, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            }
-            );
-
-            countDownTimer(data?.fundraiseDuration);
-
-            const data2 = JSON.stringify({
-                "walletAddress": currentAccount,
-                "amountPledged": modalForm.amount,
-                "timestamp": new Date().getTime(),
-                "transactionHash": tx.hash,
-                "vaultAddress": id,
-                "vaultName": data?.vaultName,
-                "target": modalForm.target,
-                "vaultStatus": "RUNNING",
-            });
-
-            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            });
-
-            await getVaultData();
-            await getVaultsByWallet();
-            await getVaultsByCreator()
-
-            setVisible(false);
-
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false);
-        }
-
-    }
 
     const handleAddAmount = async () => {
 
@@ -680,52 +603,6 @@ const VaultDetail: React.FC = () => {
             </div >
 
             <Modal
-                open={visible}
-                onClose={() => setVisible(false)}
-                showCTA={false}
-                title="Start Fundraising"
-            >
-                <div className=''>
-                    <p className='text-gray-500'>You can start the fundraise from here</p>
-                    <form onSubmit={handleModalSubmit} className='flex flex-col text-white space-y-4'>
-                        <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                                <p>Target Fundraise</p>
-                                <p>Max Amount: 50 ETH</p>
-                            </div>
-                            <input required type='number' step="any" placeholder='Enter Target Fundraise Amount' min={0} className='bg-input p-4 w-full rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600' value={modalForm.target} onChange={e => setModalForm((prev: any) => ({ ...prev, target: e.target.value }))} />
-                        </div>
-                        <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                                <p>Fundraise Duration</p>
-                            </div>
-                            <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-4 rounded-lg bg-input  bg-transparent focus:outline-none border-[1px] border-gray-600 w-full' value={modalForm.fundraiseDuration} onChange={e => setModalForm((prev: any) => ({ ...prev, fundraiseDuration: e.target.value }))} />
-                        </div>
-                        <p className='text-green-500 text-base rounded-lg font-bold p-2 bg-[#043127]'>You will have to put atleast 10% of the target fundraise to start the funding cycle. </p>
-                        <div>
-                            {/* <SelectChain /> */}
-                        </div>
-                        <SelectChain />
-                        <div className='mt-3'>
-                            <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                                <p>Enter amount</p>
-                                <p>Min Investment: {modalForm.target / 10} ETH</p>
-                            </div>
-                            <input required type='number' step="any" placeholder='Enter amount' min={modalForm.target / 10} value={modalForm.amount} onChange={e => setModalForm((prev: any) => ({ ...prev, amount: e.target.value }))} className='bg-input p-4 w-full rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600' />
-                        </div>
-
-                        <div className='text-center !pb-6' >
-                            <button type="submit" className='!bg-button  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                                <p>Set Funding Cycle </p>
-                                <ArrowRightIcon className='w-4 h-4' />
-                            </button>
-
-                        </div>
-
-                    </form>
-                </div>
-            </Modal>
-            <Modal
                 open={modal}
                 onClose={() => setModal(false)}
                 showCTA={false}
@@ -766,7 +643,7 @@ const VaultDetail: React.FC = () => {
                         className='w-full mt-4 p-3 rounded-lg !bg-button text-black flex items-center justify-center space-x-4'>
                         <span className='text-xl'>Copy</span>
                     </button>
-                    <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
+                    <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg !bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
                         <span className='text-xl'>Close</span>
                     </button>
                 </div>
@@ -779,7 +656,16 @@ const VaultDetail: React.FC = () => {
             >
                 <p>You can start buying from here</p>
                 <div className=''>
-                    <SelectChain />
+                    <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
+                        <div className='px-3'>
+                            <p className='font-black'>Note: We only accepts funds in ETH</p>
+                            <p className='text-[#C6BE0F]'>Have funds in different tokens? Click on swap tokens</p>
+                        </div>
+                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg'>
+                            <p>Swap Tokens</p>
+                            <ArrowSmRightIcon className='h-8 w-8' />
+                        </div>
+                    </div>
                     <div className='mt-4'>
                         <div className='flex justify-between text-sm text-gray-300 mb-2'>
                             <p>Enter amount</p>

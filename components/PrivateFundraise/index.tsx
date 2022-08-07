@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon } from '@heroicons/react/solid';
+import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, ArrowSmRightIcon } from '@heroicons/react/solid';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
@@ -24,6 +24,9 @@ import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
 import people from '../../assets/People.png'
+import ConnectModalContext from '../../contexts/connectwallet';
+import PageLoader from '../PageLoader';
+import loader from '../../assets/loader.json'
 
 const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
 
@@ -38,7 +41,10 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
     const [balance, setBalance] = useState('0');
     const [safeAddress, setSafeAddress] = useState("");
+    const [safeDeploy, setSafeDeploy] = useState(false);
+    const [deploy, setDeploy] = useState(false)
 
+    const { swapModal, setSwapModal } = useContext(ConnectModalContext);
     const { connectallet, currentAccount, logout, getProvider, getBalanace, sendTx } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
@@ -57,6 +63,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
     }
 
     const createSafe = async () => {
+        setSafeDeploy(true);
         const address = await deploySafe();
         // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
@@ -66,24 +73,28 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                 query: { user: currentAccount },
             })
             setFormData(defaultFormData)
+            setSafeDeploy(false);
             return;
         }
-        console.log("Import page deployed address :", address);
+        console.log("Private deployed address :", address);
         setSafeAddress(address);
+        setSafeDeploy(false);
     }
 
     useEffect(() => {
         createSafe();
     }, [])
 
-    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
+        setDeploy(true);
         const form = {
             ...formData,
             fundraiseDuration: new Date(formData.fundraiseDuration).getTime() ?? 0,
         }
 
-        handleCreateVault(form, safeAddress);
+        await handleCreateVault(form, safeAddress);
+        setDeploy(false);
     }
 
     useEffect(() => {
@@ -105,6 +116,11 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
             </div>
             <form onSubmit={onSubmitHandler} className='mt-10'>
                 <div>
+                    <label>
+                        <p className='text-xl'>Notification Email Address {requiredTag}</p>
+                        <p className='text-lg font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
+                        <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
+                    </label>
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
@@ -118,8 +134,15 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     <div className='p-2 bg-input'>
                         <p className='text-base text-center font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
-                    <div>
-                        <SelectChain />
+                    <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
+                        <div className='px-3'>
+                            <p className='font-black'>Note: We only accepts funds in ETH</p>
+                            <p className='text-[#C6BE0F]'>Have funds in different tokens? Click on swap tokens</p>
+                        </div>
+                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg'>
+                            <p>Swap Tokens</p>
+                            <ArrowSmRightIcon className='h-8 w-8' />
+                        </div>
                     </div>
                     <div className='mt-4'>
                         <div className='flex justify-between'>
@@ -135,6 +158,9 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
                     </button>
                 </div>
             </form>
+
+            <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
+            <PageLoader bg={false} open={deploy} onClose={() => setDeploy(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
         </div>
     )
 }
