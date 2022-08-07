@@ -43,6 +43,10 @@ import { BsWhatsapp } from 'react-icons/bs'
 import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien, FaDiscord } from 'react-icons/fa'
 import { TiSocialTwitter } from 'react-icons/ti'
 import ConnectModalContext from '../../contexts/connectwallet';
+import PageLoader from '../../components/PageLoader';
+import loader from '../../assets/loader.json'
+
+
 const links = [
     "https://web.whatsapp.com/send?text=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
     "https://telegram.me/share/url?url=Hey bro, &text=%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
@@ -67,7 +71,7 @@ const VaultDetail: React.FC = () => {
     const router = useRouter();
 
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
-    const { connectallet, currentAccount, logout, getProvider, setIsLoading, sendTx, getBalanace } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens, getTokenIdMetadata } = useContext(NftContext);
     const { getVaultsByWallet, getVaultsByCreator } = useContext(DataContext);
@@ -236,6 +240,7 @@ const VaultDetail: React.FC = () => {
 
         try {
             setIsLoading(true);
+            setPurchaseForm(false);
             let tx;
 
 
@@ -684,6 +689,7 @@ const VaultDetail: React.FC = () => {
                 </div>
 
             </Modal>
+            <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
         </div >
     )
 }
