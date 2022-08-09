@@ -9,6 +9,7 @@ import { ethers } from "ethers";
  */
 export const getEllipsisTxt = (str: string, n = 6) => {
   if (str) {
+    if(str.length < n) return str; 
     return `${str.slice(0, n)}...${str.slice(str.length - n)}`;
   }
   return "";

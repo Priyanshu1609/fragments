@@ -37,16 +37,16 @@ console.log("NFTS FROM PAGE",nftList)
     }, []);
 
     return (
-        <div className='h-[30rem]'>
-            <div className='py-4'>
+        <div className='h-[30rem]' >
+            <div className='py-4 flex relative'>
 
-                <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:left-5 lg:left-10 xl:left-20 bottom-0'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+                <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-12 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 <Swiper
                     ref={sliderRef}
-                    grabCursor={true}
-                    slidesPerView={"auto"}
+                    // grabCursor={true}
+                    slidesPerView={3}
                     scrollbar={true}
-                    spaceBetween={80}
+                    // spaceBetween={80}
                     modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                     className="mySwiper"
                 >
@@ -58,7 +58,7 @@ console.log("NFTS FROM PAGE",nftList)
                         ))
                     }
                 </Swiper>
-                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute md:right-5 lg:right-10 xl:right-20 right-20 bottom-0'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-12  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
             </div >
         </div>

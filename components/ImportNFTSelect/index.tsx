@@ -169,7 +169,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                     <Image src={NFTillustration} height={220} width={220} />
                 </div>
             </div>
-            <div className='mt-10 max-w-7xl mx-auto overflow-y-scroll h-[55rem]'>
+        <div className='mt-10 max-w-7xl mx-auto overflow-y-scroll h-[55rem]'>
                 <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-y-4 no-scrollbar mx-auto '>
                     {
                         nftList?.map((nft, i) => (

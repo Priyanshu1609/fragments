@@ -45,6 +45,8 @@ import { TiSocialTwitter } from 'react-icons/ti'
 import ConnectModalContext from '../../contexts/connectwallet';
 import PageLoader from '../../components/PageLoader';
 import loader from '../../assets/loader.json'
+import Lottie from 'react-lottie-player'
+import success from '../../assets/happy.json'
 
 
 const links = [
@@ -418,7 +420,7 @@ const VaultDetail: React.FC = () => {
                 <div className='flex items-start justify-center mt-4 w-full'>
                     <div className='bg-input rounded-xl w-full mx-16 p-4'>
                         <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Last Transaction</span>
-                        <div className='mt-2 h-96 overflow-y-scroll'>
+                        <div className='mt-2 h-[28rem] overflow-y-scroll'>
                             <div className='py-4 flex flex-col items-center space-y-4 justify-between'>
                                 {
                                     ownerData?.map((owner: any, index: number) => (
@@ -690,7 +692,15 @@ const VaultDetail: React.FC = () => {
 
             </Modal>
             <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
-        </div >
+
+            {/* <Lottie
+                // loop
+                animationData={success}
+                play
+                loop={1}
+                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" }}
+            /> */}
+        </div>
     )
 }
 

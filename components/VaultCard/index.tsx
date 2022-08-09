@@ -1,52 +1,133 @@
 import { ArrowNarrowUpIcon } from "@heroicons/react/solid";
 import { dtToString, getEllipsisTxt } from "../../utils";
 import logoWhite from '../../assets/LogoWhite.png'
+import vaultImage from '../../assets/image.png'
+import Image from "next/image";
+import coin from '../../assets/coin.png'
+import { FiMoreVertical } from "react-icons/fi"
+import { MdPersonOutline } from "react-icons/md"
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { useEffect, useState } from "react";
+
 
 export interface VaultCardProps {
     name: string;
     target: number;
-    image: string;
+    // image: string;
     status: string,
     amount: number,
     address: string,
     timestamp: number,
+    creator: string,
+    nfts: any,
+    tokenName: string,
+    vaultName: string
 }
 
 const VaultCard: React.FC<VaultCardProps> = ({
     name,
     target,
-    image,
+    // image,
     status,
     amount,
     address,
-    timestamp
+    timestamp,
+    creator,
+    nfts,
+    tokenName,
+    vaultName
 }) => {
+
+    const [countDown, setCountDown] = useState("0")
+
+    const trimText = (text : string) => {
+        return getEllipsisTxt(text, 5)
+    }
+
+    const countDownTimer = (countDownDate: any) => {
+        if (!countDownDate) { return }
+
+        var x = setInterval(function () {
+
+            var now = new Date().getTime();
+
+            var distance = countDownDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+            setCountDown(days + "d " + hours + "h " + minutes + "m " + seconds + "s ")
+
+            if (distance < 0) {
+                clearInterval(x);
+                setCountDown("");
+            }
+        }, 1000);
+    }
+    useEffect(() => {
+        if (timestamp) {
+            countDownTimer(timestamp);
+        }
+    }, [timestamp])
+
     return (
-        <div className={`rounded-lg  ${status === "RUNNING" ? 'bg-input text-white' : 'bg-gray-300 text-black'} w-[15rem]`} >
-            <img src={image} className='w-[250px] h-[250px] rounded-t-lg' />
+        <div className={`rounded-xl mx-auto w-[323px] h-[500px] bg-input `} >
+            <Image src={vaultImage} className='rounded-t-xl' width={323} height={275} />
             <div className='px-4 py-3'>
-                <div>
-                    <div className='flex text-xs justify-between'>
-                        <p>Status : {status}</p>
-                        <span className='flex text-green-500 ml-3'>{target != 0 && parseFloat((((target - amount) / target) * 100).toFixed(2))} {target != 0 && <ArrowNarrowUpIcon className='w-4' />} </span>
+                <div className="flex justify-between">
+                    <div className='flex text-sm items-center space-x-2'>
+                        <Image src={coin} height={20} width={20} />
+                        <p>{tokenName}</p>
                     </div>
-                    <p className="text-xs mt-1">{dtToString(timestamp)}</p>
-                    <div className='mt-2'>
-                        <h1 className='font-semibold text-lg'>{name.length >= 18 ? name.slice(0, 18) + "..." : name}</h1>
+                    <FiMoreVertical />
+                </div>
+                <p className="text-xl mt-1">{getEllipsisTxt(vaultName, 14)}</p>
+                <div className='mt-2 flex justify-between items-center font-montserrat'>
+                    <div>
+                        <div className="flex items-center space-x-1">
+                            <MdPersonOutline />
+                            <p className="text-xs text-gray-300">CREATED BY</p>
+                        </div>
+                        <p>{getEllipsisTxt(creator)}</p>
                     </div>
-                    <p> {getEllipsisTxt(address)}</p>
+                    <div>
+                        <div className="flex items-center space-x-1">
+                            <AiOutlineClockCircle />
+                            <p className="text-xs text-gray-300">TIME LEFT</p>
+                        </div>
+                        <p>{countDown}</p>
+                    </div>
                 </div>
             </div>
-            <hr className='border-gray-800' />
-            <div className='p-4'>
+            <div className='bg-gray-600 p-[1px]' />
+            <div className='p-4 font-montserrat'>
                 <div className='flex justify-between'>
                     <div>
-                        <p className='text-xs  text-opacity-70'>Target</p>
-                        <h2>{target} ETH</h2>
+                        <p className='text-xs  text-opacity-70'>FUNDS RAISED</p>
+                        <h1
+                            className="font-extrabold text-transparent text-lg bg-clip-text bg-gradient-to-r from-button to-bluebutton"
+                        >
+                            {amount}
+                        </h1>
                     </div>
                     <div>
-                        <p className='text-xs  text-opacity-70'>Fundraised</p>
-                        <h2>{amount} ETH</h2>
+                        <p className='text-xs  text-opacity-70'>GOAL AMOUNT</p>
+                        <h1
+                            className="font-extrabold text-transparent text-lg bg-clip-text bg-gradient-to-r from-button to-bluebutton"
+                        >
+                            {target}
+                        </h1>
+                    </div>
+                    <div>
+                        <p className='text-xs  text-opacity-70'>YOUR SHARE</p>
+                        <h1
+                            className=" font-extrabold text-transparent text-lg bg-clip-text bg-gradient-to-r from-button to-bluebutton"
+                        >
+                            {amount}
+                        </h1>
                     </div>
                 </div>
             </div>
