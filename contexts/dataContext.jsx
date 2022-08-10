@@ -39,6 +39,7 @@ export const DataContextProvider = ({ children }) => {
     const [vaultModal, setVaultModal] = useState(false);
     const [vaultLink, setVaultLink] = useState("")
     const [creatorVaults, setCreatorVaults] = useState([]);
+    const [liveVaults, setLiveVaults] = useState([]);
     // console.log('FormData : ', formData);
 
     const handleChange = (e, name) => {
@@ -71,7 +72,7 @@ export const DataContextProvider = ({ children }) => {
         })
 
     }
-    console.log(vaults);
+    // console.log(vaults);
 
     const getVaultsByCreator = async () => {
         if (!currentAccount) { return }
@@ -99,7 +100,7 @@ export const DataContextProvider = ({ children }) => {
         })
 
     }
-    console.log(creatorVaults);
+    // console.log(creatorVaults);
 
     const deploySafe = async () => {
         try {
@@ -209,14 +210,52 @@ export const DataContextProvider = ({ children }) => {
         }
     }
 
+
+    const fetchAllVaults = async () => {
+        try {
+            if (!currentAccount) { return }
+            setLiveVaults([])
+            setIsLoading(true);
+
+            const data = JSON.stringify({
+                "vaultStatus": "RUNNING"
+            });
+            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+            console.log("Data fetched for all vaults", response);
+            response.data.Items?.forEach((element) => {
+                // console.log(element);
+                let d = {}
+                for (let i in element) {
+                    d[i] = Object.values(element[i])[0]
+                }
+
+                setLiveVaults(prev => [...prev, d]);
+            })
+
+            // setLiveVaults(data);
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    console.log("LIve Vualts", liveVaults);
+
     useEffect(() => {
         getVaultsByWallet();
         getVaultsByCreator();
+        fetchAllVaults();
     }, [currentAccount])
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe, creatorVaults, getVaultsByCreator }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe, creatorVaults, getVaultsByCreator, liveVaults }}>
             {children}
         </DataContext.Provider>
     )
