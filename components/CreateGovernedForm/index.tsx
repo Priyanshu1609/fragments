@@ -7,6 +7,7 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import Select from '../Select';
 import governance from '../../assets/governance.png';
+import info from "../../assets/info.png"
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -94,16 +95,26 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                         </p>
                     </div>
                     <div className='flex flex-col space-y-4 my-6'>
-                        <label className=' '>
-                            <p className='text-xl'>Quorum{requiredTag}</p>
-                            <p className='text-gray-400'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</p>
+                        <label className='relative '>
+                            <div className='text-xl flex items-center '>
+                                <p className='mr-1'>Quorum</p>
+                                <div className='group'>
+                                    <Image src={info} className="cursor-pointer " height={30} width={30} />
+                                    <div className='text-gray-400  group-hover:flex hidden absolute right-0 top-0 bg-input rounded-lg px-2 py-1 font-montserrat text-sm w-[34rem]'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</div>
+                                </div>
+                            </div>
 
                             <input required type='number' step="0" min={1} max={99} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter min. percentage of votes required' value={formData.quorum} onChange={(e) => handleChange(e, 'quorum')} />
 
                         </label>
-                        <label className=''>
-                            <p className='text-xl'>Min. Favourable Majority{requiredTag}</p>
-                            <p className='text-gray-400'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</p>
+                        <label className='relative'>
+                            <div className='text-xl flex items-center '>
+                                <p className='mr-1'>Min. Favourable Majority</p>
+                                <div className='group'>
+                                    <Image src={info} className="cursor-pointer " height={30} width={30} />
+                                    <div className='text-gray-400  group-hover:flex hidden absolute right-0 top-0 bg-input rounded-lg px-2 py-1 font-montserrat text-sm w-[26rem]'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</div>
+                                </div>
+                            </div>
 
                             <input required type='number' step="0" min={1} max={formData.quorum - 1} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minFavor} onChange={(e) => handleChange(e, 'minFavor')} />
 
