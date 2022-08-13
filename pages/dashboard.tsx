@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div className='text-white text-3xl flex space-x-3 p-3 rounded-md'>
                         <div className='flex flex-col items-start justify-center'>
-                            <p>{ens}</p>
+                            <p className='font-normal font-britanica'>{ens}</p>
                             <p className='text-gray-300 text-2xl'>{getEllipsisTxt(currentAccount)}</p>
                         </div>
                     </div>

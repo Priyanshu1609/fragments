@@ -419,7 +419,7 @@ const VaultDetail: React.FC = () => {
                 }
                 <div className='flex items-start justify-center mt-4 w-full'>
                     <div className='bg-input rounded-xl w-full mx-16 p-4'>
-                        <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Last Transaction</span>
+                        <span className='border-b-[1px] border-gray-500 text-xl font-britanica font-normal text-gray-500'>Last Transaction</span>
                         <div className='mt-2 h-[28rem] overflow-y-scroll'>
                             <div className='py-4 flex flex-col items-center space-y-4 justify-between'>
                                 {

@@ -85,19 +85,41 @@ export const TransactionProvider = ({ children }) => {
             customerId = res.data.customerId;
             console.log("data", res);
             if (!customerId) {
+
+                const data = JSON.stringify({
+                    "address": currentAccount,
+                    "referredId": "00000000"
+                });
+                // console.log("Sign up data passed:", data, process.env.REACT_APP_SIGNUP_KEY);
+
                 const res = await axios.post(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                    { address: address },
+                    data,
                     {
                         headers: {
                             'Content-Type': 'application/json',
+                            "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
                         },
                     }
                 );
+                // console.log("Signup", res);
+                // return res.data;
+
+
+                // const res = await axios.post(
+                //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
+                //     { address: address },
+                //     {
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //         },
+                //     }
+                // );
                 console.log("Signup", res);
                 if (res && res.data.Attributes) {
                     customerId = res.data.Attributes.customerId;
                 }
+
             }
 
             console.log('customerID:', customerId);
