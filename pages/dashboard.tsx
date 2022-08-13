@@ -18,6 +18,7 @@ import NFTList from "../components/NFTList"
 import { DataContext } from '../contexts/dataContext';
 import pattern from '../assets/Pattern.png'
 import demo from '../assets/demo.png'
+import { MdArrowForwardIos } from 'react-icons/md';
 
 
 declare var window: any;
@@ -142,17 +143,18 @@ const Dashboard: React.FC = () => {
                 })}>
 
                 <div className='h-32 flex items-center space-x-6 p-4 !overflow-hidden'>
-                    <div className='-ml-12 -mt-2'>
+                    <div className='-ml-10 -mt-1'>
                         <Image src={cerateDaoPeopleImage} height={200} width={230} />
                     </div>
                     <div>
-                        <h1 className='text-3xl font-semibold'>Create your own Vault</h1>
+                        <h1 className='text-3xl font-semibold font-britanica'>Create your own Vault</h1>
                         <p className='text-lg font-montserrat'>Make a DAO to start investing with your frens in fragments</p>
                     </div>
                 </div>
-                <div className='flex space-x-4 bg-[#232529] px-5 py-3 rounded-lg mr-10'>
+                <div className='flex items-center space-x-4 bg-[#232529] px-5 py-3 rounded-lg mr-10'>
                     <p>Start Creating</p>
-                    <ArrowRightIcon className='w-6 h-6 mr-6' />
+                    <MdArrowForwardIos className='w-5 h-5 mr-6' />
+                    {/* <ArrowRightIcon className='w-6 h-6 mr-6' /> */}
                 </div>
             </div>
             <div className='h-32 bg-[#232529] bg-cover flex items-center justify-between rounded-2xl px-16 py-10 mt-4 w-full overflow-hidden'>
@@ -173,13 +175,13 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className='flex space-x-16 mr-24 '>
                     <div className=''>
-                        <p className='opacity-70 text-lg'>Curent Value </p>
-                        <span className='font-bold text-2xl opacity-100 -mt-1'>{(valuation).toFixed(2)} ETH </span>
+                        <p className='opacity-70 text-base '>Curent Value </p>
+                        <span className='font-bold text-2xl opacity-100 -mt-1 !font-britanica'>{(valuation).toFixed(2)} ETH </span>
                         {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
                     <div className=''>
-                        <p className='opacity-70 text-lg'>Active Vaults </p>
-                        <span className='font-bold text-2xl opacity-100'>{creatorVaults.length}</span>
+                        <p className='opacity-70 text-base '>Active Vaults </p>
+                        <span className='font-bold text-2xl opacity-100 !font-britanica'>{creatorVaults.length}</span>
                     </div>
                 </div>
             </div>

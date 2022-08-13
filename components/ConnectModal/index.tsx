@@ -36,7 +36,7 @@ const ConnectModal: React.FC = () => {
                 showCTA={false}
                 title="Connect Wallet"
             >
-                <p className='pr-24 text-base font-extralight text-left font-montserrat'>Connect with one of the available wallet providers or create a new wallet.</p>
+                <p className='pr-24 mt-1 text-gra text-base font-extralight text-left font-montserrat'>Connect with one of the available wallet providers or create a new wallet.</p>
                 <div className='p-4 mt-6'>
                     <div className='flex items-center justify-between  text-white hover:cursor-pointer'>
                         <div
@@ -50,7 +50,7 @@ const ConnectModal: React.FC = () => {
                             onClick={() => onConnect('wallectconnect')}
                             className='h-44 w-48 py-3 flex flex-col hover:bg-gray-700 space-x-2 justify-center items-center px-4 text-sm rounded-3xl border-[1px]  border-gray-600 text-left '
                         >
-                            <Image src={walletconnectlogo} height={70} width={100} />
+                            <Image src={walletconnectlogo} height={70} width={120} />
                             <p className='font-black text-lg mt-3'>WalletConnect</p>
                         </div>
                     </div>

@@ -64,7 +64,7 @@ const PageLoader = ({ message, desc, img, open, onClose, bg = false }: PageProps
 
               <div className="">
                 <div className="mt-3 text-center sm:mt-5">
-                  <div className='flex flex-col items-center justify-center p-8'>
+                  <div className='flex flex-col items-center justify-center py-8 px-6'>
 
                     <Lottie
                       loop
@@ -75,7 +75,7 @@ const PageLoader = ({ message, desc, img, open, onClose, bg = false }: PageProps
                     <p className='text-3xl'>{message}</p>
                     {/* <p className='text-3xl'>Connecting to Wallet...</p> */}
                     {/* <p className='text-xl text-gray-400 pt-2'>Accept the prompt in your wallet to continue</p> */}
-                    <p className='text-xl text-gray-400 pt-2'>{desc}</p>
+                    <p className='text-xl text-gray-400 pt-2 font-montserrat'>{desc}</p>
                   </div>
                 </div>
               </div>
