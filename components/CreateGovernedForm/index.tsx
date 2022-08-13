@@ -67,12 +67,12 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
             <div className='mt-10'>
                 <form onSubmit={onSubmitHandler}>
                     <div className='flex flex-col'>
-                        <p className=''>Voting Period{requiredTag}</p>
+                        <p className='font-britanica font-normal'>Voting Period{requiredTag}</p>
                         <p className='mt-0 text-lg text-gray-300'>How long will the voting happen?</p>
                     </div>
                     <div className='flex mt-4 space-x-10'>
                         <label className='flex-[0.3]'>
-                            <p className='text-xl mt-1'>Choose Timeframe</p>
+                            <p className='text-xl mt-1 font-britanica font-normal'>Choose Timeframe</p>
                             <Select
                                 options={option}
                                 value={inputType}
@@ -81,23 +81,23 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                             />
                         </label>
                         <label className='flex-[0.7] relative'>
-                            <p className='text-xl mt-2'>How many {inputType?.name}?</p>
+                            <p className='text-xl mt-2 font-britanica font-normal'>How many {inputType?.name}?</p>
 
                             <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='Enter Voting Period' value={formData.votingPeriod} onChange={(e) => handleChange(e, 'votingPeriod')} />
                         </label>
                     </div>
-                    <div className='rounded-lg bg-yellow-900 text-yellow-400 px-2 py-1 text-center mt-2'>
+                    <div className='rounded-lg bg-yellow-800 text-base text-yellow-400 px-2 py-1 text-center mt-2'>
                         <p>
                             Closing a vault within 24 hours restricts the window to deposit for members.
                         </p>
-                        <p className='-mt-2'>
+                        <p className=''>
                             Adding more information here so that users now what is happening
                         </p>
                     </div>
                     <div className='flex flex-col space-y-4 my-6'>
                         <label className='relative '>
                             <div className='text-xl flex items-center '>
-                                <p className='mr-1'>Quorum</p>
+                                <p className='mr-1 font-britanica font-normal'>Quorum</p>
                                 <div className='group'>
                                     <Image src={info} className="cursor-pointer " height={30} width={30} />
                                     <div className='text-gray-400  group-hover:flex hidden absolute right-0 top-0 bg-input rounded-lg px-2 py-1 font-montserrat text-sm w-[34rem]'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</div>
@@ -109,7 +109,7 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                         </label>
                         <label className='relative'>
                             <div className='text-xl flex items-center '>
-                                <p className='mr-1'>Min. Favourable Majority</p>
+                                <p className='mr-1 font-britanica font-normal'>Min. Favourable Majority</p>
                                 <div className='group'>
                                     <Image src={info} className="cursor-pointer " height={30} width={30} />
                                     <div className='text-gray-400  group-hover:flex hidden absolute right-0 top-0 bg-input rounded-lg px-2 py-1 font-montserrat text-sm w-[26rem]'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</div>
@@ -121,11 +121,11 @@ const CreateGovernedForm: React.FC<CreateVaultFormProps> = ({
                         </label>
                     </div>
                     <div className='flex justify-between'>
-                        <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg font-semibold bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                             <ArrowLeftIcon className='w-4' />
                             <span>Back</span>
                         </button>
-                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  !bg-button  text-black flex items-center justify-center space-x-4'>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg font-semibold !bg-button  text-black flex items-center justify-center space-x-4'>
                             <span>Next Step</span>
                             <ArrowRightIcon className='w-4' />
                         </button>

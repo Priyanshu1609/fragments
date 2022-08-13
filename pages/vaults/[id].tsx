@@ -403,9 +403,9 @@ const VaultDetail: React.FC = () => {
                                                 <div className='p-4 truncate text-xl bg-input rounded-b-xl'>
                                                     <div className='flex space-x-2 items-center justify-start'>
                                                         <img src={fixTokenURI(nft?.image)} className="h-5 w-5 rounded-full" />
-                                                        <p className='text-base'>{nft?.compiler}</p>
+                                                        <p className='text-sm'>{nft?.compiler}</p>
                                                     </div>
-                                                    <p className='mt-2'>{nft?.name}</p>
+                                                    <p className='mt-2 font-britanica font-normal'>{nft?.name}</p>
                                                 </div>
                                             </SwiperSlide>
                                         </div>
@@ -473,7 +473,7 @@ const VaultDetail: React.FC = () => {
                 </div>
                 <div className='my-5'>
                     <h1
-                        className="mb-2 font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-button to-bluebutton"
+                        className="mb-2 font-britanica font-normal text-transparent text-2xl bg-clip-text bg-gradient-to-r from-button to-bluebutton"
                     >
                         {data?.vaultName}
                     </h1>
@@ -485,22 +485,22 @@ const VaultDetail: React.FC = () => {
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-base'>Funding raised: </p><span className=' font-semibold'>{data?.amount} ETH</span>
+                                <p className='text-gray-300 text-base'>Funding raised: </p><span className=' font-britanica font-normal'>{data?.amount} ETH</span>
                             </div>
                             <div className='flex space-x-2'>
-                                <p className='text-gray-300 text-base'>Funding goal: </p><span className=' font-semibold'>{data?.target} ETH</span>
+                                <p className='text-gray-300 text-base'>Funding goal: </p><span className='font-britanica font-normal'>{data?.target} ETH</span>
                             </div>
                         </div>
                         <ProgressBar completed={(Number(data?.amount) / Number(data?.target)) * 100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                         <div className='flex justify-end space-x-2 ml-auto mt-1 mb-4'>
-                            <p className='text-gray-300 text-base'>Time Left: </p><span className=' font-semibold'>{countDown}</span>
+                            <p className='text-gray-300 text-base'>Time Left: </p><span className=' font-britanica font-normal'>{countDown}</span>
                         </div>
                         <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
                             <div className='bg-[#1E1E24] rounded-lg w-4/6 p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
                             </div>
-                            <button onClick={() => setPurchaseForm(true)} className='text-black !bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
+                            <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
                         </div >
                     </div>
                     {
@@ -540,21 +540,21 @@ const VaultDetail: React.FC = () => {
 
                 <div>
                     <div className='mt-4'>
-                        <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>General Information</span>
+                        <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>General Information</span>
                         <div className='my-4'>
                             <div className='flex justify-between'>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>Valuations</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>Valuations</p>
                                     <p className='text-xl font-semibold'>600 ETH</p>
                                 </div>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>No. of tokens</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>No. of tokens</p>
                                     <p className='text-xl font-semibold'>1000000</p>
                                 </div>
                             </div>
                             <div className='flex justify-between mt-6'>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>Management fee</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>Management fee</p>
                                     <p className='text-xl font-semibold'>{data?.managementFees}</p>
                                 </div>
                                 {/* <div>
@@ -566,21 +566,21 @@ const VaultDetail: React.FC = () => {
                         </div>
                     </div>
                     <div className='mt-4'>
-                        <span className='border-b-[1px] border-gray-500 text-xl text-gray-500'>Governance Information</span>
+                        <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Governance Information</span>
                         <div className='my-4'>
                             <div className='flex justify-between mb-4'>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>Voting Period</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>Voting Period</p>
                                     <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.votingPeriod : "-"}</p>
                                 </div>
                             </div>
                             <div className='flex justify-between mt-6'>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>Quorum</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>Quorum</p>
                                     <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.quorum : "-"}</p>
                                 </div>
                                 <div>
-                                    <p className='text-xl text-white  mb-2'>Min Favourable Majority</p>
+                                    <p className='text-xl text-white font-britanica font-normal mb-2'>Min Favourable Majority</p>
                                     <p className='text-xl font-semibold'>{data?.type !== "Private" && data?.origin !== "private" ? data?.minFavor : "-"}</p>
                                 </div>
 
@@ -588,7 +588,7 @@ const VaultDetail: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <p>Proof of Authenticity</p>
+                        <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Proof of Authenticity</span>
                         <div>
                             <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between  cursor-pointer'>
                                 <div className='flex items-center justify-center'>

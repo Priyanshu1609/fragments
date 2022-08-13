@@ -143,11 +143,11 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                     </label>
                     <div className='flex justify-between'>
-                        <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg  bg-[#232529]  text-white flex items-center justify-center space-x-4'>
+                        <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg font-semibold bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                             <MdArrowBackIosNew className='w-4' />
                             <span>Back</span>
                         </button>
-                        <button type='submit' className='w-44 px-3 py-2 rounded-lg  !bg-button  text-black flex items-center justify-center space-x-4'>
+                        <button type='submit' className='w-44 px-3 py-2 rounded-lg font-semibold  !bg-button  text-black flex items-center justify-center space-x-4'>
                             <span>Next Step</span>
                             <MdArrowForwardIos className='w-4 h-4' />
                         </button>

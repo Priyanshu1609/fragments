@@ -108,7 +108,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
         <div className='max-w-2xl mx-auto text-lg sm:px-4 pb-24'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className='text-3xl  font-semibold'>Start Funding Cycle</h2>
+                    <h2 className='text-3xl  font-normal font-britanica'>Start Funding Cycle</h2>
                     <p className='font-montserrat text-base'>Here you can start the vault to fundraise</p>
                 </div>
                 <div className=' mt-8'>
@@ -119,21 +119,21 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                 <div>
                     <div className=''>
                         <label>
-                            <p className='text-xl'>Notification Email Address {requiredTag}</p>
-                            <p className='text-lg font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
-                            <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
+                            <p className='text-xl font-normal font-britanica'>Notification Email Address {requiredTag}</p>
+                            <p className='text-base font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
+                            <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] focus:bg-transparent border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
                         </label>
                         <label>
-                            <p className='text-lg'>Target Fundraise {requiredTag}</p>
+                            <p className='text-xl font-normal font-britanica'>Target Fundraise {requiredTag}</p>
                             <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
-                            <p className='text-lg'>Fundraise duration{requiredTag}</p>
+                            <p className='text-xl font-normal font-britanica'>Fundraise duration{requiredTag}</p>
                             <input required type='datetime-local' min={minDtTime()} style={{ colorScheme: 'dark' }} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' value={formData.fundraiseDuration} onChange={(e) => handleChange(e, 'fundraiseDuration')} />
                         </label>
                     </div>
                     <div className='p-2 bg-input rounded-lg'>
-                        <p className='text-lg text-center  font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
+                        <p className='text-base text-center  font-bold text-green-500'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
 
                     <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
@@ -148,21 +148,21 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <div className='mt-4'>
                         <div className='flex justify-between'>
-                            <p className='text-lg'>Your Contribution {requiredTag}</p>
-                            <p className='text-lg'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
+                            <p className='text-xl font-normal font-britanica'>Your Contribution {requiredTag}</p>
+                            <p className='text-base text-gray-300'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
-                        <p className='text-lg flex justify-end mt-1 '>Balance: <span>{balance} </span></p>
+                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-1' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
+                        <p className='text-base text-gray-300 flex justify-end '>Balance: <span>{balance} </span></p>
                     </div>
-                    <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-button  text-black flex items-center justify-center space-x-4'>
+                    <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-button font-semibold text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
                         <ArrowRightIcon className='w-4' />
                     </button>
                 </div>
             </form>
 
-            <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
             <PageLoader bg={false} open={deploy} onClose={() => setDeploy(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
+            <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
         </div>
     )
 }
