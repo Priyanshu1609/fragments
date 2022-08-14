@@ -47,6 +47,7 @@ import PageLoader from '../../components/PageLoader';
 import loader from '../../assets/loader.json'
 import Lottie from 'react-lottie-player'
 import success from '../../assets/happy.json'
+import { MdIosShare } from "react-icons/md"
 
 
 const links = [
@@ -465,9 +466,9 @@ const VaultDetail: React.FC = () => {
                         />
                         <p className='text-sm'>{data?.tokenName}</p>
                     </div>
-                    <button onClick={() => setModal(true)} className='flex space-x-2 bg-[#1E1E24] rounded-lg py-2 px-3'>
+                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold bg-[#1E1E24] rounded-lg py-2 px-3'>
                         <span>Share Link</span>
-                        <RiShareBoxLine className='h-5 w-5 text-white' />
+                        <MdIosShare className='h-5 w-5 text-white' />
                     </button>
                     {/* <p>{data?.vaultStatus === "RUNNING" && countDown}</p> */}
                 </div>
@@ -620,19 +621,19 @@ const VaultDetail: React.FC = () => {
 
                     <div className=' flex items-center justify-evenly mt-4 space-x-5'>
                         <div onClick={() => handleOpen(links[0])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
-                            <BsWhatsapp className='h-10 w-10  text-white' />
+                            <BsWhatsapp className='h-10 w-10  text-[#25d366]' />
                         </div>
                         <div onClick={() => handleOpen(links[1])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
-                            <FaTelegramPlane className='h-10 w-10  text-white' />
+                            <FaTelegramPlane className='h-10 w-10  text-[#229ED9]' />
                         </div>
                         <div onClick={() => handleOpen(links[3])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
-                            <FaDiscord className='h-10 w-10  text-white' />
+                            <FaDiscord className='h-10 w-10  text-[#7289da]' />
                         </div>
                         <div onClick={() => handleOpen(links[4])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
-                            <TiSocialTwitter className='h-10 w-10  text-white' />
+                            <TiSocialTwitter className='h-10 w-10  text-[#1da1f2]' />
                         </div>
                         <div onClick={() => handleOpen(links[4])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
-                            <MdMail className='h-10 w-10  text-white' />
+                            <MdMail className='h-10 w-10  text-[#4285f4]' />
                         </div>
 
                     </div>

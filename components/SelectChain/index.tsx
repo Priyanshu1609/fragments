@@ -82,7 +82,7 @@ const SelectChain: React.FC = () => {
             title={`${state === "swap" ? "Dex Swap" : "Multichain Bridge"}`}
         >
 
-            <div className=' w-full h-[30rem] mt-4'>
+            <div className=' w-full h-[30rem] mt-4 font-montserrat '>
                 <div className='flex space-x-4'>
                     <div onClick={() => setState("swap")} className="p-2 hover:cursor-pointer flex items-center justify-center w-full rounded-lg h-12  bg-transparent focus:outline-none border-[1px] border-gray-600">
                         <p className='text-lg text-white'>Dex Swap</p>

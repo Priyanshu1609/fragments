@@ -27,8 +27,10 @@ import people from '../../assets/People.png'
 import ImportNFTSelect from '../ImportNFTSelect';
 import ConnectModalContext from '../../contexts/connectwallet';
 import PageLoader from '../PageLoader';
+import clock from '../../assets/Clocks.png'
 
 import loader from '../../assets/loader.json'
+import { MdArrowForwardIos } from 'react-icons/md';
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -108,11 +110,11 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
         <div className='max-w-2xl mx-auto text-lg sm:px-4 pb-24'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className='text-3xl  font-normal font-britanica'>Start Funding Cycle</h2>
+                    <h2 className='text-2xl  font-normal font-britanica'>Start Funding Cycle</h2>
                     <p className='font-montserrat text-base'>Here you can start the vault to fundraise</p>
                 </div>
-                <div className=' mt-8'>
-                    <Image src={people} height={130} width={160} />
+                <div className='-mr-[3.2rem] mt-10'>
+                    <Image src={clock} height={140} width={170} />
                 </div>
             </div>
             <form onSubmit={onSubmitHandler} className='mt-10'>
@@ -141,28 +143,28 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                             <p className='font-black'>Note: We only accepts funds in ETH</p>
                             <p className='text-[#C6BE0F]'>Have funds in different tokens? Click on swap tokens</p>
                         </div>
-                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg'>
+                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg space-x-2'>
                             <p>Swap Tokens</p>
-                            <ArrowSmRightIcon className='h-8 w-8' />
+                            <MdArrowForwardIos className='w-4 h-4' />
                         </div>
                     </div>
                     <div className='mt-4'>
                         <div className='flex justify-between'>
                             <p className='text-xl font-normal font-britanica'>Your Contribution {requiredTag}</p>
-                            <p className='text-base text-gray-300'>Min. Contribution <span>{formData.target / 10} ETH</span></p>
+                            <p className='text-lg text-gray-300 font-normal font-britanica'>Min. Investment <span>{formData.target / 10} ETH</span></p>
                         </div>
                         <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-1' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
-                        <p className='text-base text-gray-300 flex justify-end '>Balance: <span>{balance} </span></p>
+                        <p className='text-lg text-gray-300 flex justify-end font-normal font-britanica'>Your Balance:  <span>  {balance} </span></p>
                     </div>
                     <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-button font-semibold text-black flex items-center justify-center space-x-4'>
                         <span>Start Fundraise</span>
-                        <ArrowRightIcon className='w-4' />
+                        <MdArrowForwardIos className='w-4 h-4' />
                     </button>
                 </div>
             </form>
 
-            <PageLoader bg={false} open={deploy} onClose={() => setDeploy(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
-            <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." />
+            {/* <PageLoader bg={false} open={deploy} onClose={() => setDeploy(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." /> */}
+            {/* <PageLoader bg={false} open={safeDeploy} onClose={() => setSafeDeploy(false)} img={loader} message='Initialising Vault!' desc="Please dont't the close the Window." /> */}
         </div>
     )
 }
