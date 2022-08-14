@@ -107,12 +107,12 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(true);
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
-            // console.log("Deploying Safe");
-            // const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
+            console.log("Deploying Safe");
+            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
 
-            // console.log("Deployed safe address:", vaultData.data.address)
-            // const address = vaultData.data.address;
-            // return address;
+            console.log("Deployed safe address:", vaultData.data.address)
+            const address = vaultData.data.address;
+            return address;
             return "0x67407721B109232BfF825F186c8066045cFefe7F"
 
         } catch (error) {
