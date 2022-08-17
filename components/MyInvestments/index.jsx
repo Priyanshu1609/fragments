@@ -84,7 +84,7 @@ const MyInvestment = () => {
                                     query: { user: currentAccount },
                                 })}>
                                 <VaultCard
-                                    name={vault?.vaultName}
+                                    // name={vault?.vaultName}
                                     address={vault?.vaultAddress}
                                     target={vault?.target}
                                     status={vault?.vaultStatus}
