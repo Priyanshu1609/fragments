@@ -82,7 +82,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
                 <span >{status === "RUNNING" ? " Live" : " Ended"}</span>
             </p>
             <div className="absolute top-2 left-2  z-50 font-black text-xs flex items-center space-x-1 px-2 py-1 text-black bg-[#B5C2CA] rounded-lg">
-                <span>{nfts.length -1}</span>
+                <span>{nfts?.length -1}</span>
                 <span >NFTs</span>
             </div>
             <Image src={vaultImage} className='rounded-t-xl' width={323} height={275} />
