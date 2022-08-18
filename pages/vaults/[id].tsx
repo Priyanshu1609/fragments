@@ -100,7 +100,7 @@ const VaultDetail: React.FC = () => {
     })
     const [data, setData] = useState<CreateVaultFormValues | any>();
 
-    const { id } = router.query
+    const { id, type } = router.query
 
     // console.log("owners", ownerData);
 
@@ -199,6 +199,7 @@ const VaultDetail: React.FC = () => {
 
         try {
             setIsLoading(true);
+            setNfts([]);
 
             const nfts = data?.nfts;
             console.log("nfts fetched", data?.nfts);
@@ -347,6 +348,7 @@ const VaultDetail: React.FC = () => {
         if (data) {
             checkGovernedState();
             countDownTimer(data?.fundraiseDuration);
+            type && setModal(true);
         }
     }, [data])
 
@@ -377,7 +379,14 @@ const VaultDetail: React.FC = () => {
     }
 
     return (
-        <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide'>
+        <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide relative'>
+            {type && <Lottie
+                // loop
+                animationData={success}
+                play
+                loop={1}
+                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" }}
+            />}
             <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
@@ -664,13 +673,16 @@ const VaultDetail: React.FC = () => {
             >
                 <p>You can start buying from here</p>
                 <div className=''>
-                    <div className='p-2 bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat text-base'>
+                    <div className='p-2 text-sm bg-[#303104] text-[#FFF500] flex rounded-lg mt-4 font-montserrat '>
                         <div className='px-3'>
                             <p className='font-black'>Note: We only accepts funds in ETH</p>
                             <p className='text-[#C6BE0F]'>Have funds in different tokens? Click on swap tokens</p>
                         </div>
-                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-4 items-center justify-center text-lg'>
-                            <p>Swap Tokens</p>
+                        <div onClick={() => setSwapModal(true)} className='flex hover:cursor-pointer bg-[#FFF500] rounded-lg text-black font-black w-44 mx-auto items-center justify-center text-base'>
+                            <div className="flex flex-col items-center justify-center">
+                                <span>Swap</span>
+                                <span>Tokens</span>
+                            </div>
                             <ArrowSmRightIcon className='h-8 w-8' />
                         </div>
                     </div>
@@ -694,13 +706,6 @@ const VaultDetail: React.FC = () => {
             </Modal>
             <PageLoader bg={false} open={isLoading} onClose={() => setIsLoading(false)} img={loader} message='Waiting for transaction to complete' desc="Check the metamask window to complete the transaction. Avoid closing this tab." />
 
-            {/* <Lottie
-                // loop
-                animationData={success}
-                play
-                loop={1}
-                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" }}
-            /> */}
         </div>
     )
 }

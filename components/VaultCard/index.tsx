@@ -94,7 +94,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
                     </div>
                     <FiMoreVertical />
                 </div>
-                <p className="text-xl mt-1 font-britanica font-normal">{getEllipsisTxt(vaultName, 13)}</p>
+                <p className="text-xl mt-1 font-britanica font-normal">{getEllipsisTxt(vaultName, 14)}</p>
                 <div className='mt-2 flex justify-between items-center font-montserrat'>
                     <div>
                         <div className="flex items-center space-x-1">

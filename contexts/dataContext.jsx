@@ -198,6 +198,7 @@ export const DataContextProvider = ({ children }) => {
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount },
+                type : "new"
             })
 
             await getVaultsByWallet();

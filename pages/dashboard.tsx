@@ -132,6 +132,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         router.prefetch('/create-gullak')
         router.prefetch('/create-dao')
+        router.prefetch('/livevaults')
     })
 
     return (
