@@ -1,14 +1,26 @@
+import ProgressBar from '@ramonak/react-progress-bar'
 import Image from 'next/image'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { BsFillPersonCheckFill } from 'react-icons/bs'
 import { FaCopy, FaDiscord, FaTwitter } from 'react-icons/fa'
 import demo from '../assets/demo.png'
 import { TransactionContext } from '../contexts/transactionContext'
 import { getEllipsisTxt } from '../utils'
+import info from '../assets/info.png'
+import { MdArrowForwardIos } from 'react-icons/md'
+import { useRouter } from 'next/router'
 
 const Profile: React.FC = () => {
 
     const { currentAccount } = useContext(TransactionContext);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!currentAccount) {
+            router.push('/')
+        }
+    }, [currentAccount])
 
     return (
         <div className='text-white min-h-screen max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
@@ -39,7 +51,7 @@ const Profile: React.FC = () => {
                         </div>
                     </div>
                     <div className='h-[188px] mt-4 rounded-lg bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
-                        <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center'>
+                        <div className='bg-[#181B22] h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center'>
                             <p>Refer & Earn</p>
                             <p className='text-xs text-gray-400'>Invite a fren to earn 500 frag coins</p>
                             <div className='bg-[#303235]  px-2 py-1 mt-3 rounded-lg w-full '>
@@ -55,27 +67,90 @@ const Profile: React.FC = () => {
                 </div>
                 <div className='flex-[0.8] '>
                     <div className='flex justify-between space-x-4'>
-                        <div className='h-[113px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Current Value</p>
                                 <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
                             </div>
                         </div>
-                        <div className='h-[113px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Realised Gains</p>
                                 <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
                             </div>
                         </div>
-                        <div className='h-[113px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Vaults Created</p>
                                 <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
                             </div>
                         </div>
                     </div>
-                    <div className=' h-[455px]'>
-                        <div className='bg-input'>
+                    <div className=' h-[455px] mt-4'>
+                        <div className='bg-input w-full p-4 rounded-lg'>
+                            <div className='flex justify-between items-center space-x-5'>
+                                <div className="bg-[#181B22] rounded-lg h-[125px] flex-[0.72] p-3">
+                                    <div className='flex items-center justify-between mb-6'>
+                                        <p>Your NFT Score</p>
+                                        <Image src={info} className="cursor-pointer " height={30} width={30} />
+                                        <p>Show Breakdown</p>
+                                    </div>
+                                    <ProgressBar completed={45} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
+                                </div>
+                                <div className='flex-[0.33] flex items-start flex-col justify-evenly p-4 bg-[#005081] rounded-lg h-[125px]'>
+                                    <p className='font-semibold'>Verify your Twitter</p>
+                                    <p className='text-sm text-gray-300 mt-1'>and earn upto 1500 Frag coins</p>
+                                    <button className='flex items-center justify-between py-1 w-32 bg-[#33739a] rounded-lg px-2 mt-2'>
+                                        <FaTwitter />
+                                        Verify Now
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div className='flex justify-between space-x-4'>
+                                <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
+                                        <p>Average ROI</p>
+                                        <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                    </div>
+                                </div>
+                                <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
+                                        <p>Hit Rate</p>
+                                        <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                    </div>
+                                </div>
+                                <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
+                                        <p>Diversification</p>
+                                        <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-between space-x-4'>
+                                <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
+                                        <p>Total Flips</p>
+                                        <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                    </div>
+                                </div>
+                                <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
+                                        <p>Avg Hold Time</p>
+                                        <p className="bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                    </div>
+                                </div>
+                                <div className='flex items-start flex-col  px-4 py-2 w-[32.3%] justify-evenly bg-[#0c878e] rounded-lg h-[125px] mt-4 text-white '>
+                                    <p className='font-semibold'>Create your own Vault</p>
+                                    <p className='text-sm text-gray-300 mt-1'>start investing with your frens</p>
+                                    <button className='flex items-center justify-between py-2 w-40 bg-black text-white rounded-lg px-3 mt-2'>
+                                        start creating
+                                        <MdArrowForwardIos />
+                                    </button>
+
+                                </div>
+                            </div>
 
                         </div>
 
