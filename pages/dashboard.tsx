@@ -111,7 +111,7 @@ const Dashboard: React.FC = () => {
         let value = 0.00;
         vaults.forEach(async (vault: any) => {
             const vaultValuation = Number(vault.amountPledged)
-            console.log({ valuation, vaultValuation })
+            // console.log({ valuation, vaultValuation })
             value += vaultValuation
         }
         )

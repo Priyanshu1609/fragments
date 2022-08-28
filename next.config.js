@@ -8,4 +8,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['openseauserdata.com', 'lh3.googleusercontent.com', ],
+  },
 }
