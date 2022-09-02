@@ -180,6 +180,8 @@ export const TransactionProvider = ({ children }) => {
                     maxAge: 3600, // Expires after 1hr
                     sameSite: true,
                 })
+
+                router.push("/");
                 return true;
             }
             else { return false; }
