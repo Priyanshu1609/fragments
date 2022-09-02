@@ -14,7 +14,7 @@ import { DataContext } from '../contexts/dataContext'
 const Profile: React.FC = () => {
     const router = useRouter();
 
-    const { currentAccount } = useContext(TransactionContext);
+    const { currentAccount, awsClient } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
 
     const [valuation, setValuation] = useState(0)
@@ -39,10 +39,10 @@ const Profile: React.FC = () => {
     }, [currentAccount, vaults])
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     return (
         <div className='text-white min-h-screen max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>

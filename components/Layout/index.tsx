@@ -1,6 +1,5 @@
 import React, { Children, ReactElement, useContext } from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
 
 import { ConnectModalProvider } from '../../contexts/connectwallet'
 import { SocketProvider } from '../../contexts/socketContext'
@@ -44,7 +43,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
                                         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
                                     </Head>
-                                    <div className='bg-[url("https://landing-video.s3.ap-south-1.amazonaws.com/appbg.png")] h-screen bg-center bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
+                                    <div className='bg-[url("https://website-bg.s3.ap-south-1.amazonaws.com/appbg-min.png")] h-screen bg-center bg-fixed bg-cover  font-montserrat !overflow-y-scroll' >
 
                                         <Navbar />
                                         {children}

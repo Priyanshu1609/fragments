@@ -9,15 +9,15 @@ import { useRouter } from 'next/router'
 const Livevaults: React.FC = () => {
 
     const { liveVaults } = useContext(DataContext);
-    const { currentAccount } = useContext(TransactionContext)
+    const { currentAccount, awsClient } = useContext(TransactionContext)
 
     const router = useRouter();
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push("/")
         }
-    }, [currentAccount])
+    }, [awsClient])
 
 
     return (

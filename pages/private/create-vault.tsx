@@ -5,7 +5,6 @@ import React, { useEffect, useState, useContext } from 'react'
 import CreateVaultForm from '../../components/CreateVaultForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { gullakFactoryContract } from '../../utils/crypto'
-import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
 import { ArrowLeftIcon } from '@heroicons/react/solid'
 import PrivateFundraise from '../../components/PrivateFundraise'
@@ -13,7 +12,7 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 
 const CreateVault: React.FC = () => {
-    const { connectallet, currentAccount, logout, setIsLoading } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, setIsLoading, awsClient } = useContext(TransactionContext);
     const { handleCreateVault } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
@@ -21,10 +20,10 @@ const CreateVault: React.FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     const sendTx = async (
         receiver: string,
@@ -71,7 +70,7 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.Fundraise && (
                     <div>
-                        <PrivateFundraise  setCurrentStep={setCurrentStep} />
+                        <PrivateFundraise setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

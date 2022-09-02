@@ -7,7 +7,6 @@ import CreateVaultForm from '../../components/CreateVaultForm'
 import CreateGovernedForm from '../../components/CreateGovernedForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { gullakFactoryContract } from '../../utils/crypto'
-import sanityClient from '../../utils/sanitySetup'
 import { TransactionContext } from '../../contexts/transactionContext';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid'
 import PurchaseNFT from '../../components/PurchaseNFT'
@@ -16,7 +15,7 @@ import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateV
 import Modal from '../../components/Modal'
 
 const CreateVault: React.FC = () => {
-    const { currentAccount } = useContext(TransactionContext);
+    const { currentAccount, awsClient } = useContext(TransactionContext);
     const { formData, handleCreateVault } = useContext(DataContext);
     const [vaultLink, setVaultLink] = useState("http://localhost:3000/purchase/create-vault?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7");
 
@@ -26,10 +25,10 @@ const CreateVault: React.FC = () => {
 
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     const sendTx = async (
         receiver: string,

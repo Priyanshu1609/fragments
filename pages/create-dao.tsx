@@ -5,7 +5,7 @@ import CreateDAOForm, { CreateDAOFormValues } from '../components/CreateDAOForm'
 import { TransactionContext } from '../contexts/transactionContext';
 
 const CreateDao: React.FC = () => {
-    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, awsClient } = useContext(TransactionContext);
 
     // const [{ data: connectData }] = useConnect()
     // const [{ data: accountData }] = useAccount()
@@ -13,14 +13,14 @@ const CreateDao: React.FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     return (
         <div className='text-white max-w-4xl mx-auto  '>
-            <CreateDAOForm onSubmit={() => {}} />
+            <CreateDAOForm onSubmit={() => { }} />
         </div>
     );
 }

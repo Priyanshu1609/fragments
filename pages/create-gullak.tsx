@@ -11,13 +11,13 @@ import poeple from '../assets/People.png';
 const CreateGullak: React.FC = () => {
     const router = useRouter();
 
-    const { connectallet, currentAccount, logout } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, awsClient } = useContext(TransactionContext);
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     useEffect(() => {
         // Prefetch the dashboard page

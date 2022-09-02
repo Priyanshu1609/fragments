@@ -96,7 +96,7 @@ export const RenderTab: React.FC<TabProps> = ({
 
 const Dashboard: React.FC = () => {
 
-    const { connectallet, currentAccount, ens } = useContext(TransactionContext);
+    const { connectallet, currentAccount, ens, awsClient } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
 
     const [valuation, setValuation] = useState(0)
@@ -124,10 +124,10 @@ const Dashboard: React.FC = () => {
 
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
     useEffect(() => {
         router.prefetch('/create-gullak')
@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
                         <Image src={pattern} />
                     </div>
                     <div className='rounded-full overflow-hidden h-24 w-24 -ml-16 border-2 border-button mr-6 mt-12'>
-                        <img src="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260" alt="ENS Avatar"  />
+                        <img src="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260" alt="ENS Avatar" />
                     </div>
                     <div className='text-white text-3xl flex space-x-3 p-3 rounded-md'>
                         <div className='flex flex-col items-start justify-center'>

@@ -15,14 +15,14 @@ import success from '../assets/success.json'
 const Home: NextPage = () => {
 
   const { setVisible } = useContext(ConnectModalContext)
-  const { connectallet, currentAccount, setIsLoading, isLoading } = useContext(TransactionContext)
+  const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
   const [connected, setConnected] = useState(false)
 
   const router = useRouter();
 
 
   useEffect(() => {
-    if (currentAccount) {
+    if (awsClient) {
       setConnected(true);
       setTimeout(() => {
         router.push({
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
         })
       }, 3000);
     }
-  }, [currentAccount])
+  }, [awsClient])
 
   return (
     <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">

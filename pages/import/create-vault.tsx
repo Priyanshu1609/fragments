@@ -19,17 +19,17 @@ import SetFundingCycle from '../../components/SetFundingCycle'
 const CreateVault: React.FC = () => {
     const router = useRouter()
 
-    const { connectallet, currentAccount, } = useContext(TransactionContext);
+    const { connectallet, currentAccount, awsClient } = useContext(TransactionContext);
     const { formData, } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
 
     useEffect(() => {
-        if (!currentAccount) {
+        if (!awsClient) {
             router.push('/')
         }
-    }, [currentAccount])
+    }, [awsClient])
 
 
     const handleBack = () => {
@@ -52,32 +52,32 @@ const CreateVault: React.FC = () => {
             {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
-                        <CreateVaultForm handleBack = {handleBack} origin='import' setCurrentStep={setCurrentStep} />
+                        <CreateVaultForm handleBack={handleBack} origin='import' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.GovernedStep && (
                     <div>
-                        <CreateGovernedForm handleBack = {handleBack} setCurrentStep={setCurrentStep} />
+                        <CreateGovernedForm handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.ImportOrPurchase && (
                     <div>
-                        <ImportNFTSelect  setCurrentStep={setCurrentStep} />
+                        <ImportNFTSelect setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === CreateVaultStep.FundingCycle && (
                     <div>
-                        <SetFundingCycle  setCurrentStep={setCurrentStep} />
+                        <SetFundingCycle setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
-            
+
         </div>
     )
 }

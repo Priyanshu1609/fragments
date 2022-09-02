@@ -75,13 +75,20 @@ export const TransactionProvider = ({ children }) => {
             setIsLoading(true);
             let customerId;
             const res = await axios(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-                }?address=${address}`,
+                `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/nonce?address=${address}`,
                 {
                     method: 'GET',
                     validateStatus: false,
                 }
             );
+            // const res = await axios(
+            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
+            //     }?address=${address}`,
+            //     {
+            //         method: 'GET',
+            //         validateStatus: false,
+            //     }
+            // );
             customerId = res.data.customerId;
             console.log("data", res);
             if (!customerId) {
@@ -93,28 +100,28 @@ export const TransactionProvider = ({ children }) => {
                 // console.log("Sign up data passed:", data, process.env.REACT_APP_SIGNUP_KEY);
 
                 const res = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
+                    `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/signup`,
                     data,
                     {
                         headers: {
                             'Content-Type': 'application/json',
-                            "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
+                            // "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
                         },
                     }
                 );
-                // console.log("Signup", res);
-                // return res.data;
-
-
                 // const res = await axios.post(
                 //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                //     { address: address },
+                //     data,
                 //     {
                 //         headers: {
                 //             'Content-Type': 'application/json',
+                //             "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
                 //         },
                 //     }
                 // );
+                // console.log("Signup", res);
+                // return res.data;
+
                 console.log("Signup", res);
                 if (res && res.data.Attributes) {
                     customerId = res.data.Attributes.customerId;
@@ -130,8 +137,10 @@ export const TransactionProvider = ({ children }) => {
                 address
             );
 
+            console.log("Signature in login function:", signature);
+
             const data = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
+                `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/login`,
                 {
                     address,
                     signature,
@@ -142,6 +151,18 @@ export const TransactionProvider = ({ children }) => {
                     },
                 }
             );
+            // const data = await axios.post(
+            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
+            //     {
+            //         address,
+            //         signature,
+            //     },
+            //     {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //     }
+            // );
             if (data) {
                 const aws = new AwsClient({
                     accessKeyId: data.data.AccessKeyId,
@@ -356,6 +377,7 @@ export const TransactionProvider = ({ children }) => {
                 setIsLoading,
                 sendTx,
                 ens,
+                awsClient,
             }}
         >
             {children}
