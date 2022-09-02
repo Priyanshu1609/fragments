@@ -7,6 +7,7 @@ import { providers } from "ethers";
 import Web3 from 'web3';
 import { AwsClient } from 'aws4fetch';
 import axios from 'axios';
+import { useCookies } from "react-cookie"
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -62,6 +63,7 @@ export const TransactionProvider = ({ children }) => {
     const [awsClient, setAwsClient] = useState();
     const router = useRouter();
     const [ens, setEns] = useState("");
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
     const web3 = new Web3(Web3.givenProvider);
 
@@ -173,6 +175,11 @@ export const TransactionProvider = ({ children }) => {
                 });
                 console.log("aws:", aws);
                 setAwsClient(aws);
+                setCookie("user", JSON.stringify(aws), {
+                    path: "/",
+                    maxAge: 3600, // Expires after 1hr
+                    sameSite: true,
+                })
                 return true;
             }
             else { return false; }
@@ -266,7 +273,12 @@ export const TransactionProvider = ({ children }) => {
             setIsReturningUser(true);
 
             setCurrentAccount('');
-
+            setAwsClient(null);
+            removeCookie("user", {
+                path: "/",
+                sameSite: true,
+            })
+            router.push("/")
 
         } catch (error) {
             console.error(error)

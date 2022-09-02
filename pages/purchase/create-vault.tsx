@@ -13,8 +13,9 @@ import PurchaseNFT from '../../components/PurchaseNFT'
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 import Modal from '../../components/Modal'
+import { parseCookies } from '../../utils/cookie'
 
-const CreateVault: React.FC = () => {
+const CreateVault: React.FC = ({ data }: any) => {
     const { currentAccount, awsClient } = useContext(TransactionContext);
     const { formData, handleCreateVault } = useContext(DataContext);
     const [vaultLink, setVaultLink] = useState("http://localhost:3000/purchase/create-vault?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7");
@@ -25,10 +26,10 @@ const CreateVault: React.FC = () => {
 
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push('/')
         }
-    }, [awsClient])
+    }, [data.user])
 
     const sendTx = async (
         receiver: string,
@@ -100,3 +101,17 @@ const CreateVault: React.FC = () => {
 }
 
 export default CreateVault
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

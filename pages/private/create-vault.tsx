@@ -10,8 +10,9 @@ import { ArrowLeftIcon } from '@heroicons/react/solid'
 import PrivateFundraise from '../../components/PrivateFundraise'
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
+import { parseCookies } from '../../utils/cookie'
 
-const CreateVault: React.FC = () => {
+const CreateVault: React.FC = ({ data }: any) => {
     const { connectallet, currentAccount, logout, setIsLoading, awsClient } = useContext(TransactionContext);
     const { handleCreateVault } = useContext(DataContext);
 
@@ -20,10 +21,10 @@ const CreateVault: React.FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push('/')
         }
-    }, [awsClient])
+    }, [data.user])
 
     const sendTx = async (
         receiver: string,
@@ -79,3 +80,17 @@ const CreateVault: React.FC = () => {
 }
 
 export default CreateVault
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

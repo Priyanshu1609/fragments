@@ -4,9 +4,10 @@ import axios from "axios"
 import { TransactionContext } from '../contexts/transactionContext'
 import { DataContext } from '../contexts/dataContext'
 import { useRouter } from 'next/router'
+import { parseCookies } from '../utils/cookie'
 
 
-const Livevaults: React.FC = () => {
+const Livevaults: React.FC = ({ data }: any) => {
 
     const { liveVaults } = useContext(DataContext);
     const { currentAccount, awsClient } = useContext(TransactionContext)
@@ -14,10 +15,10 @@ const Livevaults: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push("/")
         }
-    }, [awsClient])
+    }, [data.user])
 
 
     return (
@@ -53,3 +54,17 @@ const Livevaults: React.FC = () => {
 }
 
 export default Livevaults
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

@@ -14,9 +14,10 @@ import CreateGovernedForm from '../../components/CreateGovernedForm'
 import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 import SetFundingCycle from '../../components/SetFundingCycle'
+import { parseCookies } from '../../utils/cookie'
 
 
-const CreateVault: React.FC = () => {
+const CreateVault: React.FC = ({ data }: any) => {
     const router = useRouter()
 
     const { connectallet, currentAccount, awsClient } = useContext(TransactionContext);
@@ -26,10 +27,10 @@ const CreateVault: React.FC = () => {
 
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push('/')
         }
-    }, [awsClient])
+    }, [data.user])
 
 
     const handleBack = () => {
@@ -83,3 +84,17 @@ const CreateVault: React.FC = () => {
 }
 
 export default CreateVault
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

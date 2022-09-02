@@ -10,8 +10,9 @@ import info from '../assets/info.png'
 import { MdArrowForwardIos } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { DataContext } from '../contexts/dataContext'
+import { parseCookies } from '../utils/cookie'
 
-const Profile: React.FC = () => {
+const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { currentAccount, awsClient } = useContext(TransactionContext);
@@ -39,10 +40,10 @@ const Profile: React.FC = () => {
     }, [currentAccount, vaults])
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push('/')
         }
-    }, [awsClient])
+    }, [data.user])
 
     return (
         <div className='text-white min-h-screen max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
@@ -191,3 +192,17 @@ const Profile: React.FC = () => {
 }
 
 export default Profile
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

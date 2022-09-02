@@ -6,18 +6,19 @@ import { TransactionContext } from '../contexts/transactionContext';
 import importWallet from '../assets/import-wallet.png';
 import buy1 from '../assets/buy1.png';
 import poeple from '../assets/People.png';
+import { parseCookies } from '../utils/cookie';
 
 
-const CreateGullak: React.FC = () => {
+const CreateGullak: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { connectallet, currentAccount, logout, awsClient } = useContext(TransactionContext);
 
     useEffect(() => {
-        if (!awsClient) {
+        if (!data.user) {
             router.push('/')
         }
-    }, [awsClient])
+    }, [data.user])
 
     useEffect(() => {
         // Prefetch the dashboard page
@@ -84,3 +85,17 @@ const CreateGullak: React.FC = () => {
 }
 
 export default CreateGullak;
+
+export async function getServerSideProps({ req, res }: any) {
+
+    const data = parseCookies(req)
+
+    if (res) {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+            res.writeHead(301, { Location: "/" })
+            res.end()
+        }
+    }
+
+    return { props: { data } }
+}

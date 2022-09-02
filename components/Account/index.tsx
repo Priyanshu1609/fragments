@@ -7,6 +7,7 @@ import { getEllipsisTxt } from '../../utils';
 import walletIcon from '../../assets/Wallet.svg';
 import ConnectModalContext from '../../contexts/connectwallet';
 import { TransactionContext } from '../../contexts/transactionContext';
+import { useCookies } from 'react-cookie';
 
 
 const Account: React.FC = () => {

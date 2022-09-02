@@ -11,18 +11,25 @@ import PageLoader from '../components/PageLoader'
 
 import loader from '../assets/loader.json'
 import success from '../assets/success.json'
+import { parseCookies } from '../utils/cookie'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ data }: any) => {
 
   const { setVisible } = useContext(ConnectModalContext)
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
   const [connected, setConnected] = useState(false)
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    if (!user) {
+      setUser(data.user);
+    }
+  }, [data.user])
 
   const router = useRouter();
-
+  console.log("Data of the user", data?.user);
 
   useEffect(() => {
-    if (awsClient) {
+    if (data.user) {
       setConnected(true);
       setTimeout(() => {
         router.push({
@@ -31,7 +38,7 @@ const Home: NextPage = () => {
         })
       }, 3000);
     }
-  }, [awsClient])
+  }, [data.user])
 
   return (
     <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">
@@ -50,3 +57,17 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getServerSideProps({ req, res } : any) {
+
+  const data = parseCookies(req)
+
+  if (res) {
+    if (Object.keys(data).length === 0 && data.constructor === Object) {
+      res.writeHead(301, { Location: "/" })
+      res.end()
+    }
+  }
+
+  return { props: { data } }
+}

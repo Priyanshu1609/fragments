@@ -1,5 +1,6 @@
 import React, { Children, ReactElement, useContext } from 'react'
 import Head from 'next/head'
+import { CookiesProvider } from "react-cookie"
 
 import { ConnectModalProvider } from '../../contexts/connectwallet'
 import { SocketProvider } from '../../contexts/socketContext'
@@ -30,7 +31,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     const router = useRouter();
 
     return (
-        <>
+        <CookiesProvider>
             <TransactionProvider>
                 <ConnectModalProvider>
                     <DataContextProvider>
@@ -56,7 +57,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                     </DataContextProvider>
                 </ConnectModalProvider>
             </TransactionProvider>
-        </>
+        </CookiesProvider>
     )
 }
 
