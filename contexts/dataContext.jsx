@@ -53,7 +53,7 @@ export const DataContextProvider = ({ children }) => {
         const data = JSON.stringify({
             "walletAddress": currentAccount
         });
-        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
+        const response = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
             headers: {
                 'content-Type': 'application/json',
             },
@@ -81,7 +81,7 @@ export const DataContextProvider = ({ children }) => {
         const data = JSON.stringify({
             "creator": currentAccount
         });
-        const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
+        const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
             headers: {
                 'content-Type': 'application/json',
             },
@@ -108,7 +108,7 @@ export const DataContextProvider = ({ children }) => {
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
             console.log("Deploying Safe");
-            const vaultData = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
+            const vaultData = await axios.get(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getsafe`);
 
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
