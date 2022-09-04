@@ -22,6 +22,8 @@ const MyInvestment = () => {
     const { vaults } = useContext(DataContext);
     const { currentAccount } = useContext(TransactionContext);
 
+    // console.log({vaults})
+
     const router = useRouter();
 
     const key = 'vaultAddress';

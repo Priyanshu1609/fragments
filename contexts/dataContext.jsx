@@ -75,7 +75,7 @@ export const DataContextProvider = ({ children }) => {
 
             const response = await axios.request(options)
 
-            console.log("response now", response, data);
+            console.log("response now", response.data.Items);
             response.data.Items?.forEach((element) => {
                 // console.log(element);
                 let d = {}
@@ -83,7 +83,7 @@ export const DataContextProvider = ({ children }) => {
                     d[i] = Object.values(element[i])[0]
                 }
 
-                setVaults(prev => [...prev, d]);
+                setVaults(prev => [...prev, element]);
             })
 
         } catch (error) {
