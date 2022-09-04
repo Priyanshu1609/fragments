@@ -141,22 +141,26 @@ const VaultDetail: React.FC = () => {
             let data: any = {}
 
             const body = JSON.stringify({
-                "vaultAddress": id,
+                "vaultAddress": id
             })
             // const response = {}
-            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/get`, body, {
                 headers: {
                     'content-Type': 'application/json',
                 },
             }
             );
-            console.log("FETCH RES", response.data.Item);
+            console.log("FETCH RES", response.data.Items);
 
+            response.data.Items?.forEach((element : any) => {
+                // console.log(element);
+    
+                for (let i in element) {
+                    data[i] = Object.values(element[i])[0]
+                }
 
-            for (let i in response.data.Item) {
-                // console.log(i, Object.values(response.data.Item[i])[0])
-                data[i] = Object.values(response.data.Item[i])[0]
-            }
+                // setCreatorVaults(prev => [...prev, d]);
+            })
 
             let body2 = JSON.stringify({
                 "vaultAddress": id

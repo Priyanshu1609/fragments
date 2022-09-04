@@ -127,7 +127,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                         </label>
                         <label>
                             <p className='text-xl font-normal font-britanica'>Target Fundraise {requiredTag}</p>
-                            <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter target fundraise amount' value={formData.target} onChange={(e) => handleChange(e, 'target')} />
+                            <input required type='number' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter target fundraise amount' value={formData?.target} onChange={(e) => handleChange(e, 'target')} />
                         </label>
                         <label>
                             <p className='text-xl font-normal font-britanica'>Fundraise duration{requiredTag}</p>
@@ -151,9 +151,9 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                     <div className='mt-4'>
                         <div className='flex justify-between'>
                             <p className='text-xl font-normal font-britanica'>Your Contribution {requiredTag}</p>
-                            <p className='text-lg text-gray-300 font-normal font-britanica'>Min. Investment <span>{formData.target / 10} ETH</span></p>
+                            <p className='text-lg text-gray-300 font-normal font-britanica'>Min. Investment <span>{formData?.target / 10} ETH</span></p>
                         </div>
-                        <input required type='number' min={formData.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-1' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
+                        <input required type='number' min={formData?.target / 10} step="any" className='p-4  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-1' placeholder='Total value of NFTs' value={formData.myContribution} onChange={(e) => handleChange(e, 'myContribution')} />
                         <p className='text-lg text-gray-300 flex justify-end font-normal font-britanica'>Your Balance:  <span>  {balance} </span></p>
                     </div>
                     <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-button font-semibold text-black flex items-center justify-center space-x-4'>
