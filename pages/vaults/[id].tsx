@@ -144,7 +144,7 @@ const VaultDetail: React.FC = () => {
                 "vaultAddress": id,
             })
             // const response = {}
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/get`, body, {
                 headers: {
                     'content-Type': 'application/json',
                 },
@@ -162,7 +162,7 @@ const VaultDetail: React.FC = () => {
                 "vaultAddress": id
             });
 
-            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyvault`, body2, {
+            const response2 = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyvault`, body2, {
                 headers: {
                     'content-Type': 'application/json',
                 },
@@ -262,7 +262,7 @@ const VaultDetail: React.FC = () => {
                 "target": data?.target
             })
 
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults/update `, body, {
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/update`, body, {
                 headers: {
                     'content-Type': 'application/json',
                 },
@@ -284,7 +284,7 @@ const VaultDetail: React.FC = () => {
                 "vaultStatus": "RUNNING",
             });
 
-            const response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+            const response2 = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
                 headers: {
                     'content-Type': 'application/json',
                 },
