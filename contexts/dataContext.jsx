@@ -49,29 +49,40 @@ export const DataContextProvider = ({ children }) => {
 
     const getVaultsByWallet = async () => {
         if (!currentAccount) { return }
-        setVaults([])
 
-        const data = JSON.stringify({
-            "walletAddress": currentAccount
-        });
-        const response = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/get`, data, {
-            headers: {
-                'content-Type': 'application/json',
-            },
-        }
-        );
+        try {
+            setIsLoading(true);
+            setVaults([])
 
-        console.log("response now", response, data);
-        response.data.Items?.forEach((element) => {
-            // console.log(element);
-            let d = {}
-            for (let i in element) {
-                d[i] = Object.values(element[i])[0]
+            const data = JSON.stringify({
+                "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
+            });
+            // const data = JSON.stringify({
+            //     "address": currentAccount
+            // });
+            const response = await axios.post(`​​https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
             }
+            );
 
-            setVaults(prev => [...prev, d]);
-        })
+            console.log("response now", response, data);
+            response.data.Items?.forEach((element) => {
+                // console.log(element);
+                let d = {}
+                for (let i in element) {
+                    d[i] = Object.values(element[i])[0]
+                }
 
+                setVaults(prev => [...prev, d]);
+            })
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
     // console.log(vaults);
 

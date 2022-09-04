@@ -195,7 +195,7 @@ const VaultDetail: React.FC = () => {
         }
     }
 
-    console.log({ nfts })
+    // console.log({ nfts })
     // console.log(data?.nfts)
     const getNFTs = async () => {
 
@@ -251,6 +251,7 @@ const VaultDetail: React.FC = () => {
             setPurchaseForm(false);
             let tx;
 
+            // tx = "sampletx"
 
             tx = await sendTx(id, tokenAmount);
             console.log("Transaction reciept", tx);
@@ -259,11 +260,11 @@ const VaultDetail: React.FC = () => {
                 return;
             }
 
+
             const body = JSON.stringify({
                 "vaultAddress": id,
                 "amount": Number(tokenAmount),
-                "fundraiseDuration": data?.fundraiseDuration,
-                "target": data?.target
+                "fundraiseCreatedAt": Number(data?.fundraiseCreatedAt)
             })
 
             const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/update`, body, {
