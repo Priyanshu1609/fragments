@@ -123,7 +123,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
                         <label>
                             <p className='text-xl font-normal font-britanica'>Notification Email Address {requiredTag}</p>
                             <p className='text-base font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
-                            <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] focus:bg-transparent border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' />
+                            <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] focus:bg-transparent border-gray-600 w-full mt-2' placeholder='hello@nftdrop.io' value={formData?.email} onChange={(e) => handleChange(e, 'email')} />
                         </label>
                         <label>
                             <p className='text-xl font-normal font-britanica'>Target Fundraise {requiredTag}</p>

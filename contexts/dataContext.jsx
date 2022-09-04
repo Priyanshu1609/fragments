@@ -25,6 +25,7 @@ export const defaultFormData = {
     fundraiseCreatedAt: 0,
     myContribution: 0,
     amount: 0,
+    email: '',
 }
 
 
@@ -173,11 +174,12 @@ export const DataContextProvider = ({ children }) => {
                 "fundraiseDuration": values.fundraiseDuration,
                 "fundraiseCreatedAt": new Date().getTime(),
                 "amount": values.myContribution,
-                "creator": currentAccount
+                "creator": currentAccount,
+                "email": values.email,
             })
 
             const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/put`, data, {
-            // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
+                // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {
                     'content-Type': 'application/json',
                 },
@@ -197,7 +199,7 @@ export const DataContextProvider = ({ children }) => {
                 });
 
                 response2 = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
-                // response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                    // response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
                     headers: {
                         'content-Type': 'application/json',
                     },
@@ -234,7 +236,7 @@ export const DataContextProvider = ({ children }) => {
                 "vaultStatus": "RUNNING"
             });
             const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
-            // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
+                // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
                 headers: {
                     'content-Type': 'application/json',
                 },
