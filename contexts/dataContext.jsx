@@ -60,12 +60,20 @@ export const DataContextProvider = ({ children }) => {
             // const data = JSON.stringify({
             //     "address": currentAccount
             // });
-            const response = await axios.post(`​​https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser`, data, {
-                headers: {
-                    'content-Type': 'application/json',
-                },
-            }
-            );
+            // const response = await axios.post(`​​https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser`, data, {
+            //     headers: {
+            //         'content-Type': 'application/json',
+            //     },
+            // }
+            // );
+
+            const options = {
+                method: 'POST',
+                url: 'https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser',
+                data: { address: currentAccount }
+            };
+
+            const response = await axios.request(options)
 
             console.log("response now", response, data);
             response.data.Items?.forEach((element) => {
