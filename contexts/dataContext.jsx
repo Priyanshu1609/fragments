@@ -76,28 +76,37 @@ export const DataContextProvider = ({ children }) => {
 
     const getVaultsByCreator = async () => {
         if (!currentAccount) { return }
-        setCreatorVaults([])
 
-        const data = JSON.stringify({
-            "creator": currentAccount
-        });
-        const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
-            headers: {
-                'content-Type': 'application/json',
-            },
-        }
-        );
+        try {
 
-        console.log("response creator vault", response, data);
-        response.data.Items?.forEach((element) => {
-            // console.log(element);
-            let d = {}
-            for (let i in element) {
-                d[i] = Object.values(element[i])[0]
+            setCreatorVaults([])
+
+            const data = JSON.stringify({
+                "creator": currentAccount
+            });
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
             }
+            );
 
-            setCreatorVaults(prev => [...prev, d]);
-        })
+            console.log("response creator vault", response, data);
+            response.data.Items?.forEach((element) => {
+                // console.log(element);
+                let d = {}
+                for (let i in element) {
+                    d[i] = Object.values(element[i])[0]
+                }
+
+                setCreatorVaults(prev => [...prev, d]);
+            })
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
 
     }
     // console.log(creatorVaults);
@@ -167,7 +176,8 @@ export const DataContextProvider = ({ children }) => {
                 "creator": currentAccount
             })
 
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/put`, data, {
+            // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/auth/vaults`, data, {
                 headers: {
                     'content-Type': 'application/json',
                 },
@@ -186,7 +196,8 @@ export const DataContextProvider = ({ children }) => {
                     "vaultStatus": "RUNNING",
                 });
 
-                response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                response2 = await axios.post(`https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
+                // response2 = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/associations/put`, data2, {
                     headers: {
                         'content-Type': 'application/json',
                     },
@@ -198,7 +209,7 @@ export const DataContextProvider = ({ children }) => {
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount },
-                type : "new"
+                type: "new"
             })
 
             await getVaultsByWallet();
@@ -222,7 +233,8 @@ export const DataContextProvider = ({ children }) => {
             const data = JSON.stringify({
                 "vaultStatus": "RUNNING"
             });
-            const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
+            // const response = await axios.post(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getall`, data, {
                 headers: {
                     'content-Type': 'application/json',
                 },
