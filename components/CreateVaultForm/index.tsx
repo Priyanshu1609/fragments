@@ -75,6 +75,21 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         }
     }
 
+    const Options = ({ title, desc, option } : any) => (
+        <div className={`inline-flex  rounded-lg ${type === option ? `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white` : 'bg-gray-600'}`} onClick={e => setType(option)}>
+
+            <div className="radio bg-black m-[0.05rem] w-full  py-2 px-4 rounded-lg cursor-pointer flex">
+                <div>
+                    <p className='text-base font-semibold mb-1'>{title}</p>
+                    <p className='text-sm text-[#E6E6E6]'>{desc}</p>
+                </div>
+                <div className={` ${type === 'Public' ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 mt-2 mb-auto mx-2 rounded-full`}>
+                    <TiTick className={`h-4 w-4 ${type === 'Public' ? 'text-black' : 'text-white'}`} />
+                </div>
+            </div>
+        </div>
+    )
+
 
     return (
         <div className='max-w-2xl mx-auto text-lg'>
@@ -100,31 +115,13 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         </label>
                         {origin !== 'private' && <label className=''>
                             <p className='text-xl font-britanica font-normal  mb-2'>What's this vault like?{requiredTag}</p>
-                            <div className=" rounded-2xl relative flex flex-col space-y-2">
-                                <div className={`inline-flex rounded-lg ${type === 'Public' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white`}`} onClick={e => setType('Public')}>
-
-                                    <div className="radio bg-black m-[0.05rem]  py-2 px-4 rounded-lg cursor-pointer flex">
-                                        <div>
-                                            <p>Governed</p>
-                                            <p className='text-base text-[#E6E6E6]'>Vault uses policies to govern the behavior of clients and instrument Role-Based Access Control (RBAC) by specifying access privileges (authorization).</p>
-                                        </div>
-                                        <div className={` ${type === 'Public' ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 my-auto mx-2 rounded-full`}>
-                                            <TiTick className={`h-4 w-4 ${type === 'Public' ? 'text-black' : 'text-white'}`} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={`inline-flex rounded-lg ${type === 'Private' && `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white`}`} onClick={e => setType('Private')}>
-                                    <div className="radio bg-black m-[0.05rem]  py-2 px-4 rounded-lg cursor-pointer flex group">
-                                        <div>
-                                            <p>With Frens</p>
-                                            <p className='text-base text-[#E6E6E6]'>Vault uses policies to govern the behavior of clients and instrument Role-Based Access Control (RBAC) by specifying access privileges (authorization).
-                                            </p>
-                                        </div>
-                                        <div className={` ${type === 'Private' ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 my-auto mx-2 rounded-full`}>
-                                            <TiTick className={`h-4 w-4 ${type === 'Private' ? 'text-black' : 'text-white'}`} />
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className=" rounded-2xl relative grid grid-cols-1 lg:grid-cols-2 gap-3">
+                                
+                                <Options option = "weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                                <Options option = "democratic" title="Democratic Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                                <Options option = "monarchy" title="Monarchy" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                                <Options option = "committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            
                             </div>
                         </label>}
                     </div>
