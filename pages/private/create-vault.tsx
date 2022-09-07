@@ -11,6 +11,9 @@ import PrivateFundraise from '../../components/PrivateFundraise'
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 import { parseCookies } from '../../utils/cookie'
+import Commitee from '../../components/GovernedForm/Commitee'
+import Democratic from '../../components/GovernedForm/Democratic'
+import Weighted from '../../components/GovernedForm/Weighted'
 
 const CreateVault: React.FC = ({ data }: any) => {
     const { connectallet, currentAccount, logout, setIsLoading, awsClient } = useContext(TransactionContext);
@@ -55,6 +58,8 @@ const CreateVault: React.FC = ({ data }: any) => {
         }
         else if (currentStep === CreateVaultStep.Fundraise) {
             setCurrentStep(CreateVaultStep.InputFieldsForm)
+        } else if (currentStep === CreateVaultStep.CommiteeGoverned || currentStep === CreateVaultStep.DemocraticGoverned || currentStep === CreateVaultStep.WeightGoverned) {
+            setCurrentStep(CreateVaultStep.InputFieldsForm)
         }
 
     }
@@ -65,6 +70,27 @@ const CreateVault: React.FC = ({ data }: any) => {
                 currentStep === CreateVaultStep.InputFieldsForm && (
                     <div>
                         <CreateVaultForm handleBack={handleBack} origin='private' setCurrentStep={setCurrentStep} />
+                    </div>
+                )
+            }
+            {
+                currentStep === CreateVaultStep.CommiteeGoverned && (
+                    <div>
+                        <Commitee handleBack={handleBack} origin='private' setCurrentStep={setCurrentStep} />
+                    </div>
+                )
+            }
+            {
+                currentStep === CreateVaultStep.DemocraticGoverned && (
+                    <div>
+                        <Democratic handleBack={handleBack} origin='private' setCurrentStep={setCurrentStep} />
+                    </div>
+                )
+            }
+            {
+                currentStep === CreateVaultStep.WeightGoverned && (
+                    <div>
+                        <Weighted handleBack={handleBack} origin='private' setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
