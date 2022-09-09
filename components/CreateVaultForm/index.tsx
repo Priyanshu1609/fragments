@@ -50,6 +50,9 @@ export interface CreateVaultFormValues {
     fundraiseDuration: number,
     myContribution: number,
     amount: number,
+    minApproval: number,
+    commiteeMembers: string[],
+    email: string,
 }
 
 const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
@@ -71,7 +74,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
-        if(!type){
+        if (!type) {
             alert("Please select a governance type")
             return;
         }
@@ -90,7 +93,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             setCurrentStep(CreateVaultStep.CommiteeGoverned)
         } else if (type === "weighted") {
             setCurrentStep(CreateVaultStep.WeightGoverned)
-        } else if (type === "monarchy"){
+        } else if (type === "monarchy") {
             setCurrentStep(CreateVaultStep.Fundraise)
         }
         // setCurrentStep(CreateVaultStep.DemocraticGoverned)

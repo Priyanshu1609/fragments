@@ -6,6 +6,7 @@ import { DataContext } from '../../contexts/dataContext'
 import { requiredTag } from '../CreateDAOForm'
 import Select from '../Select'
 import governance from '../../assets/governance.png';
+import { CreateVaultStep } from '../CreateVaultForm'
 
 
 const option = [
@@ -23,7 +24,7 @@ const option = [
     },
 ]
 
-const Weighted = ({ onSubmitHandler, handleBack }: any) => {
+const Weighted = ({ setCurrentStep, handleBack }: any) => {
 
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
     const [inputType, setInputType] = useState<any>({
@@ -32,6 +33,16 @@ const Weighted = ({ onSubmitHandler, handleBack }: any) => {
         "icon": "",
         // "address": "",
     })
+
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
+        //     console.log('Error in values, Please input again')
+        //     return;
+        // }
+
+        setCurrentStep(CreateVaultStep.Fundraise)
+    }
 
     return (
         <div className='max-w-2xl mx-auto text-lg'>

@@ -6,6 +6,7 @@ import info from "../../assets/info.png";
 import Select from '../Select';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
 import governance from '../../assets/governance.png';
+import { CreateVaultStep } from '../CreateVaultForm';
 const option = [
     {
         "chainId": 'days',
@@ -21,9 +22,10 @@ const option = [
     },
 ]
 
-const Commitee = ({ onSubmitHandler, handleBack }: any) => {
+const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
+    const [commiteeAddresses, setCommiteeAddresses] = useState("")
 
     const [inputType, setInputType] = useState<any>({
         "chainId": 'days',
@@ -31,6 +33,27 @@ const Commitee = ({ onSubmitHandler, handleBack }: any) => {
         "icon": "",
         // "address": "",
     })
+
+    const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
+        //     console.log('Error in values, Please input again')
+        //     return;
+        // }
+        let array = commiteeAddresses.split(',')
+        for (let index = 0; index < array.length; index++) {
+            array[index] = array[index].trim();
+        }
+
+        setFormData({
+            ...formData,
+            commiteeMembers: array,
+        })
+
+        console.log({ array })
+
+        setCurrentStep(CreateVaultStep.Fundraise)
+    }
 
     return (
         <div className='max-w-2xl mx-auto text-lg'>
@@ -83,7 +106,7 @@ const Commitee = ({ onSubmitHandler, handleBack }: any) => {
                                 </div>
                             </div>
 
-                            <input required type='text' step="0" min={1} max={99} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='0x879873988938490293092, 0x879873988938490293092, 0x879873988938490293092' value={formData.quorum} onChange={(e) => handleChange(e, 'quorum')} />
+                            <input required type='text' step="0" min={1} max={99} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='0x879873988938490293092, 0x879873988938490293092, 0x879873988938490293092' value={commiteeAddresses} onChange={(e) => setCommiteeAddresses(e.target.value)} />
 
                         </label>
                         <label className='relative'>
@@ -95,7 +118,7 @@ const Commitee = ({ onSubmitHandler, handleBack }: any) => {
                                 </div>
                             </div>
 
-                            <input required type='number' step="0" min={1} max={formData.quorum - 1} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minFavor} onChange={(e) => handleChange(e, 'minFavor')} />
+                            <input required type='number' step="0" min={1} max={100} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter min. percentage of votes required in favor' value={formData.minApproval} onChange={(e) => handleChange(e, 'minApproval')} />
 
                         </label>
                     </div>

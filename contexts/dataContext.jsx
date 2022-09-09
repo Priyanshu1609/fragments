@@ -26,6 +26,8 @@ export const defaultFormData = {
     myContribution: 0,
     amount: 0,
     email: '',
+    minApproval: 0,
+    commiteeMembers: [],
 }
 
 
@@ -195,6 +197,8 @@ export const DataContextProvider = ({ children }) => {
                 "amount": values.myContribution,
                 "creator": currentAccount,
                 "email": values.email,
+                "commiteeMembers": values.commiteeMembers,
+                "minApproval": values.minApproval,
             })
 
             const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/put`, data, {
