@@ -56,9 +56,9 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(true);
             setVaults([])
 
-            const data = JSON.stringify({
-                "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
-            });
+            // const data = JSON.stringify({
+            //     "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
+            // });
             // const data = JSON.stringify({
             //     "address": currentAccount
             // });
