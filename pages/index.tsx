@@ -96,10 +96,10 @@ const Home: NextPage = ({ data }: any) => {
         {providers?.cognito && (
           <>
             <button type="button" onClick={() => signIn(providers.cognito.id)}>
-              Email Login
+              Login with AWS
             </button>
           </>
-        )}
+        )}``
         {providers?.github && (
           <>
             <br />
