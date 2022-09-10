@@ -99,7 +99,7 @@ const Home: NextPage = ({ data }: any) => {
               Login with AWS
             </button>
           </>
-        )}``
+        )}
         {providers?.github && (
           <>
             <br />
