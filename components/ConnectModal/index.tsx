@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useSession, signIn, signOut } from "next-auth/react"
 // import { Connector, useConnect } from 'wagmi';
 import ConnectModalContext from '../../contexts/connectwallet';
 import Modal from '../Modal';
@@ -14,14 +15,15 @@ import loader from '../../assets/loader.json'
 const ConnectModal: React.FC = () => {
 
     const { visible, setVisible } = useContext(ConnectModalContext);
-    const { connectWallet, currentAccount, logout, isLoading , setIsLoading } = useContext(TransactionContext);
+    const { connectWallet, currentAccount, logout, isLoading, setIsLoading } = useContext(TransactionContext);
     const [connected, setConnected] = useState(false)
 
     // const [{ data, error }, connect] = useConnect()
 
     const onConnect = async (type: string) => {
         try {
-            connectWallet(type);
+            // connectWallet(type);
+            signIn();
             setVisible(false)
         } catch (error) {
             console.error(error)
@@ -57,7 +59,7 @@ const ConnectModal: React.FC = () => {
                     <p className='text-gray-400 text-sm text-left mt-4 font-montserrat'>Connecting your wallet does not give Fragments, access to your private keys or your funds.</p>
                 </div>
             </Modal>
-            
+
         </div>
     )
 }

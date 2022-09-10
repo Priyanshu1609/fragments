@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
+import { useSession, signIn, signOut } from "next-auth/react"
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -15,22 +16,36 @@ import { parseCookies } from '../utils/cookie'
 
 const Home: NextPage = ({ data }: any) => {
 
+  const { data: session, status } = useSession();
+
   const { setVisible } = useContext(ConnectModalContext)
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
   const [connected, setConnected] = useState(false)
   const [user, setUser] = useState(null);
-  useEffect(() => {
-    if (!user) {
-      setUser(data.user);
-    }
-  }, [data.user])
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUser(data.user);
+  //   }
+  // }, [data.user])
 
   const router = useRouter();
   // console.log("Data of the user", data?.user);
 
+  // useEffect(() => {
+  //   if (data.user) {
+  //     setConnected(true);
+  //     setTimeout(() => {
+  //       router.push({
+  //         pathname: '/dashboard',
+  //         query: { user: currentAccount },
+  //       })
+  //     }, 3000);
+  //   }
+  // }, [data.user])
+
   useEffect(() => {
-    if (data.user) {
-      setConnected(true);
+    if (session) {
+      alert("Signed in")
       setTimeout(() => {
         router.push({
           pathname: '/dashboard',
@@ -38,7 +53,7 @@ const Home: NextPage = ({ data }: any) => {
         })
       }, 3000);
     }
-  }, [data.user])
+  }, [])
 
   return (
     <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">
@@ -58,7 +73,7 @@ const Home: NextPage = ({ data }: any) => {
 
 export default Home
 
-export async function getServerSideProps({ req, res } : any) {
+export async function getServerSideProps({ req, res }: any) {
 
   const data = parseCookies(req)
 

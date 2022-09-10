@@ -1,5 +1,6 @@
 import React, { Children, ReactElement, useContext } from 'react'
 import Head from 'next/head'
+
 import { CookiesProvider } from "react-cookie"
 
 import { ConnectModalProvider } from '../../contexts/connectwallet'
