@@ -27,26 +27,27 @@ const Home: NextPage = ({ data }: any) => {
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
   const [connected, setConnected] = useState(false)
   const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   if (!user) {
-  //     setUser(data.user);
-  //   }
-  // }, [data.user])
+  
+  useEffect(() => {
+    if (!user) {
+      setUser(data.user);
+    }
+  }, [data.user])
 
   const router = useRouter();
   // console.log("Data of the user", data?.user);
 
-  // useEffect(() => {
-  //   if (data.user) {
-  //     setConnected(true);
-  //     setTimeout(() => {
-  //       router.push({
-  //         pathname: '/dashboard',
-  //         query: { user: currentAccount },
-  //       })
-  //     }, 3000);
-  //   }
-  // }, [data.user])
+  useEffect(() => {
+    if (data.user) {
+      setConnected(true);
+      setTimeout(() => {
+        router.push({
+          pathname: '/dashboard',
+          query: { user: currentAccount },
+        })
+      }, 3000);
+    }
+  }, [data.user])
 
   // useEffect(() => {
   //   if (session) {
@@ -90,10 +91,10 @@ const Home: NextPage = ({ data }: any) => {
     }
     return (
       <>
-        {/* <button type="button" onClick={() => signIn()}>
+        <button type="button" onClick={() => setVisible(true)}>
           Sign in
-        </button> */}
-        {providers?.cognito && (
+        </button>
+        {/* {providers?.cognito && (
           <>
             <button type="button" onClick={() => signIn(providers.cognito.id)}>
               Login with AWS
@@ -108,7 +109,7 @@ const Home: NextPage = ({ data }: any) => {
               Github Login Sis
             </button>
           </>
-        )}
+        )} */}
       </>
     )
   }

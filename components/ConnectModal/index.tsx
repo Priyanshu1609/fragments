@@ -22,8 +22,8 @@ const ConnectModal: React.FC = () => {
 
     const onConnect = async (type: string) => {
         try {
-            // connectWallet(type);
-            signIn();
+            connectWallet(type);
+            // signIn();
             setVisible(false)
         } catch (error) {
             console.error(error)
