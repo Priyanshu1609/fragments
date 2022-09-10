@@ -8,5 +8,6 @@ export default NextAuth({
             clientSecret: process.env.COGNITO_CLIENT_SECRET,
             issuer: "https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_7GY6B7rMq",
         })
-    ]
+    ],
+    secret: process.env.NEXTAUTH_SECRET
 })
