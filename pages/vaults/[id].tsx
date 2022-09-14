@@ -614,7 +614,7 @@ const VaultDetail: React.FC = () => {
                             </a>
                             <a href={`https://gnosis-safe.io/app/rin:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer'>
                                 <div className='flex items-center justify-center'>
-                                    <img src="https://aws1.discourse-cdn.com/standard20/uploads/gnosis_safe/original/1X/175f55ca5dfa29e9322ebc0d8aa73f11e6fde6db.png" className='h-6 w-6 rounded-full' />
+                                    <img src="https://pbs.twimg.com/profile_images/1566775952620900353/vRyTLmek_400x400.jpg" className='h-6 w-6 rounded-full' />
                                     <p className='ml-4'>View on Gnosis Wallet</p>
                                 </div>
                                 <ArrowUpIcon className='h-6 w-6 rotate-45' />

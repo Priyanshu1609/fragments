@@ -49,17 +49,17 @@ const MyInvestment = () => {
         <div className='h-[30rem]' >
             <div className='py-4 flex relative'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-12 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-                <Swiper
+                {/* <Swiper
                     ref={sliderRef}
                     // grabCursor={true}
-                    slidesPerView={3}
+                    slidesPerView={"auto"}
                     // spaceBetween={80}
                     scrollbar={true}
                     modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                     className="mySwiper"
-                >
+                > */}
 
-                    {uniqueVaults?.map((vault) => (
+                    {vaults?.map((vault) => (
                         vault.target != 0 &&
                         // <SwiperSlide>
                         //     <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
@@ -79,7 +79,7 @@ const MyInvestment = () => {
 
                         //     </div>
                         // </SwiperSlide>
-                        <SwiperSlide>
+                        // <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
@@ -100,10 +100,10 @@ const MyInvestment = () => {
                                 />
 
                             </div>
-                        </SwiperSlide>
+                        // </SwiperSlide>
                     ))}
 
-                </Swiper>
+                {/* </Swiper> */}
                 <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-12  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
             </div >
