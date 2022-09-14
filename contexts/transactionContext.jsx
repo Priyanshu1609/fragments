@@ -296,6 +296,17 @@ export const TransactionProvider = ({ children }) => {
         return balanceInEth;
     }
 
+    const getContractBalance = async (contractAddress) => {
+        const provider = new ethers.providers.Web3Provider(eth);
+        const balance = await provider.getBalance(contractAddress);
+        let balanceInEth = ethers.utils.formatEther(balance);
+        // balanceInEth = parseFloat(balanceInEth).toFixed(4);
+
+        console.log('Balance Contract:', balanceInEth, balance);
+
+        return balanceInEth;
+    }
+
     const getTokenBalance = async (tokenContractAddress) => {
 
         const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -386,6 +397,7 @@ export const TransactionProvider = ({ children }) => {
                 isLoading,
                 logoutWallet,
                 getBalanace,
+                getContractBalance,
                 getTokenBalance,
                 getProvider,
                 setIsLoading,

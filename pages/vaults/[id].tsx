@@ -74,13 +74,14 @@ const VaultDetail: React.FC = () => {
     const router = useRouter();
 
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
-    const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace, getContractBalance } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens, getTokenIdMetadata } = useContext(NftContext);
     const { getVaultsByWallet, getVaultsByCreator } = useContext(DataContext);
     const [modal, setModal] = useState(false);
     const [countDown, setCountDown] = useState("");
     const [balance, setBalance] = useState("");
+    const [valuation, setValuation] = useState(0)
     // const [selectedToken, setSelectedToken] = useState<selectedToken>()
     // const [selectedChain, setSelectedChain] = useState<selectedChain>()
     // const [coins, setCoins] = useState([]);
@@ -347,6 +348,10 @@ const VaultDetail: React.FC = () => {
         const balance = await getBalanace();
         setBalance(balance);
     }
+    const getContractBalanaceInEth = async () => {
+        const balance = await getContractBalance(id);
+        setValuation(balance);
+    }
 
 
     useEffect(() => {
@@ -363,6 +368,7 @@ const VaultDetail: React.FC = () => {
             getVaultData()
             getProviderFrom();
             getBalanaceInEth();
+            getContractBalanaceInEth();
         }
     }, [currentAccount, id])
 
@@ -560,7 +566,7 @@ const VaultDetail: React.FC = () => {
                             <div className='flex justify-between'>
                                 <div>
                                     <p className='text-xl text-white font-britanica font-normal mb-2'>Valuations</p>
-                                    <p className='text-xl font-semibold'>600 ETH</p>
+                                    <p className='text-xl font-semibold'>{valuation} ETH</p>
                                 </div>
                                 <div>
                                     <p className='text-xl text-white font-britanica font-normal mb-2'>No. of tokens</p>
