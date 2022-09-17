@@ -65,7 +65,6 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     const [tokenSupply, setTokenSupply] = useState(1000000)
     const [type, setType] = useState<string>("");
     const [numOfTokens, setNumOfTokens] = useState(1000000)
-
     console.log({ type })
 
     const { formData, setFormData, handleChange } = useContext(DataContext);
@@ -105,10 +104,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
             // setType("democratic")
             alert("Coming soon")
         } else if (option === "committee") {
-            // setType("committee")
-            alert("Coming soon")
+            setType("committee")
         } else if (option === "weighted") {
-            setType("weighted")
+            // setType("weighted")
+            alert("Coming soon")
         } else if (option === "monarchy") {
             setType("monarchy")
         }
@@ -160,10 +159,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <p className='text-xl font-britanica font-normal  mb-2'>What's this vault like?{requiredTag}</p>
                         <div className=" rounded-2xl relative grid grid-cols-1 md:grid-cols-2 gap-3">
 
-                            <Options open={false} option="weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={true} option="weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
                             <Options open={true} option="democratic" title="Democratic Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
                             <Options open={false} option="monarchy" title="Monarchy" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options open={true} option="committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={false} option="committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
 
                         </div>
 
