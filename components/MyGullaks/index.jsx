@@ -40,7 +40,7 @@ return (
         <div className='h-[30rem]'>
             <div className='py-4 flex relative'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-12 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-                {/* <Swiper
+                <Swiper
                     ref={sliderRef}
                     // grabCursor={true}
                     slidesPerView={3}
@@ -48,10 +48,10 @@ return (
                     scrollbar={true}
                     modules={[Keyboard, Scrollbar, Navigation, Pagination]}
                     className="mySwiper"
-                > */}
+                >
 
                     {creatorVaults?.map((vault) => (
-                        // <SwiperSlide>
+                        <SwiperSlide>
                             <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
@@ -72,10 +72,10 @@ return (
                                 />
 
                             </div>
-                        // </SwiperSlide>
+                         </SwiperSlide>
                     ))}
 
-                {/* </Swiper> */}
+                </Swiper>
                 <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-12  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
 
             </div >
