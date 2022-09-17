@@ -47,7 +47,7 @@ const MyInvestment = () => {
 
     return (
         <div className='h-[30rem]' >
-            <div className='py-4 flex relative'>
+            <div className='py-4 flex relative items-center justify-evenly'>
                 <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-12 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                 {/* <Swiper
                     ref={sliderRef}
