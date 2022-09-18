@@ -52,7 +52,7 @@ const MyInvestment = () => {
                 <Swiper
                     ref={sliderRef}
                     // grabCursor={true}
-                    slidesPerView={"auto"}
+                    slidesPerView={3}
                     // spaceBetween={80}
                     scrollbar={true}
                     modules={[Keyboard, Scrollbar, Navigation, Pagination]}
