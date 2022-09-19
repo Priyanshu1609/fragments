@@ -6,12 +6,9 @@ import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext';
 import logoWhite from '../../assets/LogoWhite.png'
 
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css";
-import "swiper/css/scrollbar";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // import required modules
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
@@ -23,35 +20,61 @@ const MyInvestment = () => {
 
     const router = useRouter();
 
-    const sliderRef = useRef();
+    const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        // <img src={LeftArrow} alt="prevArrow" {...props} />
+    );
 
-    const handlePrev = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slidePrev();
-    }, []);
+    const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+        // <img src={RightArrow} alt="nextArrow" {...props} />
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+    );
 
-    const handleNext = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slideNext();
-    }, []);
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        prevArrow: <SlickArrowLeft />,
+        nextArrow: <SlickArrowRight />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    };
 
 
-return (
+    return (
         <div className='h-[30rem]'>
-            <div className='py-4 flex relative items-center justify-evenly '>
-                <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -left-12 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-                <Swiper
-                    ref={sliderRef}
-                    // grabCursor={true}
-                    slidesPerView={3}
-                    // spaceBetween={80}
-                    scrollbar={true}
-                    modules={[Keyboard, Scrollbar, Navigation, Pagination]}
-                    className="mySwiper"
-                >
+            <div className='py-4 relative  '>
+                <div className="card__container">
+                    <Slider {...settings} className="card__container--inner">
 
-                    {creatorVaults?.map((vault) => (
-                        <SwiperSlide>
+                        {creatorVaults?.map((vault) => (
                             <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
@@ -68,15 +91,12 @@ return (
                                     nfts={vault?.nfts}
                                     tokenName={vault?.tokenName}
                                     vaultName={vault?.vaultName}
-                                // image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
                                 />
-
                             </div>
-                        </SwiperSlide>
-                    ))}
+                        ))}
 
-                </Swiper>
-                <div onClick={handleNext} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-12  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+                    </Slider>
+                </div>
 
             </div >
         </div>

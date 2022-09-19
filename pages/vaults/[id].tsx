@@ -21,17 +21,14 @@ import { fixTokenURI } from '../../utils';
 import { RiShareBoxLine } from "react-icons/ri";
 import { MdMail } from 'react-icons/md';
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
+
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import axios from 'axios';
 import { CreateVaultFormValues } from '../../components/CreateVaultForm';
-
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
@@ -153,9 +150,9 @@ const VaultDetail: React.FC = () => {
             );
             console.log("FETCH RES", response.data.Items);
 
-            response.data.Items?.forEach((element : any) => {
+            response.data.Items?.forEach((element: any) => {
                 // console.log(element);
-    
+
                 for (let i in element) {
                     data[i] = Object.values(element[i])[0]
                 }
@@ -372,21 +369,29 @@ const VaultDetail: React.FC = () => {
         }
     }, [currentAccount, id])
 
-
-    const sliderRef = useRef() as any;
-
-    const handlePrev = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slidePrev();
-    }, []);
-
-    const handleNext = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slideNext();
-    }, []);
-
     const handleOpen = (link: string) => {
         window.open(link, "_blank");
+    }
+
+    const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        // <img src={LeftArrow} alt="prevArrow" {...props} />
+    );
+
+    const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+        // <img src={RightArrow} alt="nextArrow" {...props} />
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+    );
+
+    const settings = {
+        dots: true,
+        fade: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: <SlickArrowLeft />,
+        nextArrow: <SlickArrowRight />,
     }
 
     return (
@@ -401,22 +406,10 @@ const VaultDetail: React.FC = () => {
             <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
-                        <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                         <div className='flex-[0.8]'>
-                            <div className=''>
-                                <Swiper
-                                    ref={sliderRef}
-                                    // navigation={true}
-                                    effect={"fade"}
-                                    pagination={true}
-                                    loop={true}
-                                    autoplay={{
-                                        delay: 10000,
-                                        disableOnInteraction: false,
-                                    }}
-                                    modules={[EffectFade, Navigation, Autoplay, Pagination]}
-                                    className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center"
-                                >
+                            <div className="card__container">
+                                <Slider {...settings} className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center">
+
                                     {nfts?.map((nft: any) => (
                                         <div key={nft?.image} className="mx-auto w-full">
                                             <SwiperSlide>
@@ -431,11 +424,10 @@ const VaultDetail: React.FC = () => {
                                             </SwiperSlide>
                                         </div>
                                     ))}
-                                </Swiper>
 
+                                </Slider>
                             </div>
                         </div>
-                        <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
                     </div>
                 }
                 <div className='flex items-start justify-center mt-4 w-full'>
