@@ -6,4 +6,4 @@ const createMagic = (key : string) => {
         return new Magic(key);
     }
 };
-export const magic = createMagic("pk_live_83816E6ADDF75131");
+export const magic = createMagic("pk_live_97A74AEBCE12CF92");
