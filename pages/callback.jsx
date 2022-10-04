@@ -45,7 +45,7 @@ const Callback = (props) => {
         }
         // console.log("finish email redirect login")
     };
-
+    
     // Send token to server to validate
     // https://6lzffydaki.execute-api.ap-south-1.amazonaws.com/dev/api/auth/login
     const authenticateWithServer = async (didToken) => {
