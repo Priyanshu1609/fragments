@@ -83,14 +83,7 @@ export const TransactionProvider = ({ children }) => {
                     validateStatus: false,
                 }
             );
-            // const res = await axios(
-            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-            //     }?address=${address}`,
-            //     {
-            //         method: 'GET',
-            //         validateStatus: false,
-            //     }
-            // );
+
             customerId = res.data.customerId;
             console.log("data", res);
             if (!customerId) {
@@ -111,18 +104,6 @@ export const TransactionProvider = ({ children }) => {
                         },
                     }
                 );
-                // const res = await axios.post(
-                //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                //     data,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'application/json',
-                //             "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
-                //         },
-                //     }
-                // );
-                // console.log("Signup", res);
-                // return res.data;
 
                 console.log("Signup", res);
                 if (res && res.data.Attributes) {
@@ -153,18 +134,7 @@ export const TransactionProvider = ({ children }) => {
                     },
                 }
             );
-            // const data = await axios.post(
-            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
-            //     {
-            //         address,
-            //         signature,
-            //     },
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //     }
-            // );
+
             if (data) {
                 const aws = new AwsClient({
                     accessKeyId: data.data.AccessKeyId,
@@ -243,9 +213,9 @@ export const TransactionProvider = ({ children }) => {
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
                 let address = accounts[0];
-                const res = await awsConnect(address);
-                console.log(res);
-                if (!res) { return }
+                // const res = await awsConnect(address);
+                // console.log(res);
+                // if (!res) { return }
             }
 
             else {
@@ -404,6 +374,7 @@ export const TransactionProvider = ({ children }) => {
                 sendTx,
                 ens,
                 awsClient,
+                setAwsClient
             }}
         >
             {children}

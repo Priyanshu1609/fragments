@@ -96,6 +96,8 @@ const VaultDetail: React.FC = () => {
         fundraiseDuration: 0,
         amount: 0
     })
+
+
     const [data, setData] = useState<CreateVaultFormValues | any>();
 
     const { id, type } = router.query
@@ -106,30 +108,6 @@ const VaultDetail: React.FC = () => {
         const provider = await getProvider();
         setProvider(provider);
     }
-
-    // setIsFunded(true)
-
-    // const fetchTokens = async (chainId: number | undefined) => {
-
-    //     try {
-    //         const res = await fetchFromTokens(chainId);
-    //         setCoins(res);
-
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-    // const bridge = async () => {
-    //     const fromChainId = selectedToken?.chainId
-    //     const fromToken = selectedToken?.address
-    //     const amount = tokenAmount
-    //     const userAddress = currentAccount
-
-    //     const txHash = await transaction(fromChainId, fromToken, amount, userAddress);
-
-    //     console.log('Destination Socket Tx', txHash)
-    // }
 
     const getVaultData = async () => {
         try {
@@ -239,7 +217,7 @@ const VaultDetail: React.FC = () => {
 
     const handleAddAmount = async () => {
 
-        if (tokenAmount <= 0 || tokenAmount >= data?.target - data?.amount) {
+        if (tokenAmount <= 0) {
             alert("Please enter a valid amount")
             return;
         }
