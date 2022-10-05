@@ -7,14 +7,15 @@ import PageLoader from "../components/PageLoader";
 import { useRouter } from "next/router";
 import { TransactionContext } from "../contexts/transactionContext";
 import { useCookies } from "react-cookie"
+import axios from "axios";
 
 const Callback = (props) => {
     const router = useRouter();
-    
+
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
-    const [setAwsClient] = useContext(TransactionContext);
+    const [setAwsClient, aws] = useContext(TransactionContext);
 
     const { magic_credential } = router.query;
     // The redirect contains a `provider` query param if the user is logging in with a social provider
@@ -33,58 +34,59 @@ const Callback = (props) => {
                 .loginWithCredential()
 
 
-            // .then((didToken) => authenticateWithServer(didToken));
-            setCookie("user", JSON.stringify(magic_credential), {
-                path: "/",
-                maxAge: 3600, // Expires after 1hr
-                sameSite: true,
-            })
-            // await setAwsClient(magic_credential);
+                .then((didToken) => authenticateWithServer(didToken));
+            // setCookie("user", JSON.stringify(magic_credential), {
+            //     path: "/",
+            //     maxAge: 3600, // Expires after 1hr
+            //     sameSite: true,
+            // })
+            // // await setAwsClient(magic_credential);
 
-            router.push("/dashboard");
+            // router.push("/dashboard");
         }
         // console.log("finish email redirect login")
     };
-    
+
     // Send token to server to validate
     // https://6lzffydaki.execute-api.ap-south-1.amazonaws.com/dev/api/auth/login
     const authenticateWithServer = async (didToken) => {
-        let userMetadata = await magic.user.getMetadata();
-        const res = await API.post(
-            awsconfig?.aws_cloud_logic_custom[0].name,
-            "/api/auth/login",
-            {
-                body: {
-                    didToken,
-                    issuer: userMetadata.issuer,
-                },
-            }
-        );
-        console.log("Magic ID Fetched", res);
-        const credentials = await Auth.federatedSignIn(
-            "developer",
-            {
-                identity_id: res.IdentityId,
-                token: res.Token,
-                expires_at: 3600 * 1000 + new Date().getTime(),
-            },
-            user
-        );
+        try {
 
-        console.log("Credentials", credentials)
-
-        if (credentials) {
-            // Set the UserContext to the now logged in user
             let userMetadata = await magic.user.getMetadata();
-            await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
-            setUser({ ...userMetadata, identityId: credentials.identityId });
-            setCookie("user", JSON.stringify(aws), {
-                path: "/",
-                maxAge: 3600, // Expires after 1hr
-                sameSite: true,
-            })
-            router.push("/dashboard");
+
+            // console.log({ didToken, userMetadata })
+            const options = {
+                method: 'POST',
+                url: 'https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/magic',
+                data: {
+                    didToken: didToken,
+                    issuer: userMetadata.issuer
+                }
+            };
+
+            const credentials = axios.request(options)
+
+
+            if (credentials) {
+                // Set the UserContext to the now logged in user
+                let userMetadata = await magic.user.getMetadata();
+                // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
+                setUser({ ...userMetadata, aws: credentials });
+                setCookie("user", JSON.stringify({ ...userMetadata, identityId: credentials }), {
+                    path: "/",
+                    maxAge: 3600, // Expires after 1hr
+                    sameSite: true,
+                })
+                router.push("/dashboard");
+            }
+            else {
+                router.push("/")
+            }
+
+        } catch (error) {
+            console.error(error)
         }
+
     };
 
     return (
