@@ -77,7 +77,7 @@ const Callback = (props) => {
                     maxAge: 3600, // Expires after 1hr
                     sameSite: true,
                 })
-                router.push("/dashboard");
+                router.push("/connect");
             }
             else {
                 router.push("/")

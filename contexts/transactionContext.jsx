@@ -212,7 +212,7 @@ export const TransactionProvider = ({ children }) => {
                 setIsLoading(true)
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
-                let address = accounts[0];
+                // let address = accounts[0];
                 // const res = await awsConnect(address);
                 // console.log(res);
                 // if (!res) { return }
@@ -332,27 +332,27 @@ export const TransactionProvider = ({ children }) => {
     };
 
 
-    useEffect(() => {
-        async function listenMMAccount() {
-            window.ethereum.on("accountsChanged", async function () {
-                eth.on('accountsChanged', function () {
-                    console.log('accounts changed')
-                    logoutWallet();
-                })
-                logoutWallet();
-            });
-        }
-        listenMMAccount();
-    }, []);
+    // useEffect(() => {
+    //     async function listenMMAccount() {
+    //         window.ethereum.on("accountsChanged", async function () {
+    //             eth.on('accountsChanged', function () {
+    //                 console.log('accounts changed')
+    //                 logoutWallet();
+    //             })
+    //             logoutWallet();
+    //         });
+    //     }
+    //     listenMMAccount();
+    // }, []);
 
-    useEffect(() => {
-        async function listenMMAccount() {
-            window.ethereum.on("chainChanged", async function () {
-                getProvider();
-            });
-        }
-        listenMMAccount();
-    }, []);
+    // useEffect(() => {
+    //     async function listenMMAccount() {
+    //         window.ethereum.on("chainChanged", async function () {
+    //             getProvider();
+    //         });
+    //     }
+    //     listenMMAccount();
+    // }, []);
 
     useEffect(() => {
         checkIfWalletIsConnected()
