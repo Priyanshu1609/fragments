@@ -26,7 +26,6 @@ const Connect: NextPage = ({ data }: any) => {
   }, [data.user])
 
   const router = useRouter();
-  // console.log("Data of the user", data?.user);
 
   useEffect(() => {
     if (currentAccount) {
