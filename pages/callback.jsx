@@ -15,7 +15,7 @@ const Callback = (props) => {
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
-    const [setAwsClient, aws] = useContext(TransactionContext);
+    const [setAwsClient, aws, currentAccount] = useContext(TransactionContext);
 
     const { magic_credential } = router.query;
     // The redirect contains a `provider` query param if the user is logging in with a social provider
@@ -35,14 +35,6 @@ const Callback = (props) => {
 
 
                 .then((didToken) => authenticateWithServer(didToken));
-            // setCookie("user", JSON.stringify(magic_credential), {
-            //     path: "/",
-            //     maxAge: 3600, // Expires after 1hr
-            //     sameSite: true,
-            // })
-            // // await setAwsClient(magic_credential);
-
-            // router.push("/dashboard");
         }
         // console.log("finish email redirect login")
     };
@@ -74,10 +66,15 @@ const Callback = (props) => {
                 setUser({ ...userMetadata, aws: credentials });
                 setCookie("user", JSON.stringify({ ...userMetadata, identityId: credentials }), {
                     path: "/",
-                    maxAge: 3600, // Expires after 1hr
+                    maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
-                router.push("/connect");
+
+                if (currentAccount) {
+                    router.push("/dashboard");
+                } else {
+                    router.push("/connect");
+                }
             }
             else {
                 router.push("/")

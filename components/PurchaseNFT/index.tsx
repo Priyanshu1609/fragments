@@ -78,7 +78,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     ]);
     console.log(target);
 
-    const { getSellOrder } = useContext(OpenseaContext);
+    // const { getSellOrder } = useContext(OpenseaContext);
     const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
@@ -138,43 +138,43 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         handleCreateVault(form, safeAddress);
     }
 
-    const getNFTs = async (i: number) => {
+    // const getNFTs = async (i: number) => {
 
-        const link = links[i].value;
+    //     const link = links[i].value;
 
-        if (!link) {
-            return;
-        }
+    //     if (!link) {
+    //         return;
+    //     }
 
-        const tokenId = link.split('/')[6]
-        const tokenAddress = link.split('/')[5]
+    //     const tokenId = link.split('/')[6]
+    //     const tokenAddress = link.split('/')[5]
 
-        console.log({ orders })
-        try {
+    //     console.log({ orders })
+    //     try {
 
-            if (!links[i].vis) {
-                console.log('Prev didnt fetched')
-                const _order = await getSellOrder(tokenId, tokenAddress);
-                setOrder(_order);
-                setOrders((prev: any) => [...prev, _order]);
+    //         if (!links[i].vis) {
+    //             console.log('Prev didnt fetched')
+    //             const _order = await getSellOrder(tokenId, tokenAddress);
+    //             setOrder(_order);
+    //             setOrders((prev: any) => [...prev, _order]);
 
-                setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
-                setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
+    //             setTarget(target === 0 ? bnToString(_order?.currentPrice) : target + bnToString(_order?.currentPrice));
+    //             setDuration(Math.min(duration, _order?.expirationTime - 30 * 60))
 
-                links[i].vis = true;
-            }
-            else {
-                console.log('Prev fetched exist');
-                setOrder(orders[i]);
-            }
-            setVisible(true);
+    //             links[i].vis = true;
+    //         }
+    //         else {
+    //             console.log('Prev fetched exist');
+    //             setOrder(orders[i]);
+    //         }
+    //         setVisible(true);
 
-        } catch (error) {
-            console.error(error)
-        } finally {
-            // setLoading(false);
-        }
-    }
+    //     } catch (error) {
+    //         console.error(error)
+    //     } finally {
+    //         // setLoading(false);
+    //     }
+    // }
 
 
 
@@ -227,9 +227,9 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
         fetchBalance()
     }, [])
 
-    useEffect(() => {
-        { links[links.length - 1]?.value && getNFTs(links.length - 1) };
-    }, [links])
+    // useEffect(() => {
+    //     { links[links.length - 1]?.value && getNFTs(links.length - 1) };
+    // }, [links])
 
     useEffect(() => {
         getProviderFrom();
@@ -262,9 +262,9 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                                             className='p-3 rounded-l-lg bg-input focus:outline-none w-full mt-2' placeholder='Enter Opensea or Rarible NFT Link'
                                         />
                                     </label>
-                                    <button onClick={e => getNFTs(i)} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
+                                    {/* <button onClick={e => getNFTs(i)} className='w-44 mt-7 underline text-sm text-green-500 flex justify-end items-center bg-input'>Preview NFT
                                         <ExternalLinkIcon className='h-6 w-6 mx-3' />
-                                    </button>
+                                    </button> */}
                                     <button onClick={e => handleRemove(i)} className='w-10 mt-7 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input'>
                                         <XIcon className='h-8 w-8 mx-3' />
                                     </button>

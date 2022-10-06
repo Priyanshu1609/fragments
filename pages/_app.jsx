@@ -28,7 +28,7 @@ async function refreshToken() {
   return {
     identity_id: json.IdentityId,
     token: json.Token,
-    expires_at: 3600 * 1000 + new Date().getTime(),
+    expires_at: 2592000 * 1000 + new Date().getTime(),
   };
 }
 

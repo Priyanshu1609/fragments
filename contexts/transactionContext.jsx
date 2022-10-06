@@ -8,6 +8,7 @@ import Web3 from 'web3';
 import { AwsClient } from 'aws4fetch';
 import axios from 'axios';
 import { useCookies } from "react-cookie"
+import { magic } from "../utils/magic"
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -147,7 +148,7 @@ export const TransactionProvider = ({ children }) => {
                 setAwsClient(aws);
                 setCookie("user", JSON.stringify(aws), {
                     path: "/",
-                    maxAge: 3600, // Expires after 1hr
+                    maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
 
@@ -243,6 +244,7 @@ export const TransactionProvider = ({ children }) => {
         try {
 
             setIsReturningUser(true);
+            await magic.user.logout();
 
             setCurrentAccount('');
             setAwsClient(null);

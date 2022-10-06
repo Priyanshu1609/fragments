@@ -17,6 +17,14 @@ import success from '../assets/success.json'
 import { parseCookies } from '../utils/cookie'
 import Logo from '../components/logo'
 
+interface magicToken {
+  user: {
+    email: string
+    issuer: string
+    publicAddress: string
+  }
+}
+
 const Home: NextPage = ({ data }: any) => {
 
   const { setVisible } = useContext(ConnectModalContext)
@@ -90,10 +98,16 @@ const Home: NextPage = ({ data }: any) => {
     if (data.user) {
       setConnected(true);
       setTimeout(() => {
-        router.push({
-          pathname: '/dashboard',
-          query: { user: currentAccount },
-        })
+
+        if (currentAccount) {
+          router.push({
+            pathname: '/dashboard',
+            query: { user: currentAccount },
+          })
+        } else {
+          router.push('/connect')
+        }
+        
       }, 3000);
     }
   }, [data.user])
