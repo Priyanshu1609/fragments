@@ -27,6 +27,8 @@ const Connect: NextPage = ({ data }: any) => {
 
   const router = useRouter();
 
+  console.log({ data })
+
   useEffect(() => {
     if (currentAccount) {
       setConnected(true);
@@ -40,11 +42,11 @@ const Connect: NextPage = ({ data }: any) => {
   }, [currentAccount])
 
   useEffect(() => {
-    if(!data.user){
-        router.push("/")
+    if (!data.user) {
+      router.push("/")
     }
   }, [data.user])
-  
+
 
   return (
     <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">

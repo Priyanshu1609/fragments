@@ -6,7 +6,6 @@ import Amplify, { Auth } from "aws-amplify";
 
 
 import { magic } from '../utils/magic';
-// import { useConnect } from 'wagmi'
 import connectwallet from '../assets/walletconnect.png'
 import ConnectModalContext from '../contexts/connectwallet'
 import { TransactionContext } from '../contexts/transactionContext'
@@ -30,10 +29,10 @@ const Home: NextPage = ({ data }: any) => {
   const { setVisible } = useContext(ConnectModalContext)
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
   const [connected, setConnected] = useState(false)
-  const [user, setUser] = useState<any>();
   const [email, setEmail] = useState<any>(null);
   const [disabled, setDisabled] = useState(false)
-
+  
+  const [user, setUser] = useState<any>();
   useEffect(() => {
     if (!user) {
       setUser(data.user);
@@ -67,32 +66,32 @@ const Home: NextPage = ({ data }: any) => {
     }
   }
 
-  useEffect(() => {
-    // setUser({ loading: true });
-    Auth.currentUserCredentials().catch((e) => {
-      console.log("=== currentcredentials", { e });
-    });
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        magic.user
-          .isLoggedIn()
-          .then((isLoggedIn) => {
-            return isLoggedIn
-              ? magic.user
-                .getMetadata()
-                .then((userData) =>
-                  setUser({ ...userData, identityId: user.id })
-                )
-              : setUser({ user: null });
-          })
-          .catch((e) => {
-            console.log("=== currentUser", { e });
-          });
-      })
-      .catch((e) => {
-        setUser({ user: null });
-      });
-  }, []);
+  // useEffect(() => {
+  //   // setUser({ loading: true });
+  //   Auth.currentUserCredentials().catch((e) => {
+  //     console.log("=== currentcredentials", { e });
+  //   });
+  //   Auth.currentAuthenticatedUser()
+  //     .then((user) => {
+  //       magic.user
+  //         .isLoggedIn()
+  //         .then((isLoggedIn) => {
+  //           return isLoggedIn
+  //             ? magic.user
+  //               .getMetadata()
+  //               .then((userData) =>
+  //                 setUser({ ...userData, identityId: user.id })
+  //               )
+  //             : setUser({ user: null });
+  //         })
+  //         .catch((e) => {
+  //           console.log("=== currentUser", { e });
+  //         });
+  //     })
+  //     .catch((e) => {
+  //       setUser({ user: null });
+  //     });
+  // }, []);
 
   useEffect(() => {
     if (data.user) {

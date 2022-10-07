@@ -1,13 +1,17 @@
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TransactionContext } from '../contexts/transactionContext';
 import Account from './Account';
 import Logo from './logo';
+import { parseCookies } from '../utils/cookie'
+import { useCookies } from 'react-cookie';
 
 const Navbar: React.FC = () => {
 
     const router = useRouter();
     const { currentAccount } = useContext(TransactionContext);
+    const [cookies, setCookie] = useCookies(['user']);
+
 
     return (
         <div className="overflow-y-scroll scrollbar-hide ">
@@ -21,7 +25,7 @@ const Navbar: React.FC = () => {
                                 <Logo />
                             </div>
 
-                            {currentAccount && <div className='flex space-x-5'>
+                            {cookies?.user?.issuer && <div className='flex space-x-5'>
                                 <p onClick={e => router.push({
                                     pathname: '/dashboard'
                                 })} className={`${router.pathname === "/dashboard" && "text-button"}`} >MY DASHBOARD</p>

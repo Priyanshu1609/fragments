@@ -17,6 +17,7 @@ import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Navbar from '../Navbar'
+import { parseCookies } from '../../utils/cookie'
 
 const SelectChain = dynamic(
     () => import('../../components/SelectChain'),

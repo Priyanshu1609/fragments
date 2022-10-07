@@ -56,10 +56,12 @@ const Callback = (props) => {
                 }
             };
 
-            const credentials = axios.request(options)
+            const credentials = await axios.request(options)
+
+            console.log({credentials})
 
 
-            if (credentials && credentials.SessionToken) {
+            if (credentials.data && credentials.data.SessionToken) {
                 // Set the UserContext to the now logged in user
                 let userMetadata = await magic.user.getMetadata();
                 // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
