@@ -10,7 +10,7 @@ import { Bridge } from "@socket.tech/widget";
 import tokens from '../../abis/UniswapTokens.json'
 import ConnectModalContext from '../../contexts/connectwallet';
 
-const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+const jsonRpcEndpoint = `https://goerli.infura.io/v3/327c87eb10b048ad89f3b5d3ac9e3d9c`;
 // Socket public testing API Key
 const SOCKET_API_KEY = '645b2c8c-5825-4930-baf3-d9b997fcd88c'
 

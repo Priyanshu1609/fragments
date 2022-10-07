@@ -39,11 +39,11 @@ const networks = {
             "https://etherscan.io",
         ]
     },
-    rinkeby: {
+    goerli: {
         chainId: `0x${Number(4).toString(16)}`,
-        chainName: "Rinkeby",
+        chainName: "goerli",
         rpcUrls: [
-            'https://rinkeby.infura.io/v3/'
+            'https://goerli.infura.io/v3/'
         ],
         nativeCurrency: {
             name: "Ether",
@@ -51,7 +51,7 @@ const networks = {
             decimals: 18
         },
         blockExplorerUrls: [
-            "https://rinkeby.etherscan.io",
+            "https://goerli.etherscan.io",
         ]
     },
 };
