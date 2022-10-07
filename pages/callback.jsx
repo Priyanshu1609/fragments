@@ -46,20 +46,20 @@ const Callback = (props) => {
 
             let userMetadata = await magic.user.getMetadata();
 
-            // console.log({ didToken, userMetadata })
+            console.log({ didToken, userMetadata })
             const options = {
                 method: 'POST',
                 url: 'https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/magic',
                 data: {
                     didToken: didToken,
-                    issuer: userMetadata.issuer
+                    issuer: userMetadata
                 }
             };
 
             const credentials = axios.request(options)
 
 
-            if (credentials) {
+            if (credentials && credentials.SessionToken) {
                 // Set the UserContext to the now logged in user
                 let userMetadata = await magic.user.getMetadata();
                 // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });

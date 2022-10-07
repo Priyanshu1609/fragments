@@ -137,12 +137,5 @@ export async function getServerSideProps({ req, res }: any) {
 
   const data = parseCookies(req)
 
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" })
-      res.end()
-    }
-  }
-
   return { props: { data } }
 }
