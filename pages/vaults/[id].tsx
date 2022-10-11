@@ -470,7 +470,7 @@ const VaultDetail: React.FC = () => {
                         />
                         <p className='text-sm'>{getEllipsisTxt(data?.creator, 5)}</p>
                     </div>
-                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold bg-[#1E1E24] rounded-lg py-2 px-3'>
+                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-10 bg-[#1E1E24] rounded-lg py-2 px-3'>
                         <span>Share Link</span>
                         <MdIosShare className='h-5 w-5 text-white' />
                     </button>
