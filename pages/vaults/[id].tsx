@@ -23,6 +23,7 @@ import { MdMail } from 'react-icons/md';
 
 
 
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -103,6 +104,7 @@ const VaultDetail: React.FC = () => {
     const { id, type } = router.query
 
     // console.log("owners", ownerData);
+    console.log({ data });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -333,9 +335,15 @@ const VaultDetail: React.FC = () => {
         if (data) {
             checkGovernedState();
             countDownTimer(data?.fundraiseDuration);
-            type && setModal(true);
         }
     }, [data])
+
+    useEffect(() => {
+        if (type === "new") {
+            setModal(true);
+        }
+
+    }, [type])
 
     useEffect(() => {
         // setTimeout(() => { setModal(true); }, 2000);
@@ -346,6 +354,12 @@ const VaultDetail: React.FC = () => {
             getContractBalanaceInEth();
         }
     }, [currentAccount, id])
+
+    // function to capitalise first letter
+    const capitalizeFirstLetter = (string: string) => {
+        if (string?.length <= 1) return null;
+        return string?.charAt(0).toUpperCase() + string?.slice(1);
+    }
 
     const handleOpen = (link: string) => {
         window.open(link, "_blank");
@@ -374,12 +388,12 @@ const VaultDetail: React.FC = () => {
 
     return (
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide relative'>
-            {type && <Lottie
+            {type === "new" && <Lottie
                 // loop
                 animationData={success}
                 play
                 loop={1}
-                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" }}
+                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" , zIndex: 1}}
             />}
             <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
@@ -390,7 +404,7 @@ const VaultDetail: React.FC = () => {
 
                                     {nfts?.map((nft: any) => (
                                         <div key={nft?.image} className="mx-auto w-full">
-                                            <SwiperSlide>
+                                            <Slider {...settings} className="card__container--inner">
                                                 <img src={fixTokenURI(nft?.image)} className="rounded-t-xl overflow-hidden" />
                                                 <div className='p-4 truncate text-xl bg-input rounded-b-xl'>
                                                     <div className='flex space-x-2 items-center justify-start'>
@@ -399,7 +413,7 @@ const VaultDetail: React.FC = () => {
                                                     </div>
                                                     <p className='mt-2 font-britanica font-normal'>{nft?.name}</p>
                                                 </div>
-                                            </SwiperSlide>
+                                            </Slider>
                                         </div>
                                     ))}
 
@@ -454,7 +468,7 @@ const VaultDetail: React.FC = () => {
                             scale={3}
                             className='rounded-full mr-3'
                         />
-                        <p className='text-sm'>{data?.tokenName}</p>
+                        <p className='text-sm'>{getEllipsisTxt(data?.creator, 5)}</p>
                     </div>
                     <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold bg-[#1E1E24] rounded-lg py-2 px-3'>
                         <span>Share Link</span>
@@ -491,34 +505,9 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
                             </div>
-                            <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg'>Buy More</button>
+                            <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More</button>
                         </div >
                     </div>
-                    {
-                        // data?.vaultStatus === "RUNNING" && data?.amount < data?.target ? <div>
-                        //     <div className='mt-4'>
-                        //         <div className='flex justify-between text-sm text-gray-300 mb-2'>
-                        //             <p>Enter amount</p>
-                        //             <p>Balance: {balance} ETH</p>
-                        //         </div>
-                        //         <input required type='number' step="0" placeholder='Enter amount' min={0} onChange={(e) => setTokenAmount(Number(e.target.value))} className='bg-input p-4 w-full rounded-lg focus:outline-none' />
-                        //     </div>
-
-                        //     <div className='text-center' >
-                        //         <button onClick={handleAddAmount} className='bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff]  flex items-center space-x-3 justify-center text-sm w-full text-gray-900 py-2 px-4 rounded-lg mt-4'>
-                        //             <p>Purchase {tokenAmount}</p>
-                        //             <ArrowRightIcon className='w-4 h-4' />
-                        //         </button>
-                        //         {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
-                        //     </div>
-                        // </div> :
-                        //     <div>
-                        //         <div className='bg-input p-3 text-center rounded-lg text-2xl mt-4'>
-                        //             <p className='text-red-500'>Fundraise is {data?.vaultStatus}</p>
-                        //         </div>
-
-                        //     </div>
-                    }
 
 
                 </div > :
@@ -557,7 +546,7 @@ const VaultDetail: React.FC = () => {
                         </div>
                     </div>
                     <div className='mt-4'>
-                        <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Governance Information</span>
+                        <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Governance Information - <span className="text-white">{capitalizeFirstLetter(data?.type)}</span></span>
                         <div className='my-4'>
                             <div className='flex justify-between mb-4'>
                                 <div>
@@ -622,7 +611,7 @@ const VaultDetail: React.FC = () => {
                         <div onClick={() => handleOpen(links[4])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
                             <TiSocialTwitter className='h-10 w-10  text-[#1da1f2]' />
                         </div>
-                        <div onClick={() => handleOpen(links[4])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center '>
+                        <div onClick={() => handleOpen(links[4])} className='hover:cursor-pointer hover:opacity-70 rounded-xl h-28 w-20 border-[1px] border-gray-600 flex items-center justify-center'>
                             <MdMail className='h-10 w-10  text-[#4285f4]' />
                         </div>
 

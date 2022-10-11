@@ -56,19 +56,6 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(true);
             setVaults([])
 
-            // const data = JSON.stringify({
-            //     "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
-            // });
-            // const data = JSON.stringify({
-            //     "address": currentAccount
-            // });
-            // const response = await axios.post(`​​https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser`, data, {
-            //     headers: {
-            //         'content-Type': 'application/json',
-            //     },
-            // }
-            // );
-
             const options = {
                 method: 'POST',
                 url: 'https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser',
@@ -136,6 +123,7 @@ export const DataContextProvider = ({ children }) => {
     const deploySafe = async () => {
         try {
             setIsLoading(true);
+            // return "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
             console.log("Deploying Safe");
@@ -144,7 +132,6 @@ export const DataContextProvider = ({ children }) => {
             console.log("Deployed safe address:", vaultData.data.address)
             const address = vaultData.data.address;
             return address;
-            return "0x67407721B109232BfF825F186c8066045cFefe7F"
 
         } catch (error) {
             console.error(error)
@@ -168,11 +155,6 @@ export const DataContextProvider = ({ children }) => {
                 }
             }
 
-            // const contractAddress = await axios.get(`https://szsznuh64j.execute-api.ap-south-1.amazonaws.com/dev/api/contract`, {
-            //     headers: {
-            //         'content-Type': 'application/json',
-            //     },
-            // });
             const contractAddress = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
             console.log("Contract Address:", contractAddress.data);
 
@@ -233,8 +215,7 @@ export const DataContextProvider = ({ children }) => {
             console.log("aws res 2:", response2, data2);
             router.push({
                 pathname: `/vaults/${address}`,
-                query: { user: currentAccount },
-                type: "new"
+                query: { user: currentAccount, type: "new" },
             })
 
             await getVaultsByWallet();
