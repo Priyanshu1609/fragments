@@ -8,6 +8,7 @@ import Web3 from 'web3';
 import { AwsClient } from 'aws4fetch';
 import axios from 'axios';
 import { useCookies } from "react-cookie"
+import { magic } from "../utils/magic"
 
 const contractAddress = 0x0000000000000000000000;
 
@@ -38,11 +39,11 @@ const networks = {
             "https://etherscan.io",
         ]
     },
-    rinkeby: {
+    goerli: {
         chainId: `0x${Number(4).toString(16)}`,
-        chainName: "Rinkeby",
+        chainName: "goerli",
         rpcUrls: [
-            'https://rinkeby.infura.io/v3/'
+            'https://goerli.infura.io/v3/'
         ],
         nativeCurrency: {
             name: "Ether",
@@ -50,7 +51,7 @@ const networks = {
             decimals: 18
         },
         blockExplorerUrls: [
-            "https://rinkeby.etherscan.io",
+            "https://goerli.etherscan.io",
         ]
     },
 };
@@ -83,14 +84,7 @@ export const TransactionProvider = ({ children }) => {
                     validateStatus: false,
                 }
             );
-            // const res = await axios(
-            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_GET_NONCE_PATH
-            //     }?address=${address}`,
-            //     {
-            //         method: 'GET',
-            //         validateStatus: false,
-            //     }
-            // );
+
             customerId = res.data.customerId;
             console.log("data", res);
             if (!customerId) {
@@ -111,18 +105,6 @@ export const TransactionProvider = ({ children }) => {
                         },
                     }
                 );
-                // const res = await axios.post(
-                //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_SIGNUP_PATH}`,
-                //     data,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'application/json',
-                //             "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
-                //         },
-                //     }
-                // );
-                // console.log("Signup", res);
-                // return res.data;
 
                 console.log("Signup", res);
                 if (res && res.data.Attributes) {
@@ -153,18 +135,7 @@ export const TransactionProvider = ({ children }) => {
                     },
                 }
             );
-            // const data = await axios.post(
-            //     `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_API_LOGIN_PATH}`,
-            //     {
-            //         address,
-            //         signature,
-            //     },
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //     }
-            // );
+
             if (data) {
                 const aws = new AwsClient({
                     accessKeyId: data.data.AccessKeyId,
@@ -177,7 +148,7 @@ export const TransactionProvider = ({ children }) => {
                 setAwsClient(aws);
                 setCookie("user", JSON.stringify(aws), {
                     path: "/",
-                    maxAge: 3600, // Expires after 1hr
+                    maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
 
@@ -242,10 +213,10 @@ export const TransactionProvider = ({ children }) => {
                 setIsLoading(true)
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
-                let address = accounts[0];
-                const res = await awsConnect(address);
-                console.log(res);
-                if (!res) { return }
+                // let address = accounts[0];
+                // const res = await awsConnect(address);
+                // console.log(res);
+                // if (!res) { return }
             }
 
             else {
@@ -273,6 +244,7 @@ export const TransactionProvider = ({ children }) => {
         try {
 
             setIsReturningUser(true);
+            await magic.user.logout();
 
             setCurrentAccount('');
             setAwsClient(null);
@@ -292,6 +264,17 @@ export const TransactionProvider = ({ children }) => {
         const balance = await provider.getBalance(currentAccount)
         let balanceInEth = ethers.utils.formatEther(balance);
         balanceInEth = parseFloat(balanceInEth).toFixed(4);
+
+        return balanceInEth;
+    }
+
+    const getContractBalance = async (contractAddress) => {
+        const provider = new ethers.providers.Web3Provider(eth);
+        const balance = await provider.getBalance(contractAddress);
+        let balanceInEth = ethers.utils.formatEther(balance);
+        // balanceInEth = parseFloat(balanceInEth).toFixed(4);
+
+        console.log('Balance Contract:', balanceInEth, balance);
 
         return balanceInEth;
     }
@@ -351,27 +334,27 @@ export const TransactionProvider = ({ children }) => {
     };
 
 
-    useEffect(() => {
-        async function listenMMAccount() {
-            window.ethereum.on("accountsChanged", async function () {
-                eth.on('accountsChanged', function () {
-                    console.log('accounts changed')
-                    logoutWallet();
-                })
-                logoutWallet();
-            });
-        }
-        listenMMAccount();
-    }, []);
+    // useEffect(() => {
+    //     async function listenMMAccount() {
+    //         window.ethereum.on("accountsChanged", async function () {
+    //             eth.on('accountsChanged', function () {
+    //                 console.log('accounts changed')
+    //                 logoutWallet();
+    //             })
+    //             logoutWallet();
+    //         });
+    //     }
+    //     listenMMAccount();
+    // }, []);
 
-    useEffect(() => {
-        async function listenMMAccount() {
-            window.ethereum.on("chainChanged", async function () {
-                getProvider();
-            });
-        }
-        listenMMAccount();
-    }, []);
+    // useEffect(() => {
+    //     async function listenMMAccount() {
+    //         window.ethereum.on("chainChanged", async function () {
+    //             getProvider();
+    //         });
+    //     }
+    //     listenMMAccount();
+    // }, []);
 
     useEffect(() => {
         checkIfWalletIsConnected()
@@ -386,12 +369,14 @@ export const TransactionProvider = ({ children }) => {
                 isLoading,
                 logoutWallet,
                 getBalanace,
+                getContractBalance,
                 getTokenBalance,
                 getProvider,
                 setIsLoading,
                 sendTx,
                 ens,
                 awsClient,
+                setAwsClient
             }}
         >
             {children}

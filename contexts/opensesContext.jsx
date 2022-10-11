@@ -24,14 +24,14 @@ export const OpenseaContextProvider = ({ children }) => {
 
     const provider = new HDWalletProvider({
         privateKeys: [`${process.env.NEXT_PUBLIC_PRIVATE}`,],
-        providerOrUrl: `https://eth-rinkeby.alchemyapi.io/v2/VsUuFQTF1nb_Vri2VoJeVZZICzP6F3gN`,
+        providerOrUrl: `https://goerli.infura.io/v3/327c87eb10b048ad89f3b5d3ac9e3d9c`,
         pollingInterval: 1000000
     });
 
     const seaport = new OpenSeaPort(
         provider,
         {
-            networkName: Network.Rinkeby,
+            networkName: Network.Goerli,
             apiKey: "",
         },
         (arg) => console.log(arg)

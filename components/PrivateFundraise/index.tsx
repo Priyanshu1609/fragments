@@ -28,7 +28,7 @@ import ConnectModalContext from '../../contexts/connectwallet';
 import PageLoader from '../PageLoader';
 import loader from '../../assets/loader.json'
 
-const jsonRpcEndpoint = `https://rinkeby.infura.io/v3/195d30bd1c384eafa2324e0d6baab488`;
+const jsonRpcEndpoint = `https://goerli.infura.io/v3/327c87eb10b048ad89f3b5d3ac9e3d9c`;
 
 interface CreateVaultFormProps {
     setCurrentStep: (values: CreateVaultStep) => void;
@@ -64,8 +64,8 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
 
     const createSafe = async () => {
         setSafeDeploy(true);
-        // const address = await deploySafe();
-        const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+        const address = await deploySafe();
+        // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
             alert("Error in deploying Gnosis safe! Please try again");
             router.push({

@@ -21,17 +21,14 @@ import { fixTokenURI } from '../../utils';
 import { RiShareBoxLine } from "react-icons/ri";
 import { MdMail } from 'react-icons/md';
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
+
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import axios from 'axios';
 import { CreateVaultFormValues } from '../../components/CreateVaultForm';
-
 
 export enum VaultDashboardTabs {
     Information = 'INFORMATION',
@@ -74,13 +71,14 @@ const VaultDetail: React.FC = () => {
     const router = useRouter();
 
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
-    const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace } = useContext(TransactionContext);
+    const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace, getContractBalance } = useContext(TransactionContext);
     // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens, getTokenIdMetadata } = useContext(NftContext);
     const { getVaultsByWallet, getVaultsByCreator } = useContext(DataContext);
     const [modal, setModal] = useState(false);
     const [countDown, setCountDown] = useState("");
     const [balance, setBalance] = useState("");
+    const [valuation, setValuation] = useState(0)
     // const [selectedToken, setSelectedToken] = useState<selectedToken>()
     // const [selectedChain, setSelectedChain] = useState<selectedChain>()
     // const [coins, setCoins] = useState([]);
@@ -98,6 +96,8 @@ const VaultDetail: React.FC = () => {
         fundraiseDuration: 0,
         amount: 0
     })
+
+
     const [data, setData] = useState<CreateVaultFormValues | any>();
 
     const { id, type } = router.query
@@ -108,30 +108,6 @@ const VaultDetail: React.FC = () => {
         const provider = await getProvider();
         setProvider(provider);
     }
-
-    // setIsFunded(true)
-
-    // const fetchTokens = async (chainId: number | undefined) => {
-
-    //     try {
-    //         const res = await fetchFromTokens(chainId);
-    //         setCoins(res);
-
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-    // const bridge = async () => {
-    //     const fromChainId = selectedToken?.chainId
-    //     const fromToken = selectedToken?.address
-    //     const amount = tokenAmount
-    //     const userAddress = currentAccount
-
-    //     const txHash = await transaction(fromChainId, fromToken, amount, userAddress);
-
-    //     console.log('Destination Socket Tx', txHash)
-    // }
 
     const getVaultData = async () => {
         try {
@@ -152,9 +128,9 @@ const VaultDetail: React.FC = () => {
             );
             console.log("FETCH RES", response.data.Items);
 
-            response.data.Items?.forEach((element : any) => {
+            response.data.Items?.forEach((element: any) => {
                 // console.log(element);
-    
+
                 for (let i in element) {
                     data[i] = Object.values(element[i])[0]
                 }
@@ -241,7 +217,7 @@ const VaultDetail: React.FC = () => {
 
     const handleAddAmount = async () => {
 
-        if (tokenAmount <= 0 || tokenAmount >= data?.target - data?.amount) {
+        if (tokenAmount <= 0) {
             alert("Please enter a valid amount")
             return;
         }
@@ -347,6 +323,10 @@ const VaultDetail: React.FC = () => {
         const balance = await getBalanace();
         setBalance(balance);
     }
+    const getContractBalanaceInEth = async () => {
+        const balance = await getContractBalance(id);
+        setValuation(balance);
+    }
 
 
     useEffect(() => {
@@ -363,24 +343,33 @@ const VaultDetail: React.FC = () => {
             getVaultData()
             getProviderFrom();
             getBalanaceInEth();
+            getContractBalanaceInEth();
         }
     }, [currentAccount, id])
 
-
-    const sliderRef = useRef() as any;
-
-    const handlePrev = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slidePrev();
-    }, []);
-
-    const handleNext = useCallback(() => {
-        if (!sliderRef.current) return;
-        sliderRef.current.swiper.slideNext();
-    }, []);
-
     const handleOpen = (link: string) => {
         window.open(link, "_blank");
+    }
+
+    const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        // <img src={LeftArrow} alt="prevArrow" {...props} />
+    );
+
+    const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+        // <img src={RightArrow} alt="nextArrow" {...props} />
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+    );
+
+    const settings = {
+        dots: true,
+        fade: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: <SlickArrowLeft />,
+        nextArrow: <SlickArrowRight />,
     }
 
     return (
@@ -395,22 +384,10 @@ const VaultDetail: React.FC = () => {
             <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
-                        <div onClick={handlePrev} className='cursor-pointer  bg-gray-300 rounded-full p-2 mt-64'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
                         <div className='flex-[0.8]'>
-                            <div className=''>
-                                <Swiper
-                                    ref={sliderRef}
-                                    // navigation={true}
-                                    effect={"fade"}
-                                    pagination={true}
-                                    loop={true}
-                                    autoplay={{
-                                        delay: 10000,
-                                        disableOnInteraction: false,
-                                    }}
-                                    modules={[EffectFade, Navigation, Autoplay, Pagination]}
-                                    className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center"
-                                >
+                            <div className="card__container">
+                                <Slider {...settings} className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center">
+
                                     {nfts?.map((nft: any) => (
                                         <div key={nft?.image} className="mx-auto w-full">
                                             <SwiperSlide>
@@ -425,11 +402,10 @@ const VaultDetail: React.FC = () => {
                                             </SwiperSlide>
                                         </div>
                                     ))}
-                                </Swiper>
 
+                                </Slider>
                             </div>
                         </div>
-                        <div onClick={handleNext} className='cursor-pointer mt-64  bg-gray-300 rounded-full p-2 '><ChevronRightIcon className='text-white h-7 w-7' /></div>
                     </div>
                 }
                 <div className='flex items-start justify-center mt-4 w-full'>
@@ -560,7 +536,7 @@ const VaultDetail: React.FC = () => {
                             <div className='flex justify-between'>
                                 <div>
                                     <p className='text-xl text-white font-britanica font-normal mb-2'>Valuations</p>
-                                    <p className='text-xl font-semibold'>600 ETH</p>
+                                    <p className='text-xl font-semibold'>{valuation} ETH</p>
                                 </div>
                                 <div>
                                     <p className='text-xl text-white font-britanica font-normal mb-2'>No. of tokens</p>
@@ -614,7 +590,7 @@ const VaultDetail: React.FC = () => {
                             </a>
                             <a href={`https://gnosis-safe.io/app/rin:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer'>
                                 <div className='flex items-center justify-center'>
-                                    <img src="https://aws1.discourse-cdn.com/standard20/uploads/gnosis_safe/original/1X/175f55ca5dfa29e9322ebc0d8aa73f11e6fde6db.png" className='h-6 w-6 rounded-full' />
+                                    <img src="https://pbs.twimg.com/profile_images/1566775952620900353/vRyTLmek_400x400.jpg" className='h-6 w-6 rounded-full' />
                                     <p className='ml-4'>View on Gnosis Wallet</p>
                                 </div>
                                 <ArrowUpIcon className='h-6 w-6 rotate-45' />

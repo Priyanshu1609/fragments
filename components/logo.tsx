@@ -5,7 +5,7 @@ import logotype from '../assets/Group.png';
 
 const Logo: React.FC<{ isWhite?: boolean }> = ({ isWhite = false }) => {
   return (
-    <div className="flex items-center justify-between space-x-2  text-white text-2xl">
+    <div className="flex items-center justify-between space-x-2 mx-auto text-white text-2xl">
       <Image src={logotype} height={35} width={250} />
     </div>
   );

@@ -109,7 +109,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
             // console.log('transfer', transfer)
             // await transfer.wait();
             setTransferred([...transferred, id]);
-            let add: string = `https://testnets.opensea.io/assets/rinkeby/${tokenAddress}/${tokenId}`;
+            let add: string = `https://testnets.opensea.io/assets/goerli/${tokenAddress}/${tokenId}`;
 
             setNftsImported([...nftsImported ?? [], add])
 

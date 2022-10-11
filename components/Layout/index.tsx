@@ -5,7 +5,7 @@ import { CookiesProvider } from "react-cookie"
 
 import { ConnectModalProvider } from '../../contexts/connectwallet'
 import { SocketProvider } from '../../contexts/socketContext'
-import { OpenseaContextProvider } from '../../contexts/opensesContext'
+// import { OpenseaContextProvider } from '../../contexts/opensesContext'
 import { NftContextProvider } from '../../contexts/NftContext'
 import { TransactionContext, TransactionProvider } from '../../contexts/transactionContext'
 import { DataContextProvider } from '../../contexts/dataContext'
@@ -17,6 +17,7 @@ import PageLoader from '../PageLoader'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Navbar from '../Navbar'
+import { parseCookies } from '../../utils/cookie'
 
 const SelectChain = dynamic(
     () => import('../../components/SelectChain'),
@@ -37,7 +38,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                 <ConnectModalProvider>
                     <DataContextProvider>
                         <NftContextProvider>
-                            <OpenseaContextProvider>
+                            {/* <OpenseaContextProvider> */}
                                 <SocketProvider>
                                     <Head>
                                         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,7 +54,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                                         <SelectChain />
                                     </div>
                                 </SocketProvider>
-                            </OpenseaContextProvider>
+                            {/* </OpenseaContextProvider> */}
                         </NftContextProvider>
                     </DataContextProvider>
                 </ConnectModalProvider>

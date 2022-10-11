@@ -46,7 +46,7 @@ const Democratic = ({ setCurrentStep, handleBack }: any) => {
         <div className='max-w-2xl mx-auto text-lg'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")] bg-[#232529] bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className=' text-3xl font-semibold'>Governance Parameters Democratic</h2>
+                    <h2 className=' text-3xl font-semibold'>Governance Parameters </h2>
                     <p className='font-montserrat text-base'>How is the vault being monitored?</p>
                 </div>
                 <div className='-mr-[5rem] mt-8'>

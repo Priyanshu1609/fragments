@@ -266,7 +266,7 @@ export const SocketProvider = ({ children }) => {
         const fromSigner = fromProvider.getSigner();
 
         const toProvider = new ethers.providers.EtherscanProvider(
-            'rinkeby',
+            'goerli',
             `${process.env.NEXT_PUBLIC_API}`
         )
         const toSigner = new ethers.Wallet(`${process.env.NEXT_PUBLIC_PRIVATE}`, toProvider);

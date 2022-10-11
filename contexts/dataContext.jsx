@@ -27,7 +27,7 @@ export const defaultFormData = {
     amount: 0,
     email: '',
     minApproval: 0,
-    commiteeMembers: [],
+    commiteeMembers: [""],
 }
 
 

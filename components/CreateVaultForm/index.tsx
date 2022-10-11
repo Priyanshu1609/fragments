@@ -63,9 +63,8 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
 
 
     const [tokenSupply, setTokenSupply] = useState(1000000)
-    const [type, setType] = useState(null);
+    const [type, setType] = useState<string>("");
     const [numOfTokens, setNumOfTokens] = useState(1000000)
-
     console.log({ type })
 
     const { formData, setFormData, handleChange } = useContext(DataContext);
@@ -100,12 +99,29 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
 
     }
 
-    const Options = ({ title, desc, option }: any) => (
-        <div className={`inline-flex  rounded-lg ${type === option ? `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white` : 'bg-gray-600'}`} onClick={e => setType(option)}>
+    const handleType = (option: string) => {
+        if (option === "democratic") {
+            // setType("democratic")
+            alert("Coming soon")
+        } else if (option === "committee") {
+            setType("committee")
+        } else if (option === "weighted") {
+            // setType("weighted")
+            alert("Coming soon")
+        } else if (option === "monarchy") {
+            setType("monarchy")
+        }
+    }
+
+    const Options = ({ title, desc, option, open }: any) => (
+        <div className={`inline-flex  rounded-lg ${type === option ? `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white` : 'bg-gray-600'}`} onClick={e => handleType(option)}>
 
             <div className="radio bg-black m-[0.05rem] w-full  py-2 px-4 rounded-lg cursor-pointer flex">
                 <div>
-                    <p className='text-base font-semibold mb-1'>{title}</p>
+                    <div className='flex items-center justify-between'>
+                        <p className='text-base font-semibold mb-1'>{title}</p>
+                        {open && <div className='bg-[#343941] px-2 text-sm rounded-md text-button'>Coming Soon</div>}
+                    </div>
                     <p className='text-sm text-[#E6E6E6]'>{desc}</p>
                 </div>
                 <div className={` ${type === option ? 'bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white' : 'bg-white'} h-4 w-4 mt-2 mb-auto mx-2 rounded-full`}>
@@ -143,10 +159,10 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <p className='text-xl font-britanica font-normal  mb-2'>What's this vault like?{requiredTag}</p>
                         <div className=" rounded-2xl relative grid grid-cols-1 md:grid-cols-2 gap-3">
 
-                            <Options option="weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options option="democratic" title="Democratic Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options option="monarchy" title="Monarchy" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options option="committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={true} option="weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={true} option="democratic" title="Democratic Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={false} option="monarchy" title="Monarchy" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={false} option="committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
 
                         </div>
 
@@ -164,7 +180,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <label>
                         <p className='text-xl font-britanica font-normal '>Management Fees <span className='text-base'> ( Upto 99% )</span>{requiredTag}</p>
-                        <input required type='number' step="0" min={1} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
+                        <input required type='number' step="0" min={0} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                     </label>
                     <div className='flex justify-between'>
                         <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg font-semibold bg-[#232529]  text-white flex items-center justify-center space-x-4'>
