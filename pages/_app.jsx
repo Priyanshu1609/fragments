@@ -8,6 +8,20 @@ import { ThemeProvider } from "@magiclabs/ui";
 import { magic } from "../utils/magic";
 import Amplify, { Auth } from "aws-amplify";
 
+import NProgress from "nprogress"
+import Head from "next/head"
+import Router from "next/router"
+
+
+NProgress.configure({ showSpinner: false });
+Router.onRouteChangeStart = url => {
+  NProgress.start()
+}
+
+Router.onRouteChangeComplete = () => NProgress.done()
+
+Router.onRouteChangeError = () => NProgress.done()
+
 async function refreshToken() {
   const didToken = await magic.user.getIdToken();
   const userMetadata = await magic.user.getMetadata();

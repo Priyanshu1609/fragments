@@ -22,6 +22,8 @@ import { MdArrowForwardIos } from 'react-icons/md';
 import { parseCookies } from '../utils/cookie';
 
 
+
+
 declare var window: any;
 
 export enum TabNames {
