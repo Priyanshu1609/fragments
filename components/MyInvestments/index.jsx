@@ -19,7 +19,7 @@ const MyInvestment = () => {
     const { vaults } = useContext(DataContext);
     const { currentAccount } = useContext(TransactionContext);
 
-    // console.log({vaults})
+    console.log({ vaults })
 
     const router = useRouter();
 
@@ -80,14 +80,14 @@ const MyInvestment = () => {
                     <Slider {...settings} className="">
                         {vaults?.map((vault, index) => {
                             return (
-                                vault.target != 0 &&
+                                vault.vaultStatus === "RUNNING" &&
 
                                 <div key={index} className='cursor-pointer' onClick={() =>
                                     router.push({
                                         pathname: `/vaults/${vault?.vaultAddress}`,
                                         query: { user: currentAccount },
                                     })}>
-                                    <VaultCard
+                                    {/* <VaultCard
                                         name={vault?.vaultName}
                                         address={vault?.vaultAddress}
                                         target={vault?.target}
@@ -95,7 +95,20 @@ const MyInvestment = () => {
                                         amount={vault?.amountPledged}
                                         timestamp={vault?.timestamp}
                                         image="https://lh3.googleusercontent.com/b2fJSqKXfH9AJg63az3zmMUC6PMd_bmqnI5W-rtouKvZ03vBeiyayb3zqDq4t7PLt2HmNxcocUMjxb7V03Jy_mMZc_5wVDaxk_T5=w260"
+                                    /> */}
+                                    <VaultCard
+                                        name={vault?.vaultName}
+                                        address={vault?.vaultAddress}
+                                        target={vault?.target}
+                                        status={vault?.vaultStatus}
+                                        amount={vault?.amount}
+                                        timestamp={vault?.fundraiseDuration}
+                                        creator={vault?.creator}
+                                        nfts={vault?.nfts}
+                                        tokenName={vault?.tokenName}
+                                        vaultName={vault?.vaultName}
                                     />
+
                                 </div>
                             );
                         })}

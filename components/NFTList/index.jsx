@@ -26,6 +26,7 @@ const NFTList = () => {
 
     const router = useRouter();
 
+
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
         <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
         // <img src={LeftArrow} alt="prevArrow" {...props} />
@@ -74,8 +75,8 @@ const NFTList = () => {
     };
 
     return (
-        <div className='h-[30rem] '>
-            <div className='py-4 flex relative items-center justify-evenly'>
+        <div className='h-[30rem]'>
+            <div className='py-4 relative  '>
                 <div className="card__container">
                     <Slider {...settings} className="card__container--inner">
 
@@ -86,7 +87,6 @@ const NFTList = () => {
                                     floor_price={nftFloorPriceMapping?.[`${nft.token_address}_${nft.token_id}`]}
                                     key={nft.token_uri}
                                 />
-
                             </div>
                         ))}
 

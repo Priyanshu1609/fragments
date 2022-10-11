@@ -31,7 +31,7 @@ const Home: NextPage = ({ data }: any) => {
   const [connected, setConnected] = useState(false)
   const [email, setEmail] = useState<any>(null);
   const [disabled, setDisabled] = useState(false)
-  
+
   const [user, setUser] = useState<any>();
   useEffect(() => {
     if (!user) {
@@ -42,7 +42,7 @@ const Home: NextPage = ({ data }: any) => {
   const router = useRouter();
   // console.log("Data of the user", data?.user);
 
-  async function handleLoginWithEmail(e) {
+  async function handleLoginWithEmail(e: any) {
     e.preventDefault();
     try {
       setDisabled(true);
@@ -106,7 +106,7 @@ const Home: NextPage = ({ data }: any) => {
         } else {
           router.push('/connect')
         }
-        
+
       }, 3000);
     }
   }, [data.user])

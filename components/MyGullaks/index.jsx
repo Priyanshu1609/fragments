@@ -75,7 +75,7 @@ const MyInvestment = () => {
                     <Slider {...settings} className="card__container--inner">
 
                         {creatorVaults?.map((vault) => (
-                            <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
+                            vault.vaultStatus === "RUNNING" && <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
                                     query: { user: currentAccount },
