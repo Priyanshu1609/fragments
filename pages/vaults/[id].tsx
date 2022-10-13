@@ -461,7 +461,7 @@ const VaultDetail: React.FC = () => {
             </div>
 
             <div className={`p-6 bg-input rounded-xl ${data?.origin !== "private" && "flex-[0.4]"} ${data?.origin === "private" && "flex-[0.6]"} `}>
-                <div className='flex items-center justify-between w-full z-10'>
+                <div className='flex items-center justify-between w-full z-50'>
                     <button onClick={() =>
                         router.push({
                             pathname: `/profile/${data?.creator}`
