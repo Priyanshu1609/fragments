@@ -47,15 +47,6 @@ async function refreshToken() {
 }
 
 
-// Amplify.configure(awsconfig);
-
-// Auth.configure({
-//   refreshHandlers: {
-//     developer: refreshToken,
-//   },
-// });
-
-
 export default function App({
   Component, pageProps: { session, ...pageProps }
 }) {

@@ -139,6 +139,25 @@ export const DataContextProvider = ({ children }) => {
             setIsLoading(false);
         }
     }
+    const deployContract = async () => {
+        try {
+            setIsLoading(true);
+            // return "0x67407721B109232BfF825F186c8066045cFefe7F"
+            // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
+            // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
+            console.log("Deploying Contract");
+            const data = await axios.get(`https://360gdsymqf.execute-api.ap-south-1.amazonaws.com/dev/api/contract/get`);
+
+            console.log("Deployed safe address:", data)
+            
+            return data.data;
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     const handleCreateVault = async (values, address) => {
         try {
@@ -155,8 +174,9 @@ export const DataContextProvider = ({ children }) => {
                 }
             }
 
-            const contractAddress = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
-            console.log("Contract Address:", contractAddress.data);
+            // const contractAddress = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
+            const contractAddress  = await deployContract();
+            console.log("Contract Address:", contractAddress);
 
             const data = JSON.stringify({
                 "vaultAddress": address,

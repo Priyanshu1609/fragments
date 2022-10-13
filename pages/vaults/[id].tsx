@@ -102,6 +102,7 @@ const VaultDetail: React.FC = () => {
     const [data, setData] = useState<CreateVaultFormValues | any>();
 
     const { id, type } = router.query
+  
 
     // console.log("owners", ownerData);
     console.log({ data });
@@ -393,7 +394,7 @@ const VaultDetail: React.FC = () => {
                 animationData={success}
                 play
                 loop={1}
-                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll" , zIndex: 1}}
+                style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll", zIndex: 1 }}
             />}
             <div className='flex flex-col flex-[0.6] items-center mt-4'>
                 {data?.origin !== "private" &&
@@ -460,8 +461,12 @@ const VaultDetail: React.FC = () => {
             </div>
 
             <div className={`p-6 bg-input rounded-xl ${data?.origin !== "private" && "flex-[0.4]"} ${data?.origin === "private" && "flex-[0.6]"} `}>
-                <div className='flex items-center justify-between w-full'>
-                    <div className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
+                <div className='flex items-center justify-between w-full z-10'>
+                    <button onClick={() =>
+                        router.push({
+                            pathname: `/profile/${data?.creator}`
+                        })}
+                        className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
                         <Blockies
                             seed='need to be changed'
                             size={7}
@@ -469,7 +474,7 @@ const VaultDetail: React.FC = () => {
                             className='rounded-full mr-3'
                         />
                         <p className='text-sm'>{getEllipsisTxt(data?.creator, 5)}</p>
-                    </div>
+                    </button>
                     <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-10 bg-[#1E1E24] rounded-lg py-2 px-3'>
                         <span>Share Link</span>
                         <MdIosShare className='h-5 w-5 text-white' />
