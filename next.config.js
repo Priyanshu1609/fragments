@@ -19,6 +19,16 @@ const withTM = require('next-transpile-modules')(['@lifi/widget']);
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+  images: {
+    domains: ['openseauserdata.com', 'lh3.googleusercontent.com',],
+  },
   
 }
 
