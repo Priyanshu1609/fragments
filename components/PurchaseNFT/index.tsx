@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, PlusIcon, XIcon } from '@heroicons/react/solid';
 import { BigNumber } from 'ethers';
-import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
-import '@uniswap/widgets/fonts.css'
+
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 
@@ -326,23 +325,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                     </button>
                 </div>
 
-            </Modal>
-            <Modal
-                open={uniModal}
-                onClose={() => setUniModal(false)}
-                showCTA={false}
-                title="Swap Tokens"
-            >
-                <div className="Uniswap p-6 flex bg-black items-center justify-center">
-                    <SwapWidget
-                        provider={provider}
-                        jsonRpcEndpoint={jsonRpcEndpoint}
-                        defaultOutputTokenAddress='NATIVE'
-                        theme={darkTheme}
-                        width={512}
-
-                    />
-                </div>
             </Modal>
         </div>
     )

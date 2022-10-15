@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext , useEffect} from 'react'
 
-import type { LiFiWidget } from '@lifi/widget';
+import type { LiFiWidget, useWidgetEvents } from '@lifi/widget';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Modal from './Modal';
@@ -60,6 +60,32 @@ const LifiWidget: React.FC = () => {
         variant: 'expandable',
     }), []);
 
+    // const widgetEvents = useWidgetEvents();
+
+
+
+    // useEffect(() => {
+    //     const onRouteExecutionStarted = (route: Route) => {
+    //         // console.log('onRouteExecutionStarted fired.');
+    //     };
+    //     const onRouteExecutionUpdated = (update: RouteExecutionUpdate) => {
+    //         // console.log('onRouteExecutionUpdated fired.');
+    //     };
+    //     const onRouteExecutionCompleted = (route: Route) => {
+    //         // console.log('onRouteExecutionCompleted fired.');
+    //     };
+    //     const onRouteExecutionFailed = (update: RouteExecutionUpdate) => {
+    //         // console.log('onRouteExecutionFailed fired.');
+    //     };
+    //     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
+    //     widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
+    //     widgetEvents.on(WidgetEvent.RouteExecutionCompleted, onRouteExecutionCompleted);
+    //     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
+
+
+    //     return () => widgetEvents.all.clear();
+    // }, [widgetEvents]);
+
     return (
         <Transition.Root show={swapModal} as={Fragment}>
             <Dialog
@@ -110,7 +136,7 @@ const LifiWidget: React.FC = () => {
                                 <CgCloseR className='w-7 h-7 text-white cursor-pointer  hover:scale-125 ' onClick={() => setSwapModal(false)} />
                             </div>
                             <div className="px-8">
-                                     <div className='    '>
+                                <div className='    '>
                                     <div className='relative '>
                                         <Loader />
                                     </div>
