@@ -1,9 +1,8 @@
 import React, { useContext , useEffect} from 'react'
 
-import type { LiFiWidget, useWidgetEvents } from '@lifi/widget';
+import type { LiFiWidget } from '@lifi/widget';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
-import Modal from './Modal';
 import ConnectModalContext from '../contexts/connectwallet';
 import { WidgetConfig } from '@lifi/widget';
 import { useMemo } from 'react';
@@ -35,6 +34,7 @@ const LifiWidget: React.FC = () => {
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
 
     const widgetConfig: WidgetConfig = useMemo(() => ({
+        ntegrator: 'Fragments',
         appearance: 'dark',
         containerStyle: {
             border: `1px solid black`,
