@@ -4,10 +4,6 @@ import { DataContext } from '../../contexts/dataContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 
 
-// import required modules
-import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
-import Logo from '../logo';
-import Modal from '../Modal';
 import VaultCard from '../VaultCard';
 import { useRouter } from 'next/router';
 

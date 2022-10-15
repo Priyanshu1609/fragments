@@ -11,7 +11,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // import required modules
-import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
 import VaultCard from '../VaultCard';
 
 const MyInvestment = () => {
