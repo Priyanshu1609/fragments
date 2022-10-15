@@ -14,7 +14,6 @@
     "@magic-sdk/admin": "^1.4.1",
     "@magiclabs/ui": "^0.24.2",
     "@ramonak/react-progress-bar": "^5.0.2",
-    "@truffle/hdwallet-provider": "^2.0.8",
     "@types/nprogress": "^0.2.0",
     "@types/react-slick": "^0.23.10",
     "@walletconnect/web3-provider": "^1.7.8",
