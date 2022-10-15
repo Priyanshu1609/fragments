@@ -1,16 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { useSession, signIn, signOut } from "next-auth/react"
-// import { Connector, useConnect } from 'wagmi';
 import ConnectModalContext from '../../contexts/connectwallet';
 import Modal from '../Modal';
 import Image from 'next/image'
 
 import metamasklogo from '../../assets/MetaMask_Fox.svg.png'
-import walletconnectlogo from '../../assets/WalletConnect-Logo.png'
 import { TransactionContext } from '../../contexts/transactionContext';
-import PageLoader from '../PageLoader';
-
-import loader from '../../assets/loader.json'
 
 const ConnectModal: React.FC = () => {
 
