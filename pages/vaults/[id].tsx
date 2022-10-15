@@ -8,7 +8,6 @@ import { unmarshall } from "@aws-sdk/util-dynamodb";
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { ArrowRightIcon, ArrowSmRightIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { Tab } from '@headlessui/react';
 
 import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
@@ -73,7 +72,6 @@ const VaultDetail: React.FC = () => {
 
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
     const { connectallet, currentAccount, logout, getProvider, setIsLoading, isLoading, sendTx, getBalanace, getContractBalance } = useContext(TransactionContext);
-    // const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getTokens, getTokenIdMetadata } = useContext(NftContext);
     const { getVaultsByWallet, getVaultsByCreator } = useContext(DataContext);
     const [modal, setModal] = useState(false);
@@ -105,7 +103,7 @@ const VaultDetail: React.FC = () => {
   
 
     // console.log("owners", ownerData);
-    console.log({ data });
+    // console.log({ data });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -461,12 +459,12 @@ const VaultDetail: React.FC = () => {
             </div>
 
             <div className={`p-6 bg-input rounded-xl ${data?.origin !== "private" && "flex-[0.4]"} ${data?.origin === "private" && "flex-[0.6]"} `}>
-                <div className='flex items-center justify-between w-full z-50'>
+                <div className='flex items-center justify-between w-full z-50 '>
                     <button onClick={() =>
                         router.push({
                             pathname: `/profile/${data?.creator}`
                         })}
-                        className='bg-input rounded-lg flex items-center justify-center p-3 w-max'>
+                        className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max'>
                         <Blockies
                             seed='need to be changed'
                             size={7}
@@ -674,7 +672,6 @@ const VaultDetail: React.FC = () => {
                             <p>Purchase {tokenAmount}</p>
                             <ArrowRightIcon className='w-4 h-4' />
                         </button>
-                        {/* <p className='text-gray-300 text-xs mt-2'>15 MATIC = 5000 BORE</p> */}
                     </div>
                 </div>
 

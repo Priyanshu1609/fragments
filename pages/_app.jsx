@@ -1,15 +1,10 @@
 
 import Layout from '../components/Layout'
 import '../styles/globals.css'
-import { SessionProvider } from "next-auth/react"
 import "@magiclabs/ui/dist/cjs/index.css";
-import { ThemeProvider } from "@magiclabs/ui";
-// import awsconfig from "../src/aws-exports";
 import { magic } from "../utils/magic";
-import Amplify, { Auth } from "aws-amplify";
 
 import NProgress from "nprogress"
-import Head from "next/head"
 import Router from "next/router"
 
 

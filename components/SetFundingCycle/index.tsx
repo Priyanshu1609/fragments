@@ -7,17 +7,11 @@ import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
 import '@uniswap/widgets/fonts.css'
 import dynamic from 'next/dynamic'
 
-const SelectChain = dynamic(
-    () => import('../../components/SelectChain'),
-    { ssr: false }
-)
-
 import Modal from '../Modal';
 import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/vaultcreation.png';
 import Select from '../Select';
 import { NftContext } from '../../contexts/NftContext';
-import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
