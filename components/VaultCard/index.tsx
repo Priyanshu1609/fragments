@@ -3,9 +3,9 @@ import { dtToString, getEllipsisTxt } from "../../utils";
 import logoWhite from '../../assets/LogoWhite.png'
 import vaultImage from '../../assets/image.png'
 import Image from "next/image";
-import coin from '../../assets/coin.png'
-import { FiMoreVertical } from "react-icons/fi"
-import { MdPersonOutline } from "react-icons/md"
+import coin from '../../assets/coin.png';
+import { FiMoreVertical } from "react-icons/fi";
+import { MdPersonOutline } from "react-icons/md";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { BsDot } from "react-icons/bs";

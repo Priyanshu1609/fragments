@@ -12,11 +12,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// import required modules
-import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper";
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { NftContext } from '../../contexts/NftContext';
-import VaultCard from '../VaultCard';
 import { useRouter } from 'next/router';
 
 const NFTList = () => {

@@ -22,6 +22,8 @@ import { MdArrowForwardIos } from 'react-icons/md';
 import { parseCookies } from '../utils/cookie';
 
 
+
+
 declare var window: any;
 
 export enum TabNames {
@@ -162,8 +164,7 @@ const Dashboard: React.FC = ({ data }: any) => {
             </div>
             <div className='h-32 bg-[#232529] bg-cover flex items-center justify-between rounded-2xl px-16 py-10 mt-4 w-full overflow-hidden cursor-pointer' onClick={() =>
                 router.push({
-                    pathname: '/profile',
-                    query: { user: currentAccount },
+                    pathname: `/profile/${currentAccount}`
                 })}>
                 <div className='flex '>
                     <div className='h-40 w-40 -ml-16 mt-8'>

@@ -1,12 +1,21 @@
 
 import Layout from '../components/Layout'
 import '../styles/globals.css'
-import { SessionProvider } from "next-auth/react"
 import "@magiclabs/ui/dist/cjs/index.css";
-import { ThemeProvider } from "@magiclabs/ui";
-// import awsconfig from "../src/aws-exports";
 import { magic } from "../utils/magic";
-import Amplify, { Auth } from "aws-amplify";
+
+import NProgress from "nprogress"
+import Router from "next/router"
+
+
+NProgress.configure({ showSpinner: false });
+Router.onRouteChangeStart = url => {
+  NProgress.start()
+}
+
+Router.onRouteChangeComplete = () => NProgress.done()
+
+Router.onRouteChangeError = () => NProgress.done()
 
 async function refreshToken() {
   const didToken = await magic.user.getIdToken();
@@ -31,15 +40,6 @@ async function refreshToken() {
     expires_at: 2592000 * 1000 + new Date().getTime(),
   };
 }
-
-
-// Amplify.configure(awsconfig);
-
-// Auth.configure({
-//   refreshHandlers: {
-//     developer: refreshToken,
-//   },
-// });
 
 
 export default function App({

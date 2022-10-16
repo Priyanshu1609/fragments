@@ -2,15 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon, ExternalLinkIcon, CheckCircleIcon, PlusIcon, XIcon } from '@heroicons/react/solid';
 import { BigNumber } from 'ethers';
-import { darkTheme, Theme, SwapWidget } from '@uniswap/widgets'
-import '@uniswap/widgets/fonts.css'
+
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 
-const SelectChain = dynamic(
-    () => import('../../components/SelectChain'),
-    { ssr: false }
-)
 
 import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/NFT.png';
@@ -21,8 +16,6 @@ import { bnToString, dtToString, ipfsParse, fixTokenURI, minDtTime, maxDtTime } 
 import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 
 import { NftContext } from '../../contexts/NftContext';
-import { OpenseaContext } from '../../contexts/opensesContext';
-import { SocketContext } from '../../contexts/socketContext';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext } from '../../contexts/dataContext'
 
@@ -78,8 +71,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     ]);
     console.log(target);
 
-    // const { getSellOrder } = useContext(OpenseaContext);
-    const { fetchFromTokens, transaction, chains, handleNetworkSwitch, } = useContext(SocketContext);
     const { getBalanace, getTokenBalance, getProvider, currentAccount } = useContext(TransactionContext);
     const { formData, handleCreateVault, handleChange, deploySafe, defaultFormData, setFormData } = useContext(DataContext);
 
@@ -292,7 +283,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                         <p className='text-base text-center  text-green-600'>You will have to put atleast 10% of the target fundraise to start the funding cycle.</p>
                     </div>
                     <div>
-                        <SelectChain />
                         {/* <div className='bg-input p-3 text-center rounded-lg text-lg cursor-pointer mt-4 ' onClick={e => setUniModal(true)}>
                             <p className='text-red-500'>We only accept funds in ETH</p>
                             <p className='text-green-500'>Have funds in different token ! Swap here !</p>
@@ -335,23 +325,6 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
                     </button>
                 </div>
 
-            </Modal>
-            <Modal
-                open={uniModal}
-                onClose={() => setUniModal(false)}
-                showCTA={false}
-                title="Swap Tokens"
-            >
-                <div className="Uniswap p-6 flex bg-black items-center justify-center">
-                    <SwapWidget
-                        provider={provider}
-                        jsonRpcEndpoint={jsonRpcEndpoint}
-                        defaultOutputTokenAddress='NATIVE'
-                        theme={darkTheme}
-                        width={512}
-
-                    />
-                </div>
             </Modal>
         </div>
     )

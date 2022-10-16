@@ -38,11 +38,11 @@ const CreateVault: React.FC = ({ data }: any) => {
         if (currentStep === CreateVaultStep.InputFieldsForm) {
             router.push('/create-gullak')
         }
-        else if (currentStep === CreateVaultStep.GovernedStep) {
+        else if (currentStep === CreateVaultStep.CommiteeGoverned) {
             setCurrentStep(CreateVaultStep.InputFieldsForm)
         }
-        else if (currentStep === CreateVaultStep.ImportOrPurchase) {
-            formData.type === 'Public' ? setCurrentStep(CreateVaultStep.GovernedStep) : setCurrentStep(CreateVaultStep.InputFieldsForm)
+        else if (currentStep === CreateVaultStep.Import) {
+            formData.type === 'Public' ? setCurrentStep(CreateVaultStep.CommiteeGoverned) : setCurrentStep(CreateVaultStep.InputFieldsForm)
         }
 
     }
@@ -58,14 +58,14 @@ const CreateVault: React.FC = ({ data }: any) => {
                 )
             }
             {
-                currentStep === CreateVaultStep.GovernedStep && (
+                currentStep === CreateVaultStep.CommiteeGoverned && (
                     <div>
                         <CreateGovernedForm handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
-                currentStep === CreateVaultStep.ImportOrPurchase && (
+                currentStep === CreateVaultStep.Import && (
                     <div>
                         <ImportNFTSelect setCurrentStep={setCurrentStep} />
                     </div>

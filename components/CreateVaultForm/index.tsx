@@ -170,18 +170,21 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                     </div>
                     <div className='grid grid-cols-2 gap-6 mt-8'>
                         <label>
-                            <p className='text-xl font-britanica font-normal '>Token Name <span className='text-xs'> ( 4 letters )</span>{requiredTag}</p>
-                            <input required type='text' minLength={4} maxLength={4} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
+                            <p className='text-xl font-britanica font-normal '>Token Name <span className='text-xs'> ( 3-6 letters )</span>{requiredTag}</p>
+                            <div className='flex items-center justify-center'>
+                                <p className='text-2xl'>frag-</p>
+                                <input required type='text' minLength={3} maxLength={6} className='p-4 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2 placeholder:text-sm' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
+                            </div>
                         </label>
-                        <label>
+                        {/* <label>
                             <p className='text-xl font-britanica font-normal '>No. of Tokens{requiredTag}</p>
                             <p className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2'>{tokenSupply}</p>
+                        </label> */}
+                        <label>
+                            <p className='text-xl font-britanica font-normal '>Management Fees <span className='text-base'> ( Upto 20% )</span>{requiredTag}</p>
+                            <input required type='number' step="0" min={0} max={20} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
                         </label>
                     </div>
-                    <label>
-                        <p className='text-xl font-britanica font-normal '>Management Fees <span className='text-base'> ( Upto 99% )</span>{requiredTag}</p>
-                        <input required type='number' step="0" min={0} max={99} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Enter Management Fees' value={formData.managementFees} onChange={(e) => handleChange(e, 'managementFees')} />
-                    </label>
                     <div className='flex justify-between'>
                         <button onClick={handleBack} className='w-44 px-3 py-2 rounded-lg font-semibold bg-[#232529]  text-white flex items-center justify-center space-x-4'>
                             <MdArrowBackIosNew className='w-4' />

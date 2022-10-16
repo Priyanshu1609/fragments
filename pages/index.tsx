@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import Amplify, { Auth } from "aws-amplify";
 
 
 import { magic } from '../utils/magic';
@@ -53,9 +52,9 @@ const Home: NextPage = ({ data }: any) => {
       }
 
       // Prevent login state inconsistency between Magic and the client side
-      await magic.user.logout();
+      await magic?.user.logout();
       // Trigger Magic link to be sent to user
-      await magic.auth.loginWithMagicLink({
+      await magic?.auth.loginWithMagicLink({
         email,
         redirectURI: new URL("/callback", window.location.origin).href, // optional redirect back to your app after magic link is clicked
       });

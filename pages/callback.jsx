@@ -1,7 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { Auth, API } from "aws-amplify";
 import { magic } from "../utils/magic";
-// import awsconfig from "../src/aws-exports";
 import loader from '../assets/loader.json'
 import PageLoader from "../components/PageLoader";
 import { useRouter } from "next/router";
