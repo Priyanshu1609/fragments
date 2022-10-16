@@ -118,7 +118,6 @@ export const DataContextProvider = ({ children }) => {
         }
 
     }
-    // console.log(creatorVaults);
 
     const deploySafe = async () => {
         try {
@@ -250,6 +249,7 @@ export const DataContextProvider = ({ children }) => {
 
             console.log("aws res 1:", response, data);
             console.log("aws res 2:", response2, data2);
+            
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount, type: "new" },

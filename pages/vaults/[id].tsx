@@ -100,7 +100,7 @@ const VaultDetail: React.FC = () => {
     const [data, setData] = useState<CreateVaultFormValues | any>();
 
     const { id, type } = router.query
-  
+
 
     // console.log("owners", ownerData);
     // console.log({ data });
@@ -364,12 +364,12 @@ const VaultDetail: React.FC = () => {
         window.open(link, "_blank");
     }
 
-    const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
+    const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
         <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
         // <img src={LeftArrow} alt="prevArrow" {...props} />
     );
 
-    const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
+    const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
         // <img src={RightArrow} alt="nextArrow" {...props} />
         <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
     );
