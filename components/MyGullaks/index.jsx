@@ -20,13 +20,11 @@ const MyInvestment = () => {
     const router = useRouter();
 
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
-        // <img src={LeftArrow} alt="prevArrow" {...props} />
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 -left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
     );
 
     const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
-        // <img src={RightArrow} alt="nextArrow" {...props} />
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
     );
 
     const settings = {
@@ -42,8 +40,8 @@ const MyInvestment = () => {
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
                     infinite: true,
                     dots: true
                 }
@@ -51,16 +49,9 @@ const MyInvestment = () => {
             {
                 breakpoint: 600,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                    initialSlide: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    initialSlide: 1
                 }
             }
         ]
@@ -74,7 +65,7 @@ const MyInvestment = () => {
                     <Slider {...settings} className="card__container--inner">
 
                         {creatorVaults?.map((vault) => (
-                            vault.vaultStatus === "RUNNING" && <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
+                            vault.vaultStatus !== "FAILURE" && <div key={vault.vaultAddress} className='cursor-pointer rounded-xl' onClick={() =>
                                 router.push({
                                     pathname: `/vaults/${vault?.vaultAddress}`,
                                     query: { user: currentAccount },

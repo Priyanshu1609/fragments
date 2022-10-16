@@ -103,7 +103,7 @@ const VaultDetail: React.FC = () => {
 
 
     // console.log("owners", ownerData);
-    // console.log({ data });
+    console.log({ data });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -127,7 +127,7 @@ const VaultDetail: React.FC = () => {
                 },
             }
             );
-            console.log("FETCH RES", response.data.Items);
+            // console.log("FETCH RES", response.data.Items);
 
             response.data.Items?.forEach((element: any) => {
                 // console.log(element);
@@ -489,7 +489,7 @@ const VaultDetail: React.FC = () => {
                         {data?.description}
                     </p>
                 </div >
-                {data?.amount > 0 ? <div className='mt-4 mb-6'>
+                {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6'>
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
@@ -513,11 +513,35 @@ const VaultDetail: React.FC = () => {
                     </div>
 
 
-                </div > :
+                </div >}
+                {data?.vaultStatus === "FAILURE" &&
                     <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
-                        <div className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
-                            <p className='text-black'>Set Funding Cycle</p>
+                        <div className='mb-5 !bg-red-300 font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                            <p className='text-black'>VAULT FAILURE</p>
                         </div>
+                    </div>
+                }
+                {data?.vaultStatus === "COMPLETED" &&
+                    <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
+                        <div className="flex items-center justify-evenly">
+                            <div onClick={() =>
+                                router.push({
+                                    pathname: `/create-proposal`,
+                                    query: { vault: id, user: currentAccount },
+                                })
+                            } className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                                <p className='text-black font-black'>Make a New Proposal</p>
+                            </div>
+                            <div className='mb-5 !bg-[#1E1E24]  font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                                <p className='text-white font-black'>View Proposals</p>
+                            </div>
+                        </div>
+                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
+                            <div className='bg-[#1E1E24] rounded-lg w-full p-3 flex space-x-3 justify-center'>
+                                <p className='text-gray-300'>You Own: </p>
+                                <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
+                            </div>
+                        </div >
                     </div>
                 }
 

@@ -75,7 +75,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
     }, [timestamp])
 
     return (
-        <div className={`rounded-xl w-[323px] h-[480px] bg-input relative`} >
+        <div className={`rounded-xl mx-auto w-[323px] h-[480px] bg-input relative`} >
             <p className="absolute top-2 right-2 text-white z-50 font-semibold text-xs flex items-center space-x-1">
                 <BsDot className={`h-6 w-6 -mr-2 ${status === "RUNNING" ? "text-green-300" : ""}`} />
                 <span>Sale </span>
@@ -108,7 +108,7 @@ const VaultCard: React.FC<VaultCardProps> = ({
                             <AiOutlineClockCircle />
                             <p className="text-xs text-gray-300">TIME LEFT</p>
                         </div>
-                        <p>{countDown}</p>
+                        <p>{status==="COMPLETED" ? "COMPLETED" : countDown}</p>
                     </div>
                 </div>
             </div>

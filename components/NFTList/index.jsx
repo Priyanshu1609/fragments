@@ -26,13 +26,13 @@ const NFTList = () => {
 
 
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 -left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
         // <img src={LeftArrow} alt="prevArrow" {...props} />
     );
 
     const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
         // <img src={RightArrow} alt="nextArrow" {...props} />
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute -right-4  top-60 z-10'><ChevronRightIcon className='text-white h-7 w-7' /></div>
     );
 
     const settings = {

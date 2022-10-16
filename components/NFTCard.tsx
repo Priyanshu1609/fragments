@@ -113,7 +113,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
                 <span>{nft?.length - 1}</span>
                 <span >NFTs</span>
             </div> */}
-            <Image src={nft.animation_url ? nft.animation_url : nft.image_url} className='rounded-t-xl' width={323} height={275} />
+            <img src={nft.animation_url ? nft.animation_url : nft.image_url} className='rounded-t-xl w-[323px] h-[275px]' />
             <div className='px-4 py-3'>
                 <div className="flex justify-between">
                     <div className='flex text-sm items-center space-x-2'>
