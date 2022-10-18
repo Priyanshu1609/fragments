@@ -27,8 +27,12 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
             alert("Please select a proposal type")
             return;
         }
-
-        setCurrentStep(ProposalStep.SelectNFT);
+        if(type === ProposalStep.SwapTokens || type === ProposalStep.Liquidation){
+            setCurrentStep(type)
+        }
+        else {   
+            setCurrentStep(ProposalStep.SelectNFT);
+        }
     }
 
     const Options = ({ title, desc, option, open }: any) => (

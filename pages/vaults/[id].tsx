@@ -19,9 +19,9 @@ import { DataContext } from '../../contexts/dataContext';
 import { fixTokenURI } from '../../utils';
 import { RiShareBoxLine } from "react-icons/ri";
 import { MdMail } from 'react-icons/md';
+import meta from '../../assets/MetaMask_Fox.svg.png'
 
-
-
+declare var window: any
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -45,6 +45,7 @@ import loader from '../../assets/loader.json'
 import Lottie from 'react-lottie-player'
 import success from '../../assets/happy.json'
 import { MdIosShare } from "react-icons/md"
+import Image from 'next/image';
 
 
 const links = [
@@ -364,6 +365,36 @@ const VaultDetail: React.FC = () => {
         window.open(link, "_blank");
     }
 
+    let eth : any
+    if (typeof window !== 'undefined') {
+        eth = window?.ethereum
+    }
+
+
+    const handleAddToken = () => {
+        eth
+            .request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: data?.contractAddress,
+                        symbol: 'FRAG-' + data?.tokenName,
+                        decimals: 18,
+                        image: 'https://freeimage.host/i/tuaadg',
+                    },
+                },
+            })
+            .then((success : any) => {
+                if (success) {
+                    alert('FOO successfully added to wallet!');
+                } else {
+                    throw new Error('Something went wrong.');
+                }
+            })
+            .catch(console.error);
+    }
+
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
         <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-10 left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
         // <img src={LeftArrow} alt="prevArrow" {...props} />
@@ -596,14 +627,20 @@ const VaultDetail: React.FC = () => {
                     </div>
                     <div>
                         <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Proof of Authenticity</span>
-                        <div>
-                            <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between  cursor-pointer'>
-                                <div className='flex items-center justify-center'>
-                                    <img src="https://mumbai.polygonscan.com/images/svg/brands/poly.png?v=1.3" className='h-6 w-6 rounded-full' />
-                                    <p className='ml-4'>View on PolygonScan</p>
-                                </div>
-                                <ArrowUpIcon className='h-6 w-6 rotate-45' />
-                            </a>
+                        <div className="w-full">
+                            <div className="flex w-full">
+                                <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex flex-[0.5] justify-between  cursor-pointer'>
+                                    <div className='flex items-center justify-center'>
+                                        <img src="https://mumbai.polygonscan.com/images/svg/brands/poly.png?v=1.3" className='h-6 w-6 rounded-full' />
+                                        <p className='ml-4'>View on PolygonScan</p>
+                                    </div>
+                                    <ArrowUpIcon className='h-6 w-6 rotate-45' />
+                                </a>
+                                <button className="flex flex-[0.5] bg-[#1E1E24] mt-4 p-4 m-2 rounded-lg justify-between items-center cursor-pointer" onClick={handleAddToken}>
+                                    <p>Add Token To your Wallet</p>
+                                    <Image src={meta} height={40} width={40} />
+                                </button>
+                            </div>
                             <a href={`https://gnosis-safe.io/app/gor:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer'>
                                 <div className='flex items-center justify-center'>
                                     <img src="https://pbs.twimg.com/profile_images/1566775952620900353/vRyTLmek_400x400.jpg" className='h-6 w-6 rounded-full' />

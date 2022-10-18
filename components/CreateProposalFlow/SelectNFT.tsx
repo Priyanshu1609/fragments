@@ -25,10 +25,10 @@ const SelectNFT: React.FC<SelectProposalProps> = ({
 
   const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    if (transferred.length === 0) {
-      alert("Please import atleast 1 NFT");
-      return;
-    }
+    // if (transferred.length === 0) {
+    //   alert("Please import atleast 1 NFT");
+    //   return;
+    // }
     const nfts = nftsImported;
     // const form = {
     //     ...formData, nfts

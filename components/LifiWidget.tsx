@@ -1,7 +1,8 @@
 import React, { useContext , useEffect} from 'react'
+import type { NextPage } from 'next';
 
 import type { LiFiWidget } from '@lifi/widget';
-import type { NextPage } from 'next';
+
 import dynamic from 'next/dynamic';
 import ConnectModalContext from '../contexts/connectwallet';
 import { WidgetConfig } from '@lifi/widget';
@@ -29,7 +30,7 @@ const Loader = () => (
 
 )
 
-const LifiWidget: React.FC = () => {
+const LifiWidget: any = () => {
 
     const { swapModal, setSwapModal } = useContext(ConnectModalContext);
 
@@ -59,32 +60,6 @@ const LifiWidget: React.FC = () => {
         toToken: "0x0000000000000000000000000000000000000000",
         variant: 'expandable',
     }), []);
-
-    // const widgetEvents = useWidgetEvents();
-
-
-
-    // useEffect(() => {
-    //     const onRouteExecutionStarted = (route: Route) => {
-    //         // console.log('onRouteExecutionStarted fired.');
-    //     };
-    //     const onRouteExecutionUpdated = (update: RouteExecutionUpdate) => {
-    //         // console.log('onRouteExecutionUpdated fired.');
-    //     };
-    //     const onRouteExecutionCompleted = (route: Route) => {
-    //         // console.log('onRouteExecutionCompleted fired.');
-    //     };
-    //     const onRouteExecutionFailed = (update: RouteExecutionUpdate) => {
-    //         // console.log('onRouteExecutionFailed fired.');
-    //     };
-    //     widgetEvents.on(WidgetEvent.RouteExecutionStarted, onRouteExecutionStarted);
-    //     widgetEvents.on(WidgetEvent.RouteExecutionUpdated, onRouteExecutionUpdated);
-    //     widgetEvents.on(WidgetEvent.RouteExecutionCompleted, onRouteExecutionCompleted);
-    //     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed);
-
-
-    //     return () => widgetEvents.all.clear();
-    // }, [widgetEvents]);
 
     return (
         <Transition.Root show={swapModal} as={Fragment}>
