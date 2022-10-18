@@ -387,7 +387,7 @@ const VaultDetail: React.FC = () => {
             })
             .then((success : any) => {
                 if (success) {
-                    alert('FOO successfully added to wallet!');
+                    alert(`FRAG-${data?.tokenName} successfully added to wallet!`);
                 } else {
                     throw new Error('Something went wrong.');
                 }
