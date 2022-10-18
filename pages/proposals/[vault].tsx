@@ -2,10 +2,10 @@ import React from 'react'
 
 type Props = {}
 
-const [vault] = (props: Props) => {
+const index = (props: Props) => {
   return (
-    <div>[vault]</div>
+    <div>index</div>
   )
 }
 
-export default [vault]
+export default index
