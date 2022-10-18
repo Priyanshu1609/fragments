@@ -381,7 +381,7 @@ const VaultDetail: React.FC = () => {
                         address: data?.contractAddress,
                         symbol: 'FRAG-' + data?.tokenName,
                         decimals: 18,
-                        image: 'https://freeimage.host/i/tuaadg',
+                        image: 'https://iili.io/tuaadg.png',
                     },
                 },
             })
