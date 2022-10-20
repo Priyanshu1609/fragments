@@ -1,6 +1,7 @@
 import { Fragment, ReactNode, ReactText, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { BiChevronDown } from "react-icons/bi"
 
 const people = [
 	{ id: 1, name: "Wade Cooper" },
@@ -49,7 +50,7 @@ const Select: React.FC<ISelectProps> = ({
 			{({ open }) => (
 				<>
 					<div className="mt-1 relative text-white">
-						<Listbox.Button className="bg-transparent w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm">
+						<Listbox.Button className="bg-transparent w-full relative rounded-md pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-cryptopurple focus:border-cryptopurple sm:text-sm border-[1px] border-gray-600">
 							<div className=" truncate flex p-1">
 								{selectedValue?.icon && <img className={selectedValue?.icon && 'mr-3 ml-1'} height="24px" width='24px' src={selectedValue?.icon} />}
 								{selectedValue?.name ?? (
@@ -59,8 +60,12 @@ const Select: React.FC<ISelectProps> = ({
 								)}
 							</div>
 							<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-								<SelectorIcon
+								{/* <SelectorIcon
 									className="h-5 w-5 text-gray-400"
+									aria-hidden="true"
+								/> */}
+								<BiChevronDown
+									className="h-8 w-8 text-gray-400"
 									aria-hidden="true"
 								/>
 							</span>
@@ -117,7 +122,7 @@ const Select: React.FC<ISelectProps> = ({
 															aria-hidden="true"
 														/>
 													</span>
-												) : null}
+												) : null }
 											</>
 										)}
 									</Listbox.Option>

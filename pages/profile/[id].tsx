@@ -11,15 +11,88 @@ import { useRouter } from 'next/router'
 import { DataContext } from '../../contexts/dataContext'
 import { parseCookies } from '../../utils/cookie'
 import { TransactionContext } from '../../contexts/transactionContext'
+import axios from 'axios'
+import { unmarshall } from '@aws-sdk/util-dynamodb'
 
 const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
 
+    const { id } = router.query;
+
     const { currentAccount, awsClient } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [valuation, setValuation] = useState(0)
+    const [valuation, setValuation] = useState(0);
     const [showMore, setShowMore] = useState(false);
+
+    const [profileData, setProfileData] = useState<any>()
+
+    console.log(profileData);
+    // {
+    //     "avg_holding_time": 45.609282407407,
+    //         "hit_rate": 83.33333333333334,
+    //             "avg_roi_in_usd": 630.075,
+    //                 "sales": 6,
+    //                     "walletAddress": "0xf81c87fb76f3acf458ebd29df60c92f4b7ce8db3",
+    //                         "collections_invested": 87
+    // }
+
+    const getVaultData = async () => {
+        try {
+
+            const body = JSON.stringify({
+                "walletAddress": id
+            })
+
+
+            const response = await axios.post(`https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/get`, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+
+            setProfileData(unmarshall(response.data.Item));
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            getVaultData();
+        }
+
+    }, [id])
+
+    const handleRefresh = async () => {
+        try {
+
+            const body = JSON.stringify({
+                "walletAddress": id
+            })
+
+
+            const response = await axios.post(`https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/update`, body, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+
+            setProfileData(unmarshall(response.data.Item));
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
 
     const handleValuation = async () => {
         if (!vaults) {
@@ -29,7 +102,7 @@ const Profile: React.FC = ({ data }: any) => {
         let value = 0.00;
         vaults.forEach(async (vault: any) => {
             const vaultValuation = Number(vault.amountPledged)
-            console.log({ valuation, vaultValuation })
+            // console.log({ valuation, vaultValuation })
             value += vaultValuation
         }
         )
@@ -90,19 +163,19 @@ const Profile: React.FC = ({ data }: any) => {
                 </div>
                 <div className='flex-[0.8] '>
                     <div className='flex justify-between space-x-4'>
-                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Current Value</p>
                                 <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{valuation} ETH</p>
                             </div>
                         </div>
-                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Realised Gains</p>
                                 <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
                             </div>
                         </div>
-                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Vaults Created</p>
                                 <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{creatorVaults.length}</p>
@@ -119,7 +192,10 @@ const Profile: React.FC = ({ data }: any) => {
                                             <p className='mr-5'>Your NFT Score</p>
                                             <Image src={info} className="cursor-pointer " height={30} width={30} />
                                         </div>
-                                        <p onClick={() => setShowMore(!showMore)} className='bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent cursor-pointer hover:opacity-90 bg-clip-text underline decoration-[#2bd8ff] font-bold'>Show {showMore ? "Breakdown" : "More"}</p>
+                                        <div className='flex items-center space-x-2'>
+                                            <p onClick={() => setShowMore(!showMore)} className='bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff] text-transparent cursor-pointer hover:opacity-90 bg-clip-text underline decoration-[#2bd8ff] font-bold'>Show {showMore ? "Breakdown" : "More"}</p>
+                                            <button onClick={handleRefresh} className=" cursor-pointer hover:opacity-90  font-bold">Refresh</button>
+                                        </div>
                                     </div>
                                     <ProgressBar completed={45} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                                 </div>
@@ -137,45 +213,64 @@ const Profile: React.FC = ({ data }: any) => {
                                 showMore &&
                                 <div>
                                     <div className='flex justify-between space-x-4'>
-                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                                 <p>Average ROI</p>
-                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{
+                                                    profileData?.avg_roi_in_usd ? profileData.avg_roi_in_usd : 0
+                                                }</p>
                                             </div>
                                         </div>
-                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                                 <p>Hit Rate</p>
-                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{
+                                                    profileData?.hitRate ? profileData.hitRate : 0
+                                                }</p>
                                             </div>
                                         </div>
-                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold '>
+                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold '>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
-                                                <p>Diversification</p>
-                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                                <p>Total Collections</p>
+                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{
+                                                    profileData?.collections_invested ? profileData.collections_invested : 0
+                                                }</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className='flex justify-between space-x-4'>
-                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                                 <p>Total Flips</p>
-                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{
+                                                    profileData?.sales ? profileData.sales : 0
+                                                }</p>
                                             </div>
                                         </div>
-                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex items-center flex-col justify-evenly font-semibold'>
+                                        <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                                 <p>Avg Hold Time</p>
-                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{
+                                                    profileData?.avg_holding_time ? parseFloat(profileData?.avg_holding_time.toFixed(4)) : "0"
+                                                }</p>
                                             </div>
                                         </div>
-                                        <div className='flex items-start flex-col  px-4 py-2 w-[32.3%] justify-evenly bg-[#0c878e] rounded-lg h-[125px] mt-4 text-white '>
-                                            <p className='font-semibold'>Create your own Vault</p>
-                                            <p className='text-sm text-gray-300 mt-1'>start investing with your frens</p>
-                                            <button className='flex items-center justify-between py-2 w-40 bg-black text-white rounded-lg px-3 mt-2'>
-                                                start creating
-                                                <MdArrowForwardIos />
-                                            </button>
+                                        <div onClick={() => {
+                                            router.push(
+                                                {
+                                                    pathname: '/create-gullak',
+                                                    query: { user: currentAccount }
+                                                }
+                                            )
+                                        }} className='flex flex-[0.33] flex-grow items-start flex-col  justify-evenly bg-[#0c878e] rounded-lg h-[125px] mt-4 text-white '>
+                                            <div className='px-4 py-2 '>
+                                                <p className='font-semibold'>Create your own Vault</p>
+                                                <p className='text-sm text-gray-300 mt-1'>start investing with your frens</p>
+                                                <button className='flex items-center justify-between py-2 w-40 bg-black text-white rounded-lg px-3 mt-2'>
+                                                    start creating
+                                                    <MdArrowForwardIos />
+                                                </button>
+                                            </div>
 
                                         </div>
                                     </div>
