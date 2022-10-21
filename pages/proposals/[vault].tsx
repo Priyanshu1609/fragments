@@ -10,6 +10,7 @@ import { ArrowUpIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import PageLoader from '../../components/PageLoader';
 import meta from '../../assets/MetaMask_Fox.svg.png'
+import Modal from '../../components/Modal';
 
 type Props = {}
 
