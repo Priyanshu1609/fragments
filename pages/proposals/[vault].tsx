@@ -6,13 +6,24 @@ import { getEllipsisTxt } from '../../utils';
 import { MdIosShare } from "react-icons/md"
 import Blockies from 'react-blockies';
 import ProgressBar from '@ramonak/react-progress-bar';
-import { ArrowUpIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import PageLoader from '../../components/PageLoader';
-import meta from '../../assets/MetaMask_Fox.svg.png'
+import meta from '../../assets/MetaMask_Fox.svg.png';
 import Modal from '../../components/Modal';
+import { BsWhatsapp } from 'react-icons/bs'
+import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien, FaDiscord } from 'react-icons/fa'
+import { TiSocialTwitter } from 'react-icons/ti';
+import { MdMail } from 'react-icons/md';
 
 type Props = {}
+
+const links = [
+  "https://web.whatsapp.com/send?text=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+  "https://telegram.me/share/url?url=Hey bro, &text=%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+  "https://www.linkedin.com/shareArticle?mini=true&url=https://www.fragments.money/&title=hey).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A",
+  "https://www.reddit.com/submit?url=https://www.fragments.money/&title=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+  "https://twitter.com/intent/tweet?text=Hey%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%40fragmentsHQ%20%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0Ahttps%3A%2F%2Fwww.fragments.money%2F%0AReferral%20code%3A%20"
+]
 
 const data = {
   "origin": "public",
@@ -52,6 +63,10 @@ const ProposalPage = (props: Props) => {
   const capitalizeFirstLetter = (string: string) => {
     if (string?.length <= 1) return null;
     return string?.charAt(0).toUpperCase() + string?.slice(1);
+  }
+
+  const handleOpen = (link: string) => {
+    window.open(link, "_blank");
   }
 
   return (
@@ -287,7 +302,7 @@ const ProposalPage = (props: Props) => {
 
       <Modal
         open={true}
-        onClose={() => {}}
+        onClose={() => { }}
         showCTA={false}
         title="Fundraise is now live"
       >
@@ -315,9 +330,9 @@ const ProposalPage = (props: Props) => {
           <button type='submit'
             onClick={() => {
               navigator.clipboard
-                .writeText(`https://dev.fragments.money/vaults/${id}`)
+                .writeText(`https://dev.fragments.money/vaults/${vault}`)
                 .then(() => {
-                  alert(`Link copied to clipboard , https://dev.fragments.money/vaults/${id}`)
+                  alert(`Link copied to clipboard , https://dev.fragments.money/vaults/${vault}`)
                 })
                 .catch(() => {
                   alert("something went wrong while copying");
@@ -326,7 +341,7 @@ const ProposalPage = (props: Props) => {
             className='w-full mt-4 p-3 rounded-lg !bg-button text-black flex items-center justify-center space-x-4'>
             <span className='text-xl'>Copy</span>
           </button>
-          <button type='submit' onClick={() => setModal(false)} className='w-full mt-4 p-3 rounded-lg !bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
+          <button type='submit' className='w-full mt-4 p-3 rounded-lg !bg-[#1E1E24]  text-white flex items-center justify-center space-x-4'>
             <span className='text-xl'>Close</span>
           </button>
         </div>
