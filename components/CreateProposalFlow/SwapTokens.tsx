@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { SelectProposalProps } from './SelectProposal'
 import NFT from "../../assets/NFT.png";
 import { ProposalStep } from '../../pages/create-proposal';
@@ -7,6 +7,7 @@ import { requiredTag } from '../CreateDAOForm';
 import Select from '../Select';
 import info from "../../assets/info.png";
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
+import { DataContext } from '../../contexts/dataContext';
 
 type Props = {}
 
@@ -23,6 +24,8 @@ const SwapTokens: React.FC<SelectProposalProps> = ({
     setCurrentStep,
     handleBack
 }) => {
+
+  const [proposalData, setProposalData, handleChangePropsal,] = useContext(DataContext);
   
   
     const [inputType, setInputType] = useState<any>({
@@ -62,7 +65,7 @@ const SwapTokens: React.FC<SelectProposalProps> = ({
           <label className='flex-[0.7] relative'>
             <p className='text-xl mt-2 font-britanica font-normal'>Swap Tokens</p>
 
-            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='21' />
+            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full' value={proposalData.fromToken} onChange={(e) => handleChangePropsal(e, "fromToken")} placeholder='21' />
           </label>
           <label className='flex-[0.3]'>
             <p className='text-xl mt-1 font-britanica font-normal'>Select Token</p>
@@ -78,7 +81,7 @@ const SwapTokens: React.FC<SelectProposalProps> = ({
           <label className='flex-[0.7] relative'>
             <p className='text-xl mt-2 font-britanica font-normal'>You will recieve</p>
 
-            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='21' />
+            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='21' value={proposalData.toToken} onChange={(e) => handleChangePropsal(e, "toToken")} />
           </label>
           <label className='flex-[0.3]'>
             <p className='text-xl mt-1 font-britanica font-normal'>Select Token</p>

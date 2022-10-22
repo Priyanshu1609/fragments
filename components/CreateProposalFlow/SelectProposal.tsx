@@ -5,9 +5,6 @@ import governance from "../../assets/governance.png";
 import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { DataContext } from '../../contexts/dataContext';
-import { ProposalContext } from '../../contexts/proposalContext';
-
-type Props = {}
 
 export interface SelectProposalProps {
     setCurrentStep: (values: ProposalStep) => void;
@@ -22,7 +19,7 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
 }) => {
 
     const [type, setType] = useState<any>(null);
-    const [proposalData, setProposalData, handleChangePropsal,] = useContext(ProposalContext);
+    const [setProposalData] = useContext(DataContext);
 
 
 
@@ -47,7 +44,7 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
     }
 
     const Options = ({ title, desc, option, open }: any) => (
-        <div className={`inline-flex  rounded-lg ${type === option ? `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white` : 'bg-gray-600'}`} onClick={e => setType(option)}>
+        <div className={`inline-flex  rounded-lg ${type === option ? `bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white` : 'bg-gray-600'}`} onClick={() => setType(option)}>
 
             <div className="radio bg-input m-[0.05rem] w-full  p-4 rounded-lg cursor-pointer flex">
                 <div>
