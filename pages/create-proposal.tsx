@@ -26,26 +26,16 @@ export enum ProposalStep {
 
 export interface ProposalValues {
     origin: string,
-    vaultName: string,
-    contractAddress: string,
-    type: string,
-    description: string,
-    tokenName: string,
-    creator: string,
-    numOfTokens: number,
-    managementFees: number,
-    votingPeriod: number,
-    quorum: number,
-    minFavor: number,
-    nftsImported: string[],
-    nftsPurchased: string[],
-    target: number,
-    fundraiseDuration: number,
-    myContribution: number,
-    amount: number,
-    minApproval: number,
-    commiteeMembers: string[],
-    email: string,
+    toToken: string,
+    fromToken: string,
+    toChain: string,
+    fromChain: string,
+    listingPrice: number,
+    listingExpireAt: number,
+    listingCreatedAt: number,
+    transferTo: string,
+    owner: string,
+    nfts: string[]
 }
 
 

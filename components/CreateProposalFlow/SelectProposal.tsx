@@ -1,9 +1,11 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TiTick } from 'react-icons/ti';
 import governance from "../../assets/governance.png";
-import { ProposalStep } from '../../pages/create-proposal';
+import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { DataContext } from '../../contexts/dataContext';
+import { ProposalContext } from '../../contexts/proposalContext';
 
 type Props = {}
 
@@ -20,17 +22,26 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
 }) => {
 
     const [type, setType] = useState<any>(null);
+    const [proposalData, setProposalData, handleChangePropsal,] = useContext(ProposalContext);
 
-    const onSubmitHandler = () => {
 
-        if(!type){
+
+    const onSubmitHandler = (e: any) => {
+        e.preventDefault();
+
+        if (!type) {
             alert("Please select a proposal type")
             return;
         }
-        if(type === ProposalStep.SwapTokens || type === ProposalStep.Liquidation){
+        setProposalData((prevState: ProposalValues) => ({
+            ...prevState,
+            origin: type
+        }))
+
+        if (type === ProposalStep.SwapTokens || type === ProposalStep.Liquidation) {
             setCurrentStep(type)
         }
-        else {   
+        else {
             setCurrentStep(ProposalStep.SelectNFT);
         }
     }

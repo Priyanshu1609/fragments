@@ -17,6 +17,7 @@ import dynamic from 'next/dynamic'
 import Navbar from '../Navbar'
 import { parseCookies } from '../../utils/cookie'
 import LifiWidget from '../LifiWidget'
+import { ProposalContextProvider } from '../../contexts/proposalContext'
 
 
 interface Props {
@@ -32,7 +33,8 @@ const Layout: React.FC<Props> = ({ children }) => {
             <TransactionProvider>
                 <ConnectModalProvider>
                     <DataContextProvider>
-                        <NftContextProvider>
+                        <ProposalContextProvider>
+                            <NftContextProvider>
                                 <Head>
                                     <link rel="preconnect" href="https://fonts.googleapis.com" />
                                     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +48,8 @@ const Layout: React.FC<Props> = ({ children }) => {
                                     <ConnectModal />
                                     <LifiWidget />
                                 </div>
-                        </NftContextProvider>
+                            </NftContextProvider>
+                        </ProposalContextProvider>
                     </DataContextProvider>
                 </ConnectModalProvider>
             </TransactionProvider>

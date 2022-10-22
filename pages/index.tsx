@@ -111,7 +111,7 @@ const Home: NextPage = ({ data }: any) => {
   }, [data.user])
 
   return (
-    <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">
+    <div className="flex flex-col items-center justify-center py-2 h-[80%] overflow-hidden">
       <div className='text-white rounded-lg text-center  p-8 max-w-3xl'>
         <Image src={connectwallet} width={180} height={200} />
         <form onSubmit={e => handleLoginWithEmail(e)} className='flex items-center justify-center w-full flex-col mt-6'>

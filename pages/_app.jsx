@@ -46,8 +46,10 @@ export default function App({
   Component, pageProps: { session, ...pageProps }
 }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <div>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </div>
   )
 }
