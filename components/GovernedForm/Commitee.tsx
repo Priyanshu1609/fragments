@@ -77,6 +77,13 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         });
     };
 
+    useEffect(() => {
+      if(currentAccount){
+        
+      }
+    }, [currentAccount])
+    
+
     const handleLinksChange = (e: any) => {
         e.preventDefault();
 
