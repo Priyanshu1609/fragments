@@ -4,7 +4,7 @@ import { TiTick } from 'react-icons/ti';
 import governance from "../../assets/governance.png";
 import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import { DataContext } from '../../contexts/dataContext';
+import { ProposalContext } from '../../contexts/proposalContext';
 
 export interface SelectProposalProps {
     setCurrentStep: (values: ProposalStep) => void;
@@ -19,8 +19,7 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
 }) => {
 
     const [type, setType] = useState<any>(null);
-    const [setProposalData] = useContext(DataContext);
-
+    const { proposalData, setProposalData, handleChangePropsal, getVaultData } = useContext(ProposalContext);
 
 
     const onSubmitHandler = (e: any) => {

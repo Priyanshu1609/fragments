@@ -24,11 +24,11 @@ interface IOptionProps {
 	readonly chainId: string;
 	readonly name: string | ReactNode;
 	readonly icon: string;
-	// readonly address: string;
+	readonly address: string;
 }
 
 interface ISelectProps {
-	readonly options: IOptionProps[];
+	readonly options: any[];
 	readonly onChange: (value: any) => void;
 	readonly value: string;
 	readonly placeholder?: string;
@@ -82,7 +82,7 @@ const Select: React.FC<ISelectProps> = ({
 								{options?.map((option) => (
 									<Listbox.Option
 										// key={option.address ?? option.chainId}
-										key={option.chainId}
+										key={option.address}
 										className={({ active }) =>
 											classNames(
 												active

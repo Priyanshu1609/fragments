@@ -29,19 +29,6 @@ export const defaultFormData = {
     minApproval: 0,
     commiteeMembers: [""],
 }
-export const defaultProposalData = {
-    origin: '',
-    toToken : '',
-    fromToken : "",
-    toChain : "",
-    fromChain : "",
-    listingPrice : "",
-    listingExpireAt : "",
-    listingCreatedAt : "",
-    transferTo : "",
-    owner : "",
-    nfts : [""],
-}
 
 
 
@@ -51,8 +38,6 @@ export const DataContextProvider = ({ children }) => {
     const router = useRouter();
 
     const [formData, setFormData] = useState(defaultFormData)
-    const [proposalData, setProposalData] = useState(defaultProposalData)
-
     const [vaults, setVaults] = useState([]);
     const [vaultModal, setVaultModal] = useState(false);
     const [vaultLink, setVaultLink] = useState("")
@@ -63,11 +48,6 @@ export const DataContextProvider = ({ children }) => {
     const handleChange = (e, name) => {
         setFormData(prevState => ({ ...prevState, [name]: e.target.value }))
     }
-    const handleChangePropsal = (e, name) => {
-        setProposalData(prevState => ({ ...prevState, [name]: e.target.value }))
-    }
-
-    console.log('proposalData : ', proposalData);
 
     const getVaultsByWallet = async () => {
         if (!currentAccount) { return }
@@ -332,7 +312,7 @@ export const DataContextProvider = ({ children }) => {
 
 
     return (
-        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe, creatorVaults, getVaultsByCreator, liveVaults, proposalData, setProposalData, handleChangePropsal }}>
+        <DataContext.Provider value={{ formData, setFormData, handleChange, vaults, getVaultsByWallet, handleCreateVault, deploySafe, creatorVaults, getVaultsByCreator, liveVaults }}>
             {children}
         </DataContext.Provider>
     )

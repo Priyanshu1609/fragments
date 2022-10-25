@@ -2,48 +2,46 @@ import Image from 'next/image'
 import React, { useState, useContext } from 'react'
 import { SelectProposalProps } from './SelectProposal'
 import NFT from "../../assets/NFT.png";
-import { ProposalStep } from '../../pages/create-proposal';
+import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { requiredTag } from '../CreateDAOForm';
 import Select from '../Select';
 import info from "../../assets/info.png";
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
 import { DataContext } from '../../contexts/dataContext';
+import { ProposalContext } from '../../contexts/proposalContext';
+import coins from "../../abis/coins.json";
+import { customAlphabet } from 'nanoid'
+import { useRouter } from 'next/router';
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10)
 
-type Props = {}
-
-const option = [
-  {
-    "chainId": 'opensea',
-    "name": "Opensea",
-    "icon": "",
-    // "address": "",
-  },
-]
 
 const SwapTokens: React.FC<SelectProposalProps> = ({
-    setCurrentStep,
-    handleBack
+  setCurrentStep,
+  handleBack
 }) => {
 
-  const [proposalData, setProposalData, handleChangePropsal,] = useContext(DataContext);
-  
-  
-    const [inputType, setInputType] = useState<any>({
-      "chainId": 'opensea',
-      "name": "Opensea",
-      "icon": "",
-      // "address": "",
-    })
+  const { proposalData, setProposalData, handleChangePropsal, handleCreateProposal } = useContext(ProposalContext);
+
+  const router = useRouter();
+  const { vault } = router.query
+
+  const [fromToken, setFromToken] = useState<string>("");
+  const [toToken, setToToken] = useState<string>("");
+  console.log({ toToken, fromToken });
 
   const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    alert("Done")
-    // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
-    //     console.log('Error in values, Please input again')
-    //     return;
-    // }
 
-    // setCurrentStep(ProposalStep.)
+    let id = nanoid()
+
+    let data = {
+      ...proposalData,
+      fromToken,
+      toToken
+    }
+
+    setProposalData(data);
+    handleCreateProposal(data, id, vault);
   }
 
   return (
@@ -60,36 +58,33 @@ const SwapTokens: React.FC<SelectProposalProps> = ({
 
       </div>
       <form onSubmit={onSubmitHandler}>
-
         <div className='flex mt-6 space-x-5'>
           <label className='flex-[0.7] relative'>
             <p className='text-xl mt-2 font-britanica font-normal'>Swap Tokens</p>
-
-            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full' value={proposalData.fromToken} onChange={(e) => handleChangePropsal(e, "fromToken")} placeholder='21' />
+            <input required type='number' step="0" className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full' value={proposalData.fromToken} onChange={(e) => handleChangePropsal(e, "fromToken")} placeholder='21' />
           </label>
           <label className='flex-[0.3]'>
             <p className='text-xl mt-1 font-britanica font-normal'>Select Token</p>
             <Select
-              options={option}
-              value={inputType}
-              onChange={(value) => setInputType(value)}
-              placeholder="Days"
+              options={coins}
+              value={fromToken}
+              onChange={(value) => setFromToken(value)}
+              placeholder="Token"
             />
           </label>
         </div>
         <div className='flex mt-6 space-x-5 '>
           <label className='flex-[0.7] relative'>
             <p className='text-xl mt-2 font-britanica font-normal'>You will recieve</p>
-
-            <input required type='number' step="0" min={1} max={inputType.name === "Days" ? 7 : 24} className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='21' value={proposalData.toToken} onChange={(e) => handleChangePropsal(e, "toToken")} />
+            <input required type='number' step="0" className='p-3 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full ' placeholder='21' value={proposalData.toToken} onChange={(e) => handleChangePropsal(e, "toToken")} />
           </label>
           <label className='flex-[0.3]'>
             <p className='text-xl mt-1 font-britanica font-normal'>Select Token</p>
             <Select
-              options={option}
-              value={inputType}
-              onChange={(value) => setInputType(value)}
-              placeholder="Days"
+              options={coins}
+              value={toToken}
+              onChange={(value) => setToToken(value)}
+              placeholder="Token"
             />
           </label>
         </div>
@@ -101,10 +96,6 @@ const SwapTokens: React.FC<SelectProposalProps> = ({
                 <p className='mr-1 font-britanica font-normal'>Listing Expiry Time</p>
                 <p className='mr-1 font-montserrat text-gray-300  text-base font-normal'>When will the listing expire ?</p>
               </div>
-              {/* <div className='group'>
-                <Image src={info} className="cursor-pointer " height={30} width={30} />
-                <div className='text-gray-400  group-hover:flex hidden absolute right-0 top-0 bg-input rounded-lg px-2 py-1 font-montserrat text-sm w-[34rem]'>The token-based quorum is among the most basic DAO voting mechanisms. For a proposal to pass, a certain number of DAO members must participate in the voting process.</div>
-              </div> */}
             </div>
 
             <input required type='datetime-local' style={{ colorScheme: 'dark' }} className='p-3  rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='21/08/2022 ; 08:46 HRS GMT' />

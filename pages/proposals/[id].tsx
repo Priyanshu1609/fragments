@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Lottie from 'react-lottie-player';
 import success from '../../assets/happy.json'
 import { getEllipsisTxt } from '../../utils';
@@ -14,6 +14,9 @@ import { BsWhatsapp } from 'react-icons/bs'
 import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien, FaDiscord } from 'react-icons/fa'
 import { TiSocialTwitter } from 'react-icons/ti';
 import { MdMail } from 'react-icons/md';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import axios from 'axios';
+import { ProposalValues } from '../create-proposal';
 
 type Props = {}
 
@@ -25,39 +28,57 @@ const links = [
   "https://twitter.com/intent/tweet?text=Hey%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%40fragmentsHQ%20%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0Ahttps%3A%2F%2Fwww.fragments.money%2F%0AReferral%20code%3A%20"
 ]
 
-const data = {
-  "origin": "public",
-  "creator": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7",
-  "minApproval": "0",
-  "email": "rylomi@mailinator.com",
-  "vaultName": "fifth",
-  "vaultAddress": "0x854af661234877d6ae57864c34f44Ef4FAf33E3e",
-  "tokenName": "fragme",
-  "target": "0.001",
-  "managementFees": "15",
-  "commiteeMembers": [
-    ""
-  ],
-  "vaultStatus": "COMPLETED",
-  "amount": "0.001",
-  "nfts": [
-    ""
-  ],
-  "votingPeriod": "0",
-  "description": "Sed aut veritatis qui ut sapiente nostrud elit occaecat nulla dolore ut soluta eius et",
-  "contractAddress": "0xC581A0a6210ba86e39A5aCF0936Be6C2C4ABD0ef",
-  "minFavor": "0",
-  "fundraiseDuration": "1666398660000",
-  "fundraiseCreatedAt": "1665835974908",
-  "numOfTokens": "1000000",
-  "quorum": "0",
-  "type": "monarchy"
-}
-
 const ProposalPage = (props: Props) => {
 
   const router = useRouter();
-  const { vault, type } = router.query;
+  const { id, type } = router.query;
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<ProposalValues>();
+  const [modal, setModal] = useState(false)
+
+  console.log({ data });
+
+  useEffect(() => {
+    if(type==="new"){
+      setModal(true);
+    }
+  }, [type])
+  
+
+  const getProposalData = async () => {
+    try {
+
+      setIsLoading(true);
+      console.log("getVaultData", id)
+      let data: any = {}
+
+      const body = JSON.stringify({
+        "id": id
+      })
+
+      const response = await axios.post(`https://lxw5w0see5.execute-api.ap-south-1.amazonaws.com/dev/api/proposals/get`, body, {
+        headers: {
+          'content-Type': 'application/json',
+        },
+      });
+
+      console.log("FETCH PROPOSAL RES", unmarshall(response.data.Item))
+
+      setData(unmarshall(response.data.Item));
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+
+  useEffect(() => {
+    if (id) {
+      getProposalData();
+    }
+  }, [id])
 
   // function to capitalise first letter
   const capitalizeFirstLetter = (string: string) => {
@@ -301,8 +322,8 @@ const ProposalPage = (props: Props) => {
       </div >
 
       <Modal
-        open={true}
-        onClose={() => { }}
+        open={modal}
+        onClose={() => setModal(false)}
         showCTA={false}
         title="Fundraise is now live"
       >

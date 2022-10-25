@@ -26,8 +26,8 @@ export enum ProposalStep {
 
 export interface ProposalValues {
     origin: string,
-    toToken: string,
-    fromToken: string,
+    toToken: object,
+    fromToken: object,
     toChain: string,
     fromChain: string,
     listingPrice: number,
