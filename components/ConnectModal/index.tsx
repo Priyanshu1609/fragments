@@ -30,9 +30,9 @@ const ConnectModal: React.FC = () => {
                 open={visible}
                 onClose={() => setVisible(false)}
                 showCTA={false}
-                title="Connect Wallet"
+                title="CONNECT PRIMARY WALLET"
             >
-                <p className='pr-24 mt-1 text-gra text-base font-extralight text-left font-montserrat'>Connect with one of the available wallet providers or create a new wallet.</p>
+                <p className='pr-24 mt-1 text-gra text-base font-extralight text-left font-montserrat'>Connect with one of your available wallets where you wish to link with Fragments</p>
                 <div className='p-4 mt-6'>
                     <div className='flex items-center justify-evenly  text-white hover:cursor-pointer'>
                         <div

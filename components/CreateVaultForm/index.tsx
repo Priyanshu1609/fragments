@@ -102,12 +102,12 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     const handleType = (option: string) => {
         if (option === "democratic") {
             // setType("democratic")
-            alert("Coming soon")
+            alert("The team is working hard to ship this soon.")
         } else if (option === "committee") {
             setType("committee")
         } else if (option === "weighted") {
             // setType("weighted")
-            alert("Coming soon")
+            alert("The team is working hard to ship this soon.")
         } else if (option === "monarchy") {
             setType("monarchy")
         }
@@ -136,8 +136,8 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         <div className='max-w-2xl mx-auto text-lg'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")]  bg-[#232529]    bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className='text-2xl font-britanica font-normal'>Create your own Vault</h2>
-                    <p className='font-montserrat text-base'>Make a DAO to start investing with your frens in fragments</p>
+                    <h2 className='text-2xl font-britanica font-normal'>Setup Basic Vault Details</h2>
+                    <p className='font-montserrat text-base'>Describe your goals, select preferred governance and other basic details</p>
                 </div>
                 <div className='-mr-[4.4rem] mt-4'>
                     <Image src={vault} height={160} width={160} />
@@ -151,18 +151,19 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                             <input required type='text' maxLength={50} className='text-lg p-3 mb-6 rounded-lg w-full mt-2 bg-transparent focus:outline-none border-[1px] border-gray-600' placeholder='Enter Vault Name' value={formData.vaultName} onChange={(e) => handleChange(e, 'vaultName')} />
                         </label>
                         <label>
-                            <p className='text-xl font-britanica font-normal '>What is this vault is all about?{requiredTag}</p>
-                            <textarea required rows={3} maxLength={500} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Add Description about the vault' value={formData.description} onChange={(e) => handleChange(e, 'description')} />
+                            <p className='text-xl font-britanica font-normal '>What are your goals with this vault?{requiredTag}</p>
+                            <textarea required rows={3} maxLength={500} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Where are you planning to invest? for how long are you investing? how risky is this investment? what returns are you expecting? Write all that you feel is necessary here.'
+                             value={formData.description} onChange={(e) => handleChange(e, 'description')} />
                         </label>
 
 
-                        <p className='text-xl font-britanica font-normal  mb-2'>What's this vault like?{requiredTag}</p>
+                        <p className='text-xl font-britanica font-normal  mb-2'>Select a governance framework.{requiredTag}</p>
                         <div className=" rounded-2xl relative grid grid-cols-1 md:grid-cols-2 gap-3">
 
-                            <Options open={true} option="weighted" title="Weighted Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options open={true} option="democratic" title="Democratic Voting" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options open={false} option="monarchy" title="Monarchy" desc="Vault uses policies to govern the behavior of clients and instrument." />
-                            <Options open={false} option="committee" title="Committee" desc="Vault uses policies to govern the behavior of clients and instrument." />
+                            <Options open={true} option="weighted" title="Weighted Voting" desc="Proposals will lead to transactions. Each member of the vault will have votes(proportional to their stake in the vault) on these proposals." />
+                            <Options open={true} option="democratic" title="Democratic Voting" desc="Proposals will lead to transactions. Each member of the vault will have a vote on these proposals." />
+                            <Options open={false} option="monarchy" title="Monarchy" desc="Creator will be the sole decision maker. They can carry out transactions as they want." />
+                            <Options open={false} option="committee" title="Committee" desc="Creator and selected validators will vote and approve transactions. Validators will be selected prior to vault deployment. " />
 
                         </div>
 
@@ -172,7 +173,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <label>
                             <p className='text-xl font-britanica font-normal '>Token Name <span className='text-xs'> ( 3-6 letters )</span>{requiredTag}</p>
                             <div className='flex items-center justify-center'>
-                                <p className='text-2xl'>frag-</p>
+                                <p className='text-2xl'>FRAG-</p>
                                 <input required type='text' minLength={3} maxLength={6} className='p-4 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2 placeholder:text-sm' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
                             </div>
                         </label>

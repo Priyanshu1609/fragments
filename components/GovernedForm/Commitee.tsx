@@ -112,8 +112,8 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         <div className='max-w-2xl mx-auto text-lg'>
             <div className='flex items-center justify-between h-28 p-6 bg-[url("/Button.png")] bg-[#232529] bg-cover overflow-hidden rounded-2xl'>
                 <div className='text-white'>
-                    <h2 className=' text-3xl font-semibold'>Governance Parameters</h2>
-                    <p className='font-montserrat text-base'>How is the vault being monitored?</p>
+                    <h2 className=' text-3xl font-semibold'>Define Governance Parameters </h2>
+                    <p className='font-montserrat text-base'>Carefully define these parameters for the decision framework of the vault.</p>
                 </div>
                 <div className='-mr-[5rem] mt-8'>
                     <Image src={governance} height={160} width={200} />
@@ -123,7 +123,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
                 <form onSubmit={onSubmitHandler}>
                     <div className='flex flex-col'>
                         <p className='font-britanica font-normal'>Voting Period{requiredTag}</p>
-                        <p className='mt-0 text-lg text-gray-300'>How long will the voting happen?</p>
+                        <p className='mt-0 text-lg text-gray-300'>How long will the voting happen on the proposals?</p>
                     </div>
                     <div className='flex mt-4 space-x-10'>
                         <label className='flex-[0.3]'>
@@ -143,10 +143,10 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
                     </div>
                     <div className='rounded-lg bg-[#3D3112] text-base text-yellow-400 px-2 py-1 text-center mt-2'>
                         <p>
-                            Closing a vault within 24 hours restricts the window to deposit for members.
+                            Note: The vault will be controlled by the validator addresses that you add below. 
                         </p>
                         <p className=''>
-                            Adding more information here so that users now what is happening
+                            We urge you to only add members you trust and know personally. Be very careful and double check these addresses.
                         </p>
                     </div>
                     <div className='flex flex-col space-t-4 my-6'>

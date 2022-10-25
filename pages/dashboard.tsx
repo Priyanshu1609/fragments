@@ -152,12 +152,12 @@ const Dashboard: React.FC = ({ data }: any) => {
                         <Image src={cerateDaoPeopleImage} height={200} width={230} />
                     </div>
                     <div>
-                        <h1 className='text-3xl font-semibold font-britanica'>Create your own Vault</h1>
-                        <p className='text-lg font-montserrat'>Make a DAO to start investing with your frens in fragments</p>
+                        <h1 className='text-3xl font-semibold font-britanica'>CREATE A NEW VAULT</h1>
+                        <p className='text-lg font-montserrat'>Start a new vault, raise capital and invest together with frens!</p>
                     </div>
                 </div>
                 <div className='flex items-center space-x-4 bg-[#232529] px-5 py-3 rounded-lg mr-10'>
-                    <p>Start Creating</p>
+                    <p>Start Now</p>
                     <MdArrowForwardIos className='w-5 h-5 mr-6' />
                     {/* <ArrowRightIcon className='w-6 h-6 mr-6' /> */}
                 </div>

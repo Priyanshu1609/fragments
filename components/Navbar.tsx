@@ -36,7 +36,9 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex space-x-6 items-center">
-                        <Account />
+                        {cookies?.user?.issuer &&
+                            <Account />
+                        }
                     </div>
                 </div>
             </div>

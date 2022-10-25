@@ -52,8 +52,8 @@ const Connect: NextPage = ({ data }: any) => {
     <div className="flex   flex-col items-center justify-center py-2 h-[80%] overflow-hidden">
       <div className='text-white rounded-lg text-center  p-8 max-w-3xl'>
         <Image src={connectwallet} width={200} height={200} />
-        <h1 className='text-4xl mt-6 mb-2  font-britanica font-normal '>Wallet not connected</h1>
-        <p className=' text-white text-opacity-60 text-lg mt-4'>Fractional ownership of the world's most sought after NFTs. Fractional reduces entry costs, increases access, and enables new communities.</p>
+        <h1 className='text-4xl mt-6 mb-2  font-britanica font-normal '>NO PRIMARY WALLET FOUND</h1>
+        <p className=' text-white text-opacity-60 text-lg mt-4'>Your primary wallet will receive ERC tokens on Polygon chain, representing your stake in a vault.</p>
         <button className='py-3 mt-8 text-lg rounded-md bg-[#2BFFB1] text-black font-semibold w-full max-w-xs' onClick={() => setVisible(true)}>
           Connect Wallet to Get Started
         </button>
