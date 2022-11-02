@@ -29,8 +29,6 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
     const { currentAccount } = useContext(TransactionContext)
 
-
-    const [commiteeAddresses, setCommiteeAddresses] = useState("")
     const [links, setLinks] = useState([
         {
             type: "text",
@@ -84,7 +82,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     useEffect(() => {
         if (currentAccount) {
-            if (links[0].value.length === 0) {
+            if (links[0].value.length !== 0) {
                 
                 return;
             }
