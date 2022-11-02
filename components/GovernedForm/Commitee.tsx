@@ -73,13 +73,11 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     useEffect(() => {
         if (currentAccount) {
-            
+
 
             setLinks((s: any) => {
                 return [
-                    {
-                        value: currentAccount,
-                    },
+                    currentAccount,
                     ...s
                 ];
             });
@@ -104,8 +102,13 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         console.log({ links })
 
         if (links.length === 1) {
+            toast.error('You must have atleast one commitee member')
             return;
-        } 
+        } else if (links.length === 2 && links[1].length === 0) {
+            setLinks((products) => products.filter((link => link.length !== 0)));
+            return;
+        }
+
         setLinks((products) => products.filter((_, index) => index !== i));
     }
 
@@ -174,9 +177,8 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
                                                 className='p-3  rounded-l-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2'
                                                 placeholder='0x879873988938490293092, 0x879873988938490293092, 0x879873988938490293092'
                                                 onChange={handleLinksChange}
-                                                value={item.value}
-                                                id={i.toString()}
-                                                type={item.type}
+                                                value={item}
+                                                type="text"
                                             />
 
                                         </label>
