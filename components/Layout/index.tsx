@@ -19,6 +19,9 @@ import { parseCookies } from '../../utils/cookie'
 import LifiWidget from '../LifiWidget'
 import { ProposalContextProvider } from '../../contexts/proposalContext'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface Props {
     children: React.ReactNode;
@@ -47,6 +50,17 @@ const Layout: React.FC<Props> = ({ children }) => {
                                     {children}
                                     <ConnectModal />
                                     <LifiWidget />
+                                    <ToastContainer
+                                        position="top-right"
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                        theme="dark"
+                                    />
                                 </div>
                             </NftContextProvider>
                         </ProposalContextProvider>

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-
+import { toast } from 'react-toastify';
 
 import { requiredTag } from '../CreateDAOForm';
 import { TransactionContext } from '../../contexts/transactionContext';
@@ -57,7 +57,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
         const address = await deploySafe();
         // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
-            alert("Error in deploying Gnosis safe! Please try again");
+            toast.info("Error in deploying Gnosis safe! Please try again");
             router.push({
                 pathname: `/dashboard`,
                 query: { user: currentAccount },

@@ -7,6 +7,7 @@ import { requiredTag } from '../CreateDAOForm';
 import Select from '../Select';
 import info from "../../assets/info.png";
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -19,8 +20,8 @@ const option = [
   },
 ]
 const Liquidatation: React.FC<SelectProposalProps> = ({
-    setCurrentStep,
-    handleBack
+  setCurrentStep,
+  handleBack
 }) => {
 
 
@@ -33,7 +34,7 @@ const Liquidatation: React.FC<SelectProposalProps> = ({
 
   const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    alert("Done")
+    toast.info("Done")
     // if (!name.length || !description.length || !tokenSupply || managementFee >= 100 || managementFee < 0 || tokenName.length !== 4) {
     //     console.log('Error in values, Please input again')
     //     return;

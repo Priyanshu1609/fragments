@@ -6,6 +6,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
 import { DataContext } from '../../contexts/dataContext'
 import { TiTick } from "react-icons/ti"
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 interface CreateVaultFormProps {
     origin: string
@@ -74,7 +75,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
         e.preventDefault();
 
         if (!type) {
-            alert("Please select a governance type")
+            toast.info("Please select a governance type")
             return;
         }
 
@@ -102,12 +103,12 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
     const handleType = (option: string) => {
         if (option === "democratic") {
             // setType("democratic")
-            alert("The team is working hard to ship this soon.")
+            toast.info("The team is working hard to ship this soon.")
         } else if (option === "committee") {
             setType("committee")
         } else if (option === "weighted") {
             // setType("weighted")
-            alert("The team is working hard to ship this soon.")
+            toast.info("The team is working hard to ship this soon.")
         } else if (option === "monarchy") {
             setType("monarchy")
         }
@@ -153,7 +154,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                         <label>
                             <p className='text-xl font-britanica font-normal '>What are your goals with this vault?{requiredTag}</p>
                             <textarea required rows={3} maxLength={500} className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' placeholder='Where are you planning to invest? for how long are you investing? how risky is this investment? what returns are you expecting? Write all that you feel is necessary here.'
-                             value={formData.description} onChange={(e) => handleChange(e, 'description')} />
+                                value={formData.description} onChange={(e) => handleChange(e, 'description')} />
                         </label>
 
 

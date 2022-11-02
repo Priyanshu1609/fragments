@@ -16,6 +16,8 @@ import { CreateVaultFormValues, CreateVaultStep } from '../CreateVaultForm'
 import { useRouter } from 'next/router';
 import PageLoader from '../PageLoader';
 
+import { toast } from 'react-toastify';
+
 import loader from "../../assets/loader.json";
 
 const APP_ID = process.env.NEXT_PUBLIC_MORALIS_APP_ID;
@@ -51,7 +53,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
     const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
         if (transferred.length === 0) {
-            alert("Please import atleast 1 NFT");
+            toast.info("Please import atleast 1 NFT");
             return;
         }
         const nfts = nftsImported;

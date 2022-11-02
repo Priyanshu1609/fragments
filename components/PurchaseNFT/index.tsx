@@ -6,6 +6,7 @@ import { BigNumber } from 'ethers';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 
+import { toast } from 'react-toastify';
 
 import { requiredTag } from '../CreateDAOForm';
 import vault from '../../assets/NFT.png';
@@ -94,7 +95,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     const createSafe = async () => {
         const address = await deploySafe();
         if (!address) {
-            alert("Error in deploying Gnosis safe! Please try again");
+            toast.info("Error in deploying Gnosis safe! Please try again");
             router.push({
                 pathname: `/dashboard`,
                 query: { user: currentAccount },

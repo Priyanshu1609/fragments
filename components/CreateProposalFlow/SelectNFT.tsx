@@ -5,6 +5,7 @@ import NFTillustration from "../../assets/nftillustration.png"
 import Image from 'next/image';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -26,7 +27,7 @@ const SelectNFT: React.FC<SelectProposalProps> = ({
   const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     // if (transferred.length === 0) {
-    //   alert("Please import atleast 1 NFT");
+    //   toast.info("Please import atleast 1 NFT");
     //   return;
     // }
     const nfts = nftsImported;

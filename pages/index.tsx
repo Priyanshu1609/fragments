@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-
+import { toast } from 'react-toastify';
 
 import { magic } from '../utils/magic';
 import connectwallet from '../assets/walletconnect.png'
@@ -47,7 +47,7 @@ const Home: NextPage = ({ data }: any) => {
       setDisabled(true);
 
       if (email.length === 0) {
-        alert("Please enter your email address");
+        toast.info("Please enter your email address");
         return;
       }
 

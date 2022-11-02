@@ -5,6 +5,7 @@ import governance from "../../assets/governance.png";
 import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { ProposalContext } from '../../contexts/proposalContext';
+import { toast } from 'react-toastify';
 
 export interface SelectProposalProps {
     setCurrentStep: (values: ProposalStep) => void;
@@ -26,7 +27,7 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
         e.preventDefault();
 
         if (!type) {
-            alert("Please select a proposal type")
+            toast.info("Please select a proposal type")
             return;
         }
         setProposalData((prevState: ProposalValues) => ({

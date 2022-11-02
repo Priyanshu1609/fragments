@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useContext, useState , useEffect} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { DataContext } from '../../contexts/dataContext';
 import { requiredTag } from '../CreateDAOForm';
 import info from "../../assets/info.png";
@@ -7,6 +7,8 @@ import Select from '../Select';
 import { ArrowLeftIcon, ArrowRightIcon, PlusIcon, XIcon } from '@heroicons/react/solid';
 import governance from '../../assets/governance.png';
 import { CreateVaultStep } from '../CreateVaultForm';
+import { TransactionContext } from '../../contexts/transactionContext';
+import { toast } from 'react-toastify';
 const option = [
     {
         "chainId": 'days',
@@ -25,7 +27,7 @@ const option = [
 const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
-    const {currentAccount} = useContext(TransactionContext)
+    const { currentAccount } = useContext(TransactionContext)
 
 
     const [commiteeAddresses, setCommiteeAddresses] = useState("")
@@ -81,11 +83,25 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
     };
 
     useEffect(() => {
-      if(currentAccount){
+        if (currentAccount) {
+            if (links[0].value.length === 0) {
+                
+                return;
+            }
 
-      }
+            setLinks((s: any) => {
+                return [
+                    {
+                        type: "text",
+                        value: currentAccount,
+                        vis: false,
+                    },
+                    ...s
+                ];
+            });
+        }
     }, [currentAccount])
-    
+
 
     const handleLinksChange = (e: any) => {
         e.preventDefault();
@@ -153,7 +169,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
                     </div>
                     <div className='rounded-lg bg-[#3D3112] text-base text-yellow-400 px-2 py-1 text-center mt-2'>
                         <p>
-                            Note: The vault will be controlled by the validator addresses that you add below. 
+                            Note: The vault will be controlled by the validator addresses that you add below.
                         </p>
                         <p className=''>
                             We urge you to only add members you trust and know personally. Be very careful and double check these addresses.
@@ -189,9 +205,9 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
                                             />
 
                                         </label>
-                                        <button onClick={e => handleRemove(i)} className='w-10 mt-2 underline text-sm rounded-r-lg text-red-500 flex justify-center items-center bg-input focus:outline-none border-[1px] border-gray-600 '>
+                                        <div onClick={e => handleRemove(i)} className='w-10 mt-2 underline text-sm rounded-r-lg cursor-pointer text-red-500 flex justify-center items-center bg-input focus:outline-none border-[1px] border-gray-600 '>
                                             <XIcon className='h-8 w-8 mx-3' />
-                                        </button>
+                                        </div>
                                     </div>
                                 );
                             })}

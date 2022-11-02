@@ -42,17 +42,17 @@ const CreateGullak: React.FC = ({ data }: any) => {
                         })
                     }>Make Vault</button >
                 </button> */}
-                <button className='bg-[#232529] w-80 h-[21rem] p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed space-y-2'>
-                    <Image src={poeple} height={120} width={180} />
-                    <h1 className='text-2xl font-semibold font-britanica'>Fundraise with frens</h1>
+                <button className='bg-[#232529] w-80 h-[24rem] p-8 border border-white border-opacity-50 rounded-lg flex flex-col items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed space-y-2'>
+                    <Image src={poeple} height={220} width={180} />
+                    <h1 className='text-2xl font-semibold font-britanica mt-2'>Fundraise with frens</h1>
                     <p className='text-sm  text-white  font-montserrat '>
                         Write about your goals;
-define vault’s governance;
-raise capital from your network;
-and invest together
+                        define vault’s governance;
+                        raise capital from your network;
+                        and invest together
 
                     </p>
-                    <button className='bg-[#2BFFB1] font-semibold  text-black  py-3 rounded-md  w-full ' onClick={e =>
+                    <button className='bg-[#2BFFB1] font-semibold mt-4 text-black  py-3 rounded-md  w-full ' onClick={e =>
                         router.push({
                             pathname: '/private/create-vault',
                             query: { user: currentAccount },

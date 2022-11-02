@@ -4,6 +4,8 @@ import { GetServerSideProps } from 'next'
 import { BigNumber } from 'ethers';
 import dynamic from 'next/dynamic'
 
+import { toast } from 'react-toastify';
+
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -220,7 +222,7 @@ const VaultDetail: React.FC = () => {
     const handleAddAmount = async () => {
 
         if (tokenAmount <= 0) {
-            alert("Please enter a valid amount")
+            toast.info("Please enter a valid amount")
             return;
         }
 
@@ -234,7 +236,7 @@ const VaultDetail: React.FC = () => {
             tx = await sendTx(id, tokenAmount);
             console.log("Transaction reciept", tx);
             if (!tx) {
-                alert("Please complete the transaction");
+                toast.info("Please complete the transaction");
                 return;
             }
 
@@ -365,7 +367,7 @@ const VaultDetail: React.FC = () => {
         window.open(link, "_blank");
     }
 
-    let eth : any
+    let eth: any
     if (typeof window !== 'undefined') {
         eth = window?.ethereum
     }
@@ -385,9 +387,9 @@ const VaultDetail: React.FC = () => {
                     },
                 },
             })
-            .then((success : any) => {
+            .then((success: any) => {
                 if (success) {
-                    alert(`FRAG-${data?.tokenName} successfully added to wallet!`);
+                    toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
                 } else {
                     throw new Error('Something went wrong.');
                 }
@@ -685,10 +687,10 @@ const VaultDetail: React.FC = () => {
                             navigator.clipboard
                                 .writeText(`https://dev.fragments.money/vaults/${id}`)
                                 .then(() => {
-                                    alert(`Link copied to clipboard , https://dev.fragments.money/vaults/${id}`)
+                                    toast.info(`Link copied to clipboard , https://dev.fragments.money/vaults/${id}`)
                                 })
                                 .catch(() => {
-                                    alert("something went wrong while copying");
+                                    toast.info("something went wrong while copying");
                                 });
                         }}
                         className='w-full mt-4 p-3 rounded-lg !bg-button text-black flex items-center justify-center space-x-4'>

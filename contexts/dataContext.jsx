@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { createContext, useState, useContext, useEffect } from 'react'
-
+import { toast } from 'react-toastify';
 import { TransactionContext } from './transactionContext';
 
 
@@ -122,7 +122,7 @@ export const DataContextProvider = ({ children }) => {
     const deploySafe = async () => {
         try {
             setIsLoading(true);
-            // return "0x67407721B109232BfF825F186c8066045cFefe7F"
+            return "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x67407721B109232BfF825F186c8066045cFefe7F"
             // const address = "0x1e5A80704a2130A47866A350cEc9D71fAe2E9439"
             console.log("Deploying Safe");
@@ -165,7 +165,7 @@ export const DataContextProvider = ({ children }) => {
             const res = await axios(config)
 
             console.log("Deployed Contract address:", res, data)
-            
+
             return res.data;
 
         } catch (error) {
@@ -185,7 +185,7 @@ export const DataContextProvider = ({ children }) => {
                 tx = await sendTx(address, values.myContribution);
                 console.log("Transaction reciept", tx);
                 if (!tx) {
-                    alert("Please complete the transaction");
+                    toast.info("Please complete the transaction");
                     return;
                 }
             }
@@ -249,7 +249,7 @@ export const DataContextProvider = ({ children }) => {
 
             console.log("aws res 1:", response, data);
             console.log("aws res 2:", response2, data2);
-            
+
             router.push({
                 pathname: `/vaults/${address}`,
                 query: { user: currentAccount, type: "new" },

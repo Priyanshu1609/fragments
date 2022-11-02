@@ -17,6 +17,7 @@ import { MdMail } from 'react-icons/md';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import axios from 'axios';
 import { ProposalValues } from '../create-proposal';
+import { toast } from 'react-toastify';
 
 type Props = {}
 
@@ -39,11 +40,11 @@ const ProposalPage = (props: Props) => {
   console.log({ data });
 
   useEffect(() => {
-    if(type==="new"){
+    if (type === "new") {
       setModal(true);
     }
   }, [type])
-  
+
 
   const getProposalData = async () => {
     try {
@@ -353,10 +354,10 @@ const ProposalPage = (props: Props) => {
               navigator.clipboard
                 .writeText(`https://dev.fragments.money/vaults/${vault}`)
                 .then(() => {
-                  alert(`Link copied to clipboard , https://dev.fragments.money/vaults/${vault}`)
+                  toast.info(`Link copied to clipboard , https://dev.fragments.money/vaults/${vault}`)
                 })
                 .catch(() => {
-                  alert("something went wrong while copying");
+                  toast.info("something went wrong while copying");
                 });
             }}
             className='w-full mt-4 p-3 rounded-lg !bg-button text-black flex items-center justify-center space-x-4'>

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { requiredTag } from '../CreateDAOForm';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { DataContext, } from '../../contexts/dataContext'
-import {  CreateVaultStep } from '../CreateVaultForm'
+import { CreateVaultStep } from '../CreateVaultForm'
 import { minDtTime } from '../../utils';
 
 import people from '../../assets/People.png'
@@ -54,7 +54,7 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
         const address = await deploySafe();
         // const address = "0x07ae982eB736D11633729BA47D9F8Ab513caE3Fd";
         if (!address) {
-            alert("Error in deploying Gnosis safe! Please try again");
+            toast.info("Error in deploying Gnosis safe! Please try again");
             router.push({
                 pathname: `/dashboard`,
                 query: { user: currentAccount },
