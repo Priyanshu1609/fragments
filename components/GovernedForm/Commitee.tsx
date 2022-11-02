@@ -30,12 +30,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
     const { currentAccount } = useContext(TransactionContext)
 
     const [links, setLinks] = useState([
-        {
-            type: "text",
-            id: 1,
-            value: "",
-            vis: false,
-        }
+        ""
     ]);
 
 
@@ -54,7 +49,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         // }
         let array = [] as any;
         links.forEach(link => {
-            array.push(link.value)
+            array.push(link)
         });
 
         setFormData({
@@ -71,28 +66,19 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         setLinks((s: any) => {
             return [
                 ...s,
-                {
-                    type: "text",
-                    value: "",
-                    vis: false,
-                }
+                ""
             ];
         });
     };
 
     useEffect(() => {
         if (currentAccount) {
-            if (links[0].value.length !== 0) {
-                
-                return;
-            }
+            
 
             setLinks((s: any) => {
                 return [
                     {
-                        type: "text",
                         value: currentAccount,
-                        vis: false,
                     },
                     ...s
                 ];
@@ -107,28 +93,19 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
         const index = e.target.id;
         setLinks(s => {
             const newArr = s.slice();
-            newArr[index].value = e.target.value;
+            newArr[index] = e.target.value;
 
             return newArr;
         });
     };
 
     const handleRemove = (i: any) => {
+
+        console.log({ links })
+
         if (links.length === 1) {
             return;
-        }
-        // if (orders[i]) {
-        //     console.log('Deleting value');
-        //     setTarget(target - bnToString(orders[i]?.currentPrice));
-        //     if (duration === (orders[i].expirationTime)) {
-        //         orders.splice(i, 1);
-        //         let a = Number.MAX_SAFE_INTEGER;
-        //         orders.forEach((element: any) => {
-        //             a = (Math.min(a, element.expirationTime))
-        //         });
-        //         setDuration(a);
-        //     }
-        // }
+        } 
         setLinks((products) => products.filter((_, index) => index !== i));
     }
 
