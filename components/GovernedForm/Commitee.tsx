@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState , useEffect} from 'react'
 import { DataContext } from '../../contexts/dataContext';
 import { requiredTag } from '../CreateDAOForm';
 import info from "../../assets/info.png";
@@ -25,6 +25,9 @@ const option = [
 const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     const { formData, setFormData, handleChange, defaultFormData } = useContext(DataContext);
+    const {currentAccount} = useContext(TransactionContext)
+
+
     const [commiteeAddresses, setCommiteeAddresses] = useState("")
     const [links, setLinks] = useState([
         {
@@ -79,7 +82,7 @@ const Commitee = ({ setCurrentStep, handleBack }: any) => {
 
     useEffect(() => {
       if(currentAccount){
-        
+
       }
     }, [currentAccount])
     
