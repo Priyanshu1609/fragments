@@ -4,8 +4,8 @@ import { TiTick } from 'react-icons/ti';
 import governance from "../../assets/governance.png";
 import { ProposalStep, ProposalValues } from '../../pages/create-proposal';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-import { ProposalContext } from '../../contexts/proposalContext';
 import { toast } from 'react-toastify';
+import { ProposalContext } from '../../contexts/proposalContext';
 
 export interface SelectProposalProps {
     setCurrentStep: (values: ProposalStep) => void;
@@ -92,7 +92,7 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
                     <MdArrowBackIosNew className='w-4' />
                     <span>Back</span>
                 </button>
-                <button type='submit' onClick={onSubmitHandler} className='w-44 px-3 py-2 rounded-lg font-semibold  !bg-button  text-black flex items-center justify-center space-x-4'>
+                <button onClick={onSubmitHandler} className='w-44 px-3 py-2 rounded-lg font-semibold  !bg-button  text-black flex items-center justify-center space-x-4'>
                     <span>Next Step</span>
                     <MdArrowForwardIos className='w-4 h-4' />
                 </button>

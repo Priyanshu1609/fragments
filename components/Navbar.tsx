@@ -24,18 +24,19 @@ const Navbar: React.FC = () => {
                             })}>
                                 <Logo />
                             </div>
-
-                            {cookies?.user?.issuer && <div className='flex space-x-5'>
-                                <p onClick={e => router.push({
-                                    pathname: '/dashboard'
-                                })} className={`${router.pathname === "/dashboard" && "text-button"}`} >MY DASHBOARD</p>
-                                <p onClick={e => router.push({
-                                    pathname: '/livevaults'
-                                })} className={`${router.pathname === "/livevaults" && "text-button"}`} >EXPLORE LIVE VAULTS</p>
-                            </div>}
+                            <div suppressHydrationWarning>
+                                {cookies?.user?.issuer && <div className='flex space-x-5'>
+                                    <p onClick={e => router.push({
+                                        pathname: '/dashboard'
+                                    })} className={`${router.pathname === "/dashboard" && "text-button"}`} >MY DASHBOARD</p>
+                                    <p onClick={e => router.push({
+                                        pathname: '/livevaults'
+                                    })} className={`${router.pathname === "/livevaults" && "text-button"}`} >EXPLORE LIVE VAULTS</p>
+                                </div>}
+                            </div>
                         </div>
                     </div>
-                    <div  suppressHydrationWarning className="flex space-x-6 items-center">
+                    <div suppressHydrationWarning className="flex space-x-6 items-center">
                         {cookies?.user?.issuer &&
                             <Account />
                         }

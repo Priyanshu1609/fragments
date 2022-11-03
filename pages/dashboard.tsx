@@ -183,7 +183,7 @@ const Dashboard: React.FC = ({ data }: any) => {
                 <div className='flex space-x-16 mr-24 '>
                     <div className=''>
                         <p className='opacity-70 text-base '>Curent Value </p>
-                        <span className='font-bold text-2xl opacity-100 -mt-1 !font-britanica'>{(valuation).toFixed(2)} ETH </span>
+                        <span className='font-bold text-2xl opacity-100 -mt-1 !font-britanica'>{(valuation).toFixed(4)} ETH </span>
                         {/* <span className='text-green-500 text-xl flex'> 5 % <ArrowUpIcon className='h-5 w-5 my-auto' /></span> */}
                     </div>
                     <div className=''>

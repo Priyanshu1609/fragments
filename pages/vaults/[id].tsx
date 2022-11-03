@@ -106,7 +106,7 @@ const VaultDetail: React.FC = () => {
 
 
     // console.log("owners", ownerData);
-    console.log({ data });
+    // console.log({ ownerData });
 
     const getProviderFrom = async () => {
         const provider = await getProvider();
@@ -158,13 +158,14 @@ const VaultDetail: React.FC = () => {
                 const regularObject = unmarshall(response2.data.Items[i]);
                 owners.push(regularObject);
             }
-            // owners[i] = temp;
+            let sortedProducts = [] as any;
+            sortedProducts = owners.sort((p1: any, p2: any) => (p1.timestamp < p2.timestamp) ? 1 : (p1.timestamp > p2.timestamp) ? -1 : 0);
 
             console.log("FETCH OWNER RES", response2.data.Items)
 
 
             setData(data);
-            setOwnerData(owners);
+            setOwnerData(sortedProducts);
 
             setTokenAmount(0);
 
@@ -627,7 +628,7 @@ const VaultDetail: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div className="z-[100]">
                         <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Proof of Authenticity</span>
                         <div className="w-full">
                             <div className="flex w-full">

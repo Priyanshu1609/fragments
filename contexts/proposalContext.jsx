@@ -22,13 +22,13 @@ export const defaultProposalData = {
 
 export const ProposalContext = React.createContext({})
 
-export const ProposalContextProvider = ({ children }: any) => {
+export const ProposalContextProvider = ({ children }) => {
     const router = useRouter();
 
     const { currentAccount } = useContext(TransactionContext);
 
     const [proposals, setProposals] = useState([])
-    const [proposalData, setProposalData] = useState<ProposalValues>(defaultProposalData)
+    const [proposalData, setProposalData] = useState(defaultProposalData)
 
 
     console.log({ proposalData });
@@ -38,9 +38,9 @@ export const ProposalContextProvider = ({ children }: any) => {
     }
 
 
-    const getVaultData = async (vaultAddress: string) => {
+    const getVaultData = async (vaultAddress) => {
 
-        let data: any = {}
+        let data = {}
 
         const body = JSON.stringify({
             "vaultAddress": vaultAddress
@@ -52,7 +52,7 @@ export const ProposalContextProvider = ({ children }: any) => {
             },
         });
 
-        response.data.Items?.forEach((element: any) => {
+        response.data.Items?.forEach((element) => {
 
             for (let i in element) {
                 data[i] = Object.values(element[i])[0]
@@ -68,7 +68,7 @@ export const ProposalContextProvider = ({ children }: any) => {
         try {
             setProposals([])
 
-            const options: any = {
+            const options = {
                 method: 'POST',
                 url: 'https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser',
                 data: { address: currentAccount }
@@ -77,14 +77,14 @@ export const ProposalContextProvider = ({ children }: any) => {
             const response = await axios.request(options)
 
             console.log("response now", response.data.Items);
-            response.data.Items?.forEach((element: any) => {
+            response.data.Items?.forEach((element) => {
                 // console.log(element);
-                let d = {} as any
+                let d = {} 
                 for (let i in element) {
                     d[i] = Object.values(element[i])[0]
                 }
 
-                setProposals((prev: any) => [...prev, element]);
+                setProposals((prev) => [...prev, element]);
             })
 
         } catch (error) {
@@ -92,7 +92,7 @@ export const ProposalContextProvider = ({ children }: any) => {
         }
     }
 
-    const handleCreateProposal = async (values: ProposalValues, id: string, vault: string) => {
+    const handleCreateProposal = async (values, id, vault) => {
         try {
 
             console.log("FormData", values);

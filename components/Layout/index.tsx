@@ -17,10 +17,10 @@ import dynamic from 'next/dynamic'
 import Navbar from '../Navbar'
 import { parseCookies } from '../../utils/cookie'
 import LifiWidget from '../LifiWidget'
-import { ProposalContextProvider } from '../../contexts/proposalContext'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ProposalContextProvider } from '../../contexts/proposalContext'
 
 
 interface Props {
