@@ -25,7 +25,7 @@ const Livevaults: React.FC = ({ data }: any) => {
         <div className='text-white  max-w-6xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
             <div className='py-6 grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-y-8 no-scrollbar '>
 
-                {liveVaults?.map((vault: any) => (
+                {[]?.map((vault: any) => (
 
                     <div key={vault.vaultAddress} className='cursor-pointer' onClick={() =>
                         router.push({
