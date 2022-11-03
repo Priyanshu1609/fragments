@@ -14,6 +14,7 @@ import people from '../../assets/People.png'
 import ConnectModalContext from '../../contexts/connectwallet';
 import PageLoader from '../PageLoader';
 import loader from '../../assets/loader.json'
+import { toast } from 'react-toastify';
 
 const jsonRpcEndpoint = `https://goerli.infura.io/v3/327c87eb10b048ad89f3b5d3ac9e3d9c`;
 
@@ -103,11 +104,6 @@ const PrivateFundraise: React.FC<CreateVaultFormProps> = ({
             </div>
             <form onSubmit={onSubmitHandler} className='mt-10'>
                 <div>
-                    <label>
-                        <p className='text-xl'>Notification Email Address {requiredTag}</p>
-                        <p className='text-lg font-montserrat text-gray-300'>Enter email where you’ll be able to get all updates about this fundraise.</p>
-                        <input required type='email' step="any" className='p-4 mb-6 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2' value={formData.email} onChange={(e) => handleChange(e, 'email')} placeholder='hello@nftdrop.io' />
-                    </label>
                     <div className=''>
                         <label>
                             <p className='text-sm'>Target Fundraise {requiredTag}</p>
