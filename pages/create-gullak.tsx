@@ -15,7 +15,7 @@ const CreateGullak: React.FC = ({ data }: any) => {
     const { connectallet, currentAccount, logout, awsClient } = useContext(TransactionContext);
 
     useEffect(() => {
-        if (!data.user) {
+        if (!data.user.currentAccount) {
             router.push('/')
         }
     }, [data.user])

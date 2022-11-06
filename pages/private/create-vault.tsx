@@ -24,7 +24,7 @@ const CreateVault: React.FC = ({ data }: any) => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!data.user) {
+        if (!data.user.currentAccount) {
             router.push('/')
         }
     }, [data.user])

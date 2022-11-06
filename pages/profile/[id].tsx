@@ -113,7 +113,7 @@ const Profile: React.FC = ({ data }: any) => {
     }, [currentAccount, vaults])
 
     useEffect(() => {
-        if (!data.user) {
+        if (!data.user.currentAccount) {
             router.push('/')
         }
     }, [data.user])

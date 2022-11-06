@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
                     <div suppressHydrationWarning className="flex space-x-6 items-center">
-                        {cookies?.user?.issuer &&
+                        {cookies?.user?.currentAccount &&
                             <Account />
                         }
                     </div>

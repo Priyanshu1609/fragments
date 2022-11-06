@@ -128,8 +128,7 @@ const Dashboard: React.FC = ({ data }: any) => {
 
 
     useEffect(() => {
-        console.log(data.user.currentAccount);
-        if (!data.user) {
+        if (!data.user.currentAccount) {
             router.push('/')
         }
     }, [data.user])

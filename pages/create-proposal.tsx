@@ -46,7 +46,7 @@ const CreateProposal = ({ data }: any) => {
     const [currentStep, setCurrentStep] = React.useState(ProposalStep.SelectProposal)
 
     useEffect(() => {
-        if (!data.user) {
+        if (!data.user.currentAccount) {
             router.push('/')
         }
     }, [data.user])
@@ -73,56 +73,56 @@ const CreateProposal = ({ data }: any) => {
             {
                 currentStep === ProposalStep.SelectProposal && (
                     <div>
-                        <SelectProposal handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <SelectProposal handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.ListNFT && (
                     <div>
-                        <ListNFT handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <ListNFT handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.EditNFT && (
                     <div>
-                        <EditNFT handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <EditNFT handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.TransferNFT && (
                     <div>
-                        <TransferNFT handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <TransferNFT handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.CancelNFT && (
                     <div>
-                        <CancelNFT handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <CancelNFT handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.SwapTokens && (
                     <div>
-                        <SwapTokens handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <SwapTokens handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.Liquidation && (
                     <div>
-                        <Liquidatation handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <Liquidatation handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }
             {
                 currentStep === ProposalStep.SelectNFT && (
                     <div>
-                        <SelectNFT handleBack={handleBack}  setCurrentStep={setCurrentStep} />
+                        <SelectNFT handleBack={handleBack} setCurrentStep={setCurrentStep} />
                     </div>
                 )
             }

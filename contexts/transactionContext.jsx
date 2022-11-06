@@ -91,7 +91,7 @@ export const TransactionProvider = ({ children }) => {
             console.log("Email Fetched During Sign Up", cookie.user.userMetadata);
 
             var data = JSON.stringify({
-                "email": "priyansupanda.ctp@gmail.com",
+                "email": "priyanshupanda.ctp@gmail.com",
                 "referredId": "00000000",
                 "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
             });

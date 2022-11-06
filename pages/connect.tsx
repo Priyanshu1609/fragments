@@ -42,7 +42,7 @@ const Connect: NextPage = ({ data }: any) => {
   }, [currentAccount])
 
   useEffect(() => {
-    if (!data.user) {
+    if (!data.user.currentAccount) {
       router.push("/")
     }
   }, [data.user])
