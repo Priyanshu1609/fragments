@@ -65,33 +65,6 @@ const Home: NextPage = ({ data }: any) => {
     }
   }
 
-  // useEffect(() => {
-  //   // setUser({ loading: true });
-  //   Auth.currentUserCredentials().catch((e) => {
-  //     console.log("=== currentcredentials", { e });
-  //   });
-  //   Auth.currentAuthenticatedUser()
-  //     .then((user) => {
-  //       magic.user
-  //         .isLoggedIn()
-  //         .then((isLoggedIn) => {
-  //           return isLoggedIn
-  //             ? magic.user
-  //               .getMetadata()
-  //               .then((userData) =>
-  //                 setUser({ ...userData, identityId: user.id })
-  //               )
-  //             : setUser({ user: null });
-  //         })
-  //         .catch((e) => {
-  //           console.log("=== currentUser", { e });
-  //         });
-  //     })
-  //     .catch((e) => {
-  //       setUser({ user: null });
-  //     });
-  // }, []);
-
   useEffect(() => {
     if (data.user) {
       setConnected(true);

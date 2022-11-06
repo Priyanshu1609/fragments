@@ -29,6 +29,7 @@ const Account: React.FC = () => {
             <Image src={walletIcon} />
             <p className='text-base'>Connect wallet</p>
             <ArrowRightIcon className='w-6 h-6' />
+            <LogoutIcon onClick={logoutWallet} className='w-6 h-6 text-white cursor-pointer' />
         </div>
     )
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { TransactionContext } from "../contexts/transactionContext";
 import { useCookies } from "react-cookie"
 import axios from "axios";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const Callback = (props) => {
     const router = useRouter();
@@ -44,6 +45,26 @@ const Callback = (props) => {
 
             let userMetadata = await magic.user.getMetadata();
 
+
+            var data = JSON.stringify({
+                "email": userMetadata.email
+            });
+
+            var config = {
+                method: 'post',
+                url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/wallet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            let walletRes = await axios(config)
+            walletRes = (unmarshall(walletRes.data.Item))
+            console.log({ walletRes })
+            console.log("Primary Wallet Address : ", walletRes.primaryWallet)
+
+
             console.log({ didToken, userMetadata })
             const options = {
                 method: 'POST',
@@ -56,7 +77,7 @@ const Callback = (props) => {
 
             const credentials = await axios.request(options)
 
-            console.log({credentials})
+            console.log({ credentials })
 
 
             if (credentials.data && credentials.data.SessionToken) {
@@ -64,13 +85,13 @@ const Callback = (props) => {
                 let userMetadata = await magic.user.getMetadata();
                 // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
                 setUser({ ...userMetadata, aws: credentials });
-                setCookie("user", JSON.stringify({ ...userMetadata, identityId: credentials }), {
+                setCookie("user", JSON.stringify({ userMetadata, identityId: credentials, currentAccount: walletRes.primaryWallet }), {
                     path: "/",
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
 
-                if (currentAccount) {
+                if (walletRes.primaryWallet) {
                     router.push("/dashboard");
                 } else {
                     router.push("/connect");

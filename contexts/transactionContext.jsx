@@ -70,104 +70,49 @@ export const TransactionProvider = ({ children }) => {
 
     let walletConnectProvider;
 
-    const awsConnect = async (address) => {
 
-        //* AWS AUTH
-        try {
-
-            setIsLoading(true);
-            let customerId;
-            const res = await axios(
-                `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/nonce?address=${address}`,
-                {
-                    method: 'GET',
-                    validateStatus: false,
-                }
-            );
-
-            customerId = res.data.customerId;
-            console.log("data", res);
-            if (!customerId) {
-
-                const data = JSON.stringify({
-                    "address": currentAccount,
-                    "referredId": "00000000"
-                });
-                // console.log("Sign up data passed:", data, process.env.REACT_APP_SIGNUP_KEY);
-
-                const res = await axios.post(
-                    `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/signup`,
-                    data,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // "x-api-key": `${process.env.NEXT_PUBLIC_SIGNUP_KEY}`
-                        },
-                    }
-                );
-
-                console.log("Signup", res);
-                if (res && res.data.Attributes) {
-                    customerId = res.data.Attributes.customerId;
-                }
-
-            }
-
-            console.log('customerID:', customerId);
-            setClientId(customerId);
-
-            const signature = await web3.eth.personal.sign(
-                web3.utils.sha3(`zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`),
-                address
-            );
-
-            console.log("Signature in login function:", signature);
-
-            const data = await axios.post(
-                `https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/login`,
-                {
-                    address,
-                    signature,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-
-            if (data) {
-                const aws = new AwsClient({
-                    accessKeyId: data.data.AccessKeyId,
-                    secretAccessKey: data.data.SecretKey,
-                    sessionToken: data.data.SessionToken,
-                    region: 'ap-south-1',
-                    service: 'execute-api',
-                });
-                console.log("aws:", aws);
-                setAwsClient(aws);
-                setCookie("user", JSON.stringify(aws), {
-                    path: "/",
-                    maxAge: 2592000, // Expires after 1hr
-                    sameSite: true,
-                })
-
-                router.push("/");
-                return true;
-            }
-            else { return false; }
-
-        } catch (error) {
-
-            console.error(error);
-
-        } finally {
-
-            setIsLoading(false);
-
+    const checkWalletCookie = async () => {
+        console.log("checkWalletCookie", cookie.user?.currentAccount);
+        if (cookie.user) {
+            setCurrentAccount(cookie.user?.currentAccount)
         }
     }
 
+    useEffect(() => {
+        checkWalletCookie();
+    }, [cookie])
+
+
+    const signUpMain = async (address) => {
+        try {
+            setIsLoading(true)
+            console.log("Email Fetched During Sign Up", cookie.user.userMetadata);
+
+            var data = JSON.stringify({
+                "email": "priyansupanda.ctp@gmail.com",
+                "referredId": "00000000",
+                "address": "0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7"
+            });
+
+            var config = {
+                method: 'post',
+                url: 'https://r7d9t73qaj.execute-api.ap-south-1.amazonaws.com/dev/api/auth/signupmain',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            const res = await axios(config)
+            console.log("SignUp Main", res.data)
+        }
+        catch (error) {
+            console.error(error)
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }
     const checkIfWalletIsConnected = async () => {
         try {
 
@@ -177,9 +122,8 @@ export const TransactionProvider = ({ children }) => {
 
             if (accounts.length) {
                 let address = accounts[0];
-                // const res = await awsConnect(address);
-                // if (!res) { return }
-                setCurrentAccount(accounts[0])
+                // console.log("address", address);
+
             }
         } catch (error) {
             console.error(error)
@@ -213,10 +157,15 @@ export const TransactionProvider = ({ children }) => {
                 setIsLoading(true)
                 console.log('Is returning', isReturningUser)
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
-                // let address = accounts[0];
-                // const res = await awsConnect(address);
-                // console.log(res);
-                // if (!res) { return }
+                let address = accounts[0];
+                const res = await signUpMain(address);
+                setCookie("user", JSON.stringify({ ...cookie, currentAccount: address }), {
+                    path: "/",
+                    maxAge: 2592000, // Expires after 1hr
+                    sameSite: true,
+                })
+                console.log(res);
+                if (!res) { return }
             }
 
             else {
@@ -230,7 +179,7 @@ export const TransactionProvider = ({ children }) => {
                 console.log('Accounts:', accounts)
             }
 
-            setCurrentAccount(accounts[0])
+            // setCurrentAccount(accounts[0])
 
         } catch (error) {
             console.error(error)
