@@ -13,12 +13,13 @@ import { parseCookies } from '../../utils/cookie'
 import { TransactionContext } from '../../contexts/transactionContext'
 import axios from 'axios'
 import { unmarshall } from '@aws-sdk/util-dynamodb'
+import { useCookies } from 'react-cookie'
 
 const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { id } = router.query;
-
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const { currentAccount, awsClient } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
     const [isLoading, setIsLoading] = useState(false);
@@ -113,10 +114,10 @@ const Profile: React.FC = ({ data }: any) => {
     }, [currentAccount, vaults])
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     return (
         <div className='text-white min-h-screen max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
@@ -288,16 +289,3 @@ const Profile: React.FC = ({ data }: any) => {
 
 export default Profile
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

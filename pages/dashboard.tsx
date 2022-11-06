@@ -20,6 +20,7 @@ import pattern from '../assets/Pattern.png'
 import demo from '../assets/demo.png'
 import { MdArrowForwardIos } from 'react-icons/md';
 import { parseCookies } from '../utils/cookie';
+import { useCookies } from 'react-cookie';
 
 
 
@@ -97,9 +98,10 @@ export const RenderTab: React.FC<TabProps> = ({
     )
 }
 
-const Dashboard: React.FC = ({ data }: any) => {
+const Dashboard: React.FC = () => {
 
     const { connectallet, currentAccount, ens, awsClient } = useContext(TransactionContext);
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const { vaults, creatorVaults } = useContext(DataContext);
 
     const [valuation, setValuation] = useState(0)
@@ -128,10 +130,10 @@ const Dashboard: React.FC = ({ data }: any) => {
 
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     useEffect(() => {
         router.prefetch('/create-gullak')
@@ -223,18 +225,4 @@ const Dashboard: React.FC = ({ data }: any) => {
 }
 
 export default Dashboard;
-
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}
 

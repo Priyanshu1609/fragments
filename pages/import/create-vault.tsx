@@ -15,6 +15,7 @@ import ImportNFTSelect from '../../components/ImportNFTSelect'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 import SetFundingCycle from '../../components/SetFundingCycle'
 import { parseCookies } from '../../utils/cookie'
+import { useCookies } from 'react-cookie'
 
 
 const CreateVault: React.FC = ({ data }: any) => {
@@ -24,13 +25,13 @@ const CreateVault: React.FC = ({ data }: any) => {
     const { formData, } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
-
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
 
     const handleBack = () => {
@@ -85,16 +86,3 @@ const CreateVault: React.FC = ({ data }: any) => {
 
 export default CreateVault
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie';
 import CancelNFT from '../components/CreateProposalFlow/CancelNFT';
 import EditNFT from '../components/CreateProposalFlow/EditNFT';
 import Liquidatation from '../components/CreateProposalFlow/Liquidatation';
@@ -44,12 +45,13 @@ const CreateProposal = ({ data }: any) => {
     const router = useRouter()
 
     const [currentStep, setCurrentStep] = React.useState(ProposalStep.SelectProposal)
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     const handleBack = () => {
 
@@ -132,16 +134,3 @@ const CreateProposal = ({ data }: any) => {
 
 export default CreateProposal
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

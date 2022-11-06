@@ -14,22 +14,23 @@ import { DataContext, } from '../../contexts/dataContext'
 import { CreateVaultFormValues, CreateVaultStep } from '../../components/CreateVaultForm'
 import Modal from '../../components/Modal'
 import { parseCookies } from '../../utils/cookie'
+import { useCookies } from 'react-cookie'
 
 const CreateVault: React.FC = ({ data }: any) => {
     const { currentAccount, awsClient } = useContext(TransactionContext);
     const { formData, handleCreateVault } = useContext(DataContext);
     const [vaultLink, setVaultLink] = useState("http://localhost:3000/purchase/create-vault?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7");
-
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
 
     const router = useRouter()
 
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     const sendTx = async (
         receiver: string,
@@ -102,16 +103,3 @@ const CreateVault: React.FC = ({ data }: any) => {
 
 export default CreateVault
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

@@ -85,7 +85,7 @@ const Callback = (props) => {
                 let userMetadata = await magic.user.getMetadata();
                 // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
                 setUser({ ...userMetadata, aws: credentials });
-                setCookie("user", JSON.stringify({ userMetadata, identityId: credentials, currentAccount: walletRes.primaryWallet }), {
+                setCookie("user", JSON.stringify({ userMetadata, identityId: credentials.data, currentAccount: walletRes.primaryWallet }), {
                     path: "/",
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,

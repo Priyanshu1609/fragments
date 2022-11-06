@@ -7,18 +7,20 @@ import importWallet from '../assets/import-wallet.png';
 import buy1 from '../assets/buy1.png';
 import poeple from '../assets/People.png';
 import { parseCookies } from '../utils/cookie';
+import { useCookies } from 'react-cookie';
 
 
 const CreateGullak: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { connectallet, currentAccount, logout, awsClient } = useContext(TransactionContext);
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     useEffect(() => {
         // Prefetch the dashboard page
@@ -82,16 +84,3 @@ const CreateGullak: React.FC = ({ data }: any) => {
 
 export default CreateGullak;
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

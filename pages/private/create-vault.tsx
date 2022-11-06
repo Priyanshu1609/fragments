@@ -14,20 +14,22 @@ import { parseCookies } from '../../utils/cookie'
 import Commitee from '../../components/GovernedForm/Commitee'
 import Democratic from '../../components/GovernedForm/Democratic'
 import Weighted from '../../components/GovernedForm/Weighted'
+import { useCookies } from 'react-cookie'
 
 const CreateVault: React.FC = ({ data }: any) => {
     const { connectallet, currentAccount, logout, setIsLoading, awsClient } = useContext(TransactionContext);
     const { handleCreateVault } = useContext(DataContext);
 
     const [currentStep, setCurrentStep] = React.useState(CreateVaultStep.InputFieldsForm)
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
     const router = useRouter()
 
     useEffect(() => {
-        if (!data.user.currentAccount) {
+        if (!cookie.user?.currentAccount) {
             router.push('/')
         }
-    }, [data.user])
+    }, [cookie])
 
     const sendTx = async (
         receiver: string,
@@ -107,16 +109,3 @@ const CreateVault: React.FC = ({ data }: any) => {
 
 export default CreateVault
 
-export async function getServerSideProps({ req, res }: any) {
-
-    const data = parseCookies(req)
-
-    if (res) {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-            res.writeHead(301, { Location: "/" })
-            res.end()
-        }
-    }
-
-    return { props: { data } }
-}

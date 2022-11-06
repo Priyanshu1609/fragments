@@ -12,18 +12,20 @@ import PageLoader from '../components/PageLoader'
 import loader from '../assets/loader.json'
 import success from '../assets/success.json'
 import { parseCookies } from '../utils/cookie'
+import { useCookies } from 'react-cookie'
 
 const Connect: NextPage = ({ data }: any) => {
 
   const { setVisible } = useContext(ConnectModalContext)
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
+  const [cookie, setCookie, removeCookie] = useCookies(["user"])
   const [connected, setConnected] = useState(false)
   const [user, setUser] = useState(null);
   useEffect(() => {
     if (!user) {
-      setUser(data.user);
+      setUser(cookie.user);
     }
-  }, [data.user])
+  }, [cookie])
 
   const router = useRouter();
 
@@ -42,10 +44,10 @@ const Connect: NextPage = ({ data }: any) => {
   }, [currentAccount])
 
   useEffect(() => {
-    if (!data.user.currentAccount) {
+    if (!cookie.user?.currentAccount) {
       router.push("/")
     }
-  }, [data.user])
+  }, [cookie])
 
 
   return (

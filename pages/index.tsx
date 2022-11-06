@@ -14,6 +14,7 @@ import loader from '../assets/loader.json'
 import success from '../assets/success.json'
 import { parseCookies } from '../utils/cookie'
 import Logo from '../components/logo'
+import { useCookies } from 'react-cookie';
 
 interface magicToken {
   user: {
@@ -27,6 +28,7 @@ const Home: NextPage = ({ data }: any) => {
 
   const { setVisible } = useContext(ConnectModalContext)
   const { connectallet, currentAccount, setIsLoading, isLoading, awsClient } = useContext(TransactionContext)
+  const [cookie, setCookie, removeCookie] = useCookies(["user"])
   const [connected, setConnected] = useState(false)
   const [email, setEmail] = useState<any>(null);
   const [disabled, setDisabled] = useState(false)
@@ -34,9 +36,9 @@ const Home: NextPage = ({ data }: any) => {
   const [user, setUser] = useState<any>();
   useEffect(() => {
     if (!user) {
-      setUser(data.user);
+      setUser(cookie);
     }
-  }, [data.user])
+  }, [cookie])
 
   const router = useRouter();
   // console.log("Data of the user", data?.user);
@@ -66,7 +68,7 @@ const Home: NextPage = ({ data }: any) => {
   }
 
   useEffect(() => {
-    if (data.user) {
+    if (cookie) {
       setConnected(true);
       setTimeout(() => {
 
@@ -81,7 +83,7 @@ const Home: NextPage = ({ data }: any) => {
 
       }, 3000);
     }
-  }, [data.user])
+  }, [cookie])
 
   return (
     <div className="flex flex-col items-center justify-center py-2 h-[80%] overflow-hidden">

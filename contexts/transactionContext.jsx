@@ -66,7 +66,7 @@ export const TransactionProvider = ({ children }) => {
     const [ens, setEns] = useState("");
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
 
-    console.log({currentAccount})
+    console.log({ currentAccount })
 
     const web3 = new Web3(Web3.givenProvider);
 
@@ -74,9 +74,9 @@ export const TransactionProvider = ({ children }) => {
 
 
     const checkWalletCookie = async () => {
-        console.log("checkWalletCookie", cookie.user?.currentAccount);
+        // console.log("checkWalletCookie", cookie.user?.currentAccount);
         if (cookie.user) {
-            setCurrentAccount(cookie.user?.currentAccount)
+            setCurrentAccount(cookie.user?.currentAccount);
         }
     }
 
@@ -162,8 +162,8 @@ export const TransactionProvider = ({ children }) => {
                 let address = accounts[0];
                 const res = await signUpMain(address);
                 let obj = cookie;
-                obj.currentAccount =   address;
-                setCookie("user", JSON.stringify(obj), {
+                obj.currentAccount = address;
+                setCookie("user", JSON.stringify({ user: obj }), {
                     path: "/",
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
