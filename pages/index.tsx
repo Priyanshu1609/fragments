@@ -68,7 +68,7 @@ const Home: NextPage = ({ data }: any) => {
   }
 
   useEffect(() => {
-    if (cookie) {
+    if (cookie.user) {
       setConnected(true);
       setTimeout(() => {
 

@@ -31,7 +31,7 @@ export const ProposalContextProvider = ({ children }) => {
     const [proposalData, setProposalData] = useState(defaultProposalData)
 
 
-    console.log({ proposalData });
+    // console.log({ proposalData });
 
     const handleChangePropsal = (e, name) => {
         setProposalData(prevState => ({ ...prevState, [name]: e.target.value }))

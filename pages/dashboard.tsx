@@ -130,10 +130,10 @@ const Dashboard: React.FC = () => {
 
 
     useEffect(() => {
-        if (!cookie.user?.currentAccount) {
+        if (!currentAccount) {
             router.push('/')
         }
-    }, [cookie])
+    }, [currentAccount])
 
     useEffect(() => {
         router.prefetch('/create-gullak')
