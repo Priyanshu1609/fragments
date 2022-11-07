@@ -39,7 +39,7 @@ const Profile: React.FC = ({ data }: any) => {
     //                         "collections_invested": 87
     // }
 
-    const getVaultData = async () => {
+    const getUserData = async () => {
         try {
 
             const body = JSON.stringify({
@@ -65,7 +65,7 @@ const Profile: React.FC = ({ data }: any) => {
 
     useEffect(() => {
         if (id) {
-            getVaultData();
+            getUserData();
         }
 
     }, [id])
