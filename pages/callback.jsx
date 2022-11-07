@@ -26,22 +26,21 @@ const Callback = (props) => {
     }, [magic_credential]);
 
     // `loginWithCredential()` returns a didToken for the user logging in
-    const finishEmailRedirectLogin = () => {
-        // console.log("start email redirect login", magic_credential);
+    const finishEmailRedirectLogin = async () => {
+        console.log("start email redirect login", magic_credential);
         if (magic_credential) {
-            magic.auth
-                .loginWithCredential()
-
-
-                .then((didToken) => authenticateWithServer(didToken));
+            const didToken = await magic.auth.loginWithCredential()
+            console.log("didToken", didToken);
+            await authenticateWithServer(didToken);
         }
-        // console.log("finish email redirect login")
+        console.log("finish email redirect login")
     };
 
     // Send token to server to validate
     // https://6lzffydaki.execute-api.ap-south-1.amazonaws.com/dev/api/auth/login
     const authenticateWithServer = async (didToken) => {
         try {
+            console.log("start authenticate with server")
 
             let userMetadata = await magic.user.getMetadata();
 
@@ -60,9 +59,12 @@ const Callback = (props) => {
             };
 
             let walletRes = await axios(config)
-            walletRes = (unmarshall(walletRes.data.Item))
             console.log({ walletRes })
-            console.log("Primary Wallet Address : ", walletRes.primaryWallet)
+            if (walletRes.data.Item) {
+                walletRes = (unmarshall(walletRes.data.Item))
+                console.log({ walletRes })
+                console.log("Primary Wallet Address : ", walletRes.primaryWallet)
+            }
 
 
             console.log({ didToken, userMetadata })
@@ -85,7 +87,7 @@ const Callback = (props) => {
                 let userMetadata = await magic.user.getMetadata();
                 // await setAwsClient({ ...userMetadata, identityId: credentials.identityId });
                 setUser({ ...userMetadata, aws: credentials });
-                setCookie("user", JSON.stringify({ userMetadata, identityId: credentials.data, currentAccount: walletRes.primaryWallet }), {
+                setCookie("user", JSON.stringify({ userMetadata, identityId: credentials.data, currentAccount: walletRes?.primaryWallet }), {
                     path: "/",
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,

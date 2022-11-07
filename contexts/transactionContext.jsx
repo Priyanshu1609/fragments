@@ -74,7 +74,7 @@ export const TransactionProvider = ({ children }) => {
 
 
     const checkWalletCookie = async () => {
-        // console.log("checkWalletCookie", cookie.user?.currentAccount);
+        console.log("checkWalletCookie", cookie.user);
         if (cookie.user) {
             setCurrentAccount(cookie.user?.currentAccount);
         }
@@ -168,6 +168,7 @@ export const TransactionProvider = ({ children }) => {
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
+                checkWalletCookie();
                 console.log(res);
                 if (!res) { return }
             }
@@ -329,7 +330,8 @@ export const TransactionProvider = ({ children }) => {
                 sendTx,
                 ens,
                 awsClient,
-                setAwsClient
+                setAwsClient,
+                checkWalletCookie
             }}
         >
             {children}

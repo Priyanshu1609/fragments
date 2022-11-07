@@ -27,7 +27,7 @@ const Account: React.FC = () => {
                     <LogoutIcon className='w-6 h-6 text-white cursor-pointer' />
                 </div>
             ) : (
-                <div onClick={() => setVisible(true)} className=' text-white cursor-pointer flex space-x-2 items-center p-3 rounded-md bg-white bg-opacity-10'>
+                    <div onClick={logoutWallet} className=' text-white cursor-pointer flex space-x-2 items-center p-3 rounded-md bg-white bg-opacity-10'>
                     <Image src={walletIcon} />
                     <p className='text-base'>Connect wallet</p>
                     <ArrowRightIcon className='w-6 h-6' />

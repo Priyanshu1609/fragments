@@ -44,7 +44,7 @@ const Connect: NextPage = ({ data }: any) => {
   }, [currentAccount])
 
   useEffect(() => {
-    if (!cookie.user?.currentAccount) {
+    if (!cookie.user) {
       router.push("/")
     }
   }, [cookie])
