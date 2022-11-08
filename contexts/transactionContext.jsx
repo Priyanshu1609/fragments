@@ -74,7 +74,7 @@ export const TransactionProvider = ({ children }) => {
 
 
     const checkWalletCookie = async () => {
-        console.log("checkWalletCookie", cookie.user);
+        console.log("checkWalletCookie", cookie.user?.currentAccount);
         if (cookie.user) {
             setCurrentAccount(cookie.user?.currentAccount);
         }
@@ -162,13 +162,15 @@ export const TransactionProvider = ({ children }) => {
                 let address = accounts[0];
                 const res = await signUpMain(address);
                 let obj = cookie;
-                obj.currentAccount = address;
-                setCookie("user", JSON.stringify({ user: obj }), {
+                obj.user.currentAccount = address;
+                console.log({ obj });
+                setCookie("user", JSON.stringify({ ...obj }), {
                     path: "/",
                     maxAge: 2592000, // Expires after 1hr
                     sameSite: true,
                 })
-                checkWalletCookie();
+                // checkWalletCookie();
+                setCurrentAccount(address);
                 console.log(res);
                 if (!res) { return }
             }
