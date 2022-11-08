@@ -161,8 +161,8 @@ export const TransactionProvider = ({ children }) => {
                 accounts = await eth.request({ method: 'eth_requestAccounts' })
                 let address = accounts[0];
                 const res = await signUpMain(address);
-                let obj = cookie;
-                obj.user.currentAccount = address;
+                let obj = cookie.user;
+                obj.currentAccount = address;
                 console.log({ obj });
                 setCookie("user", JSON.stringify({ ...obj }), {
                     path: "/",
@@ -332,8 +332,7 @@ export const TransactionProvider = ({ children }) => {
                 sendTx,
                 ens,
                 awsClient,
-                setAwsClient,
-                checkWalletCookie
+                setAwsClient
             }}
         >
             {children}
