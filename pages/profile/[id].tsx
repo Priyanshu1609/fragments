@@ -19,6 +19,7 @@ import { toast } from 'react-toastify'
 import { BsWhatsapp } from 'react-icons/bs'
 import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien } from 'react-icons/fa'
 import { TiSocialTwitter } from 'react-icons/ti'
+import useENS from '../../hooks/useENS'
 
 const links = [
     "https://web.whatsapp.com/send?text=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
@@ -34,7 +35,9 @@ const Profile: React.FC = ({ data }: any) => {
     const { id } = router.query;
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const { currentAccount, awsClient } = useContext(TransactionContext);
-    const { vaults, creatorVaults } = useContext(DataContext);
+    // const { vaults, creatorVaults } = useContext(DataContext);
+    const [vaults, setVaults] = useState<any>([]);
+    const [creatorVaults, setCreatorVaults] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [referralId, setReferralId] = useState('');
 
@@ -44,16 +47,90 @@ const Profile: React.FC = ({ data }: any) => {
     const [profileData, setProfileData] = useState<any>()
     const [metaData, setMetaData] = useState<any>()
     const [leaderBoard, setLeaderBoard] = useState<any>([])
+    const [ensName, setEnsName] = useState<string | null>("");
+    const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
 
-    console.log(profileData);
-    // {
-    //     "avg_holding_time": 45.609282407407,
-    //         "hit_rate": 83.33333333333334,
-    //             "avg_roi_in_usd": 630.075,
-    //                 "sales": 6,
-    //                     "walletAddress": "0xf81c87fb76f3acf458ebd29df60c92f4b7ce8db3",
-    //                         "collections_invested": 87
-    // }
+    console.log({ profileData });
+
+    const handleLoadENSName = async (id: any) => {
+        const { ensName, ensAvatar, loading } =  useENS(id);
+
+        return ensName
+    }
+    const handleLoadENSAvatar = async (id: any) => {
+        const { ensName, ensAvatar, loading } = useENS(id);
+
+        return ensAvatar
+    }
+
+
+    const getVaultsByWallet = async () => {
+
+        try {
+            setIsLoading(true);
+            setVaults([])
+
+            const options: any = {
+                method: 'POST',
+                url: 'https://2phfi2xsn5.execute-api.ap-south-1.amazonaws.com/dev/api/associations/getbyuser',
+                data: { address: id }
+            };
+
+            const response = await axios.request(options)
+
+            console.log("response now", response.data.Items);
+            response.data.Items?.forEach((element: any) => {
+                // console.log(element);
+                let d = {} as any
+                for (let i in element) {
+                    d[i] = Object.values(element[i])[0]
+                }
+
+                setVaults((prev: any) => [...prev, element]);
+            })
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+    // console.log(vaults);
+
+    const getVaultsByCreator = async () => {
+
+        try {
+
+            setCreatorVaults([])
+
+            const data = JSON.stringify({
+                "creator": id
+            });
+            const response = await axios.post(`https://lk752nv0gd.execute-api.ap-south-1.amazonaws.com/dev/api/vaults/getbycreator`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            }
+            );
+
+            console.log("response creator vault", response, data);
+            response.data.Items?.forEach((element: any) => {
+                // console.log(element);
+                let d = {} as any
+                for (let i in element) {
+                    d[i] = Object.values(element[i])[0]
+                }
+
+                setCreatorVaults((prev: any) => [...prev, d]);
+            })
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+
+    }
 
     const getLeaderBoard = async () => {
         try {
@@ -96,8 +173,8 @@ const Profile: React.FC = ({ data }: any) => {
                 },
             });
 
-
-            setProfileData(unmarshall(response.data.Item));
+            console.log("Profile Response", response);
+            setProfileData(response.data);
 
         } catch (error) {
             console.error(error);
@@ -108,9 +185,27 @@ const Profile: React.FC = ({ data }: any) => {
 
     const getMetaData = async () => {
         try {
-            if (!cookie.user.userMetadata.email) return;
             var data = JSON.stringify({
-                "email": cookie.user.userMetadata.email
+                "primaryWallet": id
+            });
+
+            var configWallet = {
+                method: 'post',
+                url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/getbyprimary',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+            // @ts-ignore
+            let res: any = await axios(configWallet)
+            console.log("Profile", res.data.Items);
+            res = unmarshall(res.data.Items[0])
+            // console.log("Profile Now Checking Meta Data", res[0].email);
+            console.log("Profile updated", res);
+
+            var data = JSON.stringify({
+                "email": res.email
             });
 
             var config: any = {
@@ -141,8 +236,6 @@ const Profile: React.FC = ({ data }: any) => {
             const data = JSON.stringify({
                 "walletAddress": id
             });
-            // const data = JSON.stringify({ "walletAddress": "0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199", "hex": "c5049cfac077d1d7a6ece2b22a713767ab386d37bdeac5e41715cd7a6d9c63e7" });
-            // console.log(data);
 
             const response = await axios.post(`https://vgzlvwmfjh.execute-api.ap-south-1.amazonaws.com/dev/api/accounts/get`, data, {
                 headers: {
@@ -175,6 +268,8 @@ const Profile: React.FC = ({ data }: any) => {
             getReferralData();
             getMetaData();
             getLeaderBoard();
+            getVaultsByWallet();
+            getVaultsByCreator();
         }
 
     }, [id])
@@ -264,15 +359,12 @@ const Profile: React.FC = ({ data }: any) => {
                                         }}
                                         className="ml-3 mr-1" />
                                 </button>
-                                <button className='bg-[#303235] px-2 py-1 text-sm rounded-lg flex items-center'>
-                                    {metaData?.email}
-                                </button>
                             </div>
-                            {/* <div className='flex items-center justify-evenly text-gray-300 space-x-2'>
+                            <div className='flex items-center justify-evenly text-gray-300 space-x-2'>
                                 <FaDiscord className='w-8 h-5' />
                                 <BsFillPersonCheckFill className='w-8 h-5' />
                                 <FaTwitter className='w-8 h-5' />
-                            </div> */}
+                            </div>
 
                         </div>
 

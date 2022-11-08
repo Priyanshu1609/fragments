@@ -25,7 +25,7 @@ const useENS = (address: string) => {
                     let avatar = resolver ? await resolver.getAvatar() : null;
                     setENSName(ensName);
                     // @ts-ignore
-                    setENSAvatar(avatar.url);
+                    setENSAvatar(avatar?.url);
                 } finally {
                     setLoading(false);
                 }

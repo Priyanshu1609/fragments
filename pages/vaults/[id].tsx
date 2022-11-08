@@ -555,7 +555,10 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
                             </div>
-                            <button disable={data?.amount >= data?.target} onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More</button>
+                            {data?.amount >= data?.target &&
+                                <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More
+                                </button>
+                            }
                         </div >
                     </div>
 
