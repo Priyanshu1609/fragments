@@ -22,6 +22,30 @@ import LifiWidget from '../LifiWidget'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+import {
+    WagmiConfig,
+    createClient,
+    configureChains,
+    chain,
+    defaultChains,
+} from 'wagmi'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+
+import { publicProvider } from 'wagmi/providers/public'
+
+const { chains, provider, webSocketProvider } = configureChains(
+    [chain.mainnet, chain.goerli],
+    [publicProvider()],
+)
+
+const client = createClient({
+    autoConnect: true,
+    provider,
+    webSocketProvider,
+    connectors: [new MetaMaskConnector({ chains })],
+})
+
 interface Props {
     children: React.ReactNode;
 }
@@ -32,6 +56,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
     return (
         <CookiesProvider>
+            <WagmiConfig client={client}>
                 <TransactionProvider>
                     <ConnectModalProvider>
                         <DataContextProvider>
@@ -66,6 +91,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                         </DataContextProvider>
                     </ConnectModalProvider>
                 </TransactionProvider>
+            </WagmiConfig>
         </CookiesProvider>
     )
 }

@@ -6,11 +6,22 @@ import Logo from './logo';
 import { parseCookies } from '../utils/cookie'
 import { useCookies } from 'react-cookie';
 
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi'
+
 const Navbar: React.FC = () => {
 
     const router = useRouter();
     const { currentAccount } = useContext(TransactionContext);
     const [cookies, setCookie] = useCookies(['user']);
+
+    const { chain, chains } = useNetwork()
+    const { address, isConnected } = useAccount()
+    const { data: ensName } = useEnsName({ address })
+    const { connect, connectors } = useConnect();
+    const { error, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork()
 
 
     return (
@@ -37,10 +48,18 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
                     <div suppressHydrationWarning className="flex space-x-6 items-center">
+                        {
+                            connectors.map((connector) => {
+                                if (isConnected) return null;
+                                return <button key={connector.id} suppressHydrationWarning className='text-white cursor-pointer flex space-x-2 items-center p-4 rounded-md bg-white bg-opacity-20' onClick={() => connect({ connector })}>Connect Wallet</button>
+
+                            })
+                        }
+                        {chain?.id !== 5 && isConnected && <button suppressHydrationWarning onClick={() => switchNetwork?.(5)} className='text-white cursor-pointer flex space-x-2 items-center p-4 rounded-md bg-white bg-opacity-20' >Switch To Goerli Testnet</button>}
+
                         {cookies?.user?.currentAccount &&
                             <Account />
                         }
-                        {/* <Account /> */}
                     </div>
                 </div>
             </div>
