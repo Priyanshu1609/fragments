@@ -70,6 +70,19 @@ const tabs = [
 ]
 
 
+
+const Loader = () => (
+
+    <button className="flex bg-button items-center rounded-lg font-semibold px-4 py-2 text-black  w-full justify-center" disabled>
+        <svg className="mr-3 h-5 w-5 animate-spin text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span className=""> Please wait ... Vault is being processed! </span>
+    </button>
+
+)
+
 const VaultDetail: React.FC = () => {
     const router = useRouter();
 
@@ -428,7 +441,7 @@ const VaultDetail: React.FC = () => {
                 loop={1}
                 style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll", zIndex: 1 }}
             />}
-            <div className='flex flex-col flex-[0.6] items-center mt-4'>
+            <div className='flex flex-col flex-[0.6] items-center mt-4 '>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
                         <div className='flex-[0.8]'>
@@ -498,7 +511,7 @@ const VaultDetail: React.FC = () => {
                         router.push({
                             pathname: `/profile/${data?.creator}`
                         })}
-                        className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max'>
+                        className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max z-[100]'>
                         <Blockies
                             seed='need to be changed'
                             size={7}
@@ -507,7 +520,7 @@ const VaultDetail: React.FC = () => {
                         />
                         <p className='text-sm'>{getEllipsisTxt(data?.creator, 5)}</p>
                     </button>
-                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-10 bg-[#1E1E24] rounded-lg py-2 px-3'>
+                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-10 bg-[#1E1E24] rounded-lg py-2 px-3 items-center'>
                         <span>Share Link</span>
                         <MdIosShare className='h-5 w-5 text-white' />
                     </button>
@@ -523,7 +536,7 @@ const VaultDetail: React.FC = () => {
                         {data?.description}
                     </p>
                 </div >
-                {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6'>
+                {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6 z-[100]'>
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2'>
@@ -548,15 +561,18 @@ const VaultDetail: React.FC = () => {
 
 
                 </div >}
+                {
+                    data?.amount >= data?.target && data?.vaultStatus !== "COMPLETED" && data?.vaultStatus !== "FAILURE" && <Loader />
+                }
                 {data?.vaultStatus === "FAILURE" &&
-                    <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
-                        <div className='mb-5 !bg-red-300 font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                    <div className='mt-4 mb-6 z-[100]' onClick={e => setVisible(true)}>
+                        <div className='mb-5 !bg-red-500 font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
                             <p className='text-black'>VAULT FAILURE</p>
                         </div>
                     </div>
                 }
                 {data?.vaultStatus === "COMPLETED" &&
-                    <div className='mt-4 mb-6' onClick={e => setVisible(true)}>
+                    <div className='mt-4 mb-6 z-[100]' onClick={e => setVisible(true)}>
                         <div className="flex items-center justify-evenly">
                             <div onClick={() =>
                                 router.push({
@@ -631,7 +647,7 @@ const VaultDetail: React.FC = () => {
                     <div className="z-[100]">
                         <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Proof of Authenticity</span>
                         <div className="w-full">
-                            <div className="flex w-full">
+                            <div className="flex w-full items-center">
                                 <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex flex-[0.5] justify-between  cursor-pointer'>
                                     <div className='flex items-center justify-center'>
                                         <img src="https://mumbai.polygonscan.com/images/svg/brands/poly.png?v=1.3" className='h-6 w-6 rounded-full' />
@@ -641,7 +657,7 @@ const VaultDetail: React.FC = () => {
                                 </a>
                                 <button className="flex flex-[0.5] bg-[#1E1E24] mt-4 p-4 m-2 rounded-lg justify-between items-center cursor-pointer" onClick={handleAddToken}>
                                     <p>Add Token To your Wallet</p>
-                                    <Image src={meta} height={40} width={40} />
+                                    <Image src={meta} height={30} width={30} />
                                 </button>
                             </div>
                             <a href={`https://gnosis-safe.io/app/gor:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer'>

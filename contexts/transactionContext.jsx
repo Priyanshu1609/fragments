@@ -20,43 +20,8 @@ if (typeof window !== 'undefined') {
     eth = window.ethereum
 }
 
-const networks = {
-    eth: {
-        chainId: `0x${Number(1).toString(16)}`,
-        chainName: "Ethereum Mainnet",
-        rpcUrls: [
-            "https://eth-mainnet.public.blastapi.io",
-            "https://cloudflare-eth.com",
-            "https://ethereumnodelight.app.runonflux.io",
-            "https://main-light.eth.linkpool.io",
-        ],
-        nativeCurrency: {
-            name: "Ether",
-            symbol: "ETH",
-            decimals: 18
-        },
-        blockExplorerUrls: [
-            "https://etherscan.io",
-        ]
-    },
-    goerli: {
-        chainId: `0x${Number(4).toString(16)}`,
-        chainName: "goerli",
-        rpcUrls: [
-            'https://goerli.infura.io/v3/'
-        ],
-        nativeCurrency: {
-            name: "Ether",
-            symbol: "ETH",
-            decimals: 18
-        },
-        blockExplorerUrls: [
-            "https://goerli.etherscan.io",
-        ]
-    },
-};
-
 export const TransactionProvider = ({ children }) => {
+
     const [currentAccount, setCurrentAccount] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [isReturningUser, setIsReturningUser] = useState(false);
@@ -115,39 +80,29 @@ export const TransactionProvider = ({ children }) => {
             setIsLoading(false);
         }
     }
-    const checkIfWalletIsConnected = async () => {
-        try {
+    // const checkIfWalletIsConnected = async () => {
+    //     try {
 
-            setIsLoading(true);
+    //         setIsLoading(true);
 
-            const accounts = await eth.request({ method: 'eth_accounts' })
+    //         const accounts = await eth.request({ method: 'eth_accounts' })
 
-            if (accounts.length) {
-                let address = accounts[0];
-                // console.log("address", address);
+    //         if (accounts.length) {
+    //             let address = accounts[0];
+    //             // console.log("address", address);
 
-            }
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsLoading(false);
-        }
-    }
+    //         }
+    //     } catch (error) {
+    //         console.error(error)
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // }
 
     const getProvider = async () => {
         const provider = new ethers.providers.Web3Provider(eth);
         return provider;
     }
-
-    const validateSig = async (address, signature, customerId) => {
-        const message = `zqbfbzmawv8i6vqq8exfyseuydusrjrju5ueey2zs5lejwg52bfo4fuptp64,nonce: ${customerId}`;
-        console.log('Message', message);
-        const hash = web3.utils.sha3(message);
-        console.log('Hash:', hash);
-        const signing_address = await web3.eth.accounts.recover(hash, signature);
-        console.log("Address:", signing_address);
-        return signing_address.toLowerCase() === address.toLowerCase();
-    };
 
     const connectWallet = async (type) => {
         try {
@@ -312,10 +267,10 @@ export const TransactionProvider = ({ children }) => {
     //     listenMMAccount();
     // }, []);
 
-    useEffect(() => {
-        checkIfWalletIsConnected()
-        // getTransactionRecByHash();
-    }, [])
+    // useEffect(() => {
+    //     checkIfWalletIsConnected()
+    //     // getTransactionRecByHash();
+    // }, [])
 
     return (
         <TransactionContext.Provider

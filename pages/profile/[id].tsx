@@ -253,6 +253,7 @@ const Profile: React.FC = ({ data }: any) => {
                                                 return;
                                             }
                                             navigator.clipboard
+                                                // @ts-ignore
                                                 .writeText(id)
                                                 .then(() => {
                                                     toast.info(`Wallet Address copied to Clipboard,  ${id}`)
@@ -378,7 +379,7 @@ const Profile: React.FC = ({ data }: any) => {
                                     </button>
 
                                 </div> */}
-                
+
 
                                 <div className='flex-[0.37] flex items-start flex-col justify-evenly rounded-lg h-[125px] bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white font-semibold'>
                                     <div className='bg-input h-full rounded-lg m-[0.05rem] flex w-[99.5%] items-center px-4 py-2 justify-evenly'>
