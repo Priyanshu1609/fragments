@@ -14,6 +14,19 @@ import { TransactionContext } from '../../contexts/transactionContext'
 import axios from 'axios'
 import { unmarshall } from '@aws-sdk/util-dynamodb'
 import { useCookies } from 'react-cookie'
+import { toast } from 'react-toastify'
+
+import { BsWhatsapp } from 'react-icons/bs'
+import { FaTelegramPlane, FaLinkedinIn, FaRedditAlien } from 'react-icons/fa'
+import { TiSocialTwitter } from 'react-icons/ti'
+
+const links = [
+    "https://web.whatsapp.com/send?text=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+    "https://telegram.me/share/url?url=Hey bro, &text=%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments(https%3A%2F%2Ffragments.money%2F).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+    "https://www.linkedin.com/shareArticle?mini=true&url=https://www.fragments.money/&title=hey).%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A",
+    "https://www.reddit.com/submit?url=https://www.fragments.money/&title=Hey%20bro%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%20Fragments%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0AReferral%20code%20%3A%20",
+    "https://twitter.com/intent/tweet?text=Hey%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%40fragmentsHQ%20%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0Ahttps%3A%2F%2Fwww.fragments.money%2F%0AReferral%20code%3A%20"
+]
 
 const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
@@ -23,11 +36,14 @@ const Profile: React.FC = ({ data }: any) => {
     const { currentAccount, awsClient } = useContext(TransactionContext);
     const { vaults, creatorVaults } = useContext(DataContext);
     const [isLoading, setIsLoading] = useState(false);
+    const [referralId, setReferralId] = useState('');
 
     const [valuation, setValuation] = useState(0);
     const [showMore, setShowMore] = useState(false);
 
     const [profileData, setProfileData] = useState<any>()
+    const [metaData, setMetaData] = useState<any>()
+    const [leaderBoard, setLeaderBoard] = useState<any>([])
 
     console.log(profileData);
     // {
@@ -38,6 +54,33 @@ const Profile: React.FC = ({ data }: any) => {
     //                     "walletAddress": "0xf81c87fb76f3acf458ebd29df60c92f4b7ce8db3",
     //                         "collections_invested": 87
     // }
+
+    const getLeaderBoard = async () => {
+        try {
+            if (!id) { return }
+
+            setIsLoading(true);
+
+            const data = JSON.stringify({
+                "address": id
+            });
+
+            const response = await axios.post(`https://1lejmlwfeg.execute-api.ap-south-1.amazonaws.com/dev/api/twitter/fetchleaderboard`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+
+            // console.log("Leader board response: ", response.data);
+
+            setLeaderBoard(response.data);
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     const getUserData = async () => {
         try {
@@ -63,9 +106,75 @@ const Profile: React.FC = ({ data }: any) => {
         }
     }
 
+    const getMetaData = async () => {
+        try {
+            if (!cookie.user.userMetadata.email) return;
+            var data = JSON.stringify({
+                "email": cookie.user.userMetadata.email
+            });
+
+            var config: any = {
+                method: 'post',
+                url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/wallet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            let walletRes: any = await axios(config)
+
+            if (walletRes.data.Item) {
+                walletRes = (unmarshall(walletRes.data.Item))
+            }
+
+            setMetaData(walletRes);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getReferralData = async () => {
+        try {
+
+            const data = JSON.stringify({
+                "walletAddress": id
+            });
+            // const data = JSON.stringify({ "walletAddress": "0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199", "hex": "c5049cfac077d1d7a6ece2b22a713767ab386d37bdeac5e41715cd7a6d9c63e7" });
+            // console.log(data);
+
+            const response = await axios.post(`https://vgzlvwmfjh.execute-api.ap-south-1.amazonaws.com/dev/api/accounts/get`, data, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+            const customerId = (response.data.Item.customerId.S);
+
+            const data2 = JSON.stringify({
+                "customerId": customerId,
+                "typeAction": "CREATED"
+            });
+
+            const res = await axios.post(`https://6jadt4b9h5.execute-api.ap-south-1.amazonaws.com/dev/api/referralid/get`, data2, {
+                headers: {
+                    'content-Type': 'application/json',
+                },
+            });
+            setReferralId(res.data.Item.referralId.S);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
         if (id) {
             getUserData();
+            getReferralData();
+            getMetaData();
+            getLeaderBoard();
         }
 
     }, [id])
@@ -77,15 +186,13 @@ const Profile: React.FC = ({ data }: any) => {
                 "walletAddress": id
             })
 
+            toast.info("Profile data refreshing... It may take some time.")
 
             const response = await axios.post(`https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/update`, body, {
                 headers: {
                     'content-Type': 'application/json',
                 },
             });
-
-
-            setProfileData(unmarshall(response.data.Item));
 
         } catch (error) {
             console.error(error);
@@ -119,30 +226,62 @@ const Profile: React.FC = ({ data }: any) => {
         }
     }, [cookie])
 
+    const handleOpen = (link: string) => {
+        link = link + referralId
+        window.open(link, "_blank");
+    }
+
+
     return (
         <div className='text-white min-h-screen max-w-7xl xl:mx-auto mx-2 md:mx-4 lg:mx-6'>
             <div className='flex w-full h-full space-x-5'>
                 <div className='flex-[0.2] rounded-lg overflow-hidden '>
-                    <div className='h-[389px]  bg-input '>
+                    <div className='h-[389px] flex flex-col justify-evenly bg-input '>
                         <div className='flex items-center flex-col justify-evenly h-[75%]'>
-                            <Image src={demo} height={160} width={160} />
-                            <button className='bg-[#303235] px-2 py-1 rounded-lg flex items-center'>
-                                {getEllipsisTxt(currentAccount)}
-                                <FaCopy className="ml-3 mr-1" />
-                            </button>
-                            <div className='flex items-center justify-evenly text-gray-300 space-x-2'>
+                            <Image src={demo} height={140} width={140} />
+                            <div className='flex flex-col items-center space-y-2'>
+                                <button className='bg-[#303235] px-2 py-1 rounded-lg flex items-center'>
+                                    {metaData?.username}
+                                    {/* <FaCopy className="ml-3 mr-1" /> */}
+                                </button>
+                                <button className='bg-[#303235] px-2 py-1 rounded-lg flex items-center'>
+                                    {getEllipsisTxt(metaData?.primaryWallet)}
+                                    <FaCopy
+                                        onClick={() => {
+                                            if (!id) {
+                                                toast.error("Nothing to copy")
+                                                return;
+                                            }
+                                            navigator.clipboard
+                                                .writeText(id)
+                                                .then(() => {
+                                                    toast.info(`Wallet Address copied to Clipboard,  ${id}`)
+                                                })
+                                                .catch(() => {
+                                                    toast.error("something went wrong while copying");
+                                                });
+                                        }}
+                                        className="ml-3 mr-1" />
+                                </button>
+                                <button className='bg-[#303235] px-2 py-1 text-sm rounded-lg flex items-center'>
+                                    {metaData?.email}
+                                </button>
+                            </div>
+                            {/* <div className='flex items-center justify-evenly text-gray-300 space-x-2'>
                                 <FaDiscord className='w-8 h-5' />
                                 <BsFillPersonCheckFill className='w-8 h-5' />
                                 <FaTwitter className='w-8 h-5' />
-                            </div>
+                            </div> */}
+
                         </div>
+
                         <div className='mx-6'>
                             <p className='text-gray-400 text-left mb-2'>Invited by</p>
                             <div className='flex items-center space-x-3'>
                                 <Image src={demo} height={40} width={40} />
                                 <div className='text-sm'>
-                                    <p>Priyanshu Panda</p>
-                                    <p className="text-gray-400">{getEllipsisTxt(currentAccount)}</p>
+                                    {/* <p>Priyanshu Panda</p> */}
+                                    <p className="text-gray-400">{getEllipsisTxt(leaderBoard?.Self?.InvitedBy)}</p>
                                 </div>
                             </div>
                         </div>
@@ -152,13 +291,43 @@ const Profile: React.FC = ({ data }: any) => {
                             <p>Refer & Earn</p>
                             <p className='text-xs text-gray-400'>Invite a fren to earn 500 frag coins</p>
                             <div className='bg-[#303235]  px-2 py-1 mt-3 rounded-lg w-full '>
-                                <p className='text-xs text-gray-400'>Your invite link</p>
-                                <div className='flex space-x-4 items-center'>
-                                    <p className='text-sm'>{getEllipsisTxt("https://dev.fragments.money/vaults/0x7c71AFaC3c134Dfc9d14859C0618A0C52E1A4E33?user=0x6d4b5acfb1c08127e8553cc41a9ac8f06610efc7", 12)}</p>
-                                    <FaCopy className="ml-3 mr-1" />
+                                <p className='text-xs text-gray-400'>Your ReferralID</p>
+                                <div className='flex space-x-4 items-center justify-evenly'>
+                                    <p className='text-base'>{referralId}</p>
+                                    <FaCopy onClick={() => {
+                                        if (!referralId) {
+                                            toast.error("Nothing to copy")
+                                            return;
+                                        }
+                                        navigator.clipboard
+                                            .writeText(referralId)
+                                            .then(() => {
+                                                toast.info(`Referral ID copied to clipboard,  ${referralId}`)
+                                            })
+                                            .catch(() => {
+                                                toast.error("something went wrong while copying");
+                                            });
+                                    }} className="ml-3 mr-1 cursor-pointer" />
                                 </div>
                             </div>
-                            <p className='mt-4'>or <span className='underline font-semibold  text-transparent bg-clip-text bg-gradient-to-r from-[#2bffb1] to-[#2bd8ff]  decoration-[#2bffb1]'>invite using ens</span></p>
+                            <div className=' flex items-center justify-center mt-4 space-x-3'>
+                                <div onClick={() => handleOpen(links[0])} className='bg-green-500 cursor-pointer flex items-center justify-center h-8 w-8 rounded-full'>
+                                    <BsWhatsapp className='h-5 w-6 text-white' />
+                                </div>
+                                <div onClick={() => handleOpen(links[1])} className='bg-[#409FC5] flex cursor-pointer items-center justify-center h-8 w-8 rounded-full'>
+                                    <FaTelegramPlane className='h-5 w-5 text-white' />
+                                </div>
+                                <div onClick={() => handleOpen(links[2])} className='bg-[#0A66C2] flex cursor-pointer items-center justify-center h-8 w-8 rounded-full'>
+                                    <FaLinkedinIn className='h-5 w-5 text-white' />
+                                </div>
+                                <div onClick={() => handleOpen(links[3])} className='bg-[#FF4500] flex cursor-pointer items-center justify-center h-8 w-8 rounded-full'>
+                                    <FaRedditAlien className='h-5 w-5 text-white' />
+                                </div>
+                                <div onClick={() => handleOpen(links[4])} className='bg-[#1A8CD8] flex cursor-pointer items-center justify-center h-8 w-8 rounded-full'>
+                                    <TiSocialTwitter className='h-5 w-5 text-white' />
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,7 +336,7 @@ const Profile: React.FC = ({ data }: any) => {
                         <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Current Value</p>
-                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{valuation} ETH</p>
+                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">{valuation.toFixed(4)} ETH</p>
                             </div>
                         </div>
                         <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
@@ -200,7 +369,7 @@ const Profile: React.FC = ({ data }: any) => {
                                     </div>
                                     <ProgressBar completed={45} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
                                 </div>
-                                <div className='flex-[0.33] flex items-start flex-col justify-evenly p-4 bg-[#005081] rounded-lg h-[125px]'>
+                                {/* <div className='flex-[0.33] flex items-start flex-col justify-evenly p-4 bg-[#005081] rounded-lg h-[125px]'>
                                     <p className='font-semibold'>Verify your Twitter</p>
                                     <p className='text-sm text-gray-300 mt-1'>and earn upto 1500 Frag coins</p>
                                     <button className='flex items-center justify-between py-1 w-32 bg-[#33739a] rounded-lg px-2 mt-2'>
@@ -208,6 +377,20 @@ const Profile: React.FC = ({ data }: any) => {
                                         Verify Now
                                     </button>
 
+                                </div> */}
+                
+
+                                <div className='flex-[0.37] flex items-start flex-col justify-evenly rounded-lg h-[125px] bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white font-semibold'>
+                                    <div className='bg-input h-full rounded-lg m-[0.05rem] flex w-[99.5%] items-center px-4 py-2 justify-evenly'>
+                                        <div className='flex flex-[0.5] flex-col items-center justify-between'>
+                                            <p className='text-left'>FRAG POINTS  </p>
+                                            <p className='bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold'>{leaderBoard?.Self?.Points}</p>
+                                        </div>
+                                        <div className='flex flex-[0.5] flex-col items-center justify-between'>
+                                            <p className='text-left'>RANK  </p>
+                                            <p className='bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold'>{leaderBoard?.Self?.Rank}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {

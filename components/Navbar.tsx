@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
                         {cookies?.user?.currentAccount &&
                             <Account />
                         }
-                        <Account />
+                        {/* <Account /> */}
                     </div>
                 </div>
             </div>
