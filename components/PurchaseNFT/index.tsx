@@ -88,7 +88,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
             console.log('Balance:', balance);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
     }
 
@@ -162,7 +162,7 @@ const PurchaseNft: React.FC<CreateVaultFormProps> = ({
     //         setVisible(true);
 
     //     } catch (error) {
-    //         console.error(error)
+    //          console.error(error); toast.error(error); 
     //     } finally {
     //         // setLoading(false);
     //     }

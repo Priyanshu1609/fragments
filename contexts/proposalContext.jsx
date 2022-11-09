@@ -79,7 +79,7 @@ export const ProposalContextProvider = ({ children }) => {
             console.log("response now", response.data.Items);
             response.data.Items?.forEach((element) => {
                 // console.log(element);
-                let d = {} 
+                let d = {}
                 for (let i in element) {
                     d[i] = Object.values(element[i])[0]
                 }
@@ -88,7 +88,7 @@ export const ProposalContextProvider = ({ children }) => {
             })
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         }
     }
 
@@ -136,7 +136,7 @@ export const ProposalContextProvider = ({ children }) => {
 
             setProposalData(defaultProposalData)
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         }
     }
 

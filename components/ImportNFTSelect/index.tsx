@@ -78,7 +78,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
                 .catch(err => console.error(err));
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false)
         }
@@ -116,7 +116,7 @@ const ImportNFTSelect: React.FC<CreateVaultFormProps> = ({
             setNftsImported([...nftsImported ?? [], add])
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }

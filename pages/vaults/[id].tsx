@@ -195,7 +195,7 @@ const VaultDetail: React.FC = () => {
             setTokenAmount(0);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -233,7 +233,7 @@ const VaultDetail: React.FC = () => {
 
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -308,7 +308,7 @@ const VaultDetail: React.FC = () => {
             setVisible(false);
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -400,40 +400,39 @@ const VaultDetail: React.FC = () => {
 
 
     const handleAddToken = async () => {
+        try {
 
-        if (!isConnected) {
-            connectors.map((connector) => {
-                return connect({ connector })
-            })
-            return;
-        };
+            if (!isConnected) {
+                connectors.map((connector) => {
+                    return connect({ connector })
+                })
+                return;
+            };
 
-        if (chain?.id !== 80001) {
-            toast.info("Switch To Polygon");
-            await switchNetwork?.(80001)
-        }
+            if (chain?.id !== 80001) {
+                await switchNetwork?.(80001);
+                toast.info("Switched To Polygon! Add Token Again");
+            } else {
 
-        eth
-            .request({
-                method: 'wallet_watchAsset',
-                params: {
-                    type: 'ERC20',
-                    options: {
-                        address: data?.contractAddress,
-                        symbol: 'FRAG-' + data?.tokenName,
-                        decimals: 18,
-                        image: 'https://iili.io/tuaadg.png',
+                await eth.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: data?.contractAddress,
+                            symbol: 'FRAG-' + data?.tokenName,
+                            decimals: 18,
+                            image: 'https://iili.io/tuaadg.png',
+                        },
                     },
-                },
-            })
-            .then((success: any) => {
-                if (success) {
-                    toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
-                } else {
-                    throw new Error('Something went wrong.');
-                }
-            })
-            .catch(console.error);
+                })
+            }
+
+            toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
+        } catch (error) {
+            console.error(error);
+            toast.error(error);
+        }
     }
 
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (

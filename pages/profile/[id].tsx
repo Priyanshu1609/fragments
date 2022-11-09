@@ -33,7 +33,7 @@ const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { id } = router.query;
-const [cookie, setCookie, removeCookie] = useCookies(["user"])
+    const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const { currentAccount, awsClient } = useContext(TransactionContext);
     // const { vaults, creatorVaults } = useContext(DataContext);
     const [vaults, setVaults] = useState<any>([]);
@@ -53,7 +53,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
     console.log({ profileData });
 
     const handleLoadENSName = async (id: any) => {
-        const { ensName, ensAvatar, loading } =  useENS(id);
+        const { ensName, ensAvatar, loading } = useENS(id);
 
         return ensName
     }
@@ -90,7 +90,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             })
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false)
         }
@@ -125,7 +125,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             })
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -153,7 +153,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             setLeaderBoard(response.data);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -177,7 +177,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             setProfileData(response.data);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -226,7 +226,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             setMetaData(walletRes);
         }
         catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
     }
 
@@ -256,7 +256,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             });
             setReferralId(res.data.Item.referralId.S);
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -290,7 +290,7 @@ const [cookie, setCookie, removeCookie] = useCookies(["user"])
             });
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }

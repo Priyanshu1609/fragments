@@ -88,30 +88,12 @@ export const TransactionProvider = ({ children }) => {
             console.log("SignUp Main", res.data)
         }
         catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         }
         finally {
             setIsLoading(false);
         }
     }
-    // const checkIfWalletIsConnected = async () => {
-    //     try {
-
-    //         setIsLoading(true);
-
-    //         const accounts = await eth.request({ method: 'eth_accounts' })
-
-    //         if (accounts.length) {
-    //             let address = accounts[0];
-    //             // console.log("address", address);
-
-    //         }
-    //     } catch (error) {
-    //         console.error(error)
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }
 
     const getProvider = async () => {
         const provider = new ethers.providers.Web3Provider(eth);
@@ -155,10 +137,8 @@ export const TransactionProvider = ({ children }) => {
                 console.log('Accounts:', accounts)
             }
 
-            // setCurrentAccount(accounts[0])
-
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
             // throw new Error('No ethereum object.')
         } finally {
             setIsLoading(false)
@@ -180,7 +160,7 @@ export const TransactionProvider = ({ children }) => {
             router.push("/")
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         }
     }
 
@@ -265,7 +245,7 @@ export const TransactionProvider = ({ children }) => {
             return tx;
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }

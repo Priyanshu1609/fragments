@@ -35,7 +35,7 @@ export const NftContextProvider = ({ children }) => {
             return JSON.parse(data.metadata);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
 
     }
@@ -53,7 +53,7 @@ export const NftContextProvider = ({ children }) => {
             return data.result;
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
 
     }
@@ -67,7 +67,7 @@ export const NftContextProvider = ({ children }) => {
 
             return data.data.estimate;
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
     }
 
@@ -80,7 +80,7 @@ export const NftContextProvider = ({ children }) => {
 
             return data.data.estimate;
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
     }
 
@@ -132,7 +132,7 @@ export const NftContextProvider = ({ children }) => {
 
 
     //     } catch (error) {
-    //         console.error(error)
+    //          console.error(error); toast.error(error); 
     //     } finally {
     //         setIsLoading(false)
     //     }
@@ -185,7 +185,7 @@ export const NftContextProvider = ({ children }) => {
             setNFTFloorPriceMapping(NFTFloorPriceMapping);
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false)
         }

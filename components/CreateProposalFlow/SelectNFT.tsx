@@ -52,7 +52,7 @@ const SelectNFT: React.FC<SelectProposalProps> = ({
         .catch(err => console.error(err));
 
     } catch (error) {
-      console.error(error)
+      console.error(error); toast.error(error);
     } finally {
       setIsLoading(false)
     }
@@ -90,7 +90,7 @@ const SelectNFT: React.FC<SelectProposalProps> = ({
       setNftsImported([...nftsImported ?? [], add])
 
     } catch (error) {
-      console.error(error)
+      console.error(error); toast.error(error);
     } finally {
       setIsLoading(false);
     }

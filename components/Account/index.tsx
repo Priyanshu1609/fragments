@@ -37,7 +37,9 @@ const Account: React.FC = () => {
         // @ts-ignore
         let res: any = await axios(configWallet)
         console.log("Profile", res.data.Items);
-        res = unmarshall(res.data.Items[0])
+        if (res.data.Items[0]) {
+            res = unmarshall(res.data.Items[0])
+        }
         console.log("account res : ", res)
         setUserName(res.username);
     }

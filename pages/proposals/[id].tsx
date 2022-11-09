@@ -68,7 +68,7 @@ const ProposalPage = (props: Props) => {
       setData(unmarshall(response.data.Item));
 
     } catch (error) {
-      console.error(error);
+      console.error(error); toast.error(error);;
     } finally {
       setIsLoading(false);
     }

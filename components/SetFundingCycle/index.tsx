@@ -48,7 +48,7 @@ const SetFundingCycle: React.FC<CreateVaultFormProps> = ({
             console.log('Balance:', balance);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         }
     }
 

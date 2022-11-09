@@ -65,18 +65,21 @@ export const DataContextProvider = ({ children }) => {
             const response = await axios.request(options)
 
             console.log("response now", response.data.Items);
+            let sortedProducts = [];
             response.data.Items?.forEach((element) => {
-                // console.log(element);
                 let d = {}
                 for (let i in element) {
                     d[i] = Object.values(element[i])[0]
                 }
 
-                setVaults(prev => [...prev, element]);
+
+                sortedProducts = [...sortedProducts, element];
             })
+            sortedProducts = sortedProducts.sort((p1, p2) => (p1.timestamp < p2.timestamp) ? 1 : (p1.timestamp > p2.timestamp) ? -1 : 0);
+            setVaults(sortedProducts);
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false)
         }
@@ -101,18 +104,21 @@ export const DataContextProvider = ({ children }) => {
             );
 
             console.log("response creator vault", response, data);
+
+            let sortedProducts = [];
             response.data.Items?.forEach((element) => {
                 // console.log(element);
                 let d = {}
                 for (let i in element) {
                     d[i] = Object.values(element[i])[0]
                 }
-
-                setCreatorVaults(prev => [...prev, d]);
+                sortedProducts = [...sortedProducts, d];
             })
+            sortedProducts = sortedProducts.sort((p1, p2) => (p1.fundraiseCreatedAt < p2.fundraiseCreatedAt) ? 1 : (p1.fundraiseCreatedAt > p2.fundraiseCreatedAt) ? -1 : 0);
+            setCreatorVaults(sortedProducts);
 
         } catch (error) {
-            console.error(error);
+            console.error(error); toast.error(error);;
         } finally {
             setIsLoading(false);
         }
@@ -133,7 +139,7 @@ export const DataContextProvider = ({ children }) => {
             return address;
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -169,7 +175,7 @@ export const DataContextProvider = ({ children }) => {
             return res.data;
 
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -260,7 +266,7 @@ export const DataContextProvider = ({ children }) => {
 
             setFormData(defaultFormData)
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -296,7 +302,7 @@ export const DataContextProvider = ({ children }) => {
 
             // setLiveVaults(data);
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         } finally {
             setIsLoading(false);
         }

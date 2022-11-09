@@ -20,7 +20,7 @@ const ConnectModal: React.FC = () => {
             // signIn();
             setVisible(false)
         } catch (error) {
-            console.error(error)
+            console.error(error); toast.error(error);
         }
     }
 

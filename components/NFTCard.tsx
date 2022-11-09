@@ -33,7 +33,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
     //             image: fixTokenURI(nftMetadata.image ?? nftMetadata.image_url),
     //         })
     //     } catch (error) {
-    //         console.error(error)
+    //          console.error(error); toast.error(error); 
     //     }
     // }
 
