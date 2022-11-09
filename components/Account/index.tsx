@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 import useENS from '../../hooks/useENS';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 const Account: React.FC = () => {
@@ -22,26 +23,34 @@ const Account: React.FC = () => {
     const [userName, setUserName] = useState("");
 
     const handleUserName = async () => {
-        var data = JSON.stringify({
-            "primaryWallet": currentAccount
-        });
 
-        var configWallet = {
-            method: 'post',
-            url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/getbyprimary',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-        // @ts-ignore
-        let res: any = await axios(configWallet)
-        console.log("Profile", res.data.Items);
-        if (res.data.Items[0]) {
-            res = unmarshall(res.data.Items[0])
+        try {
+            var data = JSON.stringify({
+                "primaryWallet": currentAccount
+            });
+    
+            var configWallet = {
+                method: 'post',
+                url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/getbyprimary',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+            // @ts-ignore
+            let res: any = await axios(configWallet)
+            console.log("Profile", res.data.Items);
+            if (res.data.Items[0]) {
+                res = unmarshall(res.data.Items[0])
+            }
+            console.log("account res : ", res)
+            setUserName(res.username);
+            
+        } catch (error) {
+            console.log(error);
+            toast.error(error);
         }
-        console.log("account res : ", res)
-        setUserName(res.username);
+
     }
 
     useEffect(() => {

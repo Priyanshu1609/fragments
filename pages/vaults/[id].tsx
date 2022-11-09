@@ -11,7 +11,7 @@ import { ArrowRightIcon, ArrowSmRightIcon, ArrowUpIcon, ChevronLeftIcon, Chevron
 
 import Modal from '../../components/Modal';
 import { RenderTab } from '../dashboard';
-import { getEllipsisTxt, minDtTime } from '../../utils';
+import { dtToString, getEllipsisTxt, minDtTime } from '../../utils';
 import { OrdersState } from '../../components/Orders';
 import { TransactionContext } from '../../contexts/transactionContext';
 import { NftContext } from '../../contexts/NftContext';
@@ -99,9 +99,7 @@ const VaultDetail: React.FC = () => {
     const [countDown, setCountDown] = useState("");
     const [balance, setBalance] = useState("");
     const [valuation, setValuation] = useState(0)
-    // const [selectedToken, setSelectedToken] = useState<selectedToken>()
-    // const [selectedChain, setSelectedChain] = useState<selectedChain>()
-    // const [coins, setCoins] = useState([]);
+    const [youOwn, setYouOwn] = useState(0);
     const [purchaseForm, setPurchaseForm] = useState(false);
     const [ownerData, setOwnerData] = useState<any>([]);
     const [tokenAmount, setTokenAmount] = useState<number>(0)
@@ -314,6 +312,26 @@ const VaultDetail: React.FC = () => {
         }
     }
 
+    const handleYouOwnAmount = async () => {
+        try {
+
+            ownerData.forEach(async (element: any) => {
+                if (element.walletAddress === currentAccount) {
+                    console.log("you own", element.amountPledged);
+                    setYouOwn(Number(youOwn) + Number(element.amountPledged));
+                }
+            }
+            )
+
+        } catch (error) {
+            console.error(error); toast.error(error);
+        }
+    }
+
+    useEffect(() => {
+        handleYouOwnAmount();
+    }, [ownerData])
+
     const checkGovernedState = async () => {
         if (data?.type === "Public" && tabs.length === 2 && data?.origin !== "private") {
             console.log("pushed", data?.type);
@@ -465,7 +483,7 @@ const VaultDetail: React.FC = () => {
                 loop={1}
                 style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll", zIndex: 1 }}
             />}
-            <div className='flex flex-col flex-[0.6] items-center mt-4 '>
+            <div className='flex flex-col flex-[0.55] items-center mt-4 '>
                 {data?.origin !== "private" &&
                     <div className='flex items-start justify-center rounded-xl w-full'>
                         <div className='flex-[0.8]'>
@@ -505,7 +523,7 @@ const VaultDetail: React.FC = () => {
                                                     seed='need to be changed'
                                                     size={19}
                                                     scale={2}
-                                                    className='rounded-full mr-3'
+                                                    className='rounded-full mr-1'
                                                 />
                                                 <div className='flex items-center justify-center'>
                                                     <p className='font-semibold text-base'>
@@ -515,10 +533,13 @@ const VaultDetail: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 1000000).toString()).toFixed(2) + "  frag-" + data?.tokenName}</p>
+                                                <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 100).toString()).toFixed(2)} %</p>
                                             </div>
                                             <div>
                                                 <p>{owner.amountPledged} ETH</p>
+                                            </div>
+                                            <div>
+                                                <p>{dtToString(owner.timestamp)} </p>
                                             </div>
                                         </div>
                                     ))
@@ -529,7 +550,7 @@ const VaultDetail: React.FC = () => {
                 </div>
             </div>
 
-            <div className={`p-6 bg-input rounded-xl ${data?.origin !== "private" && "flex-[0.4]"} ${data?.origin === "private" && "flex-[0.6]"} `}>
+            <div className={`p-6 bg-input rounded-xl flex-[0.45] `}>
                 <div className='flex items-center justify-between w-full z-50 '>
                     <button onClick={() =>
                         router.push({
@@ -563,21 +584,21 @@ const VaultDetail: React.FC = () => {
                 {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6 z-[100]'>
                     <div>
                         <div className='flex justify-between items-center mb-3'>
-                            <div className='flex space-x-2'>
+                            <div className='flex space-x-2 items-center'>
                                 <p className='text-gray-300 text-base'>Funding raised: </p><span className=' font-britanica font-normal'>{data?.amount} ETH</span>
                             </div>
-                            <div className='flex space-x-2'>
+                            <div className='flex space-x-2 items-center'>
                                 <p className='text-gray-300 text-base'>Funding goal: </p><span className='font-britanica font-normal'>{data?.target} ETH</span>
                             </div>
                         </div>
                         <ProgressBar completed={(Number(data?.amount) / Number(data?.target)) * 100} bgColor='#2bffb1' baseBgColor='#2C2C35' isLabelVisible={false} height={'12px'} />
-                        <div className='flex justify-end space-x-2 ml-auto mt-1 mb-4'>
+                        <div className='flex items-center justify-end space-x-2 ml-auto mt-1 mb-4'>
                             <p className='text-gray-300 text-base'>Time Left: </p><span className=' font-britanica font-normal'>{countDown}</span>
                         </div>
                         <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
                             <div className='bg-[#1E1E24] rounded-lg w-4/6 p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
-                                <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
+                                <p className='text-[#2bffb1]'>{youOwn} ETH</p>
                             </div>
                             {data?.amount < data?.target &&
                                 <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More
