@@ -399,7 +399,7 @@ const VaultDetail: React.FC = () => {
     }
 
 
-    const handleAddToken = () => {
+    const handleAddToken = async () => {
 
         if (!isConnected) {
             connectors.map((connector) => {
@@ -410,7 +410,7 @@ const VaultDetail: React.FC = () => {
 
         if (chain?.id !== 80001) {
             toast.info("Switch To Polygon");
-            switchNetwork?.(80001)
+            await switchNetwork?.(80001)
         }
 
         eth
