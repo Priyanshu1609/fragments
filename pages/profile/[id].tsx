@@ -33,7 +33,7 @@ const Profile: React.FC = ({ data }: any) => {
     const router = useRouter();
 
     const { id } = router.query;
-    const [cookie, setCookie, removeCookie] = useCookies(["user"])
+const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const { currentAccount, awsClient } = useContext(TransactionContext);
     // const { vaults, creatorVaults } = useContext(DataContext);
     const [vaults, setVaults] = useState<any>([]);

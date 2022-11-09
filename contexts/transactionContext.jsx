@@ -10,6 +10,13 @@ import axios from 'axios';
 import { useCookies } from "react-cookie"
 import { magic } from "../utils/magic"
 
+
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi'
+import { toast } from 'react-toastify';
+
 const contractAddress = 0x0000000000000000000000;
 
 export const TransactionContext = React.createContext()
@@ -30,6 +37,13 @@ export const TransactionProvider = ({ children }) => {
     const router = useRouter();
     const [ens, setEns] = useState("");
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
+
+
+    const { chain, chains } = useNetwork()
+    const { address, isConnected } = useAccount()
+    const { data: ensName } = useEnsName({ address })
+    const { connect, connectors } = useConnect();
+    const { error, pendingChainId, switchNetwork } = useSwitchNetwork()
 
     console.log({ currentAccount })
 
@@ -223,6 +237,19 @@ export const TransactionProvider = ({ children }) => {
         receiver,
         amount,
     ) => {
+        if (!isConnected) {
+            connectors.map((connector) => {
+                return connect({ connector })
+            })
+            return;
+        };
+
+        if (chain?.id !== 5) {
+            toast.error("Switch To Goerli Testnet")
+            switchNetwork?.(5)
+            return;
+        }
+
         try {
             setIsLoading(true);
             const provider = new ethers.providers.Web3Provider(eth);

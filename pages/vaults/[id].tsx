@@ -4,8 +4,6 @@ import { GetServerSideProps } from 'next'
 import { BigNumber } from 'ethers';
 import dynamic from 'next/dynamic'
 
-import { toast } from 'react-toastify';
-
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import Blockies from 'react-blockies';
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -48,6 +46,13 @@ import Lottie from 'react-lottie-player'
 import success from '../../assets/happy.json'
 import { MdIosShare } from "react-icons/md"
 import Image from 'next/image';
+
+
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useNetwork } from 'wagmi';
+import { useSwitchNetwork } from 'wagmi'
+import { toast } from 'react-toastify';
 
 
 const links = [
@@ -111,6 +116,13 @@ const VaultDetail: React.FC = () => {
         fundraiseDuration: 0,
         amount: 0
     })
+
+
+    const { chain, chains } = useNetwork()
+    const { address, isConnected } = useAccount()
+    const { data: ensName } = useEnsName({ address })
+    const { connect, connectors } = useConnect();
+    const { error, pendingChainId, switchNetwork } = useSwitchNetwork()
 
 
     const [data, setData] = useState<CreateVaultFormValues | any>();
@@ -388,6 +400,19 @@ const VaultDetail: React.FC = () => {
 
 
     const handleAddToken = () => {
+
+        if (!isConnected) {
+            connectors.map((connector) => {
+                return connect({ connector })
+            })
+            return;
+        };
+
+        if (chain?.id !== 80001) {
+            toast.info("Switch To Polygon");
+            switchNetwork?.(80001)
+        }
+
         eth
             .request({
                 method: 'wallet_watchAsset',
@@ -555,7 +580,7 @@ const VaultDetail: React.FC = () => {
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
                             </div>
-                            {data?.amount >= data?.target &&
+                            {data?.amount < data?.target &&
                                 <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More
                                 </button>
                             }

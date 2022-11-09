@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
                         {
                             connectors.map((connector) => {
                                 if (isConnected) return null;
-                                return <button key={connector.id} suppressHydrationWarning className='text-white cursor-pointer flex space-x-2 items-center p-4 rounded-md bg-white bg-opacity-20' onClick={() => connect({ connector })}>Connect Wallet</button>
+                                return <button key={connector.id} suppressHydrationWarning className='text-white cursor-pointer flex space-x-2 items-center p-4 rounded-md bg-white bg-opacity-20' onClick={() => { console.log("connector", connector); connect({ connector })}}>Connect Wallet</button>
 
                             })
                         }
