@@ -175,7 +175,7 @@ const CreateVaultForm: React.FC<CreateVaultFormProps> = ({
                             <p className='text-xl font-britanica font-normal '>Token Name <span className='text-xs'> ( 3-6 letters )</span>{requiredTag}</p>
                             <div className='flex items-center justify-center'>
                                 <p className='text-2xl'>FRAG-</p>
-                                <input required type='text' minLength={3} maxLength={6} className='p-4 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2 placeholder:text-sm' placeholder='Enter Token Name e.g. $LOOK' value={formData.tokenName} onChange={(e) => handleChange(e, 'tokenName')} />
+                                <input required type='text' minLength={3} maxLength={6} className='p-4 rounded-lg bg-transparent focus:outline-none border-[1px] border-gray-600 w-full mt-2 placeholder:text-sm' placeholder='Enter Token Name' value={formData.tokenName} pattern="^[-a-zA-Z0-9@\.+_]+$" onChange={(e) => handleChange(e, 'tokenName')} />
                             </div>
                         </label>
                         {/* <label>
