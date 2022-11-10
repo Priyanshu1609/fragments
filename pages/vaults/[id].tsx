@@ -454,13 +454,13 @@ const VaultDetail: React.FC = () => {
     }
 
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-[100] left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute z-[50] left-4 top-60'><ChevronLeftIcon className='text-white h-7 w-7' /></div>
         // <img src={LeftArrow} alt="prevArrow" {...props} />
     );
 
     const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
         // <img src={RightArrow} alt="nextArrow" {...props} />
-        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-[100]'><ChevronRightIcon className='text-white h-7 w-7' /></div>
+        <div {...props} className='cursor-pointer  bg-gray-300 rounded-full p-2 absolute right-4  top-60 z-[50]'><ChevronRightIcon className='text-white h-7 w-7' /></div>
     );
 
     const settings = {
@@ -554,7 +554,7 @@ const VaultDetail: React.FC = () => {
                         router.push({
                             pathname: `/profile/${data?.creator}`
                         })}
-                        className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max z-[100]'>
+                        className='bg-[#1E1E24] rounded-lg flex items-center justify-center p-3 w-max z-[50]'>
                         <Blockies
                             seed='need to be changed'
                             size={7}
@@ -563,7 +563,7 @@ const VaultDetail: React.FC = () => {
                         />
                         <p className='text-sm'>{getEllipsisTxt(data?.creator, 5)}</p>
                     </button>
-                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-[100] bg-[#1E1E24] rounded-lg py-2 px-3 items-center'>
+                    <button onClick={() => setModal(true)} className='flex space-x-2 text-semibold z-[50] bg-[#1E1E24] rounded-lg py-2 px-3 items-center'>
                         <span>Share Link</span>
                         <MdIosShare className='h-5 w-5 text-white' />
                     </button>
@@ -579,7 +579,7 @@ const VaultDetail: React.FC = () => {
                         {data?.description}
                     </p>
                 </div >
-                {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6 z-[100]'>
+                {data?.vaultStatus === "RUNNING" && <div className='mt-4 mb-6 z-[50]'>
                     <div>
                         <div className='flex justify-between items-center mb-3'>
                             <div className='flex space-x-2 items-center'>
@@ -603,7 +603,7 @@ const VaultDetail: React.FC = () => {
                                 </p>
                             </div>
                             {data?.amount < data?.target &&
-                                <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-[100]'>Buy More
+                                <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-[50]'>Buy More
                                 </button>
                             }
                         </div >
@@ -615,7 +615,7 @@ const VaultDetail: React.FC = () => {
                     (data?.amount >= data?.target || Number(countDown) <= 0) && data?.vaultStatus !== "COMPLETED" && data?.vaultStatus !== "FAILURE" && <Loader />
                 }
                 {data?.vaultStatus === "FAILURE" &&
-                    <div className='mt-4 mb-6 z-[100]' onClick={e => setVisible(true)}>
+                    <div className='mt-4 mb-6 z-[50]' onClick={e => setVisible(true)}>
                         <div className='mb-5 !bg-red-500 font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
                             <p className='text-black'>VAULT FAILURE</p>
                         </div>
@@ -628,21 +628,21 @@ const VaultDetail: React.FC = () => {
                     </div>
                 }
                 {data?.vaultStatus === "COMPLETED" &&
-                    <div className='mt-4 mb-6 z-[100]' onClick={e => setVisible(true)}>
+                    <div className='mt-4 mb-6 z-[50]' onClick={e => setVisible(true)}>
                         <div className="flex items-center justify-evenly">
                             <div onClick={() =>
                                 router.push({
                                     pathname: `/create-proposal`,
                                     query: { vault: id, user: currentAccount },
                                 })
-                            } className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                            } className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer z-[50]'>
                                 <p className='text-black font-black'>Make a New Proposal</p>
                             </div>
-                            <div className='mb-5 !bg-[#1E1E24]  font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer'>
+                            <div className='mb-5 !bg-[#1E1E24]  font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer z-[50]'>
                                 <p className='text-white font-black'>View Proposals</p>
                             </div>
                         </div>
-                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
+                        <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3 ' >
                             <div className='bg-[#1E1E24] rounded-lg w-full p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
                                 <p className='text-[#2bffb1]'>{`${parseFloat(((youOwn / valuation) * 100).toString()).toFixed(2)}% (${youOwn} ETH)`}</p>
@@ -699,29 +699,33 @@ const VaultDetail: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="z-[100]">
+                    <div className="">
                         <span className='border-b-[1px] font-britanica font-normal border-gray-500 text-xl text-gray-500'>Proof of Authenticity</span>
                         <div className="w-full">
                             <div className="flex w-full items-center">
-                                <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex flex-[0.5] justify-between  cursor-pointer z-[100]'>
-                                    <div className='flex items-center justify-center'>
-                                        <img src="https://mumbai.polygonscan.com/images/svg/brands/poly.png?v=1.3" className='h-6 w-6 rounded-full' />
-                                        <p className='ml-4'>View on PolygonScan</p>
-                                    </div>
-                                    <ArrowUpIcon className='h-6 w-6 rotate-45' />
-                                </a>
-                                <button className="flex flex-[0.5] bg-[#1E1E24] mt-4 p-4 m-2 rounded-lg justify-between items-center cursor-pointer z-[100]" onClick={handleAddToken}>
+                                <div className="z-[50] flex-[0.5] ">
+                                    <a href={`https://mumbai.polygonscan.com/address/${data?.contractAddress}`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between  cursor-pointer '>
+                                        <div className='flex items-center justify-center'>
+                                            <img src="https://mumbai.polygonscan.com/images/svg/brands/poly.png?v=1.3" className='h-6 w-6 rounded-full' />
+                                            <p className='ml-4'>View on PolygonScan</p>
+                                        </div>
+                                        <ArrowUpIcon className='h-6 w-6 rotate-45' />
+                                    </a>
+                                </div>
+                                <button className="flex flex-[0.5] bg-[#1E1E24] mt-4 p-4 m-2 rounded-lg justify-between items-center cursor-pointer z-[50]" onClick={handleAddToken}>
                                     <p>Add Token To your Wallet</p>
                                     <Image src={meta} height={30} width={30} />
                                 </button>
                             </div>
-                            <a href={`https://gnosis-safe.io/app/gor:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer z-[100]'>
-                                <div className='flex items-center justify-center'>
-                                    <img src="https://pbs.twimg.com/profile_images/1566775952620900353/vRyTLmek_400x400.jpg" className='h-6 w-6 rounded-full' />
-                                    <p className='ml-4'>View on Gnosis Wallet</p>
-                                </div>
-                                <ArrowUpIcon className='h-6 w-6 rotate-45' />
-                            </a>
+                            <div className="z-[50]">
+                                <a href={`https://gnosis-safe.io/app/gor:${id}/home`} target='_blank' className='mt-4 bg-[#1E1E24] p-4 m-2 rounded-lg flex justify-between cursor-pointer'>
+                                    <div className='flex items-center justify-center'>
+                                        <img src="https://pbs.twimg.com/profile_images/1566775952620900353/vRyTLmek_400x400.jpg" className='h-6 w-6 rounded-full' />
+                                        <p className='ml-4'>View on Gnosis Wallet</p>
+                                    </div>
+                                    <ArrowUpIcon className='h-6 w-6 rotate-45' />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

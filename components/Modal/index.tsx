@@ -35,7 +35,7 @@ const Modal: React.FC<IModal> = ({
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog
 				as="div"
-				className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide "
+				className="fixed z-[100] inset-0 overflow-y-auto scrollbar-hide "
 				onClose={() => { }}
 			>
 				<div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 text-white overflow-y-auto scrollbar-hide  bg-opacity-70 bg-[#000000]  font-britanica font-normal  ">
