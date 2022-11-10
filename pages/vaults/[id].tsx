@@ -474,6 +474,13 @@ const VaultDetail: React.FC = () => {
         nextArrow: <SlickArrowRight />,
     }
 
+    useEffect(() => {
+        if (!currentAccount) {
+            return;
+        }
+
+    }, [currentAccount])
+
     return (
         <div className='text-white max-w-7xl mx-auto  md:flex md:flex-row-reverse md:justify-center pb-16 min-h-screen overflow-y-scroll scrollbar-hide relative'>
             {type === "new" && <Lottie
