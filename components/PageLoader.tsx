@@ -26,7 +26,7 @@ const PageLoader = ({ message, desc, img, open, onClose, bg = false }: PageProps
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed z-10 inset-0 overflow-y-auto scrollbar-hide"
+        className="fixed z-[100] inset-0 overflow-y-auto scrollbar-hide"
         onClose={() => { }}
       >
         <div className={`flex items-center justify-center min-h-screen pt-4 px-4 text-center sm:block sm:p-0 text-white    ${bg ? "bg-[url('https://landing-video.s3.ap-south-1.amazonaws.com/appbg.png')] bg-center bg-fixed bg-cover" : "bg-opacity-50  bg-[#000000]"}`}>
