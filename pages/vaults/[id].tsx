@@ -645,7 +645,7 @@ const VaultDetail: React.FC = () => {
                         <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
                             <div className='bg-[#1E1E24] rounded-lg w-full p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
-                                <p className='text-[#2bffb1]'>{data?.amount} ETH</p>
+                                <p className='text-[#2bffb1]'>{`${parseFloat(((youOwn / valuation) * 100).toString()).toFixed(2)}% (${youOwn} ETH)`}</p>
                             </div>
                         </div >
                     </div>
