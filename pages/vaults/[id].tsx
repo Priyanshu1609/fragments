@@ -484,9 +484,9 @@ const VaultDetail: React.FC = () => {
                 style={{ width: "100wh", height: "100vh", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", overflow: "scroll", zIndex: 1 }}
             />}
             <div className='flex flex-col flex-[0.55] items-center mt-4 '>
-                {data?.origin !== "private" &&
-                    <div className='flex items-start justify-center rounded-xl w-full'>
-                        <div className='flex-[0.8]'>
+                {
+                    <div className='flex items-start justify-center rounded-xl w-full '>
+                        <div className='flex-[0.8] bg-input rounded-xl'>
                             <div className="card__container">
                                 <Slider {...settings} className=" w-[12rem] lg:w-[18rem] xl:w-[23rem] h-[18rem] lg:h-[24rem] xl:h-[30rem] !flex !items-center !justify-center">
 
@@ -499,7 +499,8 @@ const VaultDetail: React.FC = () => {
                                                         <img src={fixTokenURI(nft?.image)} className="h-5 w-5 rounded-full" />
                                                         <p className='text-sm'>{nft?.compiler}</p>
                                                     </div>
-                                                    <p className='mt-2 font-britanica font-normal'>{nft?.name}</p>
+                                                    <p className='mt-2 font-britanica font-normal'>{nft?.name}
+                                                    </p>
                                                 </div>
                                             </Slider>
                                         </div>
@@ -534,9 +535,6 @@ const VaultDetail: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className='text-sm'>{parseFloat(((owner?.amountPledged / owner?.target) * 100).toString()).toFixed(2)} %</p>
-                                            </div>
-                                            <div>
-                                                <p>{owner.amountPledged} ETH</p>
                                             </div>
                                             <div>
                                                 <p>{dtToString(owner.timestamp)} </p>
@@ -598,7 +596,17 @@ const VaultDetail: React.FC = () => {
                         <div className='mb-5 font-montserrat font-black rounded-lg flex w-full items-center justify-between space-x-3' >
                             <div className='bg-[#1E1E24] rounded-lg w-4/6 p-3 flex space-x-3 justify-center'>
                                 <p className='text-gray-300'>You Own: </p>
-                                <p className='text-[#2bffb1]'>{youOwn} ETH</p>
+                                <p className='text-[#2bffb1]'>
+                                    {
+                                        data?.vaultStatus === "RUNNING" && `${parseFloat(((youOwn / data?.target) * 100).toString()).toFixed(2)}% (${youOwn} ETH)`
+                                    }
+                                    {
+                                        data?.vaultStatus === "FAILURE" && `${parseFloat(((youOwn / valuation) * 100).toString()).toFixed(2)}% (${youOwn} ETH)`
+                                    }
+                                    {
+                                        data?.vaultStatus === "COMPLETED" && `${parseFloat(((youOwn / valuation) * 100).toString()).toFixed(2)}% (${youOwn} ETH)`
+                                    }
+                                </p>
                             </div>
                             {data?.amount < data?.target &&
                                 <button onClick={() => setPurchaseForm(true)} className='text-black font-semibold !bg-button w-2/6 p-3 m-auto rounded-lg z-10'>Buy More
@@ -610,7 +618,7 @@ const VaultDetail: React.FC = () => {
 
                 </div >}
                 {
-                    data?.amount >= data?.target && data?.vaultStatus !== "COMPLETED" && data?.vaultStatus !== "FAILURE" && <Loader />
+                    (data?.amount >= data?.target || Number(countDown) <= 0) && data?.vaultStatus !== "COMPLETED" && data?.vaultStatus !== "FAILURE" && <Loader />
                 }
                 {data?.vaultStatus === "FAILURE" &&
                     <div className='mt-4 mb-6 z-[100]' onClick={e => setVisible(true)}>

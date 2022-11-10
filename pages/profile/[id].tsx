@@ -435,7 +435,7 @@ const Profile: React.FC = ({ data }: any) => {
                         <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>
                                 <p>Realised Gains</p>
-                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">120 ETH</p>
+                                <p className="bg-gradient-to-r mt-2 from-[#2bffb1] to-[#2bd8ff] text-transparent bg-clip-text text-3xl font-bold">--- ETH</p>
                             </div>
                         </div>
                         <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
@@ -488,7 +488,7 @@ const Profile: React.FC = ({ data }: any) => {
                             </div>
                             {
                                 showMore &&
-                                <div>
+                                <div className="navbar">
                                     <div className='flex justify-between space-x-4'>
                                         <div className='h-[125px] mt-4 rounded-lg flex-grow bg-gradient-to-tr from-[#2bffb1] to-[#2bd8ff] text-white flex flex-[0.33] items-center flex-col justify-evenly font-semibold'>
                                             <div className='bg-input h-full rounded-lg m-[0.05rem] flex flex-col w-[99.5%] items-start px-4 py-2 justify-center '>

@@ -145,3 +145,16 @@ html {
   100% { transform: rotate(360deg); }
 }
 
+
+@keyframes navbar {
+  0% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+.navbar {
+  animation: navbar 0.5s ease-in-out;
+}
+
