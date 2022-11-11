@@ -63,6 +63,20 @@ const links = [
     "https://twitter.com/intent/tweet?text=Hey%2C%0A%0AI%27ve%20just%20signed%20up%20on%20the%20waitlist%20for%20this%20collective%20investment%20product%2C%40fragmentsHQ%20%0A%0AIn%20case%20this%20interests%20you%2C%20sharing%20my%20referral%20code%20which%20you%20can%20use%20so%20that%20both%20of%20us%20get%20500%20points%20on%20their%20waitlist%20leaderboard.%0A%0Ahttps%3A%2F%2Fwww.fragments.money%2F%0AReferral%20code%3A%20"
 ]
 
+const networks = {
+    polygon: {
+        chainId: `0x${Number(80001).toString(16)}`,
+        chainName: "Polygon Testnet",
+        nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+        },
+        rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"]
+    },
+}
+
 const tabs = [
     {
         name: 'INFO',
@@ -428,9 +442,15 @@ const VaultDetail: React.FC = () => {
             };
 
             if (chain?.id !== 80001) {
-                await switchNetwork?.(80001);
+                await window.ethereum.request({
+                    method: "wallet_addEthereumChain",
+                    params: [
+                        {
+                            ...networks["polygon"]
+                        }
+                    ]
+                });
                 toast.info("Switched To Polygon! Add Token Again");
-            } else {
 
                 await eth.request({
                     method: 'wallet_watchAsset',
@@ -444,9 +464,24 @@ const VaultDetail: React.FC = () => {
                         },
                     },
                 })
+                toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
+            }
+            else {
+                await eth.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: data?.contractAddress,
+                            symbol: 'FRAG-' + data?.tokenName,
+                            decimals: 18,
+                            image: 'https://iili.io/tuaadg.png',
+                        },
+                    },
+                })
+                toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
             }
 
-            toast.info(`FRAG-${data?.tokenName} successfully added to wallet!`);
         } catch (error) {
             console.error(error);
             toast.error(error);
