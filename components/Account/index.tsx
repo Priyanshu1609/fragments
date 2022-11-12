@@ -22,41 +22,6 @@ const Account: React.FC = () => {
     const [cookie, setCookie, removeCookie] = useCookies(["user"])
     const [userName, setUserName] = useState("");
 
-    const handleUserName = async () => {
-
-        try {
-            var data = JSON.stringify({
-                "primaryWallet": currentAccount
-            });
-    
-            var configWallet = {
-                method: 'post',
-                url: 'https://tuq0t0rs55.execute-api.ap-south-1.amazonaws.com/dev/api/profile/getbyprimary',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-            // @ts-ignore
-            let res: any = await axios(configWallet)
-            console.log("Profile", res.data.Items);
-            if (res.data.Items[0]) {
-                res = unmarshall(res.data.Items[0])
-            }
-            console.log("account res : ", res)
-            setUserName(res.username);
-            
-        } catch (error) {
-            console.log(error);
-            toast.error(error);
-        }
-
-    }
-
-    useEffect(() => {
-        handleUserName();
-    }, [currentAccount])
-
 
     return (
         <div className='text-white'>
@@ -64,8 +29,7 @@ const Account: React.FC = () => {
                 <div onClick={logoutWallet} className='text-white cursor-pointer flex items-center space-x-3 bg-white bg-opacity-20 p-3 rounded-md'>
                     {/* {accountData.ens?.avatar && <img src={accountData.ens.avatar} alt="ENS Avatar" className='rounded-sm' width={25} height={25} />} */}
                     <div>
-                        {/* {ensName ?? getEllipsisTxt(currentAccount)} */}
-                        {getEllipsisTxt(userName)}
+                        Logout
                     </div>
                     <LogoutIcon className='w-6 h-6 text-white cursor-pointer' />
                 </div>

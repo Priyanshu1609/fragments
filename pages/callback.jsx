@@ -7,6 +7,7 @@ import { TransactionContext } from "../contexts/transactionContext";
 import { useCookies } from "react-cookie"
 import axios from "axios";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
+import { toast } from "react-toastify";
 
 const Callback = (props) => {
     const router = useRouter();

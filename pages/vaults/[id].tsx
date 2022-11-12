@@ -673,10 +673,11 @@ const VaultDetail: React.FC = () => {
                     <div className='mt-4 mb-6 z-[50]' onClick={e => setVisible(true)}>
                         <div className="flex items-center justify-evenly">
                             <div onClick={() =>
-                                router.push({
-                                    pathname: `/create-proposal`,
-                                    query: { vault: id, user: currentAccount },
-                                })
+                                // router.push({
+                                //     pathname: `/create-proposal`,
+                                //     query: { vault: id, user: currentAccount },
+                                // })
+                                toast.info("Coming Soon")
                             } className='mb-5 !bg-button font-montserrat  rounded-lg flex space-x-3 p-3 w-full items-center justify-center cursor-pointer z-[50]'>
                                 <p className='text-black font-black'>Make a New Proposal</p>
                             </div>
