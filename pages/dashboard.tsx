@@ -60,10 +60,6 @@ const tabs = [
         name: 'MY NFTS',
         value: TabNames.NFTS
     },
-    // {
-    //     name: 'ORDERS',
-    //     value: TabNames.Orders
-    // },
     {
         name: 'PROPOSALS',
         value: TabNames.Proposals

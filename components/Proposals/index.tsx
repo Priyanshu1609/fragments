@@ -8,8 +8,9 @@ const Proposals: React.FC = () => {
 
     return (
         <div className='h-[30rem]'>
-            <div className='py-4'>
-                <div className='flex justify-between mb-4'>
+            <div className='py-4 '>
+                <p className='flex items-center justify-center font-semibold mt-24 text-5xl'>Coming Soon</p>
+                {/* <div className='flex justify-between mb-4'>
                     <p className='font-semibold text-lg'>Orders</p>
                     <div className='flex space-x-2'>
                         <div
@@ -46,7 +47,7 @@ const Proposals: React.FC = () => {
                             Vote
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )
