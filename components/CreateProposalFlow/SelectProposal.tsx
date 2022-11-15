@@ -38,7 +38,6 @@ const SelectProposal: React.FC<SelectProposalProps> = ({
       setCurrentStep(ProposalStep.SelectNFT)
     }
   }
-  console.log('t')
   const Options = ({ title, desc, option, open }: any) => (
     <div
       className={`inline-flex  rounded-lg ${

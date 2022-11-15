@@ -9,16 +9,17 @@ module.exports = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['openseauserdata.com', 'lh3.googleusercontent.com', ],
+    domains: ['openseauserdata.com', 'lh3.googleusercontent.com'],
   },
 }
 
-const withTM = require('next-transpile-modules')(['@lifi/widget']);
+const withTM = require('next-transpile-modules')(['@lifi/widget'])
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  clarity_project_id: 'eiueinyahw',
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -27,10 +28,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['openseauserdata.com', 'lh3.googleusercontent.com',],
+    domains: ['openseauserdata.com', 'lh3.googleusercontent.com'],
   },
-  
 }
 
 // Please declare withTM as your last plugin (the outermost one)
-module.exports = withTM(nextConfig);
+module.exports = withTM(nextConfig)
