@@ -32,6 +32,7 @@
     "react-blockies": "^1.4.1",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-hotjar": "^5.2.0",
     "react-icons": "^4.4.0",
     "react-lottie-player": "^1.4.3",
     "react-redux": "^8.0.2",
