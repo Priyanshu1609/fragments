@@ -2,7 +2,7 @@ import Layout from '../components/Layout'
 import '../styles/globals.css'
 import '@magiclabs/ui/dist/cjs/index.css'
 import { magic } from '../utils/magic'
-
+import React from 'react'
 import NProgress from 'nprogress'
 import Router from 'next/router'
 import { hotjar } from 'react-hotjar'
